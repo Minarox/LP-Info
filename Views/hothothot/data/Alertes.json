@@ -1,0 +1,36 @@
+{
+	"Interieur": [
+		{
+			"Titre": "Canalisations gelées, appelez SOS plombier - et mettez un bonnet !",
+			"Description": "Le capteur intérieur détecte une température en dessous de 0°C.",
+			"Valeur": 0
+		},
+		{
+			"Titre": "Montez le chauffage ou mettez un gros pull !",
+			"Description": "Le capteur intérieur détecte une température en dessous de 12°C.",
+			"Valeur": 12
+		},
+		{
+			"Titre": "Appelez les pompiers ou arrêtez votre barbecue !",
+			"Description": "Le capteur intérieur détecte une température au dessus de 50°C.",
+			"Valeur": 50
+		},
+		{
+			"Titre": "Baissez le chauffage !",
+			"Description": "Le capteur intérieur détecte une température au dessus de 22°C.",
+			"Valeur": 22
+		}
+	],
+	"Exterieur": [
+		{
+			"Titre": "Banquise en vue !",
+			"Description": "Le capteur extérieur détecte une température en dessous de 0°C.",
+			"Valeur": 0
+		},
+		{
+			"Titre": "Hot Hot Hot",
+			"Description": "Le capteur extérieur détecte une température au dessus de 35°C.",
+			"Valeur": 35
+		}
+	]
+}
