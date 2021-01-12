@@ -4,7 +4,9 @@ use App\Autoloader;
 use App\Core\Exceptions\RouterException;
 use App\Core\Routes\Router;
 
-require_once __DIR__ . '/../Autoloader.php';
+if (file_exists(__DIR__ . '/../Autoloader.php'))
+    require_once __DIR__ . '/../Autoloader.php';
+
 Autoloader::register();
 
 define('VIEWS', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR);
