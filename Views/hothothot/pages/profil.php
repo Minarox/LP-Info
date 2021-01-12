@@ -29,7 +29,7 @@
             <!-- Boutons de navigation -->
             <section class="flex-container-boite-horizontal">
                 <button type="submit">Modifier</button>
-                <a href="/">Retour</a>
+                <a href="<?= ROOT ?>">Retour</a>
             </section>
         </form>
     </section>
