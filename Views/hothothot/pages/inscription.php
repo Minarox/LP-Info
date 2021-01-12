@@ -4,7 +4,7 @@
     <section>
         <!-- Titre et redirection vers connexion -->
         <h1>Inscription</h1>
-        <p>Vous avez un compte ?<br><a href="/connexion">Se connecter</a></p>
+        <p>Vous avez un compte ?<br><a href="<?= ROOT ?>connexion">Se connecter</a></p>
         <hr id="separateur">
         <!-- Formulaire -->
         <form class="flex-container-identification-vertical" action="#" method="post">

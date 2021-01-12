@@ -21,14 +21,14 @@
     <nav>
         <ul>
             <!-- Logo -->
-            <li><a href="/"><img src="<?= SCRIPTS . 'images' . DIRECTORY_SEPARATOR . 'logo.png' ?>" alt="Logo Hothothot."></a></li>
+            <li><a href="<?= ROOT ?>"><img src="<?= SCRIPTS . 'images' . DIRECTORY_SEPARATOR . 'logo.png' ?>" alt="Logo Hothothot."></a></li>
             <li><hr></li>
             <!-- Navigation -->
-            <li><a href="/">Accueil</a></li>
-            <li><a href="/parametrage">Paramétrage</a></li>
+            <li><a href="<?= ROOT ?>">Accueil</a></li>
+            <li><a href="<?= ROOT ?>parametrage">Paramétrage</a></li>
             <!-- Compte utilisateur -->
-            <li class="right"><a href="/profil"><img src="<?= SCRIPTS . 'images' . DIRECTORY_SEPARATOR . 'profil-picture.png' ?>" alt="Image de profil du compte."></a></li>
-            <li class="right" id="nom-menu"><a href="/profil">Prénom NOM</a></li>
+            <li class="right"><a href="<?= ROOT ?>profil"><img src="<?= SCRIPTS . 'images' . DIRECTORY_SEPARATOR . 'profil-picture.png' ?>" alt="Image de profil du compte."></a></li>
+            <li class="right" id="nom-menu"><a href="<?= ROOT ?>profil">Prénom NOM</a></li>
         </ul>
     </nav>
 </header>

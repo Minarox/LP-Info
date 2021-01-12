@@ -4,7 +4,7 @@
     <section>
         <!-- Titre et redirection vers inscription -->
         <h1>Connexion</h1>
-        <p>Vous n'avez pas de compte ?<br><a href="/inscription">Créer un compte</a></p>
+        <p>Vous n'avez pas de compte ?<br><a href="<?= ROOT ?>inscription">Créer un compte</a></p>
         <hr id="separateur">
         <!-- Formulaire -->
         <form class="flex-container-identification-vertical" action="#" method="post">
