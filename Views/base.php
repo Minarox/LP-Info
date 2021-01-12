@@ -11,7 +11,7 @@
     <title>Accueil | Hothothot</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="<?= SCRIPTS . 'images' . DIRECTORY_SEPARATOR . 'flavicon.ico' ?>">
+    <link rel="icon" href="<?= SCRIPTS . 'images' . DIRECTORY_SEPARATOR . 'favicon.ico' ?>">
     <link rel="stylesheet" href="<?= SCRIPTS . 'css' . DIRECTORY_SEPARATOR . 'style.css' ?>">
 </head>
 <body>
