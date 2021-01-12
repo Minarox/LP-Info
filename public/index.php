@@ -19,7 +19,7 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 
 // Root Path
-define('ROOT', '/dev/hothothot/');
+define('ROOT', '/');
 
 // Debug
 define('DEBUG', false);
