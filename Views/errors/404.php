@@ -9,6 +9,6 @@
     <link rel="stylesheet" href="<?= SCRIPTS . 'css' . DIRECTORY_SEPARATOR . 'style.css' ?>">
 </head>
 <body>
-<h1>La page demandée est introuvable :(</h1>
+<h1 style="text-align: center;margin: 2.5% 0">La page demandée est introuvable :(</h1>
 </body>
 </html>
