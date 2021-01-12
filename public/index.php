@@ -18,6 +18,9 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
+// Root Path
+define('ROOT', '/dev/hothothot/');
+
 // Debug
 define('DEBUG', false);
 
