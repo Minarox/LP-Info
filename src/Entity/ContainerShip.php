@@ -98,7 +98,7 @@ class ContainerShip
     {
         if (!$this->containers->contains($container)) {
             $this->containers[] = $container;
-            $container->setContainershipId($this);
+            $container->setContainership($this);
         }
 
         return $this;
@@ -108,8 +108,8 @@ class ContainerShip
     {
         if ($this->containers->removeElement($container)) {
             // set the owning side to null (unless already changed)
-            if ($container->getContainershipId() === $this) {
-                $container->setContainershipId(null);
+            if ($container->getContainership() === $this) {
+                $container->setContainership(null);
             }
         }
 
