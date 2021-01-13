@@ -64,24 +64,24 @@ class Container
         return $this;
     }
 
-    public function getContainerModelId(): ?ContainerModel
+    public function getContainerModel(): ?ContainerModel
     {
         return $this->container_model;
     }
 
-    public function setContainerModelId(?ContainerModel $container_model): self
+    public function setContainerModel(?ContainerModel $container_model): self
     {
         $this->container_model = $container_model;
 
         return $this;
     }
 
-    public function getContainershipId(): ?ContainerShip
+    public function getContainership(): ?ContainerShip
     {
         return $this->containership;
     }
 
-    public function setContainershipId(?ContainerShip $containership): self
+    public function setContainership(?ContainerShip $containership): self
     {
         $this->containership = $containership;
 
@@ -100,7 +100,7 @@ class Container
     {
         if (!$this->containerProducts->contains($containerProduct)) {
             $this->containerProducts[] = $containerProduct;
-            $containerProduct->setContainerId($this);
+            $containerProduct->setContainer($this);
         }
 
         return $this;
@@ -110,8 +110,8 @@ class Container
     {
         if ($this->containerProducts->removeElement($containerProduct)) {
             // set the owning side to null (unless already changed)
-            if ($containerProduct->getContainerId() === $this) {
-                $containerProduct->setContainerId(null);
+            if ($containerProduct->getContainer() === $this) {
+                $containerProduct->setContainer(null);
             }
         }
 

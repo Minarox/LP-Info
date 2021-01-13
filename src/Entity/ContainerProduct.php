@@ -40,24 +40,24 @@ class ContainerProduct
         return $this->id;
     }
 
-    public function getContainerId(): ?Container
+    public function getContainer(): ?Container
     {
         return $this->container;
     }
 
-    public function setContainerId(?Container $container): self
+    public function setContainer(?Container $container): self
     {
         $this->container = $container;
 
         return $this;
     }
 
-    public function getProductId(): ?Product
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
 
-    public function setProductId(?Product $product): self
+    public function setProduct(?Product $product): self
     {
         $this->product = $product;
 

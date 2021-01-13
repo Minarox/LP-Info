@@ -115,7 +115,7 @@ class Product
     {
         if (!$this->containerProducts->contains($containerProduct)) {
             $this->containerProducts[] = $containerProduct;
-            $containerProduct->setProductId($this);
+            $containerProduct->setProduct($this);
         }
 
         return $this;
@@ -125,8 +125,8 @@ class Product
     {
         if ($this->containerProducts->removeElement($containerProduct)) {
             // set the owning side to null (unless already changed)
-            if ($containerProduct->getProductId() === $this) {
-                $containerProduct->setProductId(null);
+            if ($containerProduct->getProduct() === $this) {
+                $containerProduct->setProduct(null);
             }
         }
 

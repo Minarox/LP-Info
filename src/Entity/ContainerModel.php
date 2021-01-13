@@ -115,7 +115,7 @@ class ContainerModel
     {
         if (!$this->containers->contains($container)) {
             $this->containers[] = $container;
-            $container->setContainerModelId($this);
+            $container->setContainerModel($this);
         }
 
         return $this;
@@ -125,8 +125,8 @@ class ContainerModel
     {
         if ($this->containers->removeElement($container)) {
             // set the owning side to null (unless already changed)
-            if ($container->getContainerModelId() === $this) {
-                $container->setContainerModelId(null);
+            if ($container->getContainerModel() === $this) {
+                $container->setContainerModel(null);
             }
         }
 
