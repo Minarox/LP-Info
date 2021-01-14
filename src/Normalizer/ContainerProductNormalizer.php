@@ -21,8 +21,8 @@ class ContainerProductNormalizer implements ContextAwareNormalizerInterface
     {
         return [
             "id" => $object->getId(),
-            "container" => $object->getContainer(),
-            "product" => $object->getProduct(),
+            "container_id" => $object->getContainer() ? $object->getContainer()->getId() : null,
+            "product_id" => $object->getProduct() ? $object->getProduct()->getId() : null,
             "quantity" => $object->getQuantity()
         ];
     }
