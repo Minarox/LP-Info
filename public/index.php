@@ -32,6 +32,8 @@ $router->add([
     '/profil' => ['App\Controllers', 'ProfilController::index'],
     '/connexion' => ['App\Controllers', 'ConnexionController::index'],
     '/inscription' => ['App\Controllers', 'InscriptionController::index'],
+    '/recuperation' => ['App\Controllers', 'RecuperationController::index'],
+    '/documentation' => ['App\Controllers', 'DocumentationController::index'],
 ]);
 
 try {
