@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d206f96-35dd-4ed4-af39-1201611be8cf" name="Default Changelist" comment="">
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Autoloader/Autoloader.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Autoloader/Autoloader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Database/Database.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Database/Database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.php" afterDir="false" />
+=======
       <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+>>>>>>> ff406bc4831347848a1ca0a59b3dd619e492d7f8
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,7 +28,7 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="root@Minarox.fr:22 password">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP">
     <include_path>
       <path value="" />
     </include_path>
@@ -37,12 +45,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Controllers" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../bin/php/php8.0.1/php.exe" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\hothothot" />
       <recent name="C:\wamp64\www\site\hothothotMVC\Controllers" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -63,10 +73,17 @@
       <updated>1610016183283</updated>
       <workItem from="1610016184738" duration="894000" />
       <workItem from="1610437744991" duration="11305000" />
+<<<<<<< HEAD
+      <workItem from="1611043566478" duration="2570000" />
+      <workItem from="1611046158780" duration="446000" />
+      <workItem from="1611046715860" duration="151000" />
+      <workItem from="1611046950173" duration="5498000" />
+=======
       <workItem from="1610697102872" duration="10113000" />
       <workItem from="1610733349417" duration="553000" />
       <workItem from="1610901553068" duration="26000" />
       <workItem from="1611041363287" duration="3757000" />
+>>>>>>> ff406bc4831347848a1ca0a59b3dd619e492d7f8
     </task>
     <task id="LOCAL-00001" summary="ALLO">
       <created>1610443284715</created>
