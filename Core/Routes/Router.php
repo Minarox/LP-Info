@@ -20,21 +20,18 @@ final class Router
         $this->url = self::cleanUrl($url);
     }
 
-    public function add(array $routes)
+    public function add(string $path, string $action, string $method = 'GET'): void
     {
-        foreach ($routes as $path => $controller) {
-            $method = isset($controller[2]) ? strtoupper($controller[2]) : 'GET';
-            $action = $controller[0] . '\\' . $controller[1];
+        $method = strtoupper($method);
 
-            if (in_array($method, $this->method))
-                $this->routes[$method][] = new Route($path, $action);
-        }
+        if (in_array($method, $this->method))
+            $this->routes[$method][] = new Route($path, 'App\\Controllers\\' . $action);
     }
 
     /**
      * @throws RouterException
      */
-    public function run()
+    private function prepare()
     {
         foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $route) {
             if ($route->match($this->url))
@@ -42,6 +39,18 @@ final class Router
         }
 
         throw new RouterException("No matching routes !");
+    }
+
+    public function run()
+    {
+        try {
+            $this->prepare();
+        } catch (RouterException $e) {
+            $e->error404();
+
+            if (DEBUG)
+                throw new RouterException('Error : ' . $e->getMessage());
+        }
     }
 
     #[Pure] public static function cleanUrl(string $url): string
