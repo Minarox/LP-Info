@@ -7,7 +7,7 @@ namespace App\Core\Database;
 use PDO;
 use PDOException;
 
-class Database extends PDO
+final class Database extends PDO
 {
     private static ?self $pdo = null;
 

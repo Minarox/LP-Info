@@ -405,6 +405,10 @@ h1, h2, h3, p, label, a, button, i {
     margin-top: 20px;
 }
 
+button {
+    cursor: pointer;
+}
+
 #delete {
     color: #ff464f;
     display: flex;
