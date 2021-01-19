@@ -11,13 +11,11 @@ Autoloader::register();
 
 $router = new Router($_GET['url']);
 
-$router->add([
-    '/' => ['App\Controllers', 'HomeController::index'],
-    '/parametrage' => ['App\Controllers', 'ParamController::index'],
-    '/profil' => ['App\Controllers', 'ProfilController::index'],
-    '/connexion' => ['App\Controllers', 'ConnexionController::index'],
-    '/inscription' => ['App\Controllers', 'InscriptionController::index'],
-]);
+$router->add('/', 'HomeController');
+$router->add('/parametrage', 'ParamController');
+$router->add('/profil', 'ProfilController');
+$router->add('/connexion', 'ConnexionController');
+$router->add('/inscription', 'InscriptionController');
 
 $router->run();
 
