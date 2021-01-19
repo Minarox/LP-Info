@@ -32,5 +32,30 @@
                 <a href="<?= ROOT ?>">Retour</a>
             </section>
         </form>
+        <a id="delete" href="#" onclick="show()">Supprimer le compte</a>
     </section>
+    <article id="overlay">
+        <section class="flex-container-identification decoration-top">
+            <!-- Titre -->
+            <h1>Voulez-vous vraiment supprimer votre compte ?</h1>
+            <hr id="separateur">
+            <!-- Formulaire -->
+            <form class="flex-container-identification-vertical" action="#" method="post">
+                <!-- Boutons de choix -->
+                <section class="flex-container-boite-horizontal">
+                    <button type="submit">Oui</button>
+                    <a href="#" onclick="hide()">Retour</a>
+                </section>
+            </form>
+        </section>
+    </article>
+    <script >
+        function show() {
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function hide() {
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
 </main>
