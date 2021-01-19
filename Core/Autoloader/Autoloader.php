@@ -4,7 +4,7 @@
 namespace App\Core\Autoloader;
 
 
-class Autoloader
+abstract class Autoloader
 {
     private static array $replace = array(
         __NAMESPACE__ . '\\' => '',
