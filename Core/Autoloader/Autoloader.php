@@ -9,8 +9,7 @@ class Autoloader
     private static array $replace = array(
         __NAMESPACE__ . '\\' => '',
         '\\' => DIRECTORY_SEPARATOR,
-        'App\\' => '',
-        'App/' => ''
+        'App' . DIRECTORY_SEPARATOR => ''
     );
 
     public static function register()
