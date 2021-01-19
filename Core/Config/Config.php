@@ -8,6 +8,7 @@ final class Config
 {
     public function __construct() {
         // Initialisation config file
+        $config = parse_ini_file(dirname(__DIR__,2). DIRECTORY_SEPARATOR . 'config.ini');
 
         // Public sources path
         define('VIEWS', dirname(__DIR__,2) . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR);
