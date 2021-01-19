@@ -1,5 +1,9 @@
 <?php
 
+// Afficher les erreurs sur le serveur de prod
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
 use App\Core\Autoloader\Autoloader;
 use App\Core\Exceptions\RouterException;
 use App\Core\Routes\Router;
