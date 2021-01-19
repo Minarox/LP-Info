@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5d206f96-35dd-4ed4-af39-1201611be8cf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/hothothot/pages/connexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/hothothot/pages/connexion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/hothothot/pages/recuperation.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/hothothot/pages/recuperation.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611042945615</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Index file problem">
+      <created>1611043420654</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1611043420654</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
