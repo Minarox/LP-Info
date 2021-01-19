@@ -39,7 +39,7 @@
             </section>
         </article>
     </section>
-    <script >
+    <script>
         function show() {
             document.getElementById("overlay").style.display = "block";
         }
