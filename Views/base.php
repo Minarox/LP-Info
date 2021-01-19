@@ -27,6 +27,7 @@
             <li><a href="<?= ROOT ?>">Accueil</a></li>
             <li><a href="<?= ROOT ?>parametrage">Paramétrage</a></li>
             <li><a href="<?= ROOT ?>documentation">Documentation</a></li>
+            <li><a href="<?= ROOT ?>admin">Administration</a></li>
             <!-- Compte utilisateur -->
             <li class="right"><a href="<?= ROOT ?>profil"><img src="<?= SCRIPTS . 'images' . DIRECTORY_SEPARATOR . 'profil-picture.png' ?>" alt="Image de profil du compte."></a></li>
             <li class="right" id="nom-menu"><a href="<?= ROOT ?>profil">Prénom NOM</a></li>

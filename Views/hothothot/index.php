@@ -25,6 +25,7 @@
                     <canvas id="dotInt"></canvas>
                     &nbsp;Capteur intérieur
                 </h2>
+
                 <!-- Diagramme du capteur -->
                 <article class="diagrammes">
                     <canvas id="DiagrammeInterieur"></canvas>

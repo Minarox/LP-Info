@@ -18,5 +18,6 @@ $router->add('/connexion', 'ConnexionController');
 $router->add('/inscription', 'InscriptionController');
 $router->add('/documentation', 'DocumentationController');
 $router->add('/recuperation', 'RecuperationController');
+$router->add('/admin', 'AdminController');
 
 $router->run();
