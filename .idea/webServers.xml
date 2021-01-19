@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="c798abce-5497-4e06-82c9-ab4aeadaadce" name="Minarox" url="https://hothothot.minarox.fr">
-        <fileTransfer rootFolder="/var/www/html/lp/dev/hothothot" accessType="SFTP" host="Minarox.fr" port="22" sshConfigId="9b5ff0ba-614e-48ac-815e-41f2e2ca9955" sshConfig="root@Minarox.fr:22 password">
+        <fileTransfer rootFolder="/var/www/lp/dev/hothothot" accessType="SFTP" host="Minarox.fr" port="22" sshConfigId="9b5ff0ba-614e-48ac-815e-41f2e2ca9955" sshConfig="root@Minarox.fr:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

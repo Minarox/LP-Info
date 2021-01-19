@@ -84,6 +84,11 @@ h1, h2, h3, p, label, a, button, i {
     align-items: stretch;
 }
 
+.stretch {
+    justify-content: stretch;
+    align-content: stretch;
+}
+
 .flex-container-general-boite {
     position: relative;
     display: flex;
@@ -225,6 +230,11 @@ h1, h2, h3, p, label, a, button, i {
     padding-bottom: 8px;
 }
 
+.no-marge {
+    margin: 0;
+    padding: 0;
+}
+
 #boiteComparaison {
     background-color: #27293D;
     margin: 14px 1%;
@@ -317,9 +327,9 @@ h1, h2, h3, p, label, a, button, i {
 }
 
 
-/* ---------------------------- */
-/* --- PROFIL / PARAMÉTRAGE --- */
-/* ---------------------------- */
+/* --------------------------------------------- */
+/* --- PROFIL / PARAMÉTRAGE / DOCUMENTATION  --- */
+/* --------------------------------------------- */
 .flex-container-boite {
     display: flex;
     flex-direction: column;
@@ -329,6 +339,14 @@ h1, h2, h3, p, label, a, button, i {
     margin: 25px auto;
     border-radius: 8px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.large {
+    max-width: 1300px;
+}
+
+.max-width {
+    width: 100%;
 }
 
 .flex-container-boite-horizontal {
@@ -383,11 +401,19 @@ h1, h2, h3, p, label, a, button, i {
     margin: 0 3% 25px 3%;
 }
 
+.margin-top {
+    margin-top: 20px;
+}
+
 #delete {
     color: #ff464f;
     display: flex;
     justify-content: center;
     margin-top: 20px;
+}
+
+#profil-picture {
+    border-radius: 100px;
 }
 
 
