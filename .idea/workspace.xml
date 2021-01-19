@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="5d206f96-35dd-4ed4-af39-1201611be8cf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Views/hothothot/pages/profil.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/hothothot/pages/profil.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Autoloader.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Autoloader/Autoloader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Routes/Route.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Routes/Route.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Routes/Router.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Routes/Router.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +36,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Controllers" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Documents/symfony/LP2021Project" />
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -42,11 +45,11 @@
       <recent name="C:\wamp64\www\site\hothothotMVC\Controllers" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\site\hothothotMVC\public" />
+      <recent name="C:\wamp64\www\site\hothothotMVC\Core\Autoloader" />
       <recent name="C:\wamp64\www\site\hothothotMVC\Core\Database" />
       <recent name="C:\wamp64\www\site\hothothotMVC\public\assets" />
       <recent name="F:\Bureau\hothothot\public" />
-      <recent name="F:\Bureau\hothothot\public\css" />
-      <recent name="F:\Bureau\hothothot\Views\hothothot" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -58,7 +61,24 @@
       <option name="presentableId" value="Default" />
       <updated>1610016183283</updated>
       <workItem from="1610016184738" duration="894000" />
-      <workItem from="1610437744991" duration="11305000" />
+      <workItem from="1610437744991" duration="12259000" />
+      <workItem from="1610457333925" duration="2809000" />
+      <workItem from="1610494651846" duration="131000" />
+      <workItem from="1610522422632" duration="363000" />
+      <workItem from="1610523362642" duration="17000" />
+      <workItem from="1610528581198" duration="571000" />
+      <workItem from="1610583156736" duration="306000" />
+      <workItem from="1610583481158" duration="18000" />
+      <workItem from="1610583946888" duration="28000" />
+      <workItem from="1610583982854" duration="5000" />
+      <workItem from="1610646579209" duration="9000" />
+      <workItem from="1610986962236" duration="85000" />
+      <workItem from="1610987057153" duration="103000" />
+      <workItem from="1610987556789" duration="7101000" />
+      <workItem from="1610998687757" duration="3529000" />
+      <workItem from="1611005399295" duration="571000" />
+      <workItem from="1611013845623" duration="3588000" />
+      <workItem from="1611040298298" duration="1025000" />
     </task>
     <task id="LOCAL-00001" summary="ALLO">
       <created>1610443284715</created>
@@ -95,7 +115,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610450596957</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Index modif">
+      <created>1610450994932</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1610450994932</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
