@@ -60,3 +60,4 @@
         }
     </script>
 </main>
+<?php unset($_SESSION['errors']) ?>

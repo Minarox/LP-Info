@@ -23,32 +23,34 @@ final class ConnexionController extends Controller
 
             $validator = new Validator($_POST);
 
-            $user_email = isset($information['email']) ? 'equal:' . $information['email'] : 'required';
-            $user_passw = isset($information['password']) ? 'equal:' . $information['password'] : 'required';
-
             $validator->validate([
-                'email' => ['email', $user_email],
-                'password' => [$user_passw]
+                'email' => ['email', 'required'],
+                'password' => ['required']
             ]);
 
-            if (!empty($information)) {
-                if ($validator->isSuccess()) {
-                    $token = Token::generate(15);
+            if ($information) {
+                $matchValue = $validator->value([
+                    'email' => $information['email'],
+                    'password' => $information['password']
+                ]);
+            }
 
-                    $user->setId($information['id']);
-                    $user->setToken(hash('sha512', $token));
-                    $user->update();
+            if ($validator->isSuccess() && $information && $matchValue) {
+                $token = Token::generate(15);
 
-                    $_SESSION['last_name'] = $information['last_name'];
-                    $_SESSION['first_name'] = $information['first_name'];
-                    $_SESSION['avatar'] = $information['avatar'];
-                    $_SESSION['id'] = $information['id'];
-                    $_SESSION['token'] = $token;
+                $user->setId($information['id']);
+                $user->setToken(hash('sha512', $token));
+                $user->update();
 
-                    $this->redirect('/');
-                }
+                $_SESSION['last_name'] = $information['last_name'];
+                $_SESSION['first_name'] = $information['first_name'];
+                $_SESSION['avatar'] = $information['avatar'];
+                $_SESSION['id'] = $information['id'];
+                $_SESSION['token'] = $token;
+
+                $this->redirect('/');
             } else {
-                $_SESSION['errors'] = $validator->displayErrors();
+                $_SESSION['errors'] = $validator->displayErrors(['Votre email ou votre mot de passe est invalide !']);
             }
         }
 

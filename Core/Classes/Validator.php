@@ -257,11 +257,29 @@ class Validator
     {
         $equal = substr($rule, 6);
 
-        if (!($value === $equal)) {
+        if (!$value === $equal) {
             $this->errors[$name][] = "$name ne correspond pas à $equal";
             $this->customErrors[$name][] = true;
         } else {
             $this->customErrors[$name][] = false;
+        }
+    }
+
+    /**
+     * Check if the value of the field matches to the values in array
+     * @param array $values
+     * @return bool
+     */
+    public function value(array $values): bool
+    {
+        foreach ($values as $key => $value) {
+            if (array_key_exists($key, $this->data) && $value !== null) {
+                if ($value === $this->data[$key]) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 
@@ -278,10 +296,14 @@ class Validator
      * Display errors
      * @return array|null
      */
-    public function displayErrors(): ?array
+    public function displayErrors(array $message = null): ?array
     {
-        // added there
-        $this->errors['others'][0] = 'Votre email ou votre mot de passe est invalide !';
+        if ($message) {
+            foreach ($message as $key => $value) {
+                $this->errors['others'] = $message;
+            }
+        }
+
         return $this->errors;
     }
 }
