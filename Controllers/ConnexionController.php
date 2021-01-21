@@ -22,10 +22,7 @@ final class ConnexionController extends Controller
                 'password' => $_POST['password']
             ]);
 
-            $validator = new Validator([
-                'email' => $_POST['email'],
-                'password' => $_POST['password']
-            ]);
+            $validator = new Validator($_POST);
 
             $user_email = isset($information['email']) ? 'equal:' . $information['email'] : 'required';
             $user_passw = isset($information['password']) ? 'equal:' . $information['password'] : 'required';
