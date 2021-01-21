@@ -48,6 +48,21 @@ abstract class Model
         return $this->query("SELECT * FROM {$this->table} WHERE {$fields_list}", $values)->fetchAll();
     }
 
+    public function findOneBy(array $filter): array|bool|PDOStatement
+    {
+        $fields = [];
+        $values = [];
+
+        foreach ($filter as $k => $v) {
+            $fields[] = "$k = :$k";
+            $values[$k] = $v;
+        }
+
+        $fields_list = implode(' AND ', $fields);
+
+        return $this->query("SELECT * FROM {$this->table} WHERE {$fields_list}", $values)->fetch();
+    }
+
     public function create(): bool|PDOStatement
     {
         $fields = [];
