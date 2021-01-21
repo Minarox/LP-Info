@@ -5,8 +5,7 @@ namespace App\Controllers;
 
 
 
-use App\Core\Classes\Token;
-use App\Core\Classes\Validator;
+use App\Core\Classes\{Token, Validator};
 use App\Models\UsersModel;
 
 final class ConnexionController extends Controller
@@ -43,11 +42,10 @@ final class ConnexionController extends Controller
                     $_SESSION['last_name'] = $information['last_name'];
                     $_SESSION['first_name'] = $information['first_name'];
                     $_SESSION['avatar'] = $information['avatar'];
-                    $_SESSION['token'] = $token;
                     $_SESSION['id'] = $information['id'];
+                    $_SESSION['token'] = $token;
 
-                    header('Location: /');
-                    die();
+                    $this->redirect('/');
                 }
             } else {
                 $_SESSION['errors'] = $validator->displayErrors();

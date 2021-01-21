@@ -29,11 +29,11 @@
             <li><a href="<?= ROOT ?>documentation">Documentation</a></li>
             <li><a href="<?= ROOT ?>admin">Administration</a></li>
             <!-- Compte utilisateur -->
-            <?php if (isset($_SESSION['id'])): ?>
-                <li class="right"><a href="<?= ROOT ?>connexion">Se connecter</a></li>
-            <?php else: ?>
+            <?php if (isset($_SESSION['token']) && !empty($_SESSION['token'])): ?>
                 <li class="right"><a href="<?= ROOT ?>profil"><img src="<?= SCRIPTS . 'images' . DIRECTORY_SEPARATOR . 'profil-picture.png' ?>" alt="Image de profil du compte."></a></li>
-                <li class="right" id="nom-menu"><a href="<?= ROOT ?>profil">Prénom NOM</a></li>
+                <li class="right" id="nom-menu"><a href="<?= ROOT ?>profil"><?= $_SESSION['first_name'] . '&nbsp;' . $_SESSION['last_name'] ?></a></li>
+            <?php else: ?>
+                <li class="right"><a href="<?= ROOT ?>connexion">Se connecter</a></li>
             <?php endif; ?>
         </ul>
     </nav>

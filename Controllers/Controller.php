@@ -6,6 +6,13 @@ namespace App\Controllers;
 
 abstract class Controller
 {
+    public function __construct()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
     protected function render(string $name_file, array $params = [], string $template = 'base')
     {
 
@@ -28,5 +35,11 @@ abstract class Controller
     private function endBuffer(): bool|string
     {
         return ob_get_clean();
+    }
+
+    public function redirect(string $url)
+    {
+        header("Location: $url");
+        die();
     }
 }
