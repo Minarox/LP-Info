@@ -108,7 +108,7 @@ class Validator
         foreach ($errorMessage as $name => $message) {
             $arrayKey = str_replace(".", "", strstr($name, '.'));
             $name = strstr($name, '.', true);
-            if (!empty($this->data) && !$this->isSuccess() && $this->customErrors[$name][$arrayKey]) {
+            if (!empty($this->data) && !$this->isValid() && $this->customErrors[$name][$arrayKey]) {
                 $this->errors[$name][$arrayKey] = $message;
             }
         }
@@ -125,14 +125,14 @@ class Validator
         if (array_key_exists($rule, $this->patterns)) {
             if (count($this->patterns[$rule]) === 1) {
                 if (!filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => "/^({$this->patterns[$rule][0]})$/u")))) {
-                    $this->errors[$name][] = "$name doit être un $rule";
+                    $this->errors[$name][] = "Le champ $name attend un $rule";
                     $this->customErrors[$name][] = true;
                 } else {
                     $this->customErrors[$name][] = false;
                 }
             } else {
                 if (!preg_match("/^({$this->patterns[$rule][0]})$/u", $value) || !filter_var($value, $this->patterns[$rule][1])) {
-                    $this->errors[$name][] = "$name doit être un $rule";
+                    $this->errors[$name][] = "Le champ $name attend un $rule";
                     $this->customErrors[$name][] = true;
                 } else {
                     $this->customErrors[$name][] = false;
@@ -167,7 +167,7 @@ class Validator
     private function required(string $name, string $value)
     {
         if (!isset($value) || empty($value)) {
-            $this->errors[$name][] = "$name est requis";
+            $this->errors[$name][] = "Le champ $name est requis !";
             $this->customErrors[$name][] = true;
         } else {
             $this->customErrors[$name][] = false;
@@ -270,7 +270,7 @@ class Validator
      * @param array $values
      * @return bool
      */
-    public function value(array $values): bool
+    public function matchValue(array $values): bool
     {
         foreach ($values as $key => $value) {
             if (array_key_exists($key, $this->data) && $value !== null) {
@@ -287,17 +287,41 @@ class Validator
      * Validated fields
      * @return bool
      */
-    public function isSuccess(): bool
+    public function isValid(): bool
     {
         return empty($this->errors) && !empty($this->data);
     }
 
+    /**
+     * Check if the submit button is submitted
+     * @param string|null $submit
+     * @return bool
+     */
+    public function isSubmitted(string $submit = null): bool
+    {
+        $submitButton = array_pop($this->data);
+
+        if ($submit) {
+            if (isset($_POST[$submit]))
+                return true;
+        } else {
+            if (isset($submitButton))
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Display errors
+     * @param array|null $message
+     * @return array|null
+     */
     public function displayErrors(array $message = null): ?array
     {
         if ($message) {
-            foreach ($message as $key => $value) {
+            foreach ($message as $key => $value)
                 $this->errors['others'] = $message;
-            }
         }
 
         return $this->errors;

@@ -13,29 +13,30 @@ final class ConnexionController extends Controller
     public function index()
     {
         $user = new UsersModel();
+        $validator = new Validator($_POST);
 
-        if (isset($_POST['login'])) {
+        if ($validator->isSubmitted()) {
 
             $information = $user->findOneBy([
                 'email' => $_POST['email'],
                 'password' => $_POST['password']
             ]);
 
-            $validator = new Validator($_POST);
-
             $validator->validate([
                 'email' => ['email', 'required'],
                 'password' => ['required']
             ]);
 
-            if ($information) {
-                $matchValue = $validator->value([
-                    'email' => $information['email'],
-                    'password' => $information['password']
-                ]);
-            }
+            $validator->customErrors([
+                'email.0' => 'Vous devez informer un email valide !'
+            ]);
 
-            if ($validator->isSuccess() && $information && $matchValue) {
+            $matchValue = $validator->matchValue([
+                'email' => $information['email'] ??= null,
+                'password' => $information['password'] ??= null
+            ]);
+
+            if ($validator->isValid() && $matchValue) {
                 $token = Token::generate(15);
 
                 $user->setId($information['id']);
