@@ -292,10 +292,6 @@ class Validator
         return empty($this->errors) && !empty($this->data);
     }
 
-    /**
-     * @param array|null $message
-     * @return array|null
-     */
     public function displayErrors(array $message = null): ?array
     {
         if ($message) {
