@@ -21,7 +21,7 @@ $router = new Router($_GET['url']);
 $router->add('/', 'HomeController');
 $router->add('/parametrage', 'ParamController');
 $router->add('/profil', 'ProfilController');
-$router->add('/connexion', 'ConnexionController');
+$router->add('/connexion', 'ConnexionController', ['GET', 'POST']);
 $router->add('/inscription', 'InscriptionController');
 $router->add('/documentation', 'DocumentationController');
 $router->add('/recuperation', 'RecuperationController');

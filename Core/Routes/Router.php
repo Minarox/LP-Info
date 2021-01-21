@@ -20,11 +20,20 @@ final class Router
         $this->url = self::cleanUrl($url);
     }
 
-    public function add(string $path, string $action, string $method = 'GET'): void
+    public function add(string $path, string $action, string|array $method = 'GET'): void
     {
+        if (is_array($method)) {
+            foreach ($method as $value) {
+                $method = strtoupper($value);
+
+                if (in_array($value, $this->method))
+                    $this->routes[$method][] = new Route($path, 'App\\Controllers\\' . $action);
+            }
+        }
+
         $method = strtoupper($method);
 
-        if (in_array($method, $this->method))
+        if (in_array($method, $this->method) && is_string($method))
             $this->routes[$method][] = new Route($path, 'App\\Controllers\\' . $action);
     }
 
@@ -38,7 +47,7 @@ final class Router
                 return $route->execute();
         }
 
-        throw new RouterException("No matching routes !");
+        throw new RouterException("No matching routes !", 2);
     }
 
     public function run()
