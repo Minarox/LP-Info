@@ -25,8 +25,6 @@
                 }
             }
 
-            echo isset($_SESSION['error']) ? "<li>{$_SESSION['error']}</li>" : '';
-
             ?>
             <!-- Se connecter -->
             <section>
