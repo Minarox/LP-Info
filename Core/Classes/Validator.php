@@ -293,7 +293,7 @@ class Validator
     }
 
     /**
-     * Display errors
+     * @param array|null $message
      * @return array|null
      */
     public function displayErrors(array $message = null): ?array
