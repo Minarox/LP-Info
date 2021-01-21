@@ -40,6 +40,9 @@ final class ConnexionController extends Controller
                     $user->setToken(hash('sha512', $token));
                     $user->update();
 
+                    $_SESSION['last_name'] = $information['last_name'];
+                    $_SESSION['first_name'] = $information['first_name'];
+                    $_SESSION['avatar'] = $information['avatar'];
                     $_SESSION['token'] = $token;
                     $_SESSION['id'] = $information['id'];
 
