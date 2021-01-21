@@ -37,7 +37,7 @@ final class ConnexionController extends Controller
                     $token = Token::generate(15);
 
                     $user->setId($information['id']);
-                    $user->setToken(hash('haval256,5', $token));
+                    $user->setToken(hash('sha512', $token));
                     $user->update();
 
                     $_SESSION['token'] = $token;
