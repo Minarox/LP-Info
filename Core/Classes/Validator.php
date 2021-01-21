@@ -280,6 +280,8 @@ class Validator
      */
     public function displayErrors(): ?array
     {
+        // added there
+        $this->errors['others'][0] = 'Votre email ou votre mot de passe est invalide !';
         return $this->errors;
     }
 }

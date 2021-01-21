@@ -47,7 +47,7 @@ final class ConnexionController extends Controller
                     die();
                 }
             } else {
-                $_SESSION['error'] = 'Votre email ou votre mot de passe est invalide !';
+                $_SESSION['errors'] = $validator->displayErrors();
             }
         }
 
