@@ -15,6 +15,19 @@
             <label for="password">Mot de passe</label>
             <input type="password" name="password" id="password" placeholder="*************" required>
             <a id="oublie-mdp" href="#" onclick="show()">Mot de passe oublié ?</a>
+            <?php
+
+            if (isset($_SESSION['errors'])) {
+                foreach ($_SESSION['errors'] as $errorArray) {
+                    foreach ($errorArray as $error) {
+                        echo "<li>$error</li>";
+                    }
+                }
+            }
+
+            echo isset($_SESSION['error']) ? "<li>{$_SESSION['error']}</li>" : '';
+
+            ?>
             <!-- Se connecter -->
             <section>
                 <button type="submit" name="login">Se connecter</button>
