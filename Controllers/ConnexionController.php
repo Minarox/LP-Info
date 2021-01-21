@@ -15,15 +15,12 @@ final class ConnexionController extends Controller
     {
         $user = new UsersModel();
 
-
         if (isset($_POST['login'])) {
 
             $information = $user->findOneBy([
                 'email' => $_POST['email'],
                 'password' => $_POST['password']
             ]);
-
-            var_dump($information);
 
             $validator = new Validator([
                 'email' => $_POST['email'],
@@ -32,22 +29,29 @@ final class ConnexionController extends Controller
 
             if (!empty($information)) {
                 $validator->validate([
-                    'email' => [
-                        'required', 'email', 'equal:' . $information['email']
-                    ],
-                    'password' => [
-                        'required', 'equal:' . $information['password']
-                    ]
+                    'email' => ['required', 'email', 'equal:' . $information['email']],
+                    'password' => ['required', 'equal:' . $information['password']]
                 ]);
 
                 if ($validator->isSuccess()) {
                     $token = Token::generate(15);
-                    $_SESSION['user']['token'] = $token;
-                    $_SESSION['user']['id'] = $information['id'];
+
+                    $user->setId($information['id']);
+                    $user->setToken(hash('haval256,5', $token));
+                    $user->update();
+
+                    $_SESSION['token'] = $token;
+                    $_SESSION['id'] = $information['id'];
+
                     header('Location: /');
                     die();
                 }
             } else {
+                $validator->validate([
+                    'email' => ['required', 'email'],
+                    'password' => ['required']
+                ]);
+
                 $_SESSION['error'] = 'Votre email ou votre mot de passe est invalide !';
             }
         }

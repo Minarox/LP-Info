@@ -6,18 +6,36 @@ namespace App\Models;
 
 class UsersModel extends Model
 {
-    private int $id_google;
-    private int $id_facebook;
-    private RolesModel $role_id;
-    private string $last_name;
-    private string $first_name;
-    private string $email;
-    private string $password;
-    private string $avatar;
-    private bool $is_verified;
+    protected int $id;
+    protected int $id_google;
+    protected int $id_facebook;
+    protected RolesModel $role_id;
+    protected string $last_name;
+    protected string $first_name;
+    protected string $email;
+    protected string $password;
+    protected string $avatar;
+    protected bool $is_verified;
+    protected string $token;
 
     public function __construct() {
         $this->table = 'users';
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     /**
@@ -162,5 +180,21 @@ class UsersModel extends Model
     public function setIsVerified(bool $is_verified): void
     {
         $this->is_verified = $is_verified;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param string $token
+     */
+    public function setToken(string $token): void
+    {
+        $this->token = $token;
     }
 }
