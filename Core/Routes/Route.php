@@ -49,7 +49,7 @@ final class Route
         $method = $params[1];
 
         if (!method_exists($controller, $method))
-            throw new RouterException("This method doesn't exist !");
+            throw new RouterException("This method doesn't exist !", 1);
 
         isset($this->matches[1]) ? $controller->$method($this->matches[1]) : $controller->$method();
     }

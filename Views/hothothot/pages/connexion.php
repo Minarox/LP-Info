@@ -7,7 +7,7 @@
         <p>Vous n'avez pas de compte ?<br><a href="<?= ROOT ?>inscription">Créer un compte</a></p>
         <hr id="separateur">
         <!-- Formulaire -->
-        <form class="flex-container-identification-vertical" action="#" method="post">
+        <form class="flex-container-identification-vertical" action="" method="post">
             <!-- Email -->
             <label for="email">Email</label>
             <input type="email" name="email" id="email" placeholder="exemple@exemple.com" required>
@@ -17,7 +17,7 @@
             <a id="oublie-mdp" href="#" onclick="show()">Mot de passe oublié ?</a>
             <!-- Se connecter -->
             <section>
-                <button type="submit">Se connecter</button>
+                <button type="submit" name="login">Se connecter</button>
             </section>
         </form>
         <article id="overlay">
