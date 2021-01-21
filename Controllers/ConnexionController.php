@@ -27,12 +27,15 @@ final class ConnexionController extends Controller
                 'password' => $_POST['password']
             ]);
 
-            if (!empty($information)) {
-                $validator->validate([
-                    'email' => ['required', 'email', 'equal:' . $information['email']],
-                    'password' => ['required', 'equal:' . $information['password']]
-                ]);
+            $user_email = isset($information['email']) ? 'equal:' . $information['email'] : 'required';
+            $user_passw = isset($information['password']) ? 'equal:' . $information['password'] : 'required';
 
+            $validator->validate([
+                'email' => ['email', $user_email],
+                'password' => [$user_passw]
+            ]);
+
+            if (!empty($information)) {
                 if ($validator->isSuccess()) {
                     $token = Token::generate(15);
 
@@ -47,11 +50,6 @@ final class ConnexionController extends Controller
                     die();
                 }
             } else {
-                $validator->validate([
-                    'email' => ['required', 'email'],
-                    'password' => ['required']
-                ]);
-
                 $_SESSION['error'] = 'Votre email ou votre mot de passe est invalide !';
             }
         }
