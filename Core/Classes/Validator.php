@@ -326,4 +326,18 @@ class Validator
 
         return $this->errors;
     }
+
+    /**
+     * Cleans the data from input
+     * @param string $data
+     * @return string
+     */
+    public static function validInput(string $data): string
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+
+        return $data;
+    }
 }

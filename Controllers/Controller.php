@@ -37,9 +37,14 @@ abstract class Controller
         return ob_get_clean();
     }
 
-    public function redirect(string $url)
+    protected function redirect(string $url)
     {
         header("Location: $url");
         die();
+    }
+
+    protected function json(array $json)
+    {
+        echo json_encode($json);
     }
 }
