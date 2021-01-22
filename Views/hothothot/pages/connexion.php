@@ -7,7 +7,7 @@
         <p>Vous n'avez pas de compte ?<br><a href="<?= ROOT ?>inscription">Créer un compte</a></p>
         <hr id="separateur">
         <!-- Formulaire -->
-        <form class="flex-container-identification-vertical" action="" method="post">
+        <form class="flex-container-identification-vertical" id="login_form" action="" method="post">
             <!-- Email -->
             <label for="email">Email</label>
             <input type="email" name="email" id="email" placeholder="exemple@exemple.com" required>
@@ -15,20 +15,10 @@
             <label for="password">Mot de passe</label>
             <input type="password" name="password" id="password" placeholder="*************" required>
             <a id="oublie-mdp" href="#" onclick="show()">Mot de passe oublié ?</a>
-            <?php
-
-            if (isset($_SESSION['errors'])) {
-                foreach ($_SESSION['errors'] as $errorArray) {
-                    foreach ($errorArray as $error) {
-                        echo "<li>$error</li>";
-                    }
-                }
-            }
-
-            ?>
+            <p id="error_messsages"></p>
             <!-- Se connecter -->
             <section>
-                <button type="submit" name="login">Se connecter</button>
+                <button type="submit" id="login" name="login">Se connecter</button>
             </section>
         </form>
         <article id="overlay">
@@ -50,14 +40,4 @@
             </section>
         </article>
     </section>
-    <script>
-        function show() {
-            document.getElementById("overlay").style.display = "block";
-        }
-
-        function hide() {
-            document.getElementById("overlay").style.display = "none";
-        }
-    </script>
 </main>
-<?php unset($_SESSION['errors']) ?>
