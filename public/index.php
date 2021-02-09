@@ -23,11 +23,12 @@ $router->add('/', 'HomeController');
 $router->add('/parametrage', 'ParamController');
 $router->add('/profil', 'ProfilController');
 $router->add('/connexion', 'ConnexionController');
-$router->add('/inscription', 'InscriptionController');
+$router->add('/inscription', 'InscriptionController', ['POST', 'GET']);
 $router->add('/documentation', 'DocumentationController');
 $router->add('/recuperation', 'RecuperationController');
 
 // Ajax path route
-$router->add('/ajax/connexionSystem', 'Ajax\AjaxController::connexionSystem', 'POST');
+$router->add('/ajax/loginSystem', 'ConnexionController::loginSystem', 'POST');
+$router->add('/ajax/signUpSystem', 'InscriptionController::signUpSystem', 'POST');
 
 $router->run();
