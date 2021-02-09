@@ -23,6 +23,7 @@
             <!-- Vérification du mot de passe -->
             <label for="password_verify">Vérification du mot de passe</label>
             <input type="password" name="password_verify" id="password_verify" placeholder="*************" required>
+            <section id="error_messages"></section>
             <!-- Bouton de validation -->
             <section>
                 <button id="signUp" type="submit">Inscription</button>

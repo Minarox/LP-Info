@@ -12,6 +12,11 @@ final class InscriptionController extends Controller
 {
     public function index()
     {
+        $this->render(name_file: 'hothothot/pages/inscription');
+    }
+
+    public function signUpSystem()
+    {
         $user = new UsersModel();
         $role = new RolesModel();
         $validator = new Validator($_POST);
@@ -22,13 +27,11 @@ final class InscriptionController extends Controller
 
         $loginRole = $role->findById(1);
 
-        var_dump($_POST['password']);
-
         $validator->validate([
             'last_name' => ['alpha', 'required'],
             'first_name' => ['alpha', 'required'],
             'email' => ['email', 'required'],
-            'password' => ['required', 'equal:' . $_POST['password_verify']],
+            'password' => ['required', "equal:{$_POST['password_verify']}"],
             'password_verify' => ['required']
         ]);
 
@@ -36,7 +39,7 @@ final class InscriptionController extends Controller
             'email' => $information['email'] ??= null,
         ]);
 
-        if ($validator->isSuccess() && $matchValue) {
+        if ($validator->isSuccess() && !$matchValue) {
             $token = Token::generate(15);
 
             $user->setLastName($_POST['last_name']);
@@ -60,13 +63,6 @@ final class InscriptionController extends Controller
             ];
         }
 
-        var_dump($message);
-        //$this->json($message);
-        $this->render(name_file: 'hothothot/pages/inscription');
-    }
-
-    public function signUpSystem()
-    {
-        $this->json(['ok']);
+        $this->json($message);
     }
 }
