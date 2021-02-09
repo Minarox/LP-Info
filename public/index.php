@@ -5,7 +5,6 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
 use App\Core\Autoloader\Autoloader;
-use App\Core\Exceptions\RouterException;
 use App\Core\Routes\Router;
 use App\Core\Config\Config;
 
@@ -23,7 +22,7 @@ $router->add('/', 'HomeController');
 $router->add('/parametrage', 'ParamController');
 $router->add('/profil', 'ProfilController');
 $router->add('/connexion', 'ConnexionController');
-$router->add('/inscription', 'InscriptionController', ['POST', 'GET']);
+$router->add('/inscription', 'InscriptionController');
 $router->add('/documentation', 'DocumentationController');
 $router->add('/recuperation', 'RecuperationController');
 

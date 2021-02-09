@@ -9,7 +9,7 @@ class UsersModel extends Model
     protected int $id;
     protected int $id_google;
     protected int $id_facebook;
-    protected RolesModel $role_id;
+    protected int $role_id;
     protected string $last_name;
     protected string $first_name;
     protected string $email;
@@ -71,17 +71,17 @@ class UsersModel extends Model
     }
 
     /**
-     * @return RolesModel
+     * @return int
      */
-    public function getRoleId(): RolesModel
+    public function getRoleId(): int
     {
         return $this->role_id;
     }
 
     /**
-     * @param RolesModel $role_id
+     * @param int $role_id
      */
-    public function setRoleId(RolesModel $role_id): void
+    public function setRoleId(int $role_id): void
     {
         $this->role_id = $role_id;
     }
