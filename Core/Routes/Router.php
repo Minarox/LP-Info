@@ -26,15 +26,13 @@ final class Router
             foreach ($method as $value) {
                 $method = strtoupper($value);
 
-                if (in_array($value, $this->method))
-                    $this->routes[$method][] = new Route($path, 'App\\Controllers\\' . $action);
+                if (in_array($value, $this->method)) $this->routes[$method][] = new Route($path, 'App\\Controllers\\' . $action);
             }
         }
 
         $method = strtoupper($method);
 
-        if (in_array($method, $this->method) && is_string($method))
-            $this->routes[$method][] = new Route($path, 'App\\Controllers\\' . $action);
+        if (in_array($method, $this->method) && is_string($method)) $this->routes[$method][] = new Route($path, 'App\\Controllers\\' . $action);
     }
 
     /**
@@ -43,13 +41,15 @@ final class Router
     private function prepare()
     {
         foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $route) {
-            if ($route->match($this->url))
-                return $route->execute();
+            if ($route->match($this->url)) return $route->execute();
         }
 
         throw new RouterException("No matching routes !", 2);
     }
 
+    /**
+     * @throws RouterException
+     */
     public function run()
     {
         try {
@@ -57,8 +57,7 @@ final class Router
         } catch (RouterException $e) {
             $e->error404();
 
-            if (DEBUG)
-                throw new RouterException('Error : ' . $e->getMessage());
+            if (DEBUG) throw new RouterException('Error : ' . $e->getMessage());
         }
     }
 

@@ -5,6 +5,8 @@ namespace App\Controllers;
 
 
 
+use App\Core\System\Controller;
+
 final class ProfilController extends Controller
 {
     public function index()

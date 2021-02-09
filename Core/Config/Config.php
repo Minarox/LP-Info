@@ -4,15 +4,17 @@
 namespace App\Core\Config;
 
 
-final class Config
+abstract class Config
 {
-    public function __construct() {
+    public static function loadConfig()
+    {
         // Initialisation config file
         $config = parse_ini_file(dirname(__DIR__,2). DIRECTORY_SEPARATOR . 'config.ini');
 
         // Public sources path
         define('VIEWS', dirname(__DIR__,2) . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR);
         define('SCRIPTS', dirname($_SERVER['SCRIPT_NAME']) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR);
+        define('APP', dirname(__DIR__,2));
 
         // Database params
         $config['db_host'] = define('DB_HOST', $config['db_host']);

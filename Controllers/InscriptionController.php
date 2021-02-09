@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 
 
+use App\Core\System\Controller;
 use App\Core\Classes\{Token, Validator};
 use App\Models\{RolesModel, UsersModel};
 
@@ -45,12 +46,12 @@ final class InscriptionController extends Controller
             $user->setLastName($_POST['last_name']);
             $user->setfirstName($_POST['first_name']);
             $user->setEmail($_POST['email']);
-            $user->setPassword($_POST['password']);
+            $user->setPassword(password_hash($_POST['password'], PASSWORD_BCRYPT));
             $user->setRoleId($loginRole['id']);
             $user->setToken(hash('sha512', $token));
             $user->create();
 
-            foreach ($information as $k => $v) $_SESSION[$k] = $v;
+            foreach ($_POST as $k => $v) $_SESSION[$k] = $v;
             $_SESSION['token'] = $token;
 
             $message = [
