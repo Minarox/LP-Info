@@ -5,6 +5,8 @@ namespace App\Controllers;
 
 
 
+use App\Core\System\Controller;
+
 final class DocumentationController extends Controller
 {
     public function index()

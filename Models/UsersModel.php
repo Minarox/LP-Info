@@ -4,6 +4,8 @@
 namespace App\Models;
 
 
+use App\Core\System\Model;
+
 class UsersModel extends Model
 {
     protected int $id;

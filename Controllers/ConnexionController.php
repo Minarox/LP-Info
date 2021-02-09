@@ -4,7 +4,7 @@
 namespace App\Controllers;
 
 
-
+use App\Core\System\Controller;
 use App\Core\Classes\{Token, Validator};
 use App\Models\UsersModel;
 
@@ -21,8 +21,7 @@ final class ConnexionController extends Controller
         $validator = new Validator($_POST);
 
         $information = $user->findOneBy([
-            'email' => $_POST['email'],
-            'password' => $_POST['password']
+            'email' => $_POST['email']
         ]);
 
         $validator->validate([
@@ -39,7 +38,7 @@ final class ConnexionController extends Controller
             'password' => $information['password'] ??= null
         ]);
 
-        if ($validator->isSuccess() && $matchValue) {
+        if ($validator->isSuccess() && $matchValue && password_verify($_POST['password'], $information['password'])) {
             $token = Token::generate(15);
 
             $user->setId($information['id']);
