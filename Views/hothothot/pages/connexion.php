@@ -15,7 +15,7 @@
             <label for="password">Mot de passe</label>
             <input type="password" name="password" id="password" placeholder="*************" required>
             <a id="oublie-mdp" href="#" onclick="show()">Mot de passe oublié ?</a>
-            <p id="error_messsages"></p>
+            <section id="error_messages"></section>
             <!-- Se connecter -->
             <section>
                 <button type="submit" id="login" name="login">Se connecter</button>

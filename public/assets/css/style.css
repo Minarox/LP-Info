@@ -274,7 +274,7 @@ h1, h2, h3, p, label, a, button, i {
     padding: 6px;
 }
 
-.flex-container-identification-vertical section {
+.flex-container-identification-vertical section:last-child {
     text-align: center;
 }
 

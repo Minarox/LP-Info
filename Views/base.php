@@ -46,14 +46,18 @@
     <p>&copy; HotHotHot 2020</p>
 </footer>
 <!-- Scripts pour les diagrammes et alertes -->
-<?php if (($_SERVER['REQUEST_URI']) === '/'): ?>
+<script src="<?= SCRIPTS . 'js' . DIRECTORY_SEPARATOR . 'utilities.js' ?>"></script>
+<?php if ($_SERVER['REQUEST_URI'] === '/'): ?>
     <script src="<?= SCRIPTS . 'js' . DIRECTORY_SEPARATOR . 'jquery-3.5.1.min.js' ?>"></script>
     <script src="<?= SCRIPTS . 'js' . DIRECTORY_SEPARATOR . 'Chart.bundle.min.js' ?>"></script>
     <script src="<?= SCRIPTS . 'js' . DIRECTORY_SEPARATOR . 'Diagrammes.js' ?>"></script>
     <script src="<?= SCRIPTS . 'js' . DIRECTORY_SEPARATOR . 'Alertes.js' ?>"></script>
 <?php endif; ?>
-<?php if (($_SERVER['REQUEST_URI']) === '/connexion'): ?>
-    <script src="<?= SCRIPTS . 'js' . DIRECTORY_SEPARATOR . 'ajax.js' ?>"></script>
+<?php if ($_SERVER['REQUEST_URI'] === '/connexion'): ?>
+    <script src="<?= SCRIPTS . 'js' . DIRECTORY_SEPARATOR . 'login.js' ?>"></script>
+<?php endif; ?>
+<?php if ($_SERVER['REQUEST_URI'] === '/inscription'): ?>
+    <script src="<?= SCRIPTS . 'js' . DIRECTORY_SEPARATOR . 'signUp.js' ?>"></script>
 <?php endif; ?>
 </body>
 </html>

@@ -4,10 +4,61 @@
 namespace App\Controllers;
 
 
+
+use App\Core\Classes\{Token, Validator};
+use App\Models\UsersModel;
+
 final class ConnexionController extends Controller
 {
     public function index()
     {
         $this->render(name_file: 'hothothot/pages/connexion');
+    }
+
+    public function loginSystem()
+    {
+        $user = new UsersModel();
+        $validator = new Validator($_POST);
+
+        $information = $user->findOneBy([
+            'email' => $_POST['email'],
+            'password' => $_POST['password']
+        ]);
+
+        $validator->validate([
+            'email' => ['email', 'required'],
+            'password' => ['required']
+        ]);
+
+        $validator->customErrors([
+            'email.0' => 'Vous devez informer un email valide !'
+        ]);
+
+        $matchValue = $validator->matchValue([
+            'email' => $information['email'] ??= null,
+            'password' => $information['password'] ??= null
+        ]);
+
+        if ($validator->isSuccess() && $matchValue) {
+            $token = Token::generate(15);
+
+            $user->setId($information['id']);
+            $user->setToken(hash('sha512', $token));
+            $user->update();
+
+            foreach ($information as $k => $v) $_SESSION[$k] = $v;
+            $_SESSION['token'] = $token;
+
+            $message = [
+                'success' => true
+            ];
+        } else {
+            $message = [
+                'message' => $validator->displayErrors(['Votre email ou votre mot de passe est invalide !']),
+                'success' => false
+            ];
+        }
+
+        $this->json($message);
     }
 }

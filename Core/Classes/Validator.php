@@ -3,6 +3,8 @@
 namespace App\Core\Classes;
 
 
+use JetBrains\PhpStorm\Pure;
+
 /**
  * Class Validator
  * @package App\Core\Classes
@@ -108,7 +110,7 @@ class Validator
         foreach ($errorMessage as $name => $message) {
             $arrayKey = str_replace(".", "", strstr($name, '.'));
             $name = strstr($name, '.', true);
-            if (!empty($this->data) && !$this->isValid() && $this->customErrors[$name][$arrayKey]) {
+            if (!empty($this->data) && !$this->isSuccess() && $this->customErrors[$name][$arrayKey]) {
                 $this->errors[$name][$arrayKey] = $message;
             }
         }
@@ -257,7 +259,7 @@ class Validator
     {
         $equal = substr($rule, 6);
 
-        if (!$value === $equal) {
+        if ($value !== $equal) {
             $this->errors[$name][] = "$name ne correspond pas à $equal";
             $this->customErrors[$name][] = true;
         } else {
@@ -270,7 +272,7 @@ class Validator
      * @param array $values
      * @return bool
      */
-    public function matchValue(array $values): bool
+    #[Pure] public function matchValue(array $values): bool
     {
         foreach ($values as $key => $value) {
             if (array_key_exists($key, $this->data) && $value !== null) {
@@ -278,16 +280,16 @@ class Validator
                     return true;
                 }
             }
-
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Validated fields
      * @return bool
      */
-    public function isValid(): bool
+    public function isSuccess(): bool
     {
         return empty($this->errors) && !empty($this->data);
     }
@@ -332,7 +334,7 @@ class Validator
      * @param string $data
      * @return string
      */
-    public static function validInput(string $data): string
+    #[Pure] public static function validInput(string $data): string
     {
         $data = trim($data);
         $data = stripslashes($data);
