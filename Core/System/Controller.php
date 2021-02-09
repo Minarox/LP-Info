@@ -15,7 +15,6 @@ abstract class Controller
 
     protected function render(string $name_file, array $params = [], string $template = 'base')
     {
-
         extract($params);
 
         $this->startBuffer();
