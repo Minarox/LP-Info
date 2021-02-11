@@ -27,15 +27,15 @@ $router = new Router($_GET['url']);
 $router->add('/', 'HomeController');
 $router->add('/settings', 'SettingsController');
 $router->add('/account', 'ProfileController');
-$router->add('/login', 'LoginController');
-$router->add('/register', 'RegisterController');
+$router->add('/login', 'LoginController', ['GET', 'POST']);
+$router->add('/register', 'RegisterController', ['GET', 'POST']);
 $router->add('/help', 'HelpController');
 $router->add('/recovery', 'RecoveryController');
 $router->add('/logout', 'LogoutController');
 
 // Ajax path route
-$router->add('/ajax/loginSystem', 'LoginController::loginSystem', 'POST');
-$router->add('/ajax/signUpSystem', 'RegisterController::signUpSystem', 'POST');
+//$router->add('/ajax/loginSystem', 'LoginController::loginSystem', 'POST');
+//$router->add('/ajax/signUpSystem', 'RegisterController::signUpSystem', 'POST');
 
 try {
     $router->run();
