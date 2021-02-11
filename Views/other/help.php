@@ -1,4 +1,4 @@
-<main class="container-md mt-4">
+<main class="container-md">
     <!-- Boite principale -->
     <section class="box">
         <!-- Titre -->

@@ -1,4 +1,4 @@
-<main class="container-fluid mt-4">
+<main class="container-fluid">
     <!-- Inscription -->
     <section class="box small-w">
         <!-- Titre -->

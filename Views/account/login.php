@@ -1,4 +1,4 @@
-<main class="container-fluid mt-4">
+<main class="container-fluid">
     <!-- Connexion -->
     <section class="box small-w">
         <!-- Titre et redirection vers inscription -->
@@ -19,13 +19,13 @@
             <a id="oublie-mdp" href="#" onclick="show()">Mot de passe oublié ?</a>
             <section id="error_messages">
                 <?php
-                    if (isset($error_message)) {
-                        foreach ($error_message as $errorArray) {
-                            foreach ($errorArray as $error) {
-                                echo "<li>$error</li>";
-                            }
+                if (isset($error_message)) {
+                    foreach ($error_message as $errorArray) {
+                        foreach ($errorArray as $error) {
+                            echo "<li>$error</li>";
                         }
                     }
+                }
                 ?>
             </section>
             <hr>
@@ -42,11 +42,10 @@
                     <!-- Email -->
                     <label for="recovery-email">Email</label>
                     <input class="form-control" type="email" name="recovery-email" id="recovery-email" placeholder="exemple@exemple.com" maxlength="50" required>
+                    <hr>
                     <!-- Valider -->
-                    <section>
-                        <button type="submit">Valider</button>
-                        <button type="button" onclick="hide()">Fermer</button>
-                    </section>
+                    <button type="submit">Valider</button>
+                    <button type="button" onclick="hide()">Fermer</button>
                 </form>
             </section>
         </article>
