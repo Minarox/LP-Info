@@ -49,7 +49,9 @@
                                         <li><a class="dropdown-item" href="<?= ROOT ?>logout">Logout</a></li>
                                     </ul>
                                 <?php else: ?>
-                                    <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+                                    <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Account
+                                    </a>
                                     <ul class="dropdown-menu" aria-labelledby="dropdown">
                                         <li><a class="dropdown-item" href="<?= ROOT ?>login">Login</a></li>
                                         <li><a class="dropdown-item" href="<?= ROOT ?>register">Register</a></li>
@@ -61,6 +63,7 @@
                             <?php if (isset($_SESSION['token']) && !empty($_SESSION['token'])): ?>
                                 <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown" aria-expanded="false">
                                     <?= $_SESSION['first_name'] . '&nbsp;' . $_SESSION['last_name'] ?>
+                                    <img src="<?= $_SESSION['avatar'] ?>" alt="Profil picture.">
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdown">
                                     <li><a class="dropdown-item" href="<?= ROOT ?>account">Profil</a></li>
@@ -100,12 +103,6 @@
             <script src="<?= SCRIPTS . 'js/chart/Chart.bundle.min.js' ?>"></script>
             <script src="<?= SCRIPTS . 'js/home/Diagrammes.js' ?>"></script>
             <script src="<?= SCRIPTS . 'js/home/Alertes.js' ?>"></script>
-        <?php endif; ?>
-        <?php if ($_SERVER['REQUEST_URI'] === '/login'): ?>
-            <script src="<?= SCRIPTS . 'js/account/login.js' ?>"></script>
-        <?php endif; ?>
-        <?php if ($_SERVER['REQUEST_URI'] === '/register'): ?>
-            <script src="<?= SCRIPTS . 'js/account/signUp.js' ?>"></script>
         <?php endif; ?>
     </body>
 </html>

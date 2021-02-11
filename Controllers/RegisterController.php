@@ -13,57 +13,49 @@ final class RegisterController extends Controller
 {
     public function index()
     {
-        $this->render(name_file: 'account/register', title: 'Inscription');
-    }
-
-    public function signUpSystem()
-    {
         $user = new UsersModel();
         $role = new RolesModel();
         $validator = new Validator($_POST);
 
-        $information = $user->findOneBy([
-            'email' => $_POST['email'] ??= null
-        ]);
+        if ($validator->isSubmitted()) {
+            $information = $user->findOneBy([
+                'email' => $_POST['email'] ??= null
+            ]);
 
-        $loginRole = $role->findById(1);
+            $loginRole = $role->findById(1);
 
-        $validator->validate([
-            'last_name' => ['alpha', 'required'],
-            'first_name' => ['alpha', 'required'],
-            'email' => ['email', 'required'],
-            'password' => ['required', "equal:{$_POST['password_verify']}"],
-            'password_verify' => ['required']
-        ]);
+            $validator->validate([
+                'last_name' => ['required'],
+                'first_name' => ['required'],
+                'email' => ['email', 'required'],
+                'password' => ['required', "equal:{$_POST['password_verify']}"],
+                'password_verify' => ['required']
+            ]);
 
-        $matchValue = $validator->matchValue([
-            'email' => $information['email'] ??= null,
-        ]);
+            $matchValue = $validator->matchValue([
+                'email' => $information['email'] ??= null,
+            ]);
 
-        if ($validator->isSuccess() && !$matchValue) {
-            $token = Token::generate(15);
+            if ($validator->isSuccess() && !$matchValue) {
+                $token = Token::generate(15);
 
-            $user->setLastName($_POST['last_name']);
-            $user->setfirstName($_POST['first_name']);
-            $user->setEmail($_POST['email']);
-            $user->setPassword(password_hash($_POST['password'], PASSWORD_BCRYPT));
-            $user->setRoleId($loginRole['id']);
-            $user->setToken(hash('sha512', $token));
-            $user->create();
+                $user->setLastName($_POST['last_name']);
+                $user->setfirstName($_POST['first_name']);
+                $user->setEmail($_POST['email']);
+                $user->setPassword(password_hash($_POST['password'], PASSWORD_BCRYPT));
+                $user->setRoleId($loginRole['id']);
+                $user->setToken(hash('sha512', $token));
+                $user->create();
 
-            foreach ($_POST as $k => $v) $_SESSION[$k] = $v;
-            $_SESSION['token'] = $token;
+                foreach ($_POST as $k => $v) $_SESSION[$k] = $v;
+                $_SESSION['token'] = $token;
+                $this->redirect('/');
 
-            $message = [
-                'success' => true
-            ];
-        } else {
-            $message = [
-                'message' => $validator->displayErrors(),
-                'success' => false
-            ];
+            } else {
+                $error_message = $validator->displayErrors();
+            }
         }
 
-        $this->json($message);
+        $this->render(name_file: 'account/register', params: ['error_message'=>$error_message ??= null], title: 'Inscription');
     }
 }

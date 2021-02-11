@@ -12,12 +12,22 @@
             <hr>
             <!-- Email -->
             <label for="email">Email</label>
-            <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" autofocus required>
+            <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" autofocus required>
             <!-- Mot de passe -->
             <label for="password">Mot de passe</label>
-            <input class="form-control" type="password" name="password" id="password" placeholder="*************" required>
-            <a id="oublie-mdp" href="" onclick="show()">Mot de passe oublié ?</a>
-            <section id="error_messages"></section>
+            <input class="form-control" type="password" name="password" id="password" placeholder="*************" maxlength="99" required>
+            <a id="oublie-mdp" href="#" onclick="show()">Mot de passe oublié ?</a>
+            <section id="error_messages">
+                <?php
+                    if (isset($error_message)) {
+                        foreach ($error_message as $errorArray) {
+                            foreach ($errorArray as $error) {
+                                echo "<li>$error</li>";
+                            }
+                        }
+                    }
+                ?>
+            </section>
             <hr>
             <!-- Se connecter -->
             <button type="submit" id="login" name="login">Se connecter</button>
@@ -30,8 +40,8 @@
                 <form action="" method="post">
                     <hr>
                     <!-- Email -->
-                    <label for="email">Email</label>
-                    <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" required>
+                    <label for="recovery-email">Email</label>
+                    <input class="form-control" type="email" name="recovery-email" id="recovery-email" placeholder="exemple@exemple.com" maxlength="50" required>
                     <!-- Valider -->
                     <section>
                         <button type="submit">Valider</button>
