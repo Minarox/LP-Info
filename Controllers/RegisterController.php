@@ -9,11 +9,11 @@ use App\Core\System\Controller;
 use App\Core\Classes\{Token, Validator};
 use App\Models\{RolesModel, UsersModel};
 
-final class InscriptionController extends Controller
+final class RegisterController extends Controller
 {
     public function index()
     {
-        $this->render(name_file: 'hothothot/pages/inscription');
+        $this->render(name_file: 'account/register', title: 'Inscription');
     }
 
     public function signUpSystem()

@@ -19,7 +19,7 @@ final class Routes
         }
 
         // Intern Ajax system
-        $router->add('/ajax/loginSystem', 'ConnexionController::loginSystem', 'POST');
-        $router->add('/ajax/signUpSystem', 'InscriptionController::signUpSystem', 'POST');
+        $router->add('/ajax/loginSystem', 'LoginController::loginSystem', 'POST');
+        $router->add('/ajax/signUpSystem', 'RegisterController::signUpSystem', 'POST');
     }
 }

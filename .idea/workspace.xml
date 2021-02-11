@@ -1,21 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5d206f96-35dd-4ed4-af39-1201611be8cf" name="Default Changelist" comment="">
-<<<<<<< HEAD
+    <list default="true" id="5d206f96-35dd-4ed4-af39-1201611be8cf" name="Default Changelist" comment="test suppression ligne">
+      <change afterPath="$PROJECT_DIR$/Controllers/ProfileController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controllers/RecoveryController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controllers/SettingsController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/css/bootstrap/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/css/bootstrap/bootstrap.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/css/style-old.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/bootstrap/bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/bootstrap/bootstrap.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/public/.htaccess" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/ConnexionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/LoginController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/DeconnexionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/LogoutController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/DocumentationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/HelpController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/InscriptionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/RegisterController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/ParamController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/ProfilController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/RecuperationController.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Autoloader/Autoloader.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Autoloader/Autoloader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Database/Database.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Database/Database.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Classes/lib/google-api/vendor/google/apiclient-services/src/Google/Service/AndroidPublisher/Resource/Internalappsharingartifacts.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Classes/lib/google-api/vendor/google/apiclient-services/src/Google/Service/AndroidPublisher/Resource/Internalappsharingartifacts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Classes/lib/google-api/vendor/google/apiclient-services/src/Google/Service/BinaryAuthorization/Resource/ProjectsPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Classes/lib/google-api/vendor/google/apiclient-services/src/Google/Service/BinaryAuthorization/Resource/ProjectsPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Classes/lib/google-api/vendor/google/apiclient-services/src/Google/Service/Classroom/Resource/CoursesStudents.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Classes/lib/google-api/vendor/google/apiclient-services/src/Google/Service/Classroom/Resource/CoursesStudents.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Classes/lib/google-api/vendor/google/apiclient-services/src/Google/Service/GoogleAnalyticsAdmin/Resource/AccountSummaries.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Classes/lib/google-api/vendor/google/apiclient-services/src/Google/Service/GoogleAnalyticsAdmin/Resource/AccountSummaries.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Classes/lib/google-api/vendor/google/apiclient-services/src/Google/Service/GoogleAnalyticsAdmin/Resource/Accounts.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Classes/lib/google-api/vendor/google/apiclient-services/src/Google/Service/GoogleAnalyticsAdmin/Resource/Accounts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Config/Config.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Config/Config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Exceptions/RouterException.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Exceptions/RouterException.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Routes/Routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Routes/Routes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/System/Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/System/Controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/base.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/base.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/errors/404.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/error/404.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/hothothot/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/home.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/hothothot/pages/connexion.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/account/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/hothothot/pages/documentation.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/other/help.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/hothothot/pages/inscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/account/register.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/hothothot/pages/parametrage.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/other/settings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/hothothot/pages/profil.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/account/profile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/hothothot/pages/recuperation.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/account/recovery.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/Alertes.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/home/Alertes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/Chart.bundle.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/chart/Chart.bundle.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/Diagrammes.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/home/Diagrammes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/jquery-3.5.1.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/jquery/jquery-3.5.1.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/account/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/signUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/account/signUp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/utilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/account/utilities.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.php" afterDir="false" />
-=======
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
->>>>>>> ff406bc4831347848a1ca0a59b3dd619e492d7f8
+    </list>
+    <list id="9c0ce6af-b72c-4e69-adaa-2c6dad77d472" name="Ne pas commit" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
   </component>
   <component name="ComposerSettings">
     <execution />
@@ -28,7 +74,22 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP">
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="https://github.com/Minarox/hothothot" />
+      </set>
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="root@Minarox.fr:22 password">
     <include_path>
       <path value="" />
     </include_path>
@@ -44,46 +105,56 @@
     <property name="DatabaseDriversLRU" value="mariadb" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../bin/php/php8.0.1/php.exe" />
-    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/assets/js/bootstrap" />
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\wamp64\www\hothothot" />
+      <recent name="F:\Bureau\hothothot\public\assets\js\bootstrap" />
+      <recent name="F:\Bureau\hothothot\public\assets\css" />
       <recent name="C:\wamp64\www\site\hothothotMVC\Controllers" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\wamp64\www\site\hothothotMVC\Core\Database" />
-      <recent name="C:\wamp64\www\site\hothothotMVC\public\assets" />
-      <recent name="F:\Bureau\hothothot\public" />
-      <recent name="F:\Bureau\hothothot\public\css" />
-      <recent name="F:\Bureau\hothothot\Views\hothothot" />
+      <recent name="F:\Bureau\hothothot\public\assets\js\home" />
+      <recent name="F:\Bureau\hothothot\public\assets\js\account" />
+      <recent name="F:\Bureau\hothothot\public\assets\js\jquery" />
+      <recent name="F:\Bureau\hothothot\public\assets\js\chart" />
+      <recent name="F:\Bureau\hothothot\Views" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="5d206f96-35dd-4ed4-af39-1201611be8cf" name="Default Changelist" comment="" />
+      <changelist id="9c0ce6af-b72c-4e69-adaa-2c6dad77d472" name="Ne pas commit" comment="" />
       <created>1610016183283</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1610016183283</updated>
       <workItem from="1610016184738" duration="894000" />
       <workItem from="1610437744991" duration="11305000" />
-<<<<<<< HEAD
-      <workItem from="1611043566478" duration="2570000" />
-      <workItem from="1611046158780" duration="446000" />
-      <workItem from="1611046715860" duration="151000" />
-      <workItem from="1611046950173" duration="5498000" />
-=======
       <workItem from="1610697102872" duration="10113000" />
       <workItem from="1610733349417" duration="553000" />
       <workItem from="1610901553068" duration="26000" />
       <workItem from="1611041363287" duration="3757000" />
->>>>>>> ff406bc4831347848a1ca0a59b3dd619e492d7f8
+      <workItem from="1611055733392" duration="405000" />
+      <workItem from="1611146551016" duration="9000" />
+      <workItem from="1611218365719" duration="1071000" />
+      <workItem from="1611562962105" duration="7000" />
+      <workItem from="1612863845625" duration="7504000" />
+      <workItem from="1612879718517" duration="717000" />
+      <workItem from="1612886510746" duration="811000" />
+      <workItem from="1612945921558" duration="14379000" />
+      <workItem from="1612978272640" duration="2092000" />
+      <workItem from="1612997725275" duration="3893000" />
+      <workItem from="1613005294234" duration="3385000" />
     </task>
     <task id="LOCAL-00001" summary="ALLO">
       <created>1610443284715</created>
@@ -169,7 +240,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611043420654</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="test suppression ligne">
+      <created>1611054894419</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1611054894419</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -193,6 +271,11 @@
     <MESSAGE value="Index modif" />
     <MESSAGE value="Index file problem" />
     <MESSAGE value="Ajout overlay et page de récupération de compte, bouton de suppression de compte, page de documentation et animation du menu." />
-    <option name="LAST_COMMIT_MESSAGE" value="Ajout overlay et page de récupération de compte, bouton de suppression de compte, page de documentation et animation du menu." />
+    <MESSAGE value="test suppression ligne" />
+    <option name="LAST_COMMIT_MESSAGE" value="test suppression ligne" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

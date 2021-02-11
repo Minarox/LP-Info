@@ -1,138 +1,137 @@
-<!-- Contenu de la page -->
 <main>
     <!-- Titre général pour l'accessibilité -->
-    <h1 id="accessibilite">État, valeurs et historiques des capteurs.</h1>
+    <h1 id="accessibility">État, valeurs et historiques des capteurs.</h1>
     <!-- Boite des capteurs -->
-    <section class="flex-container-general">
+    <section class="flex-container">
         <!-- Capteur intérieur -->
-        <article class="flex-container-general-boite decoration-top" id="Interieur">
+        <article class="flex-container-box topbar" id="indoor">
             <!-- Alerte du capteur -->
-            <section id="alerteInterieur">
+            <section id="indoor-alert">
                 <!-- Titre et texte d'alerte / description -->
                 <h2>Alerte du capteur intérieur :</h2>
                 <p></p>
                 <!-- Boutons de navigation de l'alerte -->
-                <button onclick="detailsAlerte('Interieur', false)" id="btnDetailsInterieur">Détails</button>
-                <button onclick="detailsAlerte('Interieur', true)" id="btnRetourInterieur">Retour</button>
-                <button onclick="fermerAlerte('Interieur')">Fermer</button>
+                <button onclick="alertDetails('indoor', false)" id="indoor-details-btn">Détails</button>
+                <button onclick="alertDetails('indoor', true)" id="indoor-back-btn">Retour</button>
+                <button onclick="closeAlert('indoor')">Fermer</button>
             </section>
             <!-- État, titre et diagramme -->
             <section>
                 <!-- État et titre -->
-                <h2 id="titreInt">
+                <h2 id="indoor-title">
                     <!-- Description de l'état du capteur -->
-                    <i id="etatInt">Actif</i>
-                    <canvas id="dotInt"></canvas>
+                    <i id="indoor-state">Actif</i>
+                    <canvas id="indoor-dot"></canvas>
                     &nbsp;Capteur intérieur
                 </h2>
 
                 <!-- Diagramme du capteur -->
-                <article class="diagrammes">
-                    <canvas id="DiagrammeInterieur"></canvas>
+                <article class="charts">
+                    <canvas id="indoor-charts"></canvas>
                 </article>
             </section>
             <!-- Informations supplémentaires -->
             <section>
                 <!-- Température actuelle -->
-                <article class="flex-container-general-temperature separation separation-top">
+                <article class="flex-container-temp separator top-separator">
                     <!-- Titre et description -->
                     <section>
                         <h3>Maintenant</h3>
                         <p>Température actuelle</p>
                     </section>
                     <!-- Valeur -->
-                    <p class="temp-centrer" id="nowInt">00&deg;C</p>
+                    <p class="temp-center" id="indoor-now">00&deg;C</p>
                 </article>
                 <!-- Température maximale -->
-                <article class="flex-container-general-temperature marge separation">
+                <article class="flex-container-temp margin separator">
                     <!-- Titre et description -->
                     <section>
                         <h3>Maximale</h3>
                         <p>Température maximale enregistrée</p>
                     </section>
                     <!-- Valeur -->
-                    <p class="temp-centrer" id="maxInt">00&deg;C</p>
+                    <p class="temp-center" id="indoor-max">00&deg;C</p>
                 </article>
                 <!-- Température minimale -->
-                <article class="flex-container-general-temperature separation">
+                <article class="flex-container-temp separator">
                     <!-- Titre et description -->
                     <section>
                         <h3>Minimale</h3>
                         <p>Température minimale enregistrée</p>
                     </section>
                     <!-- Valeur -->
-                    <p class="temp-centrer" id="minInt">00&deg;C</p>
+                    <p class="temp-center" id="indoor-min">00&deg;C</p>
                 </article>
             </section>
         </article>
         <!-- Capteur extérieur -->
-        <article class="flex-container-general-boite decoration-top" id="Exterieur">
+        <article class="flex-container-box topbar" id="outdoor">
             <!-- Alerte du capteur -->
-            <section id="alerteExterieur">
+            <section id="outdoor-alert">
                 <!-- Titre et texte d'alerte / description -->
                 <h2>Alerte du capteur extérieur :</h2>
                 <p></p>
                 <!-- Boutons de navigation de l'alerte -->
-                <button onclick="detailsAlerte('Exterieur', false)" id="btnDetailsExterieur">Détails</button>
-                <button onclick="detailsAlerte('Exterieur', true)" id="btnRetourExterieur">Retour</button>
-                <button onclick="fermerAlerte('Exterieur')">Fermer</button>
+                <button onclick="alertDetails('outdoor', false)" id="outdoor-details-btn">Détails</button>
+                <button onclick="alertDetails('outdoor', true)" id="outdoor-back-btn">Retour</button>
+                <button onclick="closeAlert('outdoor')">Fermer</button>
             </section>
             <!-- État, titre et diagramme -->
             <section>
                 <!-- État et titre -->
-                <h2 id="titreExt">
+                <h2 id="outdoor-title">
                     <!-- Description de l'état du capteur -->
-                    <i id="etatExt">Actif</i>
-                    <canvas id="dotExt"></canvas>
+                    <i id="outdoor-state">Actif</i>
+                    <canvas id="outdoor-state"></canvas>
                     &nbsp;Capteur extérieur
                 </h2>
                 <!-- Diagramme du capteur -->
-                <article class="diagrammes">
-                    <canvas id="DiagrammeExterieur"></canvas>
+                <article class="charts">
+                    <canvas id="outdoor-charts"></canvas>
                 </article>
             </section>
             <!-- Informations supplémentaires -->
             <section>
                 <!-- Température actuelle -->
-                <article class="flex-container-general-temperature separation separation-top">
+                <article class="flex-container-temp separator top-separator">
                     <!-- Titre et description -->
                     <section>
                         <h3>Maintenant</h3>
                         <p>Température actuelle</p>
                     </section>
                     <!-- Valeur -->
-                    <p class="temp-centrer" id="nowExt">00&deg;C</p>
+                    <p class="temp-center" id="outdoor-now">00&deg;C</p>
                 </article>
                 <!-- Température maximale -->
-                <article class="flex-container-general-temperature marge separation">
+                <article class="flex-container-temp margin separator">
                     <!-- Titre et description -->
                     <section>
                         <h3>Maximale</h3>
                         <p>Température maximale enregistrée</p>
                     </section>
                     <!-- Valeur -->
-                    <p class="temp-centrer" id="maxExt">00&deg;C</p>
+                    <p class="temp-center" id="outdoor-max">00&deg;C</p>
                 </article>
                 <!-- Température minimale -->
-                <article class="flex-container-general-temperature separation">
+                <article class="flex-container-temp separator">
                     <!-- Titre et description -->
                     <section>
                         <h3>Minimale</h3>
                         <p>Température minimale enregistrée</p>
                     </section>
                     <!-- Valeur -->
-                    <p class="temp-centrer" id="minExt">00&deg;C</p>
+                    <p class="temp-center" id="outdoor-min">00&deg;C</p>
                 </article>
             </section>
         </article>
     </section>
     <!-- Comparaison des 2 capteurs -->
-    <article class="decoration-top" id="boiteComparaison">
+    <article class="topbar" id="comparison-box">
         <!-- Titre -->
         <h2>Comparaison</h2>
         <!-- Diagramme de comparaison -->
-        <article class="diagrammeComparaison">
-            <canvas id="DiagrammeComparaison"></canvas>
+        <article class="comparison-chart">
+            <canvas id="comparison"></canvas>
         </article>
     </article>
 </main>

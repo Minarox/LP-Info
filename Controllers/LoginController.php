@@ -8,11 +8,11 @@ use App\Core\System\Controller;
 use App\Core\Classes\{Token, Validator};
 use App\Models\UsersModel;
 
-final class ConnexionController extends Controller
+final class LoginController extends Controller
 {
     public function index()
     {
-        $this->render(name_file: 'hothothot/pages/connexion');
+        $this->render(name_file: 'account/login', title: 'Connexion');
     }
 
     public function loginSystem()

@@ -30,7 +30,7 @@ class Google_Service_AndroidPublisher_Resource_Internalappsharingartifacts exten
    * client libraries, please increase the timeout of the http request before
    * calling this endpoint (a timeout of 2 minutes is recommended). See [Timeouts
    * and Errors](https://developers.google.com/api-client-library/java/google-api-
-   * java-client/errors) for an example in java.
+   * java-client/error) for an example in java.
    * (internalappsharingartifacts.uploadapk)
    *
    * @param string $packageName Package name of the app.
@@ -48,7 +48,7 @@ class Google_Service_AndroidPublisher_Resource_Internalappsharingartifacts exten
    * API client libraries, please increase the timeout of the http request before
    * calling this endpoint (a timeout of 2 minutes is recommended). See [Timeouts
    * and Errors](https://developers.google.com/api-client-library/java/google-api-
-   * java-client/errors) for an example in java.
+   * java-client/error) for an example in java.
    * (internalappsharingartifacts.uploadbundle)
    *
    * @param string $packageName Package name of the app.

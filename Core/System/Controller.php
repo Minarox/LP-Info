@@ -13,7 +13,7 @@ abstract class Controller
         if (session_status() == PHP_SESSION_NONE) session_start();
     }
 
-    protected function render(string $name_file, array $params = [], string $template = 'base')
+    protected function render(string $name_file, array $params = [], string $template = 'base', string $title = 'Accueil')
     {
         extract($params);
 

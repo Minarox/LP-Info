@@ -9,11 +9,11 @@ abstract class Config
     public static function loadConfig()
     {
         // Initialisation config file
-        $config = parse_ini_file(dirname(__DIR__,2). DIRECTORY_SEPARATOR . 'config.ini');
+        $config = parse_ini_file(dirname(__DIR__,2) . '/config.ini');
 
         // Public sources path
-        define('VIEWS', dirname(__DIR__,2) . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR);
-        define('SCRIPTS', dirname($_SERVER['SCRIPT_NAME']) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR);
+        define('VIEWS', dirname(__DIR__,2) . '/Views/');
+        define('SCRIPTS', dirname($_SERVER['SCRIPT_NAME']) . '/assets/');
         define('APP', dirname(__DIR__,2));
 
         // Database params

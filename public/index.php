@@ -25,17 +25,17 @@ $router = new Router($_GET['url']);
 
 // Path Route
 $router->add('/', 'HomeController');
-$router->add('/parametrage', 'ParamController');
-$router->add('/profil', 'ProfilController');
-$router->add('/connexion', 'ConnexionController');
-$router->add('/inscription', 'InscriptionController');
-$router->add('/documentation', 'DocumentationController');
-$router->add('/recuperation', 'RecuperationController');
-$router->add('/deconnexion', 'DeconnexionController');
+$router->add('/settings', 'SettingsController');
+$router->add('/account', 'ProfileController');
+$router->add('/login', 'LoginController');
+$router->add('/register', 'RegisterController');
+$router->add('/help', 'HelpController');
+$router->add('/recovery', 'RecoveryController');
+$router->add('/logout', 'LogoutController');
 
 // Ajax path route
-$router->add('/ajax/loginSystem', 'ConnexionController::loginSystem', 'POST');
-$router->add('/ajax/signUpSystem', 'InscriptionController::signUpSystem', 'POST');
+$router->add('/ajax/loginSystem', 'LoginController::loginSystem', 'POST');
+$router->add('/ajax/signUpSystem', 'RegisterController::signUpSystem', 'POST');
 
 try {
     $router->run();

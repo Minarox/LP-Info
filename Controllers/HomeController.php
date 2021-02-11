@@ -11,6 +11,6 @@ final class HomeController extends Controller
 {
     public function index()
     {
-        $this->render(name_file: 'hothothot/index');
+        $this->render(name_file: 'home', title: 'Accueil');
     }
 }
