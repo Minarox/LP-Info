@@ -1,4 +1,4 @@
-<main class="container-fluid mt-4 mb-5">
+<main class="container-fluid">
     <!-- Inscription -->
     <section class="box small-w">
         <!-- Titre et redirection vers connexion -->

@@ -24,7 +24,6 @@
                     <canvas id="indoor-dot"></canvas>
                     &nbsp;Capteur intérieur
                 </h2>
-
                 <!-- Diagramme du capteur -->
                 <article class="charts">
                     <canvas id="indoor-charts"></canvas>

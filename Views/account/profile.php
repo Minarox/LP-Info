@@ -1,48 +1,47 @@
-<main class="container-fluid mt-4">
+<main class="container-lg">
     <!-- Boite principale -->
-    <section class="box medium-w">
-        <!--        <section>-->
-        <!--            <img class="margin-top" id="profil-picture" src="--><?//= SCRIPTS . 'images/profil-picture.png' ?><!--" alt="Image de profil du compte.">-->
-        <!--            <form enctype="multipart/form-data" action="" method="post">-->
-        <!--                <button id="edit" type="submit">Modifier</button>-->
-        <!--            </form>-->
-        <!--        </section>-->
-        <!-- Titre -->
-        <h1 class="box-title text-center">Votre profil</h1>
-        <!-- Formulaire -->
-        <form action="" method="post">
-            <!-- Zones de saisie -->
+    <section class="row large-w box">
+        <section class="col-2 align-self-center">
+            <img id="profil-picture" src="<?= $_SESSION['avatar'] ?>" alt="Image de profil du compte.">
+        </section>
+        <section class="col-10">
+            <!-- Titre -->
+            <h1 class="box-title">Votre profil</h1>
             <hr>
-            <!-- Prénom -->
-            <label for="prenom">Prénom</label>
-            <input class="form-control" type="text" name="prenom" id="prenom" placeholder="Jean" maxlength="26" required>
-            <!-- Nom -->
-            <label for="nom">Nom</label>
-            <input class="form-control" type="text" name="nom" id="nom" placeholder="Dupont" maxlength="12" required>
-            <!-- Email -->
-            <label for="email">Email</label>
-            <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" required>
-            <!-- Nouveau mot de passe -->
-            <label for="password">Nouveau mot de passe</label>
-            <input class="form-control" type="password" name="password" id="password" placeholder="***********" maxlength="99" required>
-            <!-- Vérification du nouveau mot de passe -->
-            <label for="password-verify">Vérification du nouveau mot de passe</label>
-            <input class="form-control" type="password" name="password-verify" id="password-verify" placeholder="***********" maxlength="99" required>
-            <hr>
-            <!-- Boutons de navigation -->
-            <button type="submit">Modifier</button>
-            <a class="button" href="<?= ROOT ?>">
-                <button id="" type="button">
-                    Retour
-                </button>
-            </a>
-            <a class="button" href="#" onclick="show()">
-                <button id="" type="button">
-                    Supprimer le compte
-                </button>
-            </a>
-        </form>
-
+            <article class="row">
+                <section class="col-6">
+                    <div>
+                        <h2>Prénom :</h2>
+                        <p><?= $_SESSION['first_name'] ?></p>
+                    </div>
+                    <div>
+                        <h2>Nom :</h2>
+                        <p><?= $_SESSION['last_name'] ?></p>
+                    </div>
+                </section>
+                <section class="col-6">
+                    <div>
+                        <h2>Email :</h2>
+                        <p><?= $_SESSION['email'] ?></p>
+                    </div>
+                    <div>
+                        <h2>Date de création :</h2>
+                        <p><?= $_SESSION['created_at'] ?></p>
+                    </div>
+                </section>
+            </article>
+        </section>
+        <hr>
+        <a class="button" href="<?= ROOT ?>">
+            <button id="" type="button">
+                Modifier
+            </button>
+        </a>
+        <a class="button" href="#" onclick="show()">
+            <button id="" type="button">
+                Supprimer le compte
+            </button>
+        </a>
     </section>
     <article id="overlay">
         <section class="box small-w">

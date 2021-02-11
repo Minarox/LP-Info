@@ -14,10 +14,14 @@ body {
     background-color: #1E1E2E;
     font-family: "Roboto", Arial, Helvetica, sans-serif;
     color: white;
-    background-image: url("../images/dog.jpg");
-    background-position: top;
-    background-position-y: -200px;
-    background-repeat: repeat;
+    /*background-image: url("../images/dog.jpg");*/
+    /*background-position: top;*/
+    /*background-position-y: -200px;*/
+    /*background-repeat: repeat;*/
+}
+
+main {
+    margin: 20px 0 70px;
 }
 
 
@@ -82,7 +86,7 @@ nav hr {
     align-items: stretch;
     width: 100vw;
     background-color: #27293D;
-    margin: 14px 1%;
+    margin: 0 1% 14px;
     border-radius: 8px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
     padding: 5px 1% 5px 1%;
@@ -335,6 +339,12 @@ nav hr {
     margin-left: auto;
 }
 
+.large-w {
+    max-width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 .box-title {
     font-size: 1.6em;
     font-weight: bold;
@@ -362,19 +372,41 @@ form {
 
 form a, form a:hover {
     color: white;
-    margin-top: -5px;
 }
 
-form button {
+form button, .button button {
     width: 100%;
+    margin-bottom: 10px;
     padding: 6px;
     border-radius: 4px;
     border: 0;
     background: linear-gradient(to right, #593EC2, #7E3EC2);
 }
 
-form button:last-child {
-    margin-top: 10px;
+#profil-picture {
+    border-radius: 50%;
+    width: 128px;
+    height: 128px;
+}
+
+.row form {
+    padding: 0;
+}
+
+.row div {
+    padding-bottom: 16px;
+}
+
+.row div:last-child {
+    padding-bottom: 0;
+}
+
+.row h2 {
+    font-size: 1.3em;
+}
+
+.row p {
+    margin-bottom: 10px;
 }
 
 #overlay {
@@ -398,8 +430,9 @@ form button:last-child {
 }
 
 #overlay button {
-    margin: 10px 0 0;
+    margin-bottom: 10px;
 }
+
 
 @media only screen and (max-width: 460px) {
     form {
@@ -428,6 +461,7 @@ form button:last-child {
 /* --- FOOTER --- */
 /* -------------- */
 footer {
+    padding: 15px;
     position: fixed;
     text-align: center;
     font-size: 13px;
@@ -435,4 +469,13 @@ footer {
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer a, footer a:hover {
+    color: white;
+    text-decoration: none;
 }
