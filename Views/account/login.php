@@ -16,7 +16,7 @@
             <!-- Mot de passe -->
             <label for="password">Mot de passe</label>
             <input class="form-control" type="password" name="password" id="password" placeholder="*************" required>
-            <a id="oublie-mdp" href="#" onclick="show()">Mot de passe oublié ?</a>
+            <a id="oublie-mdp" href="" onclick="show()">Mot de passe oublié ?</a>
             <section id="error_messages"></section>
             <hr>
             <!-- Se connecter -->

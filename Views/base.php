@@ -45,7 +45,7 @@
                                         <?= $_SESSION['first_name'] . '&nbsp;' . $_SESSION['last_name'] ?>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="dropdown">
-                                        <li><a class="dropdown-item" href="<?= ROOT ?>profil">Profil</a></li>
+                                        <li><a class="dropdown-item" href="<?= ROOT ?>account">Profil</a></li>
                                         <li><a class="dropdown-item" href="<?= ROOT ?>logout">Logout</a></li>
                                     </ul>
                                 <?php else: ?>
@@ -63,7 +63,7 @@
                                     <?= $_SESSION['first_name'] . '&nbsp;' . $_SESSION['last_name'] ?>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdown">
-                                    <li><a class="dropdown-item" href="<?= ROOT ?>profil">Profil</a></li>
+                                    <li><a class="dropdown-item" href="<?= ROOT ?>account">Profil</a></li>
                                     <li><a class="dropdown-item" href="<?= ROOT ?>logout">Logout</a></li>
                                 </ul>
                             <?php else: ?>
