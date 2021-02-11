@@ -28,9 +28,9 @@ class Google_Service_Classroom_Resource_CoursesStudents extends Google_Service_R
   /**
    * Adds a user as a student of a course. This method returns the following error
    * codes: * `PERMISSION_DENIED` if the requesting user is not permitted to
-   * create students in this course or for access errors. * `NOT_FOUND` if the
+   * create students in this course or for access error. * `NOT_FOUND` if the
    * requested course ID does not exist. * `FAILED_PRECONDITION` if the requested
-   * user's account is disabled, for the following request errors: *
+   * user's account is disabled, for the following request error: *
    * CourseMemberLimitReached * CourseNotModifiable *
    * UserGroupsMembershipLimitReached * `ALREADY_EXISTS` if the user is already a
    * student or teacher in the course. (students.create)
@@ -55,7 +55,7 @@ class Google_Service_Classroom_Resource_CoursesStudents extends Google_Service_R
   /**
    * Deletes a student of a course. This method returns the following error codes:
    * * `PERMISSION_DENIED` if the requesting user is not permitted to delete
-   * students of this course or for access errors. * `NOT_FOUND` if no student of
+   * students of this course or for access error. * `NOT_FOUND` if no student of
    * this course has the requested ID or if the course does not exist.
    * (students.delete)
    *
@@ -77,7 +77,7 @@ class Google_Service_Classroom_Resource_CoursesStudents extends Google_Service_R
   /**
    * Returns a student of a course. This method returns the following error codes:
    * * `PERMISSION_DENIED` if the requesting user is not permitted to view
-   * students of this course or for access errors. * `NOT_FOUND` if no student of
+   * students of this course or for access error. * `NOT_FOUND` if no student of
    * this course has the requested ID or if the course does not exist.
    * (students.get)
    *
@@ -99,7 +99,7 @@ class Google_Service_Classroom_Resource_CoursesStudents extends Google_Service_R
   /**
    * Returns a list of students of this course that the requester is permitted to
    * view. This method returns the following error codes: * `NOT_FOUND` if the
-   * course does not exist. * `PERMISSION_DENIED` for access errors.
+   * course does not exist. * `PERMISSION_DENIED` for access error.
    * (students.listCoursesStudents)
    *
    * @param string $courseId Identifier of the course. This identifier can be

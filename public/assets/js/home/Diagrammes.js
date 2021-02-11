@@ -1,5 +1,5 @@
 // Appel au fichier JSON du capteur intérieur
-function interieur() {
+function indoor() {
     // Appel AJAX
     $.ajax({
         // URL et format du fichier
@@ -16,10 +16,10 @@ function interieur() {
             var dateAnt = result.Donnees[length-1].Date
             // Lecture de l'état du capteur et modification des éléments
             if (result.Etat === false) {
-                $("#dotInt").css("background-color", "red")
-                var text = $("#etatInt").text()
-                $("#etatInt").text(text.replace("Actif", "Inactif"))
-                $("#etatInt").css({"--main-color": "red"})
+                $("#indoor-dot").css("background-color", "red")
+                var text = $("#indoor-state").text()
+                $("#indoor-state").text(text.replace("Actif", "Inactif"))
+                $("#indoor-state").css({"--main-color": "red"})
             }
             // Récupération des données de températures avec heures associées
             for (let i = result.Donnees[length].Temperatures.length - 11; i < result.Donnees[length].Temperatures.length; i++) {
@@ -37,23 +37,23 @@ function interieur() {
             $("#maxInt").text(Math.max(...data)+"°C")
             $("#minInt").text(Math.min(...data)+"°C")
             // Appel à la fonction permettant de générer le diagramme
-            DiagrammeInterieur(data, labels, date, dateAnt)
+            indoorChart(data, labels, date, dateAnt)
         },
         // Lorsque le fichier est indisponible ou illisible :
         error: function (err) {
             // Affichage d'une erreur dans la console
             console.log("[Erreur] Impossible de lire les données du capteur intérieur.")
             // Modification des éléments définissant l'état du capteur
-            $("#dotInt").css("background-color", "red")
-            var text = $("#etatInt").text()
-            $("#etatInt").text(text.replace("Actif", "Données indisponibles"))
-            $("#etatInt").css({"--main-color": "red", "width": "120px"})
+            $("#indoor-dot").css("background-color", "red")
+            var text = $("#indoor-state").text()
+            $("#indoor-state").text(text.replace("Actif", "Données indisponibles"))
+            $("#indoor-state").css({"--main-color": "red", "width": "120px"})
         }
     })
 }
 
 // Appel au fichier JSON du capteur extérieur
-function exterieur() {
+function outdoor() {
     // Appel AJAX
     $.ajax({
         // URL et format du fichier
@@ -70,10 +70,10 @@ function exterieur() {
             var dateAnt = result.Donnees[length-1].Date
             // Lecture de l'état du capteur et modification des éléments
             if (result.Etat === false) {
-                $("#dotExt").css("background-color", "red")
-                var text = $("#etatExt").text()
-                $("#etatExt").text(text.replace("Actif", "Inactif"))
-                $("#etatExt").css({"--main-color": "red"})
+                $("#outdoor-state").css("background-color", "red")
+                var text = $("#outdoor-state").text()
+                $("#outdoor-state").text(text.replace("Actif", "Inactif"))
+                $("#outdoor-state").css({"--main-color": "red"})
             }
             // Récupération des données de températures avec heures associées
             for (let i = result.Donnees[length].Temperatures.length - 11; i < result.Donnees[length].Temperatures.length; i++) {
@@ -91,23 +91,23 @@ function exterieur() {
             $("#maxExt").text(Math.max(...data)+"°C")
             $("#minExt").text(Math.min(...data)+"°C")
             // Appel à la fonction permettant de générer le diagramme
-            DiagrammeExterieur(data, labels, date, dateAnt)
+            outdoorChart(data, labels, date, dateAnt)
         },
         // Lorsque le fichier est indisponible ou illisible :
         error: function (err) {
             // Affichage d'une erreur dans la console
             console.log("[Erreur] Impossible de lire les données du capteur extérieur.")
             // Modification des éléments définissant l'état du capteur
-            $("#dotExt").css("background-color", "red")
-            var text = $("#etatExt").text()
-            $("#etatExt").text(text.replace("Actif", "Données indisponibles"))
-            $("#etatExt").css({"--main-color": "red", "width": "120px"})
+            $("#outdoor-state").css("background-color", "red")
+            var text = $("#outdoor-state").text()
+            $("#outdoor-state").text(text.replace("Actif", "Données indisponibles"))
+            $("#outdoor-state").css({"--main-color": "red", "width": "120px"})
         }
     })
 }
 
 // Appel aux fichiers JSON pour la comparaison des données
-function comparaisonInt() {
+function comparison() {
     // Appel AJAX du premier capteur
     $.ajax({
         // URL et format du fichier
@@ -145,14 +145,14 @@ function comparaisonInt() {
                         }
                     }
                     // Appel à la fonction permettant de générer le diagramme
-                    DiagrammeComparaison(dataInt, dataExt, labels)
+                    comparisonChart(dataInt, dataExt, labels)
                 },
                 // Lorsque le fichier est indisponible ou illisible :
                 error: function (err) {
                     // Affichage d'une erreur dans la console
                     console.log("[Erreur] Données du capteur extérieur indisponible.")
                     // Appel à la fonction permettant de générer le diagramme
-                    DiagrammeComparaison(dataInt, [], labels)
+                    comparisonChart(dataInt, [], labels)
                 }
             })
         },
@@ -181,7 +181,7 @@ function comparaisonInt() {
                         }
                     }
                     // Appel à la fonction permettant de générer le diagramme
-                    DiagrammeComparaison([], dataExt, labelsExt)
+                    comparisonChart([], dataExt, labelsExt)
                 },
                 error: function (err) {
                     // Affichage d'une erreur dans la console
@@ -192,14 +192,14 @@ function comparaisonInt() {
     })
 }
 
-// Couleur et police d'écriture par défaut des diagrammes
+// Couleur et police d'écriture par défaut des charts
 Chart.defaults.global.defaultFontColor = 'white'
 Chart.defaults.global.defaultFontFamily = '"Roboto", "Arial", "Helvetica", "sans-serif"'
 
 // Diagramme du capteur intérieur
-function DiagrammeInterieur(data, labels, date, dateAnt) {
+function indoorChart(data, labels, date, dateAnt) {
     // Balise à cibler pour afficher le graphique
-    var ctx = document.getElementById("DiagrammeInterieur").getContext('2d')
+    var ctx = document.getElementById("indoor-charts").getContext('2d')
     // Dégradé de couleur des barres du graphique
     var degradeCouleur = ctx.createLinearGradient(0, 230, 0, 50);
     degradeCouleur.addColorStop(1, 'rgba(29,140,248,0.3)');
@@ -240,9 +240,9 @@ function DiagrammeInterieur(data, labels, date, dateAnt) {
 }
 
 // Diagramme du capteur extérieur
-function DiagrammeExterieur(data, labels, date, dateAnt) {
+function outdoorChart(data, labels, date, dateAnt) {
     // Balise à cibler pour afficher le graphique
-    var ctx = document.getElementById("DiagrammeExterieur").getContext('2d')
+    var ctx = document.getElementById("outdoor-charts").getContext('2d')
     // Dégradé de couleur des barres du graphique
     var degradeCouleur = ctx.createLinearGradient(0, 230, 0, 50);
     degradeCouleur.addColorStop(1, 'rgba(72,72,176,0.3)');
@@ -283,9 +283,9 @@ function DiagrammeExterieur(data, labels, date, dateAnt) {
 }
 
 // Diagramme de comparaison des capteurs
-function DiagrammeComparaison(dataInt, dataExt, labels) {
+function comparisonChart(dataInt, dataExt, labels) {
     // Balise à cibler pour afficher le graphique
-    var ctx = document.getElementById("DiagrammeComparaison").getContext('2d')
+    var ctx = document.getElementById("comparison").getContext('2d')
     // Génération du diagramme avec les données
     new Chart(ctx, {
         type: 'line',
@@ -314,7 +314,7 @@ function DiagrammeComparaison(dataInt, dataExt, labels) {
     })
 }
 
-// Appels des fonctions pour afficher les diagrammes
-interieur()
-exterieur()
-comparaisonInt()
+// Appels des fonctions pour afficher les charts
+indoor()
+outdoor()
+comparison()

@@ -85,7 +85,7 @@ class Google_Service_GoogleAnalyticsAdmin_Resource_Accounts extends Google_Servi
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of resources to return. The
-   * service may return fewer than this value, even if there are additional pages.
+   * service may return fewer than this value, even if there are additional other.
    * If unspecified, at most 50 resources will be returned. The maximum value is
    * 200; (higher values will be coerced to the maximum)
    * @opt_param string pageToken A page token, received from a previous

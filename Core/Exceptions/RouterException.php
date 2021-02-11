@@ -11,6 +11,6 @@ final class RouterException extends Exception
     public function error404()
     {
         http_response_code(404);
-        require_once VIEWS . 'errors/404.php';
+        require_once VIEWS . 'error/404.php';
     }
 }

@@ -1,12 +1,14 @@
 <!-- Contenu de la page -->
-<main class="flex-container-boite decoration-top">
+<main class="flex-container-boite topbar">
     <!-- Boite principale -->
-    <section class="flex-container-general stretch boite">
+    <section class="flex-container stretch boite">
         <section>
-            <img class="margin-top" id="profil-picture" src="<?= SCRIPTS . 'images' . DIRECTORY_SEPARATOR . 'profil-picture.png' ?>" alt="Image de profil du compte.">
-
+            <img class="margin-top" id="profil-picture" src="<?= SCRIPTS . 'images/profil-picture.png' ?>" alt="Image de profil du compte.">
+            <form enctype="multipart/form-data" action="" method="post">
+                <button id="edit" type="submit">Modifier</button>
+            </form>
         </section>
-        <section class="margin-top separation max-width">
+        <section class="margin-top separator max-width">
             <!-- Titre -->
             <h1 class="no-marge">Votre profil</h1>
             <hr>
@@ -41,7 +43,7 @@
         </section>
     </section>
     <article id="overlay">
-        <section class="flex-container-identification decoration-top">
+        <section class="flex-container-identification topbar">
             <!-- Titre -->
             <h1>Voulez-vous vraiment supprimer votre compte ?</h1>
             <hr id="separateur">
