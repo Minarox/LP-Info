@@ -24,6 +24,7 @@ abstract class Config
 
         // Root Path
         $config['db_pass'] = define('ROOT', $config['root_path']);
+        $config['app_url'] = define('APP_URL', $config['app_url']);
 
         // Debug
         $config['debug'] = define('DEBUG', $config['debug'] ? true : false);

@@ -479,3 +479,7 @@ footer a, footer a:hover {
     color: white;
     text-decoration: none;
 }
+
+.alert-success strong {
+    color: #0f5132;
+}
