@@ -14,11 +14,6 @@ class Validator
     /**
      * @var array
      */
-    private array $data;
-
-    /**
-     * @var array
-     */
     private array $errors = [];
 
     /**
@@ -36,7 +31,7 @@ class Validator
     public const INT_REGEX = '[0-9]+';
     public const TEL_REGEX = '^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$';
     public const ALPHA_REGEX = '[\p{L}]+';
-    public const ALPHANUM_REGEX = '[\p{L}0-9]+';
+    public const ALPHA_NUM_REGEX = '[\p{L}0-9]+';
 
     /**
      * @var array[]
@@ -48,16 +43,18 @@ class Validator
         'int' => [self::INT_REGEX, FILTER_VALIDATE_INT],
         'float' => [self::FLOAT_REGEX, FILTER_VALIDATE_FLOAT],
         'alpha' => [self::ALPHA_REGEX],
-        'alphanum' => [self::ALPHANUM_REGEX]
+        'alpha_num' => [self::ALPHA_NUM_REGEX]
     );
 
     /**
      * Validator constructor.
      * @param array $data
      */
-    public function __construct(array $data)
+    public function __construct(
+        private array $data
+    )
     {
-        $this->data = $data;
+
     }
 
     /**
@@ -110,9 +107,7 @@ class Validator
         foreach ($errorMessage as $name => $message) {
             $arrayKey = str_replace(".", "", strstr($name, '.'));
             $name = strstr($name, '.', true);
-            if (!empty($this->data) && !$this->isSuccess() && $this->customErrors[$name][$arrayKey]) {
-                $this->errors[$name][$arrayKey] = $message;
-            }
+            if (!empty($this->data) && !$this->isSuccess() && $this->customErrors[$name][$arrayKey]) $this->errors[$name][$arrayKey] = $message;
         }
     }
 
@@ -276,9 +271,7 @@ class Validator
     {
         foreach ($values as $key => $value) {
             if (array_key_exists($key, $this->data) && $value !== null) {
-                if ($value === $this->data[$key]) {
-                    return true;
-                }
+                if ($value === $this->data[$key]) return true;
             }
         }
 
@@ -304,11 +297,9 @@ class Validator
         $submitButton = array_pop($this->data);
 
         if ($submit) {
-            if (isset($_POST[$submit]))
-                return true;
+            if (isset($_POST[$submit])) return true;
         } else {
-            if (isset($submitButton))
-                return true;
+            if (isset($submitButton)) return true;
         }
 
         return false;
@@ -322,8 +313,7 @@ class Validator
     public function displayErrors(array $message = null): ?array
     {
         if ($message) {
-            foreach ($message as $key => $value)
-                $this->errors['others'] = $message;
+            foreach ($message as $key => $value) $this->errors['others'] = $message;
         }
 
         return $this->errors;
@@ -334,7 +324,7 @@ class Validator
      * @param string $data
      * @return string
      */
-    #[Pure] public static function validInput(string $data): string
+    #[Pure] public static function filterInput(string $data): string
     {
         $data = trim($data);
         $data = stripslashes($data);

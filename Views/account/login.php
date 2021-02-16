@@ -1,4 +1,5 @@
 <main class="container-fluid">
+    <?php include_once __DIR__ . '/../message/message.php' ?>
     <!-- Connexion -->
     <section class="box small-w">
         <!-- Titre et redirection vers inscription -->
@@ -20,10 +21,14 @@
             <section id="error_messages">
                 <?php
                 if (isset($error_message)) {
-                    foreach ($error_message as $errorArray) {
-                        foreach ($errorArray as $error) {
-                            echo "<li>$error</li>";
+                    if (is_array($error_message)) {
+                        foreach ($error_message as $errorArray) {
+                            foreach ($errorArray as $error) {
+                                echo "<li>$error</li>";
+                            }
                         }
+                    } else {
+                        echo "<li>$error_message</li>";
                     }
                 }
                 ?>
