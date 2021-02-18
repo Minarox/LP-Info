@@ -4,41 +4,41 @@
 namespace App\Core\System;
 
 
+use App\Core\Classes\SuperGlobals\Cookie;
+use App\Core\Classes\SuperGlobals\Session;
 use JetBrains\PhpStorm\NoReturn;
 
 abstract class Controller
 {
+
     public function __construct()
     {
         if (session_status() == PHP_SESSION_NONE) session_start();
+
+        if (isset($_COOKIE['token'])) Cookie::set('token', Session::get('token'));
+
+        if (!isset($_COOKIE['token']) && isset($_SESSION['token'])) {
+            $this->addFlash('error', 'Vous avez été déconnectée pour inactivité !');
+            Session::delete();
+        }
     }
 
     protected function render(string $name_file, array $params = [], string $template = 'base', string $title = 'Accueil')
     {
         extract($params);
 
-        $this->startBuffer();
+        ob_start();
 
         require_once VIEWS . "$name_file.php";
 
-        isset($content) ?: $content = $this->endBuffer();
+        isset($content) ?: $content = ob_get_clean();
 
         require_once VIEWS . "$template.php";
     }
 
-    private function startBuffer(): bool
+    #[NoReturn] protected function redirect(string $header, bool $replace = false, int $response_code = 0)
     {
-        return ob_start();
-    }
-
-    private function endBuffer(): bool|string
-    {
-        return ob_get_clean();
-    }
-
-    #[NoReturn] protected function redirect(string $url)
-    {
-        header("Location: $url");
+        header("Location: $header", $replace, $response_code);
         die();
     }
 
@@ -47,8 +47,8 @@ abstract class Controller
         echo json_encode($json);
     }
 
-    protected  function sessionDestroy()
+    protected function addFlash(string $alert_type, string $message)
     {
-        if (session_status() == PHP_SESSION_ACTIVE) session_destroy();
+        Session::set($alert_type, $message);
     }
 }

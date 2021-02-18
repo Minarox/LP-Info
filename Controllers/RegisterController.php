@@ -6,19 +6,25 @@ namespace App\Controllers;
 
 
 use App\Core\System\Controller;
-use App\Core\Classes\{Session, Token, Validator};
-use App\Models\{RolesModel, UsersModel};
+use App\Core\Classes\SuperGlobals\Session;
+use App\Core\Classes\Validator;
+use App\Core\Classes\Token;
+use App\Models\UsersModel;
+use App\Models\RolesModel;
 
 final class RegisterController extends Controller
 {
     public function index()
     {
+        if (isset($_COOKIE['token'])) ErrorController::error404();
+
         $user = new UsersModel();
         $role = new RolesModel();
         $validator = new Validator($_POST);
         $session = new Session();
 
         if ($validator->isSubmitted()) {
+
             $information = $user->findOneBy([
                 'email' => $_POST['email'] ??= null
             ]);
@@ -39,13 +45,12 @@ final class RegisterController extends Controller
 
             if ($validator->isSuccess() && !$matchValue) {
                 $token = Token::generate(15);
-
-                $user->setLastName(Validator::filterInput($_POST['last_name']));
-                $user->setfirstName(Validator::filterInput($_POST['first_name']));
-                $user->setEmail(Validator::filterInput($_POST['email']));
-                $user->setPassword(password_hash($_POST['password'], PASSWORD_BCRYPT));
+                $user->setLastName(Validator::filter($_POST['last_name']));
+                $user->setfirstName(Validator::filter($_POST['first_name']));
+                $user->setEmail(Validator::filter($_POST['email']));
+                $user->setPassword(password_hash($_POST['password'], PASSWORD_ARGON2I));
                 $user->setRoleId($loginRole['id']);
-                $user->setToken(hash('sha512', $token));
+                $user->setToken($token);
                 $user->create();
 
                 $header = "From : noreply@hothothot.fr\n";
@@ -53,24 +58,23 @@ final class RegisterController extends Controller
                 $header .= "Content-type: text/html; charset=utf-8\n";
                 $header .= "Content-Transfer-Encoding: 8bit\n";
 
-                $content = file_get_contents(__DIR__ . '/../Views/email/register.php');
+                ob_start();
+                include_once __DIR__ . '/../Views/email/register.php';
+                $content = ob_get_clean();
 
-                if (!mail(Validator::filterInput($_POST['email']), 'Votre Inscription chez HotHotHot !', $content, $header)) {
-                    $session->set('error', "L'e-mail n'a pas pu être envoyé !");
+                if (!mail(Validator::filter($_POST['email']), 'Votre Inscription chez HotHotHot !', $content, $header)) {
+                    $this->addFlash('error', "L'e-mail de confirmation du compte pas pu être envoyé !");
                 } else {
-                    $session->set('success', "Un email de confirmation vous a été envoyé à l'adresse e-mail : {$_POST['email']}");
-                    $this->redirect('/login');
+                    $this->addFlash('success', "Un email de confirmation vous a été envoyé à l'adresse e-mail : {$_POST['email']}");
+                    $this->redirect(header: '/login', response_code: 301);
                 }
-
-//                foreach ($_POST as $k => $v) $session->set($k, $v);
-//                $session->set('token', $token);
-//                $this->redirect('/');
-
             } else {
-                $error_message = $validator->displayErrors();
+                $error = $validator->displayErrors();
             }
         }
 
-        $this->render(name_file: 'account/register', params: ['error_message'=>$error_message ??= null], title: 'Inscription');
+        $this->render(name_file: 'account/register', params: [
+            'error'=> $error ??= null
+        ], title: 'Inscription');
     }
 }

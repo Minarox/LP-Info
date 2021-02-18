@@ -480,6 +480,13 @@ footer a, footer a:hover {
     text-decoration: none;
 }
 
-.alert-success strong {
-    color: #0f5132;
-}
+/* Pour mettre les alert en absolute ( au cas où hein Mathis ) */
+/*
+.alert {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    z-index: 1;
+}*/

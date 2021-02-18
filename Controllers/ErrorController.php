@@ -9,8 +9,9 @@ use App\Core\System\Controller;
 
 final class ErrorController extends Controller
 {
-    public function index()
+    public static function error404()
     {
-        $this->render(name_file: 'error/404', title: 'Erreur');
+        http_response_code(404);
+        (new ErrorController)->render(name_file: 'error/404', title: 'Erreur');
     }
 }

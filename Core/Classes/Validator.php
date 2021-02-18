@@ -319,17 +319,23 @@ class Validator
         return $this->errors;
     }
 
+
     /**
-     * Cleans the data from input
+     * Filter Inputs
      * @param string $data
      * @return string
      */
-    #[Pure] public static function filterInput(string $data): string
+    #[Pure] public static function filter(string $data): string
     {
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
 
         return $data;
+    }
+
+    #[Pure] public static function filterInput($data, $filter)
+    {
+        return filter_input(INPUT_POST, $data, $filter);
     }
 }
