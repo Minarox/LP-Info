@@ -16,8 +16,8 @@ class LogoutController extends Controller
         if (!Cookie::exists('token')) {
             ErrorController::error404();
         } else {
-            Cookie::delete();
-            Session::delete();
+            Cookie::delete('token');
+            Session::delete(restart_session: true);
 
             $this->addFlash('success', "Vous avez été déconnecté avec succès !");
             $this->redirect(header: '/login', response_code: 301);

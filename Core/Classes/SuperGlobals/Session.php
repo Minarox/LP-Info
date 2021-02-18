@@ -18,10 +18,11 @@ class Session implements StoreData
         $_SESSION[$key] = $value;
     }
 
-    public static function delete(string $key = null): void
+    public static function delete(string $key = null, bool $restart_session = false): void
     {
         if (is_null($key)) {
             if (session_status() == PHP_SESSION_ACTIVE) session_destroy();
+            if ($restart_session) session_start();
         } else {
             unset($_SESSION[$key]);
         }
