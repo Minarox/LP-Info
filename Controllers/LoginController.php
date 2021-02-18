@@ -4,25 +4,24 @@
 namespace App\Controllers;
 
 
+use App\Core\Classes\SuperGlobals\Cookie;
+use App\Core\Classes\SuperGlobals\Session;
 use App\Core\System\Controller;
-use App\Core\Classes\{Session, Token, Validator};
+use App\Core\Classes\Validator;
+use App\Core\Classes\Token;
 use App\Models\UsersModel;
 
 final class LoginController extends Controller
 {
-
     public function index()
     {
+        if (isset($_COOKIE['token'])) ErrorController::error404();
+
         $user = new UsersModel();
         $validator = new Validator($_POST);
-        $session = new Session();
-
-        if (isset($_SESSION['success'])) {
-            $message_success = $session->get('success');
-            $session->delete('success');
-        }
 
         if ($validator->isSubmitted()) {
+
             $information = $user->findOneBy([
                 'email' => $_POST['email']
             ]);
@@ -43,25 +42,26 @@ final class LoginController extends Controller
 
             if ($validator->isSuccess() && $matchValue && password_verify($_POST['password'], $information['password'])) {
                 if ($information['is_verified'] == 0) {
-                    $error_message = 'Veuillez vérifier votre compte !';
+                    $error = 'Veuillez vérifier votre compte !';
                 } else {
                     $token = Token::generate(15);
 
-                    $user->setId($information['id']);
-                    $user->setToken(hash('sha512', $token));
-                    $user->update();
+                    $user->setToken($token);
+                    $user->update($information['id']);
 
-                    foreach ($information as $k => $v) $session->set($k, $v);
-                    $session->set('token', $token);
-                    $this->redirect('/');
+                    foreach ($information as $k => $v) Session::set($k, $v);
+                    Cookie::set('token', $token);
+
+                    $this->addFlash('success', "Bienvenue {$information['first_name']} {$information['last_name']} !");
+                    $this->redirect(header: '/', response_code: 301);
                 }
             } else {
-                $error_message = $validator->displayErrors(['Votre email ou votre mot de passe est invalide !']);
+                $error = $validator->displayErrors(['Votre email ou votre mot de passe est invalide !']);
             }
         }
+
         $this->render(name_file: 'account/login', params: [
-            'error_message' => $error_message ??= null,
-            'message_success' => $message_success ??= null,
+            'error' => $error ??= null
         ], title: 'Connexion');
     }
 }

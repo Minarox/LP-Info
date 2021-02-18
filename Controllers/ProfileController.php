@@ -11,6 +11,7 @@ final class ProfileController extends Controller
 {
     public function index()
     {
+        if (!isset($_COOKIE['token'])) ErrorController::error404();
         $this->render(name_file: 'account/profile', title: 'Profil');
     }
 }

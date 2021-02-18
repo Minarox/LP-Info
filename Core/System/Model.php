@@ -15,8 +15,7 @@ abstract class Model
     {
         $db = Database::getPDO();
 
-        if ($params === null)
-            return $db->query($sql);
+        if ($params === null) return $db->query($sql);
 
         $query = $db->prepare($sql);
         $query->execute($params);
@@ -83,7 +82,7 @@ abstract class Model
         return $this->query("INSERT INTO {$this->table} ({$fields_list}) VALUES ({$inter_list})", $values);
     }
 
-    public function update(): bool|PDOStatement
+    public function update(int $id): bool|PDOStatement
     {
         $fields = [];
         $values = [];
@@ -95,11 +94,9 @@ abstract class Model
             }
         }
 
-        $values[] = $this->id;
-
         $fields_list = implode(', ', $fields);
 
-        return $this->query("UPDATE {$this->table} SET {$fields_list} WHERE id = :id", $values);
+        return $this->query("UPDATE {$this->table} SET {$fields_list} WHERE id = $id", $values);
     }
 
     public function delete(int $id): bool|PDOStatement
@@ -112,8 +109,7 @@ abstract class Model
         foreach ($data as $k => $v) {
             $setter = 'set' . ucfirst($k);
 
-            if (method_exists($this, $setter))
-                $this->$setter($v);
+            if (method_exists($this, $setter)) $this->$setter($v);
         }
 
         return $this;

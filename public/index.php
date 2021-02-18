@@ -32,6 +32,7 @@ $router->add('/register', 'RegisterController', ['GET', 'POST']);
 $router->add('/help', 'HelpController');
 $router->add('/recovery', 'RecoveryController');
 $router->add('/logout', 'LogoutController');
+$router->add('/email/register', 'EmailRegisterController', 'POST');
 
 // Ajax path route
 //$router->add('/ajax/loginSystem', 'LoginController::loginSystem', 'POST');

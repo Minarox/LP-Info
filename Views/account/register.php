@@ -25,15 +25,6 @@
             <!-- Vérification du mot de passe -->
             <label for="password_verify">Vérification du mot de passe</label>
             <input class="form-control" type="password" name="password_verify" id="password_verify" placeholder="*************" maxlength="99" required>
-            <section id="error_messages">
-                <?php if (isset($error_message)) {
-                    foreach ($error_message as $errorArray) {
-                        foreach ($errorArray as $error) {
-                            echo "<li>$error</li>";
-                        }
-                    }
-                }?>
-            </section>
             <hr>
             <!-- Bouton de validation -->
             <button id="signUp" type="submit">Inscription</button>

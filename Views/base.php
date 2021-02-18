@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <!-- Titre de la page -->
-    <title><?= $title ?> | Hothothot</title>
+    <title><?= $title ??= null ?> | Hothothot</title>
 
     <!-- CSS -->
     <link rel="icon" href="<?= SCRIPTS . 'images/favicon.ico' ?>">
@@ -42,7 +42,7 @@
                     </li>
                     <li class="nav-item dropdown d-block d-sm-none">
                         <hr class="mt-3">
-                        <?php if (isset($_SESSION['token']) && !empty($_SESSION['token'])): ?>
+                        <?php if (isset($_COOKIE['token']) && !empty($_COOKIE['token'])): ?>
                             <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
                                aria-expanded="false">
                                 <?= $_SESSION['first_name'] . '&nbsp;' . $_SESSION['last_name'] ?>
@@ -70,7 +70,7 @@
                     </li>
                 </ul>
                 <section class="nav-item dropdown d-none d-sm-block">
-                    <?php if (isset($_SESSION['token']) && !empty($_SESSION['token'])): ?>
+                    <?php if (isset($_COOKIE['token']) && !empty($_COOKIE['token'])): ?>
                         <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             <?= $_SESSION['first_name'] . '&nbsp;' . $_SESSION['last_name'] ?>
@@ -104,9 +104,12 @@
         </section>
     </nav>
 </header>
+<section class="container">
+    <?php include_once __DIR__ . '/message/message.php' ?>
+</section>
 
 <!-- Contenu principal -->
-<?= $content = $content ?? null ?>
+<?= $content ??= null ?>
 
 <!-- Bas de page -->
 <footer>
