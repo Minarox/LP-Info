@@ -26,7 +26,8 @@ class Cookie implements StoreData
         if (is_null($key)) {
             foreach ($_COOKIE as $k => $v) setcookie($k, $v, time() - self::$time, null, null, false, true);
         } else {
-            setcookie($key, time() - self::$time, null, null, false, true);
+            setcookie($key);
+            unset($_COOKIE[$key]);
         }
     }
 
