@@ -13,7 +13,7 @@ class LogoutController extends Controller
 {
     #[NoReturn] public function index()
     {
-        if (!isset($_COOKIE['token'])) {
+        if (!Cookie::exists('token')) {
             ErrorController::error404();
         } else {
             Cookie::delete();

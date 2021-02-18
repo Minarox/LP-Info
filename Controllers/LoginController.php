@@ -15,7 +15,7 @@ final class LoginController extends Controller
 {
     public function index()
     {
-        if (isset($_COOKIE['token'])) ErrorController::error404();
+        if (Cookie::exists('token')) ErrorController::error404();
 
         $user = new UsersModel();
         $validator = new Validator($_POST);
