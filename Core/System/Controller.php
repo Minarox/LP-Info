@@ -15,9 +15,9 @@ abstract class Controller
     {
         if (session_status() == PHP_SESSION_NONE) session_start();
 
-        if (isset($_COOKIE['token'])) Cookie::set('token', Session::get('token'));
+        if (Cookie::exists('token')) Cookie::set('token', Session::get('token'));
 
-        if (!isset($_COOKIE['token']) && isset($_SESSION['token'])) {
+        if (!Cookie::exists('token') && Session::exists('token')) {
             $this->addFlash('error', 'Vous avez été déconnectée pour inactivité !');
             Session::delete();
         }

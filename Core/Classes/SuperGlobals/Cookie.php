@@ -12,8 +12,7 @@ class Cookie implements StoreData
 
     #[Pure] public static function get(string $key)
     {
-        if (array_key_exists($key, $_COOKIE)) return $_COOKIE[$key];
-        return false;
+        return array_key_exists($key, $_COOKIE) ? $_COOKIE[$key] : false;
     }
 
     public static function set(string $key, mixed $value, int $time = 15): void
@@ -24,10 +23,15 @@ class Cookie implements StoreData
 
     public static function delete(string $key = null): void
     {
-        if ($key !== null) setcookie($key, time() - self::$time, null, null, false, true);
-
-        foreach ($_COOKIE as $k => $v) {
-            setcookie($k, $v, time() - self::$time, null, null, false, true);
+        if (is_null($key)) {
+            foreach ($_COOKIE as $k => $v) setcookie($k, $v, time() - self::$time, null, null, false, true);
+        } else {
+            setcookie($key, time() - self::$time, null, null, false, true);
         }
+    }
+
+    public static function exists(string $key): bool
+    {
+        return isset($_COOKIE[$key]);
     }
 }

@@ -69,7 +69,7 @@ abstract class Model
         $values = [];
 
         foreach ($this as $k => $v) {
-            if ($v !== null && $k != 'db' && $k != 'table') {
+            if (!is_null($v) && $k != 'db' && $k != 'table') {
                 $fields[] = $k;
                 $inter[] = ":$k";
                 $values[$k] = $v;
@@ -88,7 +88,7 @@ abstract class Model
         $values = [];
 
         foreach ($this as $k => $v) {
-            if ($v !== null && $k != 'db' && $k != 'table') {
+            if (!is_null($v) && $k != 'db' && $k != 'table') {
                 $fields[] = "$k = :$k";
                 $values[$k] = $v;
             }

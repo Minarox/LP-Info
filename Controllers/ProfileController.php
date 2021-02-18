@@ -5,13 +5,14 @@ namespace App\Controllers;
 
 
 
+use App\Core\Classes\SuperGlobals\Cookie;
 use App\Core\System\Controller;
 
 final class ProfileController extends Controller
 {
     public function index()
     {
-        if (!isset($_COOKIE['token'])) ErrorController::error404();
+        if (!Cookie::exists('token')) ErrorController::error404();
         $this->render(name_file: 'account/profile', title: 'Profil');
     }
 }

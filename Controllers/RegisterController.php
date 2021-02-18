@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 
 
+use App\Core\Classes\SuperGlobals\Cookie;
 use App\Core\System\Controller;
 use App\Core\Classes\SuperGlobals\Session;
 use App\Core\Classes\Validator;
@@ -16,7 +17,7 @@ final class RegisterController extends Controller
 {
     public function index()
     {
-        if (isset($_COOKIE['token'])) ErrorController::error404();
+        if (Cookie::exists('token')) ErrorController::error404();
 
         $user = new UsersModel();
         $role = new RolesModel();

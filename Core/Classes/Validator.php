@@ -270,7 +270,7 @@ class Validator
     #[Pure] public function matchValue(array $values): bool
     {
         foreach ($values as $key => $value) {
-            if (array_key_exists($key, $this->data) && $value !== null) {
+            if (array_key_exists($key, $this->data) && !is_null($value)) {
                 if ($value === $this->data[$key]) return true;
             }
         }
@@ -330,6 +330,7 @@ class Validator
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
+        $data = strip_tags($data);
 
         return $data;
     }
