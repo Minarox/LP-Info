@@ -14,19 +14,18 @@ abstract class Config
         // Public sources path
         define('VIEWS', dirname(__DIR__,2) . '/Views/');
         define('SCRIPTS', dirname($_SERVER['SCRIPT_NAME']) . '/assets/');
-        define('APP', dirname(__DIR__,2));
 
         // Database params
-        $config['db_host'] = define('DB_HOST', $config['db_host']);
-        $config['db_name'] = define('DB_NAME', $config['db_name']);
-        $config['db_user'] = define('DB_USER', $config['db_user']);
-        $config['db_pass'] = define('DB_PASS', $config['db_pass']);
+        define('DB_TYPE', $config['db_type']);
+        define('DB_HOST', $config['db_host']);
+        define('DB_NAME', $config['db_name']);
+        define('DB_USER', $config['db_user']);
+        define('DB_PASS', $config['db_pass']);
 
         // Root Path
-        $config['db_pass'] = define('ROOT', $config['root_path']);
-        $config['app_url'] = define('APP_URL', $config['app_url']);
+        define('ROOT', $config['root_path']);
 
         // Debug
-        $config['debug'] = define('DEBUG', $config['debug'] ? true : false);
+        define('DEBUG', $config['debug'] ? true : false);
     }
 }

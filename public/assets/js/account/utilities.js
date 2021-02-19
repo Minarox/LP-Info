@@ -3,20 +3,12 @@ function getId(id) {
     return document.getElementById(id);
 }
 
-if (getId('alert')) {
-    setTimeout(hideAlert,3500);
-}
-
 function show() {
     getId('overlay').style.display = "block";
 
 }
 function hide() {
     getId('overlay').style.display = "none";
-}
-
-function hideAlert() {
-    getId("alert").classList.add("hide-alert");
 }
 
 // A garder !! Pour l'Ajax

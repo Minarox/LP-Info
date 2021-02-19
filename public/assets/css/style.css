@@ -487,10 +487,7 @@ footer a, footer a:hover {
     transform: translate(-50%, -50%);
     width: 1000px;
     z-index: 1;
-}
-
-.hide-alert {
-    animation: hideAlert .5s ease-in forwards;
+    animation: hideAlert .5s ease-in 3s forwards;
 }
 
 @keyframes hideAlert {
@@ -503,4 +500,8 @@ footer a, footer a:hover {
         opacity: 0;
         display: none;
     }
+}
+
+.google-button span {
+    color: #757575 !important;
 }

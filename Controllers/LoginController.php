@@ -53,7 +53,7 @@ final class LoginController extends Controller
                     Cookie::set('token', $token);
 
                     $this->addFlash('success', "Bienvenue {$information['first_name']} {$information['last_name']} !");
-                    $this->redirect(header: '/', response_code: 301);
+                    $this->redirect(header: '', response_code: 301);
                 }
             } else {
                 $error = $validator->displayErrors(['Votre email ou votre mot de passe est invalide !']);
