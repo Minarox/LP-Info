@@ -38,7 +38,7 @@ abstract class Controller
 
     #[NoReturn] protected function redirect(string $header, bool $replace = false, int $response_code = 0)
     {
-        header("Location: $header", $replace, $response_code);
+        header('Location: ' . ROOT . $header, $replace, $response_code);
         die();
     }
 

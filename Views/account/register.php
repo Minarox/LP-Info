@@ -25,6 +25,9 @@
             <!-- Vérification du mot de passe -->
             <label for="password_verify">Vérification du mot de passe</label>
             <input class="form-control" type="password" name="password_verify" id="password_verify" placeholder="*************" maxlength="99" required>
+            <div class="google-button">
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
             <hr>
             <!-- Bouton de validation -->
             <button id="signUp" type="submit">Inscription</button>

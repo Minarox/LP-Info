@@ -20,7 +20,7 @@ class LogoutController extends Controller
             Session::delete(restart_session: true);
 
             $this->addFlash('success', "Vous avez été déconnecté avec succès !");
-            $this->redirect(header: '/login', response_code: 301);
+            $this->redirect(header: 'login', response_code: 301);
         }
     }
 }

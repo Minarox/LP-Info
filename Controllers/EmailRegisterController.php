@@ -4,7 +4,6 @@
 namespace App\Controllers;
 
 
-use App\Core\Classes\SuperGlobals\Session;
 use App\Core\Classes\Token;
 use App\Core\Classes\Validator;
 use App\Core\System\Controller;
@@ -17,7 +16,11 @@ class EmailRegisterController extends Controller
         $validator = new Validator($_POST);
         $user = new UsersModel();
 
-        if ($validator->isSubmitted()) {
+        var_dump('test');
+
+        if ($validator->isSubmitted('account_verification')) {
+
+            var_dump('test');
 
             $information = $user->findOneBy([
                 'token' => $_POST['token_email']
@@ -32,11 +35,11 @@ class EmailRegisterController extends Controller
                 $user->update($information['id']);
 
                 $this->addFlash('success', "Votre compte a bien été vérifié ! Veuillez vous connecter avec vos identifiant :)");
-                $this->redirect(header: '/login', response_code: 301);
+                $this->redirect(header: 'login', response_code: 301);
             }
 
             $this->addFlash('error', "Le lien a déjà été utilisé ou a été expiré !");
-            $this->redirect(header: '/login', response_code: 301);
+            $this->redirect(header: 'login', response_code: 301);
         }
     }
 }

@@ -7,7 +7,6 @@ namespace App\Controllers;
 
 use App\Core\Classes\SuperGlobals\Cookie;
 use App\Core\System\Controller;
-use App\Core\Classes\SuperGlobals\Session;
 use App\Core\Classes\Validator;
 use App\Core\Classes\Token;
 use App\Models\UsersModel;
@@ -22,7 +21,6 @@ final class RegisterController extends Controller
         $user = new UsersModel();
         $role = new RolesModel();
         $validator = new Validator($_POST);
-        $session = new Session();
 
         if ($validator->isSubmitted()) {
 
@@ -59,6 +57,9 @@ final class RegisterController extends Controller
                 $header .= "Content-type: text/html; charset=utf-8\n";
                 $header .= "Content-Transfer-Encoding: 8bit\n";
 
+                $port = empty($_SERVER['HTTPS']) ? 'http' : 'https';
+                $uri = $port . '://' . $_SERVER['HTTP_HOST'] . ROOT . "email/register";
+
                 ob_start();
                 include_once __DIR__ . '/../Views/email/register.php';
                 $content = ob_get_clean();
@@ -67,7 +68,7 @@ final class RegisterController extends Controller
                     $this->addFlash('error', "L'e-mail de confirmation du compte pas pu être envoyé !");
                 } else {
                     $this->addFlash('success', "Un email de confirmation vous a été envoyé à l'adresse e-mail : {$_POST['email']}");
-                    $this->redirect(header: '/login', response_code: 301);
+                    $this->redirect(header: 'login', response_code: 301);
                 }
             } else {
                 $error = $validator->displayErrors();

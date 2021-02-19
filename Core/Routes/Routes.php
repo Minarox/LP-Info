@@ -8,7 +8,7 @@ final class Routes
 {
     public function __construct($router)
     {
-        $controllers = scandir(APP . '/Controllers');
+        $controllers = scandir(dirname(__DIR__,2) . '/Controllers');
 
         foreach ($controllers as $controller) {
             if(preg_match('/Controller.php/', $controller)) {
@@ -19,7 +19,7 @@ final class Routes
         }
 
         // Intern Ajax system
-        $router->add('/ajax/loginSystem', 'LoginController::loginSystem', 'POST');
-        $router->add('/ajax/signUpSystem', 'RegisterController::signUpSystem', 'POST');
+        // $router->add('/ajax/loginSystem', 'LoginController::loginSystem', 'POST');
+        // $router->add('/ajax/signUpSystem', 'RegisterController::signUpSystem', 'POST');
     }
 }

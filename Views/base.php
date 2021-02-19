@@ -7,6 +7,10 @@
     <!--    <meta name="viewport" content="width=device-width, user-scalable=no,
     initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <?php if ($_SERVER['REQUEST_URI'] === ROOT . 'register'): ?>
+        <meta name="google-signin-client_id" content="85563966196-f61n6rna4a9dm6f2o3unk9cqa4agu1s1.apps.googleusercontent.com">
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <?php endif; ?>
 
     <!-- Titre de la page -->
     <title><?= $title ??= null ?> | Hothothot</title>
@@ -115,7 +119,7 @@
 <footer>
     <section class="container">
         <p>
-            &copy; <?php echo date("Y"); ?>
+            &copy; <?= date("Y"); ?>
             <a href="<?= ROOT ?>">Hothothot.fr</a>
         <p>
     </section>
@@ -124,7 +128,7 @@
 <!-- Scripts pour les diagrammes et alertes -->
 <script src="<?= SCRIPTS . 'js/account/utilities.js' ?>"></script>
 <script src="<?= SCRIPTS . 'js/bootstrap/bootstrap.min.js' ?>"></script>
-<?php if ($_SERVER['REQUEST_URI'] === '/'): ?>
+<?php if ($_SERVER['REQUEST_URI'] === ROOT . '/' || $_SERVER['REQUEST_URI'] === ROOT . ''): ?>
     <script src="<?= SCRIPTS . 'js/jquery/jquery-3.5.1.min.js' ?>"></script>
     <script src="<?= SCRIPTS . 'js/chart/Chart.bundle.min.js' ?>"></script>
     <script src="<?= SCRIPTS . 'js/home/Diagrammes.js' ?>"></script>
