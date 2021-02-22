@@ -12,7 +12,7 @@ final class ProfileController extends Controller
 {
     public function index()
     {
-        if (!Cookie::exists('token')) ErrorController::error404();
+        if (!$this->isAuthenticated()) ErrorController::error404();
         $this->render(name_file: 'account/profile', title: 'Profil');
     }
 }

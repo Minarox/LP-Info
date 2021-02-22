@@ -20,10 +20,6 @@ class UsersModel extends Model
     protected bool $is_verified;
     protected string $token;
 
-    public function __construct() {
-        $this->table = 'users';
-    }
-
     /**
      * @return int
      */

@@ -11,10 +11,6 @@ class RolesModel extends Model
     protected int $id;
     protected string $name;
 
-    public function __construct() {
-        $this->table = 'roles';
-    }
-
     /**
      * @return int
      */

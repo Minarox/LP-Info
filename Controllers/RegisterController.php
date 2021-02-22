@@ -16,7 +16,7 @@ final class RegisterController extends Controller
 {
     public function index()
     {
-        if (Cookie::exists('token')) ErrorController::error404();
+        if ($this->isAuthenticated()) ErrorController::error404();
 
         $user = new UsersModel();
         $role = new RolesModel();

@@ -14,9 +14,9 @@ final class Database extends PDO
     private function __construct() {
         try {
             parent::__construct('mysql:dbname=' . DB_NAME . ';host=' . DB_HOST, DB_USER, DB_PASS, [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'
+                self::ATTR_ERRMODE => self::ERRMODE_EXCEPTION,
+                self::ATTR_DEFAULT_FETCH_MODE => self::FETCH_ASSOC,
+                self::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'
             ]);
         } catch (PDOException $e) {
             die($e->getMessage());
