@@ -16,11 +16,7 @@ class EmailRegisterController extends Controller
         $validator = new Validator($_POST);
         $user = new UsersModel();
 
-        var_dump('test');
-
-        if ($validator->isSubmitted('account_verification')) {
-
-            var_dump('test');
+        if ($validator->isSubmitted()) {
 
             $information = $user->findOneBy([
                 'token' => $_POST['token_email']

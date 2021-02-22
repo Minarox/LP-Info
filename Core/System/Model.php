@@ -11,6 +11,11 @@ abstract class Model
 {
     protected string $table;
 
+    public function __construct()
+    {
+        $this->table = str_replace('model', '', substr(strrchr(strtolower(get_class($this)), "\\"), 1));
+    }
+
     private function query(string $sql, array $params = null): bool|PDOStatement
     {
         $db = Database::getPDO();

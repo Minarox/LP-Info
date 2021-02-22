@@ -7,6 +7,7 @@ namespace App\Core\System;
 use App\Core\Classes\SuperGlobals\Cookie;
 use App\Core\Classes\SuperGlobals\Session;
 use JetBrains\PhpStorm\NoReturn;
+use JetBrains\PhpStorm\Pure;
 
 abstract class Controller
 {
@@ -15,9 +16,9 @@ abstract class Controller
     {
         if (session_status() == PHP_SESSION_NONE) session_start();
 
-        if (Cookie::exists('token')) Cookie::set('token', Session::get('token'));
+        if ($this->isAuthenticated()) Cookie::set('token', Session::get('token'));
 
-        if (!Cookie::exists('token') && Session::exists('token')) {
+        if (!$this->isAuthenticated() && Session::exists('token')) {
             $this->addFlash('error', 'Vous avez été déconnectée pour inactivité !');
             Session::delete();
         }
@@ -50,5 +51,10 @@ abstract class Controller
     protected function addFlash(string $alert_type, string $message)
     {
         Session::set($alert_type, $message);
+    }
+
+    #[Pure] protected function isAuthenticated(): bool
+    {
+        return Cookie::exists('token');
     }
 }
