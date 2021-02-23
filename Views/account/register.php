@@ -25,8 +25,9 @@
             <!-- Vérification du mot de passe -->
             <label for="password_verify">Vérification du mot de passe</label>
             <input class="form-control" type="password" name="password_verify" id="password_verify" placeholder="*************" maxlength="99" required>
-            <div class="google-button">
+            <div class="social-login-button">
                 <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
             </div>
             <hr>
             <!-- Bouton de validation -->

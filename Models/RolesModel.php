@@ -21,10 +21,12 @@ class RolesModel extends Model
 
     /**
      * @param int $id
+     * @return RolesModel
      */
-    public function setId(int $id): void
+    public function setId(int $id): RolesModel
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -37,9 +39,11 @@ class RolesModel extends Model
 
     /**
      * @param string $name
+     * @return RolesModel
      */
-    public function setName(string $name): void
+    public function setName(string $name): RolesModel
     {
         $this->name = $name;
+        return $this;
     }
 }

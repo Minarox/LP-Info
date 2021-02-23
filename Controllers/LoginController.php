@@ -4,8 +4,7 @@
 namespace App\Controllers;
 
 
-use App\Core\Classes\SuperGlobals\Cookie;
-use App\Core\Classes\SuperGlobals\Session;
+use App\Core\Classes\SuperGlobals\Request;
 use App\Core\System\Controller;
 use App\Core\Classes\Validator;
 use App\Core\Classes\Token;
@@ -13,7 +12,7 @@ use App\Models\UsersModel;
 
 final class LoginController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if ($this->isAuthenticated()) ErrorController::error404();
 
@@ -22,7 +21,7 @@ final class LoginController extends Controller
 
         if ($validator->isSubmitted()) {
 
-            $information = $user->findOneBy([
+            $data = $user->findOneBy([
                 'email' => $_POST['email']
             ]);
 
@@ -35,24 +34,40 @@ final class LoginController extends Controller
                 'email.0' => 'Vous devez informer un email valide !'
             ]);
 
+            if (!empty($data)) {
+                $email = $data->getEmail();
+                $password = $data->getPassword();
+            }
+
             $matchValue = $validator->matchValue([
-                'email' => $information['email'] ??= null,
-                'password' => $information['password'] ??= null
+                'email' => $email ??= null,
+                'password' => $password ??= null
             ]);
 
-            if ($validator->isSuccess() && $matchValue && password_verify($_POST['password'], $information['password'])) {
-                if ($information['is_verified'] == 0) {
+            if ($validator->isSuccess() && $matchValue && password_verify($_POST['password'], $password)) {
+                if ($data->isIsVerified() == 0) {
                     $error = 'Veuillez vérifier votre compte !';
                 } else {
                     $token = Token::generate(15);
 
-                    $user->setToken($token);
-                    $user->update($information['id']);
+                    $user->setToken($token)
+                        ->update($data->getId());
 
-                    foreach ($information as $k => $v) Session::set($k, $v);
-                    Cookie::set('token', $token);
+                    $request->cookie->set('token', $token);
 
-                    $this->addFlash('success', "Bienvenue {$information['first_name']} {$information['last_name']} !");
+                    $list_method = [];
+
+                    foreach (get_class_methods($data) as $method) {
+                        if (str_starts_with($method, 'get')) {
+                            $list_method[
+                                strtolower(preg_replace('#([A-Z])#', '_$1', lcfirst(str_replace("get", "", $method))))
+                            ] = call_user_func_array([$data, $method], []);
+                        }
+                    }
+
+                    foreach ($list_method as $k => $v) $request->session->set($k, $v);
+
+                    $this->addFlash('success', "Bienvenue {$data->getFirstName()} {$data->getLastName()} !");
                     $this->redirect(header: '', response_code: 301);
                 }
             } else {

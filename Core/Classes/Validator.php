@@ -319,7 +319,6 @@ class Validator
         return $this->errors;
     }
 
-
     /**
      * Filter Inputs
      * @param string $data
@@ -333,10 +332,5 @@ class Validator
         $data = strip_tags($data);
 
         return $data;
-    }
-
-    #[Pure] public static function filterInput($data, $filter)
-    {
-        return filter_input(INPUT_POST, $data, $filter);
     }
 }

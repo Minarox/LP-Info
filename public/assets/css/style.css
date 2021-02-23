@@ -502,6 +502,13 @@ footer a, footer a:hover {
     }
 }
 
-.google-button span {
+.social-login-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-top: 3.5%;
+}
+
+.social-login-button span {
     color: #757575 !important;
 }

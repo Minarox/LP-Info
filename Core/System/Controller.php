@@ -4,23 +4,25 @@
 namespace App\Core\System;
 
 
-use App\Core\Classes\SuperGlobals\Cookie;
-use App\Core\Classes\SuperGlobals\Session;
+use App\Core\Classes\SuperGlobals\Request;
 use JetBrains\PhpStorm\NoReturn;
 use JetBrains\PhpStorm\Pure;
 
 abstract class Controller
 {
+    protected Request $request;
 
     public function __construct()
     {
+        $this->request = new Request();
+
         if (session_status() == PHP_SESSION_NONE) session_start();
 
-        if ($this->isAuthenticated()) Cookie::set('token', Session::get('token'));
+        if ($this->isAuthenticated()) $this->request->session->set('token', $this->request->session->get('token'));
 
-        if (!$this->isAuthenticated() && Session::exists('token')) {
+        if (!$this->isAuthenticated() && $this->request->session->exists('token')) {
             $this->addFlash('error', 'Vous avez été déconnectée pour inactivité !');
-            Session::delete();
+            $this->request->session->delete();
         }
     }
 
@@ -29,6 +31,8 @@ abstract class Controller
         extract($params);
 
         ob_start();
+
+        $user_is_auth = $this->isAuthenticated();
 
         require_once VIEWS . "$name_file.php";
 
@@ -43,18 +47,13 @@ abstract class Controller
         die();
     }
 
-    protected function json(array $json)
-    {
-        echo json_encode($json);
-    }
-
     protected function addFlash(string $alert_type, string $message)
     {
-        Session::set($alert_type, $message);
+        $this->request->session->set($alert_type, $message);
     }
 
     #[Pure] protected function isAuthenticated(): bool
     {
-        return Cookie::exists('token');
+        return $this->request->cookie->exists('token');
     }
 }
