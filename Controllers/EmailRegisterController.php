@@ -18,17 +18,17 @@ class EmailRegisterController extends Controller
 
         if ($validator->isSubmitted()) {
 
-            $information = $user->findOneBy([
+            $data = $user->findOneBy([
                 'token' => $_POST['token_email']
             ]);
 
-            if (!empty($information)) {
+            if (!empty($data)) {
 
                 $token = Token::generate(15);
 
-                $user->setIsVerified(1);
-                $user->setToken($token);
-                $user->update($information['id']);
+                $user->setIsVerified(1)
+                    ->setToken($token)
+                    ->update($data->getId());
 
                 $this->addFlash('success', "Votre compte a bien été vérifié ! Veuillez vous connecter avec vos identifiant :)");
                 $this->redirect(header: 'login', response_code: 301);

@@ -4,6 +4,7 @@
 namespace App\Core\Routes;
 
 
+use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Exceptions\RouterException;
 use JetBrains\PhpStorm\Pure;
 
@@ -48,6 +49,6 @@ final class Route
 
         if (!method_exists($controller, $method)) throw new RouterException("This method doesn't exist !", 1);
 
-        isset($this->matches[1]) ? $controller->$method($this->matches[1]) : $controller->$method();
+        isset($this->matches[1]) ? $controller->$method($this->matches[1], new Request()) : $controller->$method(new Request());
     }
 }

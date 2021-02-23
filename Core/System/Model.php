@@ -5,11 +5,12 @@ namespace App\Core\System;
 
 
 use App\Core\Database\Database;
+use PDO;
 use PDOStatement;
 
 abstract class Model
 {
-    protected string $table;
+    private string $table;
 
     public function __construct()
     {
@@ -20,24 +21,39 @@ abstract class Model
     {
         $db = Database::getPDO();
 
-        if ($params === null) return $db->query($sql);
+        if ($params === null) {
+            $query = $db->query($sql);
+        } else {
+            $query = $db->prepare($sql);
+            $query->execute($params);
+        }
 
-        $query = $db->prepare($sql);
-        $query->execute($params);
+        $query->setFetchMode(PDO::FETCH_CLASS, get_class($this), [$db]);
         return $query;
     }
 
-    public function findAll(): array
+    /**
+     * @return array|$this
+     */
+    public function findAll(): array|self
     {
         return $this->query("SELECT * FROM {$this->table}")->fetchAll();
     }
 
-    public function findById(int $id): array
+    /**
+     * @param int $id
+     * @return array|$this
+     */
+    public function findById(int $id): array|self
     {
         return $this->query("SELECT * FROM {$this->table} WHERE id = {$id}")->fetch();
     }
 
-    public function findBy(array $filter): array
+    /**
+     * @param array $filter
+     * @return array|$this
+     */
+    public function findBy(array $filter): array|self
     {
         $fields = [];
         $values = [];
@@ -52,7 +68,11 @@ abstract class Model
         return $this->query("SELECT * FROM {$this->table} WHERE {$fields_list}", $values)->fetchAll();
     }
 
-    public function findOneBy(array $filter): array|bool|PDOStatement
+    /**
+     * @param array $filter
+     * @return array|bool|PDOStatement|$this
+     */
+    public function findOneBy(array $filter): array|bool|PDOStatement|self
     {
         $fields = [];
         $values = [];

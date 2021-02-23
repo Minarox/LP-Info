@@ -5,7 +5,6 @@ namespace App\Controllers;
 
 
 
-use App\Core\Classes\SuperGlobals\Cookie;
 use App\Core\System\Controller;
 use App\Core\Classes\Validator;
 use App\Core\Classes\Token;
@@ -24,11 +23,11 @@ final class RegisterController extends Controller
 
         if ($validator->isSubmitted()) {
 
-            $information = $user->findOneBy([
+            $data = $user->findOneBy([
                 'email' => $_POST['email'] ??= null
             ]);
 
-            $loginRole = $role->findById(1);
+            $data_role = $role->findById(1);
 
             $validator->validate([
                 'last_name' => ['required'],
@@ -38,19 +37,21 @@ final class RegisterController extends Controller
                 'password_verify' => ['required']
             ]);
 
+            if (!empty($data)) $email = $data->getEmail();
+
             $matchValue = $validator->matchValue([
-                'email' => $information['email'] ??= null,
+                'email' => $email ??= null,
             ]);
 
             if ($validator->isSuccess() && !$matchValue) {
                 $token = Token::generate(15);
-                $user->setLastName(Validator::filter($_POST['last_name']));
-                $user->setfirstName(Validator::filter($_POST['first_name']));
-                $user->setEmail(Validator::filter($_POST['email']));
-                $user->setPassword(password_hash($_POST['password'], PASSWORD_ARGON2I));
-                $user->setRoleId($loginRole['id']);
-                $user->setToken($token);
-                $user->create();
+                $user->setLastName(Validator::filter($_POST['last_name']))
+                    ->setfirstName(Validator::filter($_POST['first_name']))
+                    ->setEmail(Validator::filter($_POST['email']))
+                    ->setPassword(password_hash($_POST['password'], PASSWORD_ARGON2I))
+                    ->setRoleId($data_role->getId())
+                    ->setToken($token)
+                    ->create();
 
                 $header = "From : noreply@hothothot.fr\n";
                 $header .= "X-Priority : 1\n";
@@ -71,7 +72,7 @@ final class RegisterController extends Controller
                     $this->redirect(header: 'login', response_code: 301);
                 }
             } else {
-                $error = $validator->displayErrors();
+                $error = $matchValue ? $validator->displayErrors(['Cette e-mail est déjà utilisé !']) : $validator->displayErrors();
             }
         }
 

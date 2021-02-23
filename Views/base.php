@@ -10,6 +10,7 @@
     <?php if ($_SERVER['REQUEST_URI'] === ROOT . 'register'): ?>
         <meta name="google-signin-client_id" content="85563966196-f61n6rna4a9dm6f2o3unk9cqa4agu1s1.apps.googleusercontent.com">
         <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v9.0&appId=803591893562929&autoLogAppEvents=1" nonce="FqbH8LPh"></script>
     <?php endif; ?>
 
     <!-- Titre de la page -->
@@ -46,7 +47,7 @@
                     </li>
                     <li class="nav-item dropdown d-block d-sm-none">
                         <hr class="mt-3">
-                        <?php if (isset($_COOKIE['token']) && !empty($_COOKIE['token'])): ?>
+                        <?php if ($user_is_auth ??= null): ?>
                             <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
                                aria-expanded="false">
                                 <?= $_SESSION['first_name'] . '&nbsp;' . $_SESSION['last_name'] ?>
@@ -74,7 +75,7 @@
                     </li>
                 </ul>
                 <section class="nav-item dropdown d-none d-sm-block">
-                    <?php if (isset($_COOKIE['token']) && !empty($_COOKIE['token'])): ?>
+                    <?php if ($user_is_auth ??= null): ?>
                         <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             <?= $_SESSION['first_name'] . '&nbsp;' . $_SESSION['last_name'] ?>
@@ -128,6 +129,17 @@
 <!-- Scripts pour les diagrammes et alertes -->
 <script src="<?= SCRIPTS . 'js/account/utilities.js' ?>"></script>
 <script src="<?= SCRIPTS . 'js/bootstrap/bootstrap.min.js' ?>"></script>
+<script>
+    (function(d, s, id) {
+        let js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=803591893562929";
+        fjs.parentNode.insertBefore(js, fjs);
+    } (document, 'script', 'facebook-jssdk'));
+</script>
 <?php if ($_SERVER['REQUEST_URI'] === ROOT . '/' || $_SERVER['REQUEST_URI'] === ROOT . ''): ?>
     <script src="<?= SCRIPTS . 'js/jquery/jquery-3.5.1.min.js' ?>"></script>
     <script src="<?= SCRIPTS . 'js/chart/Chart.bundle.min.js' ?>"></script>
