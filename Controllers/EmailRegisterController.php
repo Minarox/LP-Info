@@ -24,7 +24,7 @@ class EmailRegisterController extends Controller
 
             if (!empty($data)) {
 
-                $token = Token::generate(15);
+                $token = Token::generate();
 
                 $user->setIsVerified(1)
                     ->setToken($token)

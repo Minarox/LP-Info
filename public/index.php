@@ -37,9 +37,9 @@ $router->add('/recovery', 'RecoveryController');
 $router->add('/logout', 'LogoutController');
 $router->add('/email/register', 'EmailRegisterController', 'POST');
 
-// Ajax path route
-//$router->add('/ajax/loginSystem', 'LoginController::loginSystem', 'POST');
-//$router->add('/ajax/signUpSystem', 'RegisterController::signUpSystem', 'POST');
+// Ajax path route ( Google )
+$router->add('/ajax/googleRegister', 'RegisterController::google', 'POST');
+$router->add('/ajax/googleLogin', 'LoginController::google', 'POST');
 
 try {
     $router->run();

@@ -1,10 +1,28 @@
-/*
-getId('login').addEventListener('click', function (event) {
+function onSignIn(googleUser) {
+    const id_token = googleUser.getAuthResponse().id_token;
 
-    // event.preventDefault();
-    const formData = new FormData(getId('login_form'))
-    postData(formData, '/ajax/loginSystem').catch(error => {
-        console.log('Error :', error)
-    })
-})
-*/
+    ajaxRequest(id_token).catch(error => {
+        console.log('Error : ' + error);
+    });
+}
+
+async function ajaxRequest(id_token) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('POST', root + '/ajax/googleLogin');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        console.log(id_token);
+        signOut();
+        document.location.href = root + '';
+    };
+
+    xhr.send('id_token=' + id_token);
+}
+
+// google sign in
+function signOut() {
+    gapi.auth2.getAuthInstance().signOut().then(function () {
+        console.log('User signed out !');
+    });
+}

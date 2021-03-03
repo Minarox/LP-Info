@@ -15,10 +15,11 @@ class Cookie implements StoreData
         return array_key_exists($key, $_COOKIE) ? $_COOKIE[$key] : false;
     }
 
-    public function set(string $key, mixed $value, int $time = 15): void
+    public function set(string $key, mixed $value, string $path = null, int $time = 15): void
     {
         $this->time = $time;
-        setcookie($key, $value, time() + $this->time, null, null, false, true);
+        $options = array('expires' => time() + $this->time, 'path' => $path, 'secure' => FALSE, 'httponly' => TRUE, 'samesite' => 'Strict');
+        setcookie($key, $value, $options);
     }
 
     public function delete(string $key = null): void
