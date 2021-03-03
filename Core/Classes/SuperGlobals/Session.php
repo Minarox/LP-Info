@@ -13,7 +13,7 @@ class Session implements StoreData
         return array_key_exists($key, $_SESSION) ? $_SESSION[$key] : false;
     }
 
-    public function set(string $key, $value, int $time = null): void
+    public function set(string $key, $value): void
     {
         $_SESSION[$key] = $value;
     }

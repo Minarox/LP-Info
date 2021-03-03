@@ -5,6 +5,9 @@ namespace App\Core\System;
 
 
 use App\Core\Classes\SuperGlobals\Request;
+use Google_Client;
+use Google_Service_Oauth2;
+use GuzzleHttp\Client;
 use JetBrains\PhpStorm\NoReturn;
 use JetBrains\PhpStorm\Pure;
 
@@ -18,12 +21,14 @@ abstract class Controller
 
         if (session_status() == PHP_SESSION_NONE) session_start();
 
-        if ($this->isAuthenticated()) $this->request->session->set('token', $this->request->session->get('token'));
+        if ($this->isAuthenticated()) $this->request->cookie->set('token', $this->request->session->get('token'));
 
         if (!$this->isAuthenticated() && $this->request->session->exists('token')) {
+            $this->request->session->delete(restart_session: true);
             $this->addFlash('error', 'Vous avez été déconnectée pour inactivité !');
-            $this->request->session->delete();
+            $this->redirect(header: '', response_code: 301);
         }
+
     }
 
     protected function render(string $name_file, array $params = [], string $template = 'base', string $title = 'Accueil')
@@ -32,7 +37,8 @@ abstract class Controller
 
         ob_start();
 
-        $user_is_auth = $this->isAuthenticated();
+        // On insère le fichier des fonctions utile pour la vue
+        require_once __DIR__. '/functions.php';
 
         require_once VIEWS . "$name_file.php";
 
@@ -55,5 +61,37 @@ abstract class Controller
     #[Pure] protected function isAuthenticated(): bool
     {
         return $this->request->cookie->exists('token');
+    }
+
+    protected function getGetter(object $data): array
+    {
+        $list_method = [];
+
+        foreach (get_class_methods($data) as $method) {
+            if (str_starts_with($method, 'get')) {
+                $list_method[
+                strtolower(preg_replace('#([A-Z])#', '_$1', lcfirst(str_replace("get", "", $method))))
+                ] = call_user_func_array([$data, $method], []);
+            }
+        }
+
+        return $list_method;
+    }
+
+    protected function googleData(string $token): array
+    {
+        require_once dirname(__DIR__) . '/Classes/lib/google/vendor/autoload.php';
+
+        // problème avec le SSL ( sur local )
+        $guzzle = new Client(array( 'curl' => array( CURLOPT_SSL_VERIFYPEER => false, ), ));
+        $client = new Google_Client();
+
+        $client->setClientId(ENV['GOOGLE_CLIENT_ID']);
+        $client->setApplicationName('HotHotHot');
+        $client->setClientSecret(ENV['GOOGLE_CLIENT_SECRET']);
+        $client->setHttpClient($guzzle);
+        $client->addScope(Google_Service_Oauth2::USERINFO_PROFILE);
+
+        return $client->verifyIdToken($token);
     }
 }

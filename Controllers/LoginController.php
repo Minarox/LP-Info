@@ -8,6 +8,7 @@ use App\Core\Classes\SuperGlobals\Request;
 use App\Core\System\Controller;
 use App\Core\Classes\Validator;
 use App\Core\Classes\Token;
+use App\Models\BanModel;
 use App\Models\UsersModel;
 
 final class LoginController extends Controller
@@ -17,6 +18,7 @@ final class LoginController extends Controller
         if ($this->isAuthenticated()) ErrorController::error404();
 
         $user = new UsersModel();
+        $ban = new BanModel();
         $validator = new Validator($_POST);
 
         if ($validator->isSubmitted()) {
@@ -24,6 +26,27 @@ final class LoginController extends Controller
             $data = $user->findOneBy([
                 'email' => $_POST['email']
             ]);
+
+            if (!empty($data)) {
+                if (!is_null($data->getIdGoogle())) {
+                    $this->addFlash('error', 'Cette adresse e-mail a été utilisé avec Google !');
+                    $this->redirect(header: 'login', response_code: 301);
+                }
+            }
+
+            $data_ban = $ban->findOneBy([
+                'ip' => $_SERVER['REMOTE_ADDR']
+            ]);
+
+            // Bloquer l'utilisateur pendant un certain temps quand il échoue de se connecter plusieurs fois d'affilé
+            if ($data_ban && $data_ban->getAttempt() === 5) {
+                if (time() - $data_ban->getTime() < (60 * 1)) {
+                    $this->addFlash('error', 'Veuillez attendre ' . 60 - (time() - $data_ban->getTime()) . ' seconde(s) avant de réessayer !');
+                    $this->redirect(header: 'login', response_code: 301);
+                } else {
+                    $data_ban->delete($data_ban->getId());
+                }
+            }
 
             $validator->validate([
                 'email' => ['email', 'required'],
@@ -48,29 +71,31 @@ final class LoginController extends Controller
                 if ($data->isIsVerified() == 0) {
                     $error = 'Veuillez vérifier votre compte !';
                 } else {
-                    $token = Token::generate(15);
+                    $token = Token::generate();
 
                     $user->setToken($token)
                         ->update($data->getId());
 
                     $request->cookie->set('token', $token);
+                    foreach ($this->getGetter($data) as $k => $v) $request->session->set($k, $v);
 
-                    $list_method = [];
-
-                    foreach (get_class_methods($data) as $method) {
-                        if (str_starts_with($method, 'get')) {
-                            $list_method[
-                                strtolower(preg_replace('#([A-Z])#', '_$1', lcfirst(str_replace("get", "", $method))))
-                            ] = call_user_func_array([$data, $method], []);
-                        }
-                    }
-
-                    foreach ($list_method as $k => $v) $request->session->set($k, $v);
+                    if (!empty($data_ban)) $data_ban->delete($data_ban->getId());
 
                     $this->addFlash('success', "Bienvenue {$data->getFirstName()} {$data->getLastName()} !");
                     $this->redirect(header: '', response_code: 301);
                 }
             } else {
+                if (empty($data_ban)) {
+                    $ban->setIp($_SERVER['REMOTE_ADDR'])
+                        ->setAttempt(1)
+                        ->setTime(time())
+                        ->create();
+                } else {
+                    $ban->setAttempt($data_ban->getAttempt() + 1)
+                        ->setTime(time())
+                        ->update($data_ban->getId());
+                }
+
                 $error = $validator->displayErrors(['Votre email ou votre mot de passe est invalide !']);
             }
         }
@@ -78,5 +103,39 @@ final class LoginController extends Controller
         $this->render(name_file: 'account/login', params: [
             'error' => $error ??= null
         ], title: 'Connexion');
+    }
+
+    public function google(Request $request)
+    {
+        $user = new UsersModel();
+
+        $payload = $this->googleData($_POST['id_token']);
+
+        if ($payload) {
+
+            $data = $user->findOneBy([
+                'email' => $payload['email'] ??= null
+            ]);
+
+            if (empty($data)) {
+                $this->addFlash('error', 'Cette adresse e-mail n\'a jamais été utilisé pour se connecter à ce site !');
+            } else {
+                if (is_null($data->getIdGoogle())) {
+                    $this->addFlash('error', 'Cette adresse e-mail est déjà utilisé sur un de vos comptes !');
+                } else {
+                    $token = Token::generate();
+
+                    $user->setToken($token)
+                        ->update($data->getId());
+
+                    $request->cookie->set('token', $token, '/');
+                    foreach ($this->getGetter($data) as $k => $v) $request->session->set($k, $v);
+
+                    $this->addFlash('success', "Bienvenue {$payload['given_name']} {$payload['family_name']} !");
+                }
+            }
+        } else {
+            $this->addFlash('error', "Erreur lors de la connexion avec Google !");
+        }
     }
 }

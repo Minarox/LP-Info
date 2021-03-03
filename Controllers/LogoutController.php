@@ -16,6 +16,7 @@ class LogoutController extends Controller
             ErrorController::error404();
         } else {
             $request->cookie->delete('token');
+            setcookie('token', '', time() - 15, '/');
             $request->session->delete(restart_session: true);
 
             $this->addFlash('success', "Vous avez été déconnecté avec succès !");

@@ -67,6 +67,9 @@ class Validator
             if (array_key_exists($name, $this->data)) {
                 foreach ($rulesArray as $rule) {
                     switch ($rule) {
+                        case 'empty':
+                            $this->empty($name, $this->data[$name]);
+                            break;
                         case 'required':
                             $this->required($name, $this->data[$name]);
                             break;
@@ -165,6 +168,21 @@ class Validator
     {
         if (!isset($value) || empty($value)) {
             $this->errors[$name][] = "Le champ $name est requis !";
+            $this->customErrors[$name][] = true;
+        } else {
+            $this->customErrors[$name][] = false;
+        }
+    }
+
+    /**
+     * Check if the field is filled
+     * @param string $name
+     * @param string $value
+     */
+    private function empty(string $name, string $value)
+    {
+        if (!empty($value)) {
+            $this->errors[$name][] = "Ce champs ne peut pas être remplis !";
             $this->customErrors[$name][] = true;
         } else {
             $this->customErrors[$name][] = false;
@@ -328,8 +346,8 @@ class Validator
     {
         $data = trim($data);
         $data = stripslashes($data);
-        $data = htmlspecialchars($data);
         $data = strip_tags($data);
+        $data = htmlspecialchars($data);
 
         return $data;
     }

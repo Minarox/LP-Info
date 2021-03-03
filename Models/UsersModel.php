@@ -15,7 +15,7 @@ class UsersModel extends Model
     protected string $last_name;
     protected string $first_name;
     protected string $email;
-    protected string $password;
+    protected ?string $password;
     protected string $avatar;
     protected bool $is_verified;
     protected string $token;

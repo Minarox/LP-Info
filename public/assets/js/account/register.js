@@ -9,7 +9,7 @@ function onSignIn(googleUser) {
 async function ajaxRequest(id_token) {
     const xhr = new XMLHttpRequest();
 
-    xhr.open('POST', root + '/ajax/googleLogin');
+    xhr.open('POST', root + '/ajax/googleRegister');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         console.log(id_token);
