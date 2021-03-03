@@ -148,18 +148,18 @@ class UsersModel extends Model
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
     /**
-     * @param string $password
+     * @param string|null $password
      * @return UsersModel
      */
-    public function setPassword(string $password): UsersModel
+    public function setPassword(?string $password): UsersModel
     {
         $this->password = $password;
         return $this;
