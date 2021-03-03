@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <?php if ($_SERVER['REQUEST_URI'] === ROOT . 'register' || $_SERVER['REQUEST_URI'] === ROOT . 'login'): ?>
         <meta name="google-signin-client_id" content="85563966196-f61n6rna4a9dm6f2o3unk9cqa4agu1s1.apps.googleusercontent.com">
-<!--        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v9.0&appId=803591893562929&autoLogAppEvents=1" nonce="FqbH8LPh"></script>-->
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v9.0&appId=803591893562929&autoLogAppEvents=1" nonce="FqbH8LPh"></script>
     <?php endif; ?>
 
     <!-- Titre de la page -->
@@ -46,7 +46,7 @@
                     </li>
                     <li class="nav-item dropdown d-block d-sm-none">
                         <hr class="mt-3">
-                        <?php if (isset($_COOKIE['token']) && !empty($_COOKIE['token'])): ?>
+                        <?php if (isAuthenticated()): ?>
                             <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
                                aria-expanded="false">
                                 <?= $_SESSION['first_name'] . '&nbsp;' . $_SESSION['last_name'] ?>
@@ -74,7 +74,7 @@
                     </li>
                 </ul>
                 <section class="nav-item dropdown d-none d-sm-block">
-                    <?php if (isset($_COOKIE['token']) && !empty($_COOKIE['token'])): ?>
+                    <?php if (isAuthenticated()): ?>
                         <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             <?= $_SESSION['first_name'] . '&nbsp;' . $_SESSION['last_name'] ?>
@@ -135,21 +135,21 @@
 <?= addJavaScript('js/home/Alertes.js','') ?>
 <?= addJavaScript('js/account/register','register') ?>
 <?= addJavaScript('js/account/login','login') ?>
+<!-- Google -->
 <?= addJavaScript('https://apis.google.com/js/platform.js', 'register') ?>
 <?= addJavaScript('https://apis.google.com/js/platform.js', 'login') ?>
-
-<!-- facebook -->
-<!--<script>-->
-<!--    (function(d, s, id) {-->
-<!--        let js, fjs = d.getElementsByTagName(s)[0];-->
-<!--        if (d.getElementById(id)) {-->
-<!--            return;-->
-<!--        }-->
-<!--        js = d.createElement(s); js.id = id;-->
-<!--        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=803591893562929";-->
-<!--        fjs.parentNode.insertBefore(js, fjs);-->
-<!--    } (document, 'script', 'facebook-jssdk'));-->
-<!--</script>-->
+<!-- Facebook -->
+<script>
+    (function(d, s, id) {
+        let js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=803591893562929";
+        fjs.parentNode.insertBefore(js, fjs);
+    } (document, 'script', 'facebook-jssdk'));
+</script>
 
 </body>
 </html>

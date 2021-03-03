@@ -1,5 +1,6 @@
 <?php
 
+use App\Core\Classes\SuperGlobals\Request;
 use JetBrains\PhpStorm\Pure;
 
 #[Pure] function addJavaScript(string $path, string $url = null): string|bool
@@ -13,4 +14,10 @@ use JetBrains\PhpStorm\Pure;
     }
 
     return (str_starts_with($path, 'http')) ? "<script src=$path></script>" : "<script src=" . SCRIPTS ."$path></script>";
+}
+
+#[Pure] function isAuthenticated(): bool
+{
+    $request = new Request();
+    return $request->cookie->exists('token');
 }
