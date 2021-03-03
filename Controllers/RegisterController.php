@@ -66,7 +66,7 @@ final class RegisterController extends Controller
                 $content = ob_get_clean();
 
                 if (!mail(Validator::filter($_POST['email']), 'Votre Inscription chez HotHotHot !', $content, $header)) {
-                    $this->addFlash('error', "L'e-mail de confirmation du compte pas pu être envoyé !");
+                    $this->addFlash('error', "L'e-mail de confirmation du compte n'a pas pu être envoyé !");
                 } else {
                     $this->addFlash('success', "Un email de confirmation vous a été envoyé à l'adresse e-mail : {$_POST['email']}");
                     $this->redirect(header: 'login', response_code: 301);
