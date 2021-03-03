@@ -47,6 +47,7 @@ final class RegisterController extends Controller
 
             if ($validator->isSuccess() && !$matchValue) {
                 $token = Token::generate();
+
                 $user->setLastName(Validator::filter($_POST['last_name']))
                     ->setfirstName(Validator::filter($_POST['first_name']))
                     ->setEmail(Validator::filter($_POST['email']))
