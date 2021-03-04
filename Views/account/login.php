@@ -1,6 +1,6 @@
 <main class="container-fluid">
     <!-- Connexion -->
-    <section class="box small-w">
+    <section class="box w-sm">
         <!-- Titre et redirection vers inscription -->
         <h1 class="box-title text-center">Connexion</h1>
         <p class="box-subtitle">Vous n'avez pas de compte ?
@@ -26,7 +26,7 @@
             <button type="submit" id="login" name="login">Se connecter</button>
         </form>
         <article id="overlay">
-            <section class="box medium-w">
+            <section class="box w-md">
                 <!-- Titre -->
                 <h1 class="box-title text-center">Récupération du compte</h1>
                 <!-- Formulaire -->

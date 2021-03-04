@@ -1,6 +1,6 @@
 <main class="container-fluid">
     <!-- Inscription -->
-    <section class="box small-w">
+    <section class="box w-sm">
         <!-- Titre -->
         <h1 class="box-title text-center">Récupération du compte</h1>
         <!-- Formulaire -->

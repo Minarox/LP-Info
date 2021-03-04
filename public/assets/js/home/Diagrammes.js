@@ -33,9 +33,9 @@ function indoor() {
                 }
             }
             // Modification de l'affichage des textes d'informations de températures
-            $("#nowInt").text(result.Donnees[length].Temperatures[result.Donnees[length].Temperatures.length-1]+"°C")
-            $("#maxInt").text(Math.max(...data)+"°C")
-            $("#minInt").text(Math.min(...data)+"°C")
+            $("#indoor-now").text(result.Donnees[length].Temperatures[result.Donnees[length].Temperatures.length-1]+"°C")
+            $("#indoor-max").text(Math.max(...data)+"°C")
+            $("#indoor-min").text(Math.min(...data)+"°C")
             // Appel à la fonction permettant de générer le diagramme
             indoorChart(data, labels, date, dateAnt)
         },
@@ -70,7 +70,7 @@ function outdoor() {
             var dateAnt = result.Donnees[length-1].Date
             // Lecture de l'état du capteur et modification des éléments
             if (result.Etat === false) {
-                $("#outdoor-state").css("background-color", "red")
+                $("#outdoor-dot").css("background-color", "red")
                 var text = $("#outdoor-state").text()
                 $("#outdoor-state").text(text.replace("Actif", "Inactif"))
                 $("#outdoor-state").css({"--main-color": "red"})
@@ -87,9 +87,9 @@ function outdoor() {
                 }
             }
             // Modification de l'affichage des textes d'informations de températures
-            $("#nowExt").text(result.Donnees[length].Temperatures[result.Donnees[length].Temperatures.length-1]+"°C")
-            $("#maxExt").text(Math.max(...data)+"°C")
-            $("#minExt").text(Math.min(...data)+"°C")
+            $("#outdoor-now").text(result.Donnees[length].Temperatures[result.Donnees[length].Temperatures.length-1]+"°C")
+            $("#outdoor-max").text(Math.max(...data)+"°C")
+            $("#outdoor-min").text(Math.min(...data)+"°C")
             // Appel à la fonction permettant de générer le diagramme
             outdoorChart(data, labels, date, dateAnt)
         },

@@ -1,6 +1,6 @@
 <main class="container-lg">
     <!-- Boite principale -->
-    <section class="row large-w box">
+    <section class="row w-lg box">
         <form class="col-2 align-self-center" action="" method="post">
             <img id="profil-picture" src="<?= $_SESSION['avatar'] ?>" alt="Image de profil du compte.">
         </form>
