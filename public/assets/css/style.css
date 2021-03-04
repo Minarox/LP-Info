@@ -59,41 +59,15 @@ nav hr {
 }
 
 
-/* ----------------------------------- */
-/* --- HOME (Temporary correction) --- */
-/* ----------------------------------- */
-.flex-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-content: space-between;
-    align-items: stretch;
-}
-
-.stretch {
-    justify-content: stretch;
-    align-content: stretch;
-}
-
-.flex-container-box {
+/* ------------ */
+/* --- HOME --- */
+/* ------------ */
+#indoor, #outdoor {
     position: relative;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-content: space-between;
-    align-items: stretch;
-    width: 100vw;
-    background-color: #27293D;
-    margin: 0 1% 14px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-    padding: 5px 1% 5px 1%;
 }
 
-#Interieur section, #Exterieur section {
-    filter: blur(0px);
+#indoor section, #outdoor section {
+    filter: blur(0);
     transition: filter 0.5s;
 }
 
@@ -101,11 +75,16 @@ nav hr {
     pointer-events: none;
     user-select: none;
     position: absolute;
+    padding: 0 24px 0 0;
     z-index: 1;
     width: 100%;
-    top: 20%;
+    top: 24%;
     text-align: center;
     opacity: 0;
+}
+
+#indoor-alert h2, #outdoor-alert h2 {
+    font-weight: bold;
 }
 
 #indoor-alert p, #outdoor-alert p {
@@ -114,29 +93,24 @@ nav hr {
 }
 
 #indoor-alert button, #outdoor-alert button {
-    width: 136px;
+    width: 150px;
     margin: 0 2.5% 0 0;
     padding: 8px 40px;
-    font-weight: bold;
     border: 0;
-    border-radius: 16px;
+    border-radius: 4px;
     background: linear-gradient(to right, #593EC2, #7E3EC2);
+}
+
+#indoor-title, #outdoor-title {
+    position: relative;
+    font-weight: bold;
 }
 
 #indoor-back-btn, #outdoor-back-btn {
     display: none;
 }
 
-.topbar {
-    border-top: solid;
-    border-top-color: #593ec2;
-}
-
-#indoor-title, #outdoor-title {
-    position: relative;
-}
-
-#indoor-dot, #outdoor-state {
+#indoor-dot, #outdoor-dot {
     display: inline-block;
     height: 20px;
     width: 20px;
@@ -145,12 +119,11 @@ nav hr {
 }
 
 #indoor-state, #outdoor-state {
-    --main-color: forestgreen;
     visibility: hidden;
     width: 70px;
     font-size: 16px;
     font-style: normal;
-    background-color: var(--main-color);
+    background-color: forestgreen;
     color: white;
     text-align: center;
     border-radius: 6px;
@@ -170,7 +143,7 @@ nav hr {
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: var(--main-color) transparent transparent transparent;
+    border-color: forestgreen transparent transparent transparent;
 }
 
 #indoor-title:hover #indoor-state, #outdoor-title:hover #outdoor-state {
@@ -179,22 +152,11 @@ nav hr {
 }
 
 .charts {
-    position: relative;
     height: 238px;
-    width: calc(46vw - 380px);
 }
 
 .comparison-chart {
-    padding-bottom: 10px;
-    position: relative;
-    height: 400px;
-    width: 100%;
-}
-
-.flex-container-temp {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    height: 380px;
 }
 
 .separator {
@@ -204,110 +166,36 @@ nav hr {
     border-color: #AAA;
 }
 
-.temp-center {
-    height: 2em;
-    line-height: 2em;
-    font-size: 24px;
-    padding: 0 5px 0 20px;
-    margin-right: 8px;
+.separator article h3 {
+    font-size: 21px;
+    font-weight: bold;
 }
 
-.margin {
-    padding-top: 8px;
-    padding-bottom: 8px;
+.separator article p {
+    font-size: 15px;
 }
 
-.no-marge {
-    margin: 0;
-    padding: 0;
+#indoor-now, #indoor-max, #indoor-min, #outdoor-now, #outdoor-max, #outdoor-min {
+    font-size: 22px;
+    margin-right: 18px;
 }
 
-#comparison-box {
-    background-color: #27293D;
-    margin: 14px 1%;
-    border-radius: 8px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-    padding: 5px 1% 5px 1%;
-}
-
-@media only screen and (max-width: 1300px) {
-    .flex-container-box {
-        flex-direction: column;
-        width: auto;
-    }
-
-    .charts {
-        height: 180px;
-        width: 45vw;
-    }
-
-    .comparison-chart {
-        height: 300px;
-    }
-
+@media only screen and (max-width: 1399px) {
     .separator {
-        border: none;
-        padding: 0;
-    }
-
-    .top-separator {
+        border-left: 0;
+        margin-left: 0;
+        margin-top: 15px;
+        padding-top: 15px;
         border-top: 2px solid;
         border-color: #AAA;
-        margin: 12px 0 0 0;
-        padding-left: 15px;
     }
 }
 
-@media only screen and (max-width: 900px) {
-    .flex-container {
-        flex-direction: column;
-        display: contents;
-    }
-
-    #indoor-state, #outdoor-state {
-        left: 8px;
-    }
-
-    .charts {
-        width: 94vw;
-    }
-
-    .flex-container-box h2, #comparison-box h2 {
-        padding-left: 15px;
+@media only screen and (max-width: 344px) {
+    #indoor-alert button, #outdoor-alert button {
+        margin-top: 12px;
     }
 }
-
-@media only screen and (max-width: 600px) {
-    nav {
-        padding: 10px 0 0 0;
-    }
-
-    .flex-container-boite-horizontal {
-        flex-direction: column;
-    }
-
-    .flex-container-boite-horizontal button {
-        width: 70%;
-        margin: 25px auto 0 auto;
-        padding: 8px 40px;
-    }
-
-    .flex-container-boite-horizontal a {
-        width: 70%;
-        margin: 20px auto 0 auto;
-        padding: 7px 0;
-        background: linear-gradient(to right, #593EC2, #7E3EC2);
-    }
-
-    #flex-container-boite-vertical-left {
-        padding-right: 0;
-    }
-
-    #nom-menu {
-        display: none;
-    }
-}
-
 
 
 /* -------------------------------------------------------------- */
@@ -327,20 +215,26 @@ nav hr {
     border-top-color: #593ec2;
 }
 
-.small-w {
+.w-sm {
     max-width: 576px;
     margin-right: auto;
     margin-left: auto;
 }
 
-.medium-w {
+.w-md {
     max-width: 800px;
     margin-right: auto;
     margin-left: auto;
 }
 
-.large-w {
+.w-lg {
     max-width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.w-xxl {
+    max-width: 1700px;
     margin-right: auto;
     margin-left: auto;
 }
@@ -461,6 +355,7 @@ form button, .button button {
 /* --- FOOTER --- */
 /* -------------- */
 footer {
+    z-index: 100;
     padding: 15px;
     position: fixed;
     text-align: center;

@@ -1,6 +1,6 @@
 <main class="container-fluid">
     <!-- Inscription -->
-    <section class="box small-w">
+    <section class="box w-sm">
         <!-- Titre et redirection vers connexion -->
         <h1 class="box-title text-center">Inscription</h1>
         <p class="box-subtitle">Vous avez un compte ?

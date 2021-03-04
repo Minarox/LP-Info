@@ -1,6 +1,6 @@
 <main class="container-lg">
     <!-- Boite principale -->
-    <section class="row large-w box">
+    <section class="row w-lg box">
         <section class="col-2 align-self-center">
             <img id="profil-picture" src="<?= $_SESSION['avatar'] ?>" alt="Image de profil du compte.">
         </section>
@@ -44,7 +44,7 @@
         </a>
     </section>
     <article id="overlay">
-        <section class="box small-w">
+        <section class="box w-sm">
             <!-- Titre -->
             <h1 class="box-title text-center">Voulez-vous vraiment supprimer votre compte ?</h1>
             <!-- Formulaire -->
