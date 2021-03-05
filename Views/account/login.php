@@ -10,6 +10,9 @@
         <!-- Formulaire -->
         <form id="login_form" action="" method="post">
             <hr>
+            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+            <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
+            <hr>
             <!-- Email -->
             <label for="email">Email</label>
             <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" autofocus required>
@@ -17,10 +20,6 @@
             <label for="password">Mot de passe</label>
             <input class="form-control" type="password" name="password" id="password" placeholder="*************" maxlength="99" required>
             <a id="oublie-mdp" href="#" onclick="show()">Mot de passe oublié ?</a>
-            <div class="social-login-button">
-                <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-                <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
-            </div>
             <hr>
             <!-- Se connecter -->
             <button type="submit" id="login" name="login">Se connecter</button>

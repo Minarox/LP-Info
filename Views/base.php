@@ -126,15 +126,14 @@
 </footer>
 
 <!-- Scripts pour les diagrammes et alertes -->
-<script> const root = '<?= ROOT ?>' </script>
 <?= addJavaScript('js/account/utilities.js') ?>
 <?= addJavaScript('js/bootstrap/bootstrap.min.js') ?>
 <?= addJavaScript('js/jquery/jquery-3.5.1.min.js','') ?>
 <?= addJavaScript('js/chart/Chart.bundle.min.js','') ?>
 <?= addJavaScript('js/home/Diagrammes.js','') ?>
 <?= addJavaScript('js/home/Alertes.js','') ?>
-<?= addJavaScript('js/account/register','register') ?>
-<?= addJavaScript('js/account/login','login') ?>
+<?= addJavaScript('js/account/register.js','register') ?>
+<?= addJavaScript('js/account/login.js','login') ?>
 <!-- Google -->
 <?= addJavaScript('https://apis.google.com/js/platform.js', 'register') ?>
 <?= addJavaScript('https://apis.google.com/js/platform.js', 'login') ?>

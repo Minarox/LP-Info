@@ -396,10 +396,3 @@ footer a, footer a:hover {
         display: none;
     }
 }
-
-.social-login-button {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding-top: 3.5%;
-}

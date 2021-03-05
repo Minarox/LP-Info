@@ -9,12 +9,12 @@ function onSignIn(googleUser) {
 async function ajaxRequest(id_token) {
     const xhr = new XMLHttpRequest();
 
-    xhr.open('POST', root + '/ajax/googleRegister');
+    xhr.open('POST', '/ajax/googleRegister');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         console.log(id_token);
         signOut();
-        document.location.href = root + '';
+        document.location.href = '/account';
     };
 
     xhr.send('id_token=' + id_token);

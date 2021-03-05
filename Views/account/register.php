@@ -10,6 +10,9 @@
         <!-- Formulaire -->
         <form id="signUp_form" action="" method="post">
             <hr>
+            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+            <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
+            <hr>
             <input type="hidden" name="anti_bot">
             <!-- Prénom -->
             <label for="first_name">Prénom</label>
@@ -26,10 +29,6 @@
             <!-- Vérification du mot de passe -->
             <label for="password_verify">Vérification du mot de passe</label>
             <input class="form-control" type="password" name="password_verify" id="password_verify" placeholder="*************" maxlength="99" required>
-            <div class="social-login-button">
-                <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-                <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
-            </div>
             <hr>
             <!-- Bouton de validation -->
             <button id="signUp" type="submit">Inscription</button>
