@@ -41,6 +41,9 @@ $router->add('/email/register', 'EmailRegisterController', ['GET', 'POST']);
 $router->add('/ajax/googleRegister', 'RegisterController::google', 'POST');
 $router->add('/ajax/googleLogin', 'LoginController::google', 'POST');
 
+// Sync Path
+$router->add('/sync', 'SensorsController');
+
 try {
     $router->run();
 } catch (RouterException $e) {

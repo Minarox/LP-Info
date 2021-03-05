@@ -32,9 +32,10 @@ class SensorsModel extends Model
     /**
      * @param int $type_id
      */
-    public function setTypeId(int $type_id): void
+    public function setTypeId(int $type_id): SensorsModel
     {
         $this->type_id = $type_id;
+        return $this;
     }
 
     /**
@@ -48,9 +49,10 @@ class SensorsModel extends Model
     /**
      * @param string $name
      */
-    public function setName(string $name): void
+    public function setName(string $name): SensorsModel
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
@@ -64,8 +66,9 @@ class SensorsModel extends Model
     /**
      * @param bool $active
      */
-    public function setActive(bool $active): void
+    public function setActive(bool $active): SensorsModel
     {
         $this->active = $active;
+        return $this;
     }
 }
