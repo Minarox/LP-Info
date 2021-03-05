@@ -32,9 +32,10 @@ class Sensor_DataModel extends Model
     /**
      * @param int $sensor_id
      */
-    public function setSensorId(int $sensor_id): void
+    public function setSensorId(int $sensor_id): Sensor_DataModel
     {
         $this->sensor_id = $sensor_id;
+        return $this;
     }
 
     /**
@@ -48,9 +49,10 @@ class Sensor_DataModel extends Model
     /**
      * @param float $temperature
      */
-    public function setTemperature(float $temperature): void
+    public function setTemperature(float $temperature): Sensor_DataModel
     {
         $this->temperature = $temperature;
+        return $this;
     }
 
     /**
