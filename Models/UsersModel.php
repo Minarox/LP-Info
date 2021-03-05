@@ -12,7 +12,7 @@ class UsersModel extends Model
     protected ?int $id_google;
     protected ?int $id_facebook;
     protected int $role_id;
-    protected string $last_name;
+    protected ?string $last_name;
     protected string $first_name;
     protected string $email;
     protected ?string $password;
@@ -94,18 +94,18 @@ class UsersModel extends Model
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->last_name;
     }
 
     /**
-     * @param string $last_name
+     * @param string|null $last_name
      * @return UsersModel
      */
-    public function setLastName(string $last_name): UsersModel
+    public function setLastName(?string $last_name): UsersModel
     {
         $this->last_name = $last_name;
         return $this;
