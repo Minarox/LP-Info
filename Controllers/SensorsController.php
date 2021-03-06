@@ -16,10 +16,6 @@ class SensorsController extends Controller
         $sensors = new SensorsModel();
         $sensor_data = new Sensor_DataModel();
         $sensor_types = new Sensor_TypesModel();
-        $link = array(
-            "https://hothothot.dog/api/capteurs/interieur",
-            "https://hothothot.dog/api/capteurs/exterieur"
-        );
 
         function data($url)
         {
@@ -34,7 +30,7 @@ class SensorsController extends Controller
             return json_decode($content, true);
         }
 
-        foreach ($link as $url) {
+        foreach (SENSOR_LINKS as $url) {
             $data = data($url);
 
             $sensor = $sensors->findOneBy([
@@ -47,15 +43,22 @@ class SensorsController extends Controller
                 ]);
 
                 if (empty($sensor_type)) {
-                    $sensor_type = $sensor_types->setName($data['capteurs'][0]['type'])
+                    $sensor_types->setName($data['capteurs'][0]['type'])
                         ->create();
+
+                    $sensor_type = $sensor_types->findOneBy([
+                        'name' => $data['capteurs'][0]['type']
+                    ]);
                 }
 
-                //TODO : erreur de getId lors de la création d'un capteur
-                $sensor = $sensors->setTypeId($sensor_type->getId())
+                $sensors->setTypeId($sensor_type->getId())
                     ->setName($data['capteurs'][0]['Nom'])
                     ->setActive(1)
                     ->create();
+
+                $sensor = $sensors->findOneBy([
+                    'name' => $data['capteurs'][0]['Nom']
+                ]);
             }
 
             $sensor_data->setSensorId($sensor->getId())
