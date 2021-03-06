@@ -32,7 +32,7 @@
             </article>
         </section>
         <hr>
-        <a class="button" href="<?= ROOT ?>">
+        <a class="button" href="<?= ROOT ?>account/edit">
             <button id="" type="button">
                 Modifier
             </button>
