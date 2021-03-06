@@ -30,6 +30,7 @@ $router = new Router($_GET['url']);
 $router->add('/', 'HomeController');
 $router->add('/settings', 'SettingsController');
 $router->add('/account', 'ProfileController');
+$router->add('/account/edit', 'ProfileController::edit');
 $router->add('/login', 'LoginController', ['GET', 'POST']);
 $router->add('/register', 'RegisterController', ['GET', 'POST']);
 $router->add('/help', 'HelpController');

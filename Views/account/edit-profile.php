@@ -12,20 +12,19 @@
                 <div>
                     <!-- Email -->
                     <label for="email">Email</label>
-                    <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" required>
+                    <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" value="<?= $_SESSION['email'] ?>" required>
                 </div>
                 <section class="col-6">
                     <div>
                         <!-- Prénom -->
                         <label for="prenom">Prénom</label>
-                        <input class="form-control" type="text" name="prenom" id="prenom" placeholder="Jean" maxlength="26" required>
+                        <input class="form-control" type="text" name="prenom" id="prenom" placeholder="Jean" maxlength="26" value="<?= $_SESSION['first_name'] ?>" required>
                     </div>
                     <div>
                         <!-- Nom -->
                         <label for="nom">Nom</label>
-                        <input class="form-control" type="text" name="nom" id="nom" placeholder="Dupont" maxlength="12" required>
+                        <input class="form-control" type="text" name="nom" id="nom" placeholder="Dupont" maxlength="12" value="<?= $_SESSION['last_name'] ?>" required>
                     </div>
-
                 </section>
                 <section class="col-6">
                     <div>
@@ -40,7 +39,6 @@
                     </div>
                 </section>
             </article>
-
             <hr>
             <button type="submit">Modifier</button>
             <a class="button" href="<?= ROOT ?>account">
