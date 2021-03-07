@@ -5,8 +5,9 @@ namespace App\Models;
 
 
 use App\Core\System\Model;
+use JsonSerializable;
 
-class Sensor_DataModel extends Model
+class Sensor_DataModel extends Model implements JsonSerializable
 {
     protected int $id;
     protected int $sensor_id;
@@ -61,5 +62,16 @@ class Sensor_DataModel extends Model
     public function getTimestamp(): string
     {
         return $this->timestamp;
+    }
+
+    public function jsonSerialize()
+    {
+        return
+        [
+          'id' => $this->getId(),
+          'sensor_id' => $this->getSensorId(),
+          'temperature' => $this->getTemperature(),
+          'time' => $this->getTimestamp()
+        ];
     }
 }

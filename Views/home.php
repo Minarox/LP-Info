@@ -1,3 +1,7 @@
+<?php
+    use App\Controllers\SensorsController;
+    SensorsController::get();
+?>
 <main class="container w-xxl">
     <!-- Titre général pour l'accessibilité -->
     <h1 id="accessibility">État, valeurs et historiques des capteurs.</h1>
@@ -133,4 +137,10 @@
             <canvas class="pt-2" id="comparison"></canvas>
         </article>
     </article>
+    <hr>
+    <h4>Capteur 1</h4>
+    <p><?= DATA_SENSOR_1?></p>
+    <hr>
+    <h4>Capteur 2</h4>
+    <p><?= DATA_SENSOR_2 ?></p>
 </main>

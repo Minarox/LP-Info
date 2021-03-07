@@ -65,5 +65,33 @@ class SensorsController extends Controller
                 ->setTemperature($data['capteurs'][0]['Valeur'])
                 ->create();
         }
+
+        $this->get();
+    }
+    public static function get()
+    {
+        $sensors = new SensorsModel();
+        $sensor_data = new Sensor_DataModel();
+        $sensor_types = new Sensor_TypesModel();
+
+        $list = $sensors->findAll();
+        $i = 0;
+
+        foreach ($list as $sensor) {
+            $i++;
+
+            $data = $sensor_data->findBy([
+                'sensor_id' => $sensor->getId()
+            ]);
+
+            $type = $sensor_types->findOneBy([
+                'id' => $sensor->getTypeId()
+            ]);
+            $data[] = $type->getName();
+
+            $final_data = array_slice($data, -129);
+
+            define('DATA_SENSOR_'.$i, json_encode($final_data));
+        }
     }
 }
