@@ -126,6 +126,13 @@
 </footer>
 
 <!-- Scripts pour les diagrammes et alertes -->
+<script>
+    <?php
+        use App\Controllers\SensorsController;
+        SensorsController::get();
+    ?>
+    const data_sensors = '<?php echo DATA_SENSORS ;?>'
+</script>
 <?= addJavaScript('js/account/utilities.js') ?>
 <?= addJavaScript('js/bootstrap/bootstrap.min.js') ?>
 <?= addJavaScript('js/jquery/jquery-3.5.1.min.js','') ?>
@@ -139,16 +146,17 @@
 <?= addJavaScript('https://apis.google.com/js/platform.js', 'login') ?>
 <!-- Facebook -->
 <script>
-    (function(d, s, id) {
+    /*(function(d, s, id) {
         let js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) {
             return;
         }
-        js = d.createElement(s); js.id = id;
+        js = d.createElement(s);
+        js.id = id;
         js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=803591893562929";
         fjs.parentNode.insertBefore(js, fjs);
-    } (document, 'script', 'facebook-jssdk'));
+    }
+    (document, 'script', 'facebook-jssdk'));*/
 </script>
-
 </body>
 </html>
