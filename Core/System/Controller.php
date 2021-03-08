@@ -31,10 +31,33 @@ abstract class Controller
 
     }
 
-    protected function render(string $name_file, array $params = [], string $template = 'base', string $title = 'Accueil')
+    protected function render(string $name_file, array $params = [], string $template = 'base', string $title = 'Accueil', bool $caching = true): void
     {
+        $start = microtime(true);
+        $cache = new Cache(__DIR__ . '/cache', 0.05);
+
         extract($params);
 
+        ob_start();
+
+        require_once VIEWS . 'message/message.php';
+
+        if ($caching) {
+            if(!$cache->start(hash('sha512', "$name_file$title"))) {
+                $this->page($name_file, $template);
+                echo $cache->end();
+            }
+        } else {
+            $this->page($name_file, $template);
+        }
+
+        $end = microtime(true);
+
+        if (DEBUG) var_dump(round($end - $start, 5));
+    }
+
+    private function page($name_file, $template): void
+    {
         ob_start();
 
         // On insère le fichier des fonctions utile pour la vue
@@ -47,13 +70,13 @@ abstract class Controller
         require_once VIEWS . "$template.php";
     }
 
-    #[NoReturn] protected function redirect(string $header, bool $replace = false, int $response_code = 0)
+    #[NoReturn] protected function redirect(string $header, bool $replace = false, int $response_code = 0): void
     {
         header('Location: ' . ROOT . $header, $replace, $response_code);
         die();
     }
 
-    protected function addFlash(string $alert_type, string $message)
+    protected function addFlash(string $alert_type, string $message): void
     {
         $this->request->session->set($alert_type, $message);
     }
@@ -82,7 +105,6 @@ abstract class Controller
     {
         require_once dirname(__DIR__) . '/Classes/lib/google/vendor/autoload.php';
 
-        // problème avec le SSL ( sur local )
         $guzzle = new Client(array( 'curl' => array( CURLOPT_SSL_VERIFYPEER => false, ), ));
         $client = new Google_Client();
 
