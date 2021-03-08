@@ -108,9 +108,6 @@
         </section>
     </nav>
 </header>
-<section class="container">
-    <?php include_once __DIR__ . '/message/message.php' ?>
-</section>
 
 <!-- Contenu principal -->
 <?= $content ??= null ?>
