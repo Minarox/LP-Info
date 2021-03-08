@@ -82,11 +82,14 @@ abstract class Controller
     {
         require_once dirname(__DIR__) . '/Classes/lib/google/vendor/autoload.php';
 
+        // problème avec le SSL ( sur local )
+        $guzzle = new Client(array( 'curl' => array( CURLOPT_SSL_VERIFYPEER => false, ), ));
         $client = new Google_Client();
 
         $client->setClientId(ENV['GOOGLE_CLIENT_ID']);
         $client->setApplicationName('HotHotHot');
         $client->setClientSecret(ENV['GOOGLE_CLIENT_SECRET']);
+        $client->setHttpClient($guzzle);
         $client->addScope(Google_Service_Oauth2::USERINFO_PROFILE);
 
         return $client->verifyIdToken($token);

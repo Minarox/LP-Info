@@ -15,7 +15,7 @@ class Cookie implements StoreData
         return array_key_exists($key, $_COOKIE) ? $_COOKIE[$key] : false;
     }
 
-    public function set(string $key, mixed $value, string $path = null, int $time = 15): void
+    public function set(string $key, mixed $value, string $path = null, int $time = INACTIVITY_TIME): void
     {
         $this->time = $time;
         $options = array('expires' => time() + $this->time, 'path' => $path, 'secure' => FALSE, 'httponly' => TRUE, 'samesite' => 'Strict');
