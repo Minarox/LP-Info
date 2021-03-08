@@ -4,15 +4,18 @@ Chart.defaults.global.defaultFontFamily = '"Roboto", "Arial", "Helvetica", "sans
 let colors = []
 colors.push({
     0: 'rgb(29,140,248)',
-    1: 'rgba(29,140,248,0.3)'
+    1: 'rgba(29,140,248,0.6)',
+    2: 'rgba(29,140,248,0.3)'
 })
 colors.push({
     0: 'rgb(208,72,182)',
-    1: 'rgba(208,72,182,0.2)'
+    1: 'rgba(208,72,182,0.6)',
+    2: 'rgba(208,72,182,0.2)'
 })
 colors.push({
     0: 'rgb(38,195,62)',
-    1: 'rgba(38,195,62,0.2)'
+    1: 'rgba(38,195,62,0.6)',
+    2: 'rgba(38,195,62,0.2)'
 })
 
 function parse_data(raw_data) {
@@ -36,15 +39,20 @@ function parse_data(raw_data) {
         let temperature = []
         let time = []
         if (sensor_data.length === 0) {
-            $("#sensor"+i+"-dot").css("background-color", "red")
-            let text = $("#sensor"+i+"-state").text()
-            $("#sensor"+i+"-state").text(text.replace("Actif", "Inactif"))
-            $("#sensor"+i+"-state").css({"--main-color": "red"})
-            $("#sensor"+i+"-now").text("NaN")
-            $("#sensor"+i+"-max").text("NaN")
-            $("#sensor"+i+"-min").text("NaN")
-            // TODO: "Inactif" si le temps entre maintenant et la dernière valeur est supérieur au temps de synchro de config.ini
+            $("#sensor" + i + "-dot").css("background-color", "red")
+            let text = $("#sensor" + i + "-state").text()
+            $("#sensor" + i + "-state").text(text.replace("Actif", "Inactif"))
+            $("#sensor" + i + "-state").css({"--main-color": "red"})
+            $("#sensor" + i + "-now").text("NaN")
+            $("#sensor" + i + "-max").text("NaN")
+            $("#sensor" + i + "-min").text("NaN")
         } else {
+            if (Date.now() - Date.parse(data[i]['data'][127]['time']) > sensors_sync_time*60000) {
+                $("#sensor" + i + "-dot").css("background-color", "red")
+                let text = $("#sensor" + i + "-state").text()
+                $("#sensor" + i + "-state").text(text.replace("Actif", "Inactif"))
+                $("#sensor" + i + "-state").css({"--main-color": "red"})
+            }
             for (let j = 0; j < 128; j++) {
                 temperature.push(data[i]['data'][j]['temperature'])
                 time.push(data[i]['data'][j]['time'])
@@ -65,7 +73,7 @@ function chart(id, data, labels) {
     const ctx = document.getElementById("sensor"+id+"-charts").getContext('2d')
     let id_color = id % (colors.length)
     let degradeCouleur = ctx.createLinearGradient(0, 230, 0, 50);
-    degradeCouleur.addColorStop(1, colors[id_color][1]);
+    degradeCouleur.addColorStop(1, colors[id_color][2]);
     degradeCouleur.addColorStop(0.2, "rgba(0, 0, 0, 0)");
     let date = []
     let time = []
@@ -123,6 +131,7 @@ function comparison_chart(data, labels, name) {
     let time = []
     let label = []
     let value = []
+    let datasets = []
     let y = 0
     for (let i = 0; i < 128; i++) {
         value.push(data[i])
@@ -139,24 +148,20 @@ function comparison_chart(data, labels, name) {
         }
         y++
     }
+    for (let i = 0; i < labels.length; i++) {
+        datasets.push({
+            label: name[i]+' ',
+            borderColor: colors[i][1],
+            borderWidth: 2,
+            pointBackgroundColor: colors[i][0],
+            data: data[i]
+        },)
+    }
     new Chart(ctx, {
         type: 'line',
         data: {
             labels: label,
-            datasets: [{
-                label: name[0]+' ',
-                borderColor: "#1F8EF1",
-                borderWidth: 2,
-                pointBackgroundColor: '#1F8EF1',
-                data: data[0]
-            },
-            {
-                label: name[1]+' ',
-                borderColor: "#D048B6",
-                borderWidth: 2,
-                pointBackgroundColor: '#D048B6',
-                data: data[1]
-            }]
+            datasets: datasets
         },
         options: {
             maintainAspectRatio: false,
@@ -172,4 +177,4 @@ function comparison_chart(data, labels, name) {
     })
 }
 
-parse_data(data_sensors)
+parse_data(sensors_data)
