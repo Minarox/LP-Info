@@ -123,13 +123,6 @@
 </footer>
 
 <!-- Scripts pour les diagrammes et alertes -->
-<script>
-    <?php
-        use App\Controllers\SensorsController;
-        SensorsController::get();
-    ?>
-    const data_sensors = '<?php echo DATA_SENSORS ;?>'
-</script>
 <?= addJavaScript('js/account/utilities.js') ?>
 <?= addJavaScript('js/bootstrap/bootstrap.min.js') ?>
 <?= addJavaScript('js/jquery/jquery-3.5.1.min.js','') ?>

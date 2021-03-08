@@ -98,6 +98,6 @@ class SensorsController extends Controller
         }
 
         define('DATA_SENSORS', json_encode($data));
-        define('NUMBER_SENSORS', count($list)-1);
+        define('NUMBER_SENSORS', count($list));
     }
 }
