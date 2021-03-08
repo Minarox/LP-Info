@@ -10,8 +10,12 @@
         <!-- Formulaire -->
         <form id="login_form" action="" method="post">
             <hr>
-            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-            <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
+            <!-- Google et Facebook -->
+            <!-- TODO: Corriger la taille des boutons -->
+            <article class="row">
+                <section class="col g-signin2" data-height="40" data-onsuccess="onSignIn" data-theme="dark"></section>
+                <section class="col fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></section>
+            </article>
             <hr>
             <!-- Email -->
             <label for="email">Email</label>
