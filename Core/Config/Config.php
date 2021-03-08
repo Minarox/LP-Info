@@ -28,10 +28,8 @@ abstract class Config
         // Debug
         define('DEBUG', $config['debug'] ? true : false);
 
-        // Synchro time
-        define('SENSOR_TIME', $config['sync_time']);
-
-        // Sensor links
-        define('SENSOR_LINKS', explode(', ', $config['links']));
+        // Sensors
+        define('SENSORS_SYNC_TIME', $config['sync_time']);
+        define('SENSORS_LINK', explode(', ', $config['links']));
     }
 }

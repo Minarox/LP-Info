@@ -4,7 +4,7 @@
     <?php
         use App\Controllers\SensorsController;
         SensorsController::get();
-        for ($i = 0; $i < NUMBER_SENSORS; $i++) {
+        for ($i = 0; $i < SENSORS_NUMBER; $i++) {
             // TODO: Générer l'HTML en fonction du nombre de capteur
             null;
         }
@@ -143,5 +143,6 @@
     </article>
 </main>
 <script>
-    const data_sensors = '<?= DATA_SENSORS ?>'
+    const sensors_data = '<?= SENSORS_DATA ?>'
+    const sensors_sync_time = '<?= SENSORS_SYNC_TIME ?>'
 </script>

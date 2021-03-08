@@ -30,7 +30,7 @@ class SensorsController extends Controller
             return json_decode($content, true);
         }
 
-        foreach (SENSOR_LINKS as $url) {
+        foreach (SENSORS_LINK as $url) {
             $data = data($url);
 
             if (!empty($data)) {
@@ -97,7 +97,7 @@ class SensorsController extends Controller
             $i++;
         }
 
-        define('DATA_SENSORS', json_encode($data));
-        define('NUMBER_SENSORS', count($list));
+        define('SENSORS_DATA', json_encode($data));
+        define('SENSORS_NUMBER', count($list));
     }
 }
