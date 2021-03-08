@@ -33,5 +33,9 @@ abstract class Config
 
         // Sensor links
         define('SENSOR_LINKS', explode(', ', $config['links']));
+
+        // Cookies time
+        define('INACTIVITY_TIME', $config['inactivity_time']);
+        define('PASSWORD_RECOVERY_TIME', $config['password_recovery_time']);
     }
 }
