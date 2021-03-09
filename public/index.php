@@ -34,7 +34,7 @@ $router->add('/account/edit', 'ProfileController::edit');
 $router->add('/login', 'LoginController', ['GET', 'POST']);
 $router->add('/register', 'RegisterController', ['GET', 'POST']);
 $router->add('/help', 'HelpController');
-$router->add('/recovery', 'RecoveryController');
+$router->add('/recovery', 'RecoveryController', ['GET', 'POST']);
 $router->add('/logout', 'LogoutController');
 $router->add('/email/register', 'EmailRegisterController', ['GET', 'POST']);
 

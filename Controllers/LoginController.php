@@ -23,6 +23,38 @@ final class LoginController extends Controller
 
         if ($validator->isSubmitted()) {
 
+            if (isset($_POST['recovery-email'])) {
+                $header = "From : no-reply@hothothot.fr\n";
+                $header .= "X-Priority : 1\n";
+                $header .= "Content-type: text/html; charset=utf-8\n";
+                $header .= "Content-Transfer-Encoding: 8bit\n";
+
+                $port = empty($_SERVER['HTTPS']) ? 'http' : 'https';
+                $uri = $port . '://' . $_SERVER['HTTP_HOST'] . ROOT . "recovery";
+                $timestamp = time();
+
+                $recover_user = $user->findOneBy([
+                    'email' => $_POST['recovery-email']
+                ]);
+
+                if (!$recover_user) {
+                    $this->addFlash('error', "Nous n'avons pas trouvé d'utilisateur avec cette adresse mail.");
+                    $this->redirect(header: 'login', response_code: 301);
+                }
+                $user_id = $recover_user->getId();
+
+                ob_start();
+                include_once __DIR__ . '/../Views/email/recover.php';
+                $content = ob_get_clean();
+
+                if (!mail(Validator::filter($_POST['recovery-email']), 'Votre recupération de mot de passe chez HotHotHot !', $content, $header)) {
+                    $this->addFlash('error', "L'e-mail de confirmation du compte n'a pas pu être envoyé !");
+                } else {
+                    $this->addFlash('success', "Un email de récupération de mot de passe vous a été envoyé à l'adresse e-mail : {$_POST['recovery-email']}");
+                    $this->redirect(header: 'login', response_code: 301);
+                }
+            }
+
             $data = $user->findOneBy([
                 'email' => $_POST['email']
             ]);
