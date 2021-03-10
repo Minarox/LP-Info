@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\SensorsController;
 use App\Core\Autoloader\Autoloader;
 use App\Core\Exceptions\RouterException;
 use App\Core\Routes\Router;
@@ -22,6 +23,9 @@ Config::loadConfig();
 // Charger le chargement auto des classes
 Autoloader::register();
 
+// Création / mise à jour de la crontab
+SensorsController::crontab();
+
 $router = new Router($_GET['url']);
 
 //new Routes($router);
@@ -34,7 +38,7 @@ $router->add('/account/edit', 'ProfileController::edit');
 $router->add('/login', 'LoginController', ['GET', 'POST']);
 $router->add('/register', 'RegisterController', ['GET', 'POST']);
 $router->add('/help', 'HelpController');
-$router->add('/recovery', 'RecoveryController');
+$router->add('/recovery', 'RecoveryController', ['GET', 'POST']);
 $router->add('/logout', 'LogoutController');
 $router->add('/email/register', 'EmailRegisterController', ['GET', 'POST']);
 
@@ -44,6 +48,7 @@ $router->add('/ajax/googleLogin', 'LoginController::google', 'POST');
 
 // Sync Path
 $router->add('/sync', 'SensorsController');
+$router->add('/test', 'SensorsController::crontab');
 
 try {
     $router->run();

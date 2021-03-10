@@ -62,16 +62,16 @@ nav hr {
 /* ------------ */
 /* --- HOME --- */
 /* ------------ */
-#indoor, #outdoor {
+.sensor, #outdoor {
     position: relative;
 }
 
-#indoor section, #outdoor section {
+.sensor section, #outdoor section {
     filter: blur(0);
     transition: filter 0.5s;
 }
 
-#indoor-alert, #outdoor-alert {
+.sensor-alert, #outdoor-alert {
     pointer-events: none;
     user-select: none;
     position: absolute;
@@ -83,16 +83,16 @@ nav hr {
     opacity: 0;
 }
 
-#indoor-alert h2, #outdoor-alert h2 {
+.sensor-alert h2, #outdoor-alert h2 {
     font-weight: bold;
 }
 
-#indoor-alert p, #outdoor-alert p {
+.sensor-alert p, #outdoor-alert p {
     padding-bottom: 22px;
     font-size: 18px;
 }
 
-#indoor-alert button, #outdoor-alert button {
+.sensor-alert button, #outdoor-alert button {
     width: 150px;
     margin: 0 2.5% 0 0;
     padding: 8px 40px;
@@ -101,16 +101,21 @@ nav hr {
     background: linear-gradient(to right, #593EC2, #7E3EC2);
 }
 
-#indoor-title, #outdoor-title {
+.sensor-title, #outdoor-title {
     position: relative;
     font-weight: bold;
 }
 
-#indoor-back-btn, #outdoor-back-btn {
+.comparison-title {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.sensor-back-btn, #outdoor-back-btn {
     display: none;
 }
 
-#indoor-dot, #outdoor-dot {
+.sensor-dot, #outdoor-dot {
     display: inline-block;
     height: 20px;
     width: 20px;
@@ -118,7 +123,7 @@ nav hr {
     border-radius: 50%;
 }
 
-#indoor-state, #outdoor-state {
+.sensor-state, #outdoor-state {
     --main-color: forestgreen;
     visibility: hidden;
     width: 70px;
@@ -136,7 +141,7 @@ nav hr {
     transition: opacity 0.3s;
 }
 
-#indoor-state:after, #outdoor-state:after {
+.sensor-state:after, #outdoor-state:after {
     content: "";
     position: absolute;
     top: 100%;
@@ -147,7 +152,7 @@ nav hr {
     border-color: var(--main-color) transparent transparent transparent;
 }
 
-#indoor-title:hover #indoor-state, #outdoor-title:hover #outdoor-state {
+.sensor-title:hover .sensor-state, #outdoor-title:hover #outdoor-state {
     visibility: visible;
     opacity: 1;
 }
@@ -162,8 +167,8 @@ nav hr {
 
 .separator {
     border-left: 2px solid;
-    margin-left: 15px;
-    padding-left: 15px;
+    margin-left: 8px;
+    padding: 0;
     border-color: #AAA;
 }
 
@@ -172,28 +177,32 @@ nav hr {
     font-weight: bold;
 }
 
-.separator article p {
+.separator article section p {
     font-size: 15px;
 }
 
-#indoor-now, #indoor-max, #indoor-min, #outdoor-now, #outdoor-max, #outdoor-min {
+.sensor-info {
     font-size: 22px;
-    margin-right: 18px;
+    margin-right: 28px;
 }
 
 @media only screen and (max-width: 1399px) {
     .separator {
         border-left: 0;
         margin-left: 0;
-        margin-top: 15px;
-        padding-top: 15px;
+        margin-top: 8px;
+        padding-top: 12px;
         border-top: 2px solid;
         border-color: #AAA;
+    }
+
+    .sensor-info {
+        margin-right: 0;
     }
 }
 
 @media only screen and (max-width: 344px) {
-    #indoor-alert button, #outdoor-alert button {
+    .sensor-alert button, #outdoor-alert button {
         margin-top: 12px;
     }
 }
@@ -235,7 +244,7 @@ nav hr {
 }
 
 .w-xxl {
-    max-width: 1700px;
+    max-width: 1800px;
     margin-right: auto;
     margin-left: auto;
 }

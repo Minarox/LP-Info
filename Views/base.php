@@ -108,9 +108,6 @@
         </section>
     </nav>
 </header>
-<section class="container">
-    <?php include_once __DIR__ . '/message/message.php' ?>
-</section>
 
 <!-- Contenu principal -->
 <?= $content ??= null ?>
@@ -144,11 +141,12 @@
         if (d.getElementById(id)) {
             return;
         }
-        js = d.createElement(s); js.id = id;
+        js = d.createElement(s);
+        js.id = id;
         js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=803591893562929";
         fjs.parentNode.insertBefore(js, fjs);
-    } (document, 'script', 'facebook-jssdk'));
+    }
+    (document, 'script', 'facebook-jssdk'));
 </script>
-
 </body>
 </html>
