@@ -105,9 +105,9 @@ function pageDisplay(capteur, alerte, description) {
         descExterieur = description
     }
     // Modification des éléments et affichage de l'alerte
-    $("#"+capteur+"-alert p").text(alerte)
-    $("#"+capteur+" section").css({"filter": "blur(8px)","pointer-events": "none", "user-select": "none"})
-    $("#"+capteur+"-alert").css({"opacity": "1", "transition": "opacity 0.4s 0.2s", "filter": "blur(0px)", "pointer-events": "auto", "user-select": "auto"})
+    $("#sensor"+capteur+"-alert p").text(alerte)
+    $("#sensor"+capteur+" section").css({"filter": "blur(8px)","pointer-events": "none", "user-select": "none"})
+    $("#sensor"+capteur+"-alert").css({"opacity": "1", "transition": "opacity 0.4s 0.2s", "filter": "blur(0px)", "pointer-events": "auto", "user-select": "auto"})
 }
 
 // Fonction permettant d'afficher les détails d'une erreur
@@ -115,31 +115,31 @@ function alertDetails(capteur, retour) {
     // Traitement différent en fonction de l'affichage en cours
     if (retour !== true) {
         // Affichage des détails de l'alerte du capteur
-        titre = $("#"+capteur+"-alert h2").text()
-        alerte = $("#"+capteur+"-alert p").text()
-        $("#"+capteur+"-details-btn").css({"display": "none"})
-        $("#"+capteur+"-back-btn").css({"display": "inline"})
-        $("#"+capteur+"-alert h2").text("Détails de l'alerte :")
+        titre = $("#sensor"+capteur+"-alert h2").text()
+        alerte = $("#sensor"+capteur+"-alert p").text()
+        $("#sensor"+capteur+"-details-btn").css({"display": "none"})
+        $("#sensor"+capteur+"-back-btn").css({"display": "inline"})
+        $("#sensor"+capteur+"-alert h2").text("Détails de l'alerte :")
         // Sélection de la description en fonction du capteur
         if (capteur === "indoor") {
-            $("#"+capteur+"-alert p").text(descInterieur)
+            $("#sensor"+capteur+"-alert p").text(descInterieur)
         } else {
-            $("#"+capteur+"-alert p").text(descExterieur)
+            $("#sensor"+capteur+"-alert p").text(descExterieur)
         }
     } else {
         // Affichage de l'erreur sans le détail
-        $("#"+capteur+"-details-btn").css({"display": "inline"})
-        $("#"+capteur+"-back-btn").css({"display": "none"})
-        $("#"+capteur+"-alert h2").text(titre)
-        $("#"+capteur+"-alert p").text(alerte)
+        $("#sensor"+capteur+"-details-btn").css({"display": "inline"})
+        $("#sensor"+capteur+"-back-btn").css({"display": "none"})
+        $("#sensor"+capteur+"-alert h2").text(titre)
+        $("#sensor"+capteur+"-alert p").text(alerte)
     }
 }
 
 // Fonction de fermeture de l'alerte
 function closeAlert(capteur) {
     // Modification du CSS permettant de retourner à l'affichage normal
-    $("#"+capteur+" section").css({"filter": "blur(0px)","pointer-events": "auto", "user-select": "auto"})
-    $("#"+capteur+"-alert").css({"opacity": "0", "transition": "opacity 0.2s", "filter": "blur(0px)", "pointer-events": "none", "user-select": "none"})
+    $("#sensor"+capteur+" section").css({"filter": "blur(0px)","pointer-events": "auto", "user-select": "auto"})
+    $("#sensor"+capteur+"-alert").css({"opacity": "0", "transition": "opacity 0.2s", "filter": "blur(0px)", "pointer-events": "none", "user-select": "none"})
 }
 
 // Appels des fonctions pour potentiellement afficher les alertes
