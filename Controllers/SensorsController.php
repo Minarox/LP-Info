@@ -8,6 +8,7 @@ use App\Core\System\Controller;
 use App\Models\SensorsModel;
 use App\Models\Sensor_DataModel;
 use App\Models\Sensor_TypesModel;
+use Net_SSH2;
 
 class SensorsController extends Controller
 {
@@ -30,43 +31,46 @@ class SensorsController extends Controller
             return json_decode($content, true);
         }
 
-        foreach (SENSOR_LINKS as $url) {
+        foreach (SENSORS_LINK as $url) {
             $data = data($url);
 
-            $sensor = $sensors->findOneBy([
-                'name' => $data['capteurs'][0]['Nom']
-            ]);
-
-            if (empty($sensor)) {
-                $sensor_type = $sensor_types->findOneBy([
-                    'name' => $data['capteurs'][0]['type']
-                ]);
-
-                if (empty($sensor_type)) {
-                    $sensor_types->setName($data['capteurs'][0]['type'])
-                        ->create();
-
-                    $sensor_type = $sensor_types->findOneBy([
-                        'name' => $data['capteurs'][0]['type']
-                    ]);
-                }
-
-                $sensors->setTypeId($sensor_type->getId())
-                    ->setName($data['capteurs'][0]['Nom'])
-                    ->setActive(1)
-                    ->create();
-
+            if (!empty($data)) {
                 $sensor = $sensors->findOneBy([
                     'name' => $data['capteurs'][0]['Nom']
                 ]);
-            }
 
-            $sensor_data->setSensorId($sensor->getId())
-                ->setTemperature($data['capteurs'][0]['Valeur'])
-                ->create();
+                if (empty($sensor)) {
+                    $sensor_type = $sensor_types->findOneBy([
+                        'name' => $data['capteurs'][0]['type']
+                    ]);
+
+                    if (empty($sensor_type)) {
+                        $sensor_types->setName($data['capteurs'][0]['type'])
+                            ->create();
+
+                        $sensor_type = $sensor_types->findOneBy([
+                            'name' => $data['capteurs'][0]['type']
+                        ]);
+                    }
+
+                    $sensors->setTypeId($sensor_type->getId())
+                        ->setName($data['capteurs'][0]['Nom'])
+                        ->setActive(1)
+                        ->create();
+
+                    $sensor = $sensors->findOneBy([
+                        'name' => $data['capteurs'][0]['Nom']
+                    ]);
+                }
+
+                $sensor_data->setSensorId($sensor->getId())
+                    ->setTemperature($data['capteurs'][0]['Valeur'])
+                    ->create();
+            }
         }
 
         $this->get();
+        $this->crontab();
     }
     public static function get()
     {
@@ -75,23 +79,50 @@ class SensorsController extends Controller
         $sensor_types = new Sensor_TypesModel();
 
         $list = $sensors->findAll();
+
         $i = 0;
+        $data = [];
 
         foreach ($list as $sensor) {
-            $i++;
-
-            $data = $sensor_data->findBy([
-                'sensor_id' => $sensor->getId()
-            ]);
-
             $type = $sensor_types->findOneBy([
                 'id' => $sensor->getTypeId()
             ]);
-            $data[] = $type->getName();
 
-            $final_data = array_slice($data, -129);
+            $data[$i]['name'] = $sensor->getName();
+            $data[$i]['type'] = $type->getName();
 
-            define('DATA_SENSOR_'.$i, json_encode($final_data));
+            $data_raw = $sensor_data->findBy([
+                'sensor_id' => $sensor->getId()
+            ]);
+
+            $data[$i]['data'] = array_slice($data_raw, -128);
+            $i++;
+        }
+
+        define('SENSORS_DATA', json_encode($data));
+        define('SENSORS_NUMBER', count($list));
+    }
+
+    public static function crontab()
+    {
+        if (SENSORS_SYNC_TIME < 0) exit("Temps de synchronisation négatif");
+
+        require_once dirname(__DIR__) . '/Core/Classes/lib/phpseclib/Net/SSH2.php';
+        set_include_path(get_include_path() . PATH_SEPARATOR . 'phpseclib');
+
+        $ssh = new NET_SSH2(SSH_HOST, SSH_PORT);
+        if (!$ssh->login(SSH_USER, SSH_PASS)) {
+            exit('Login Failed');
+        }
+
+        if (SENSORS_SYNC_TIME == 0) {
+            $ssh->exec('echo "* * * * * /bin/curl https://hothothot.minarox.fr/sync" | crontab -');
+        } elseif (SENSORS_SYNC_TIME <= 59) {
+            echo $ssh->exec('echo "*/'.SENSORS_SYNC_TIME.' * * * * /bin/curl https://hothothot.minarox.fr/sync" | crontab -');
+        } else {
+            $hours = (int) floor(SENSORS_SYNC_TIME / 60);
+            $minutes = (SENSORS_SYNC_TIME % 60);
+            $ssh->exec('echo "*/'.$minutes.' */'.$hours.' * * * /bin/curl https://hothothot.minarox.fr/sync" | crontab -');
         }
     }
 }

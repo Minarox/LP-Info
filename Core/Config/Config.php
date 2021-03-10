@@ -15,6 +15,12 @@ abstract class Config
         define('VIEWS', dirname(__DIR__,2) . '/Views/');
         define('SCRIPTS', dirname($_SERVER['SCRIPT_NAME']) . '/assets/');
 
+        // SSH params
+        define('SSH_HOST', $config['ssh_host']);
+        define('SSH_PORT', $config['ssh_port']);
+        define('SSH_USER', $config['ssh_user']);
+        define('SSH_PASS', $config['ssh_pass']);
+
         // Database params
         define('DB_TYPE', $config['db_type']);
         define('DB_HOST', $config['db_host']);
@@ -28,10 +34,12 @@ abstract class Config
         // Debug
         define('DEBUG', $config['debug'] ? true : false);
 
-        // Synchro time
-        define('SENSOR_TIME', $config['sync_time']);
+        // Cookies time
+        define('INACTIVITY_TIME', $config['inactivity_time']);
+        define('PASSWORD_RECOVERY_TIME', $config['password_recovery_time']);
 
-        // Sensor links
-        define('SENSOR_LINKS', explode(', ', $config['links']));
+        // Sensors
+        define('SENSORS_SYNC_TIME', $config['sync_time']);
+        define('SENSORS_LINK', explode(', ', $config['links']));
     }
 }
