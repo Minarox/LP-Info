@@ -8,6 +8,7 @@ use App\Core\System\Controller;
 use App\Models\SensorsModel;
 use App\Models\Sensor_DataModel;
 use App\Models\Sensor_TypesModel;
+use Net_SSH2;
 
 class SensorsController extends Controller
 {
@@ -69,6 +70,7 @@ class SensorsController extends Controller
         }
 
         $this->get();
+        $this->crontab();
     }
     public static function get()
     {
@@ -99,5 +101,28 @@ class SensorsController extends Controller
 
         define('SENSORS_DATA', json_encode($data));
         define('SENSORS_NUMBER', count($list));
+    }
+
+    public static function crontab()
+    {
+        if (SENSORS_SYNC_TIME < 0) exit("Temps de synchronisation négatif");
+
+        require_once dirname(__DIR__) . '/Core/Classes/lib/phpseclib/Net/SSH2.php';
+        set_include_path(get_include_path() . PATH_SEPARATOR . 'phpseclib');
+
+        $ssh = new NET_SSH2(SSH_HOST, SSH_PORT);
+        if (!$ssh->login(SSH_USER, SSH_PASS)) {
+            exit('Login Failed');
+        }
+
+        if (SENSORS_SYNC_TIME == 0) {
+            $ssh->exec('echo "* * * * * /bin/curl https://hothothot.minarox.fr/sync" | crontab -');
+        } elseif (SENSORS_SYNC_TIME <= 59) {
+            echo $ssh->exec('echo "*/'.SENSORS_SYNC_TIME.' * * * * /bin/curl https://hothothot.minarox.fr/sync" | crontab -');
+        } else {
+            $hours = (int) floor(SENSORS_SYNC_TIME / 60);
+            $minutes = (SENSORS_SYNC_TIME % 60);
+            $ssh->exec('echo "*/'.$minutes.' */'.$hours.' * * * /bin/curl https://hothothot.minarox.fr/sync" | crontab -');
+        }
     }
 }
