@@ -15,9 +15,9 @@
                 <h2>Alerte du capteur intérieur :</h2>
                 <p></p>
                 <!-- Boutons de navigation de l\'alerte -->
-                <button onclick="alertDetails("'.$id.'", false)" class="sensor-details-btn" id="sensor'.$id.'-details-btn">Détails</button>
-                <button onclick="alertDetails("'.$id.'", true)" class="sensor-back-btn" id="sensor'.$id.'-back-btn">Retour</button>
-                <button onclick="closeAlert("'.$id.'")">Fermer</button>
+                <button onclick="alertDetails('.$id.', false)" class="sensor-details-btn" id="sensor'.$id.'-details-btn">Détails</button>
+                <button onclick="alertDetails('.$id.', true)" class="sensor-back-btn" id="sensor'.$id.'-back-btn">Retour</button>
+                <button onclick="closeAlert('.$id.')">Fermer</button>
             </section>
             <!-- État, titre et diagramme -->
             <section class="col col-xxl-7 p-0">
