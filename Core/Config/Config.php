@@ -15,6 +15,12 @@ abstract class Config
         define('VIEWS', dirname(__DIR__,2) . '/Views/');
         define('SCRIPTS', dirname($_SERVER['SCRIPT_NAME']) . '/assets/');
 
+        // SSH params
+        define('SSH_HOST', $config['ssh_host']);
+        define('SSH_PORT', $config['ssh_port']);
+        define('SSH_USER', $config['ssh_user']);
+        define('SSH_PASS', $config['ssh_pass']);
+
         // Database params
         define('DB_TYPE', $config['db_type']);
         define('DB_HOST', $config['db_host']);
