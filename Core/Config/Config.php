@@ -16,6 +16,7 @@ abstract class Config
         // Public sources path
         define('VIEWS', dirname(__DIR__,2) . '/Views/');
         define('SCRIPTS', dirname($_SERVER['SCRIPT_NAME']) . '/assets/');
+        define('NO_REPLY_EMAIL', 'no-reply@hothothot.fr');
 
         // SSH params
         define('SSH_HOST', $config['ssh_host']);

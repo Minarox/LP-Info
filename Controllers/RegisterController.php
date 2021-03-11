@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 
 
+use App\Core\Classes\Mail;
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\System\Controller;
 use App\Core\Classes\Validator;
@@ -46,21 +47,16 @@ final class RegisterController extends Controller
             ]);
 
             if ($validator->isSuccess() && !$matchValue) {
-                $header = "From : no-reply@hothothot.fr\n";
-                $header .= "X-Priority : 1\n";
-                $header .= "Content-type: text/html; charset=utf-8\n";
-                $header .= "Content-Transfer-Encoding: 8bit\n";
-
-                $port = empty($_SERVER['HTTPS']) ? 'http' : 'https';
-                $uri = $port . '://' . $_SERVER['HTTP_HOST'] . ROOT . "email/register";
+                $mail = new Mail(
+                    Validator::filter($email_post), 'Votre Inscription chez HotHotHot !', dirname(__DIR__) . '/Views/email/register.php'
+                );
 
                 $token = Token::generate();
 
-                ob_start();
-                include_once __DIR__ . '/../Views/email/register.php';
-                $content = ob_get_clean();
-
-                if (!mail(Validator::filter($email_post), 'Votre Inscription chez HotHotHot !', $content, $header)) {
+                if (!$mail->send([
+                    'token' => $token,
+                    'uri' => $this->getActualUri('email/register')
+                ])) {
                     $this->addFlash('error', "L'e-mail de confirmation du compte n'a pas pu être envoyé !");
                     $this->redirect(header: 'register', response_code: 301);
                 }
@@ -93,8 +89,6 @@ final class RegisterController extends Controller
         $payload = $this->googleData($request->post->get('id_token'));
 
         if ($payload) {
-            $data_role = $role->findById(1);
-
             $data = $user->findOneBy([
                 'email' => $payload['email'] ??= null
             ]);
@@ -110,7 +104,7 @@ final class RegisterController extends Controller
                     ->setEmail($payload['email'])
                     ->setIsVerified(1)
                     ->setAvatar($payload['picture'])
-                    ->setRoleId($data_role->getId())
+                    ->setRoleId($role->findById(1)->getId())
                     ->setLastConnexion(date('Y-m-d h:i:s', time()))
                     ->setToken($token)
                     ->create();
