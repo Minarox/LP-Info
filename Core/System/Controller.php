@@ -33,7 +33,6 @@ abstract class Controller
 
     protected function render(string $name_file, array $params = [], string $template = 'base', string $title = 'Accueil', bool $caching = true): void
     {
-        //TODO: Sa doit être à cause du cache que le $title ne marche plus
         $start = microtime(true);
         $cache = new Cache(__DIR__ . '/cache', 0.05);
 
@@ -44,11 +43,11 @@ abstract class Controller
 
         if ($caching) {
             if(!$cache->start(hash('sha512', "$name_file$title"))) {
-                $this->page($name_file, $template);
+                $this->page($name_file, $template, $title);
                 echo $cache->end();
             }
         } else {
-            $this->page($name_file, $template);
+            $this->page($name_file, $template, $title);
         }
 
         $end = microtime(true);
@@ -56,7 +55,7 @@ abstract class Controller
         if (DEBUG) var_dump(round($end - $start, 5));
     }
 
-    private function page($name_file, $template): void
+    private function page($name_file, $template, $title): void
     {
         ob_start();
 
