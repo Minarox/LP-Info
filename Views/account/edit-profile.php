@@ -34,8 +34,8 @@
                     </div>
                     <div>
                         <!-- Vérification du nouveau mot de passe -->
-                        <label for="password-verify">Vérification du nouveau mot de passe</label>
-                        <input class="form-control" type="password" name="password-verify" id="password-verify" placeholder="***********" maxlength="99">
+                        <label for="password_verify">Vérification du nouveau mot de passe</label>
+                        <input class="form-control" type="password" name="password_verify" id="password_verify" placeholder="***********" maxlength="99">
                     </div>
                 </section>
             </article>
