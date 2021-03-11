@@ -1,27 +1,28 @@
 <main class="container-lg">
     <!-- Boite principale -->
     <section class="w-lg box">
-        <form class="p-0" action="" method="post">
+        <form class="p-0" action="" method="post" enctype="multipart/form-data">
             <!-- Titre -->
             <h1 class="box-title">Votre profil</h1>
             <hr>
-            <section class="d-block d-sm-none mb-3 d-flex justify-content-center">
-                <img id="profil-picture" src="<?= $_SESSION['avatar'] ?>" alt="Image de profil du compte.">
-            </section>
             <article class="row">
-                <section class="col col-md-10">
-                    <!-- Email -->
-                    <label for="email">Email</label>
-                    <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" value="<?= $_SESSION['email'] ?>" required>
-                    <!-- Prénom -->
-                    <label for="first_name">Prénom</label>
-                    <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Jean" maxlength="30" value="<?= $_SESSION['first_name'] ?>" required>
-                    <!-- Nom -->
-                    <label for="last_name">Nom</label>
-                    <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Dupont" maxlength="30" value="<?= $_SESSION['last_name'] ?>" required>
+                <section class="col-sm-4 col-md-3 col-lg-2 mb-3 mb-sm-0 align-self-center d-flex justify-content-center">
+                    <li id="change-img">
+                        <img id="profil-picture" src="<?= $_SESSION['avatar'] ?>" alt="Image de profil du compte.">
+                        <label for="profilImage">&#10010;</label>
+                        <input accept="image/*" type="file" name="image" id="profilImage">
+                    </li>
                 </section>
-                <section class="d-none d-sm-block col-sm-3 col-md-2 align-self-center p-0">
-                    <img id="profil-picture" src="<?= $_SESSION['avatar'] ?>" alt="Image de profil du compte.">
+                <section class="col col-md-9 col-lg-10">
+                        <!-- Email -->
+                        <label for="email">Email</label>
+                        <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" value="<?= $_SESSION['email'] ?>" required>
+                        <!-- Prénom -->
+                        <label for="first_name">Prénom</label>
+                        <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Jean" maxlength="30" value="<?= $_SESSION['first_name'] ?>" required>
+                        <!-- Nom -->
+                        <label for="last_name">Nom</label>
+                        <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Dupont" maxlength="30" value="<?= $_SESSION['last_name'] ?>" required>
                 </section>
             </article>
             <hr>
