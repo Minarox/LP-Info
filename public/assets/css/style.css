@@ -389,9 +389,10 @@ footer a, footer a:hover {
     top: 3.5%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 1000px;
+    width: 95%;
+    max-width: 900px;
     z-index: 1;
-    animation: hideAlert .5s ease-in 3s forwards;
+    animation: hideAlert .5s ease-in 3.2s forwards;
 }
 
 @keyframes hideAlert {
