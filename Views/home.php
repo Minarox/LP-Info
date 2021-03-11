@@ -4,6 +4,7 @@
     <?php
     use App\Controllers\SensorsController;
     SensorsController::get();
+    SensorsController::crontab();
 
     function box(int $id) {
         echo '

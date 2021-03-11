@@ -102,7 +102,6 @@ class SensorsController extends Controller
         define('SENSORS_DATA', json_encode($data));
         define('SENSORS_NUMBER', count($list));
     }
-
     public static function crontab()
     {
         if (SENSORS_SYNC_TIME < 0) exit("Temps de synchronisation négatif");

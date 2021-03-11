@@ -34,7 +34,7 @@ class EmailRegisterController extends Controller
             $this->redirect(header: 'login', response_code: 301);
         }
 
-        $this->addFlash('error', "Le lien a déjà été utilisé ou a été expiré !");
+        $this->addFlash('error', "Le lien a déjà été utilisé ou est expiré !");
         $this->redirect(header: 'login', response_code: 301);
     }
 }
