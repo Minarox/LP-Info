@@ -86,6 +86,12 @@ abstract class Controller
         return $this->request->cookie->exists('token');
     }
 
+    protected function getActualUri(string $path): string
+    {
+        $port = empty($_SERVER['HTTPS']) ? 'http' : 'https';
+        return $port . '://' . $_SERVER['HTTP_HOST'] . ROOT . $path;
+    }
+
     protected function getGetter(object $data): array
     {
         $list_method = [];
