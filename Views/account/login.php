@@ -22,7 +22,7 @@
             <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" autofocus required>
             <!-- Mot de passe -->
             <label for="password">Mot de passe</label>
-            <input class="form-control" type="password" name="password" id="password" placeholder="*************" maxlength="99" required>
+            <input class="form-control" type="password" name="password" id="password" placeholder="••••••••••••••" maxlength="99" required>
             <a id="oublie-mdp" href="#" onclick="show()">Mot de passe oublié ?</a>
             <hr>
             <!-- Se connecter -->

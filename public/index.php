@@ -36,6 +36,7 @@ $router->add('/', 'HomeController');
 $router->add('/settings', 'SettingsController');
 $router->add('/account', 'ProfileController', ['GET', 'POST']);
 $router->add('/account/edit', 'ProfileController::edit', ['GET', 'POST']);
+$router->add('/account/edit/password', 'ProfileController::password', 'POST');
 $router->add('/login', 'LoginController', ['GET', 'POST']);
 $router->add('/register', 'RegisterController', ['GET', 'POST']);
 $router->add('/help', 'HelpController');
