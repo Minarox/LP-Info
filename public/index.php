@@ -19,7 +19,7 @@ Config::loadConfig();
 Autoloader::register();
 
 // Création / mise à jour de la crontab
-//SensorsController::crontab();
+SensorsController::crontab();
 
 // Afficher les erreurs si le DEBUG est activé
 switch (DEBUG) {
