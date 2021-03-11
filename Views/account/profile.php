@@ -4,11 +4,11 @@
         <!-- Titre -->
         <h1 class="box-title">Votre profil</h1>
         <hr>
-        <section class="d-block d-sm-none mb-3 d-flex justify-content-center">
-            <img id="profil-picture" src="<?= $_SESSION['avatar'] ?>" alt="Image de profil du compte.">
-        </section>
         <article class="row">
-            <section class="col-9 col-md-10 row">
+            <section class="col-sm-4 col-md-3 col-lg-2 mb-3 mb-sm-0 align-self-center d-flex justify-content-center">
+                <img id="profil-picture" src="<?= $_SESSION['avatar'] ?>" alt="Image de profil du compte.">
+            </section>
+            <section class="col-8 col-md-9 col-lg-10 row">
                 <section class="col-sm-6">
                     <div>
                         <h2>Prénom :</h2>
@@ -29,9 +29,6 @@
                         <p><?= $_SESSION['created_at'] ?></p>
                     </div>
                 </section>
-            </section>
-            <section class="d-none d-sm-block col-sm-3 col-md-2 align-self-center">
-                <img id="profil-picture" src="<?= $_SESSION['avatar'] ?>" alt="Image de profil du compte.">
             </section>
         </article>
         <hr>
