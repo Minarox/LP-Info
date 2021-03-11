@@ -25,18 +25,16 @@
                 </section>
             </article>
             <hr>
-            <a class="button" href="<?= ROOT ?>account/edit">
-                <button id="" type="button">
-                    Modifier
-                </button>
-            </a>
+            <button id="" name="update" type="submit">
+                Modifier
+            </button>
             <!-- On vérifie s'il n'est pas connecté avec un compte Google ou Facebook -->
             <?php if (is_null($_SESSION['id_google']) && is_null($_SESSION['id_facebook'])): ?>
-            <a class="button" href="#" onclick="show()">
-                <button id="" type="button">
-                    Modifier le mot de passe
-                </button>
-            </a>
+                <a class="button" href="#" onclick="show()">
+                    <button id="" type="button">
+                        Modifier le mot de passe
+                    </button>
+                </a>
             <?php endif; ?>
             <a class="button" href="<?= ROOT ?>account">
                 <button id="" type="button">Retour</button>
@@ -45,31 +43,28 @@
     </section>
     <!-- On vérifie s'il n'est pas connecté avec un compte Google ou Facebook -->
     <?php if (is_null($_SESSION['id_google']) && is_null($_SESSION['id_facebook'])): ?>
-    <article id="overlay">
-        <section class="box w-md">
-            <!-- Titre -->
-            <h1 class="box-title text-center">Modification du mot de passe</h1>
-            <!-- Formulaire -->
-            <form action="<?= ROOT ?>account/edit/password" method="post">
-                <hr>
-                <!-- Email -->
-                <label for="email" hidden>Email</label>
-                <input class="form-control" type="email" name="email" id="email" maxlength="50" value="<?= $_SESSION['email'] ?>" required hidden>
-                <!-- Ancien mot de passe -->
-                <label for="old-password">Ancien mot de passe</label>
-                <input class="form-control" type="password" name="old-password" id="old-password" placeholder="••••••••••••••••••••" maxlength="99" required>
-                <!-- Nouveau mot de passe -->
-                <label for="new-password">Nouveau mot de passe</label>
-                <input class="form-control" type="password" name="new-password" id="new-password" placeholder="••••••••••••••" maxlength="99" required>
-                <!-- Confirmation du nouveau mot de passe -->
-                <label for="new-password-verif">Confirmation du nouveau mot de passe</label>
-                <input class="form-control" type="password" name="new-password-verif" id="new-password-verif" placeholder="••••••••••••••" maxlength="99" required>
-                <hr>
-                <!-- Valider -->
-                <button type="submit">Valider</button>
-                <button type="button" onclick="hide()">Fermer</button>
-            </form>
-        </section>
-    </article>
+        <article id="overlay">
+            <section class="box w-md">
+                <!-- Titre -->
+                <h1 class="box-title text-center">Modification du mot de passe</h1>
+                <!-- Formulaire -->
+                <form action="" method="post">
+                    <hr>
+                    <!-- Ancien mot de passe -->
+                    <label for="old_password">Ancien mot de passe</label>
+                    <input class="form-control" type="password" name="old_password" id="old_password" placeholder="••••••••••••••••••••" maxlength="99" required>
+                    <!-- Nouveau mot de passe -->
+                    <label for="new_password">Nouveau mot de passe</label>
+                    <input class="form-control" type="password" name="new_password" id="new_password" placeholder="••••••••••••••" maxlength="99" required>
+                    <!-- Confirmation du nouveau mot de passe -->
+                    <label for="new_password_verify">Confirmation du nouveau mot de passe</label>
+                    <input class="form-control" type="password" name="new_password_verify" id="new_password_verify" placeholder="••••••••••••••" maxlength="99" required>
+                    <hr>
+                    <!-- Valider -->
+                    <button type="submit" name="password_update">Valider</button>
+                    <button type="button" onclick="hide()">Fermer</button>
+                </form>
+            </section>
+        </article>
     <?php endif; ?>
 </main>

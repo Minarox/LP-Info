@@ -27,8 +27,6 @@ final class ProfileController extends Controller
                 'delete_confirm' => 'delete ' . $request->session->get('email')
             ]);
 
-            var_dump($matchValue);
-
             if ($validator->isSuccess() && $matchValue) {
                 (new UsersModel())->delete($request->session->get('id'));
 
@@ -53,42 +51,25 @@ final class ProfileController extends Controller
         $validator = new Validator($_POST);
         $user = new UsersModel();
 
-        if ($validator->isSubmitted()) {
+        if ($validator->isSubmitted('update')) {
             $validator->validate([
                 'email' => ['required', 'email'],
                 'first_name' => ['required'],
                 'last_name' => ['required']
             ]);
 
+            $matchValue = $validator->matchValue([
+                'email' => $request->session->get('email'),
+                'first_name' => $request->session->get('first_name'),
+                'last_name' => $request->session->get('last_name')
+            ]);
+
+            if ($matchValue) {
+                $this->addFlash('error', "Vos informations n'ont pas changé, pas besoin de spam le bouton !");
+                $this->redirect(header: 'account/edit', response_code: 301);
+            }
+
             if ($validator->isSuccess()) {
-
-                $password = trim($request->post->get('password'));
-                $password_verify = trim($request->post->get('password_verify'));
-
-                if (!empty($password) || !empty($password_verify)) {
-                    $validator->validate([
-                        'password' => ['required', "equal:$password_verify"],
-                        'password_verify' => ['required']
-                    ]);
-
-                    $password_new = password_hash($password, PASSWORD_ARGON2I);
-
-                    if (!$validator->isSuccess()) {
-                        $this->addFlash('error', 'Vos mots de passe doivent correspondre !');
-                        $this->redirect(header: 'account/edit', response_code: 301);
-                    }
-
-                    if (password_verify($password, $request->session->get('password'))) {
-                        $this->addFlash('error', 'Soyez original ! Votre ancien mot de passe est le même !');
-                        $this->redirect(header: 'account/edit', response_code: 301);
-                    }
-
-                    $user->setPassword($password_new)
-                        ->update($request->session->get('id'));
-
-                    $request->session->set('password', $password_new);
-                }
-
                 $user->setEmail(Validator::filter($request->post->get('email')))
                     ->setFirstName(Validator::filter($request->post->get('first_name')))
                     ->setLastName(Validator::filter($request->post->get('last_name')))
@@ -105,6 +86,44 @@ final class ProfileController extends Controller
                 $error = $validator->displayErrors();
             }
         }
+
+        if ($validator->isSubmitted('password_update')) {
+            $old_password = $request->post->get('old_password');
+            $new_password = trim($request->post->get('new_password'));
+            $new_password_verify = trim($request->post->get('new_password_verify'));
+
+            $validator->validate([
+                'old_password' => ['required'],
+                'new_password' => ['required', "equal:$new_password_verify"],
+                'new_password_verify' => ['required']
+            ]);
+
+            $new_hash_password = password_hash($new_password, PASSWORD_ARGON2I);
+
+            if (!password_verify($old_password, $request->session->get('password'))) {
+                $this->addFlash('error', 'Votre ancien mot de passe ne correspond pas avec celui là !');
+                $this->redirect(header: 'account/edit', response_code: 301);
+            }
+
+            if (password_verify($new_password, $request->session->get('password'))) {
+                $this->addFlash('error', 'Soyez original ! Votre ancien mot de passe est le même !');
+                $this->redirect(header: 'account/edit', response_code: 301);
+            }
+
+            if (!$validator->isSuccess()) {
+                $this->addFlash('error', 'Vos mots de passe doivent correspondre !');
+                $this->redirect(header: 'account/edit', response_code: 301);
+            }
+
+            $user->setPassword($new_hash_password)
+                ->update($request->session->get('id'));
+
+            $request->session->set('password', $new_hash_password);
+
+            $this->addFlash('success', 'Vos mots de passe a bien été mis à jour !');
+            $this->redirect(header: 'account', response_code: 301);
+        }
+
         $this->render(name_file: 'account/edit-profile', params: [
             'error' => $error ??= null
         ], title: 'Profil', caching: false);

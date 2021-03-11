@@ -285,15 +285,17 @@ class Validator
      * @param array $values
      * @return bool
      */
-    #[Pure] public function matchValue(array $values): bool
+    public function matchValue(array $values): bool
     {
+        $bool = [];
+
         foreach ($values as $key => $value) {
             if (array_key_exists($key, $this->data) && !is_null($value)) {
-                if ($value === $this->data[$key]) return true;
+                $bool[] = $value === $this->data[$key];
             }
         }
 
-        return false;
+        return in_array(false, $bool) || empty($bool) ? false : true;
     }
 
     /**
