@@ -4,6 +4,7 @@
 namespace App\Controllers;
 
 
+use App\Core\Classes\Mail;
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\System\Controller;
 use App\Core\Classes\Validator;
@@ -38,21 +39,18 @@ final class LoginController extends Controller
                     $this->redirect(header: 'login', response_code: 301);
                 }
 
-                $header = "From : no-reply@hothothot.fr\n";
-                $header .= "X-Priority : 1\n";
-                $header .= "Content-type: text/html; charset=utf-8\n";
-                $header .= "Content-Transfer-Encoding: 8bit\n";
+                $mail = new Mail(
+                    Validator::filter($request->post->get('recovery-email')), 'Votre récupération de mot de passe chez HotHotHot !', dirname(__DIR__) . '/Views/email/recover.php'
+                );
 
-                $port = empty($_SERVER['HTTPS']) ? 'http' : 'https';
-                $uri = $port . '://' . $_SERVER['HTTP_HOST'] . ROOT . "recovery";
                 $timestamp = time();
                 $user_id = $recover_user->getId();
 
-                ob_start();
-                include_once dirname(__DIR__) . '/Views/email/recover.php';
-                $content = ob_get_clean();
-
-                if (!mail(Validator::filter($request->post->get('recovery-email')), 'Votre récupération de mot de passe chez HotHotHot !', $content, $header)) {
+                if (!$mail->send([
+                    'uri' => $this->getActualUri('recovery'),
+                    'timestamp' => $timestamp,
+                    'user_id' => $user_id
+                ])) {
                     $this->addFlash('error', "L'e-mail de confirmation du compte n'a pas pu être envoyé !");
                 } else {
                     $this->addFlash('success', "Un e-mail de récupération de mot de passe vous a été envoyé à l'adresse e-mail : {$request->post->get('recovery-email')}");
