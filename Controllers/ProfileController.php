@@ -107,6 +107,6 @@ final class ProfileController extends Controller
         }
         $this->render(name_file: 'account/edit-profile', params: [
             'error' => $error ??= null
-        ], title: 'Profil');
+        ], title: 'Profil', caching: false);
     }
 }
