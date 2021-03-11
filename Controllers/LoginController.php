@@ -98,8 +98,7 @@ final class LoginController extends Controller
             }
 
             $matchValue = $validator->matchValue([
-                'email' => $email ??= null,
-                'password' => $password ??= null
+                'email' => $email ??= null
             ]);
 
             if ($validator->isSuccess() && $matchValue && password_verify($request->post->get('password'), $password)) {
