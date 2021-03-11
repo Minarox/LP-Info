@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 03 mars 2021 à 09:08
+-- Généré le : mer. 10 mars 2021 à 22:34
 -- Version du serveur :  5.7.31
 -- Version de PHP : 8.0.2
 
@@ -34,7 +34,14 @@ CREATE TABLE IF NOT EXISTS `ban` (
   `attempt` tinyint(4) NOT NULL DEFAULT '0',
   `time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `ban`
+--
+
+INSERT INTO `ban` (`id`, `ip`, `attempt`, `time`) VALUES
+(16, '127.0.0.1', 1, 1615414714);
 
 -- --------------------------------------------------------
 
@@ -120,10 +127,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   `avatar` varchar(255) NOT NULL DEFAULT 'https://i.pinimg.com/originals/96/bd/9a/96bd9aac07e756e952c0c96d1a8e84bd.jpg',
   `role_id` int(11) NOT NULL,
   `token` varchar(255) NOT NULL,
+  `last_connexion` timestamp NULL DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `users`
+--
+
+INSERT INTO `users` (`id`, `id_google`, `id_facebook`, `last_name`, `first_name`, `email`, `password`, `is_verified`, `avatar`, `role_id`, `token`, `last_connexion`, `created_at`) VALUES
+(5, NULL, NULL, 'Finance', 'Aurélien', 'aurelien.finance04@gmail.com', '$argon2i$v=19$m=65536,t=4,p=1$Ykt2dkVpcUxyajJCTmxSVA$PPPDsy+nA9I9C3kkmLQS+6A5CTV2I6yMO3jXqvKhMRI', 1, 'https://i.pinimg.com/originals/96/bd/9a/96bd9aac07e756e952c0c96d1a8e84bd.jpg', 1, '3ce52435095b35434a361f5605704e6dc7101c414dac75239b5c87c055018c7894b67c73ef62d5da68c096b0e4655c28061607eab284df227ff7b6a44583e6fb', '2021-03-10 09:15:11', '2021-03-10 23:07:22'),
+(6, '9223372036854775807', NULL, 'Finance', 'Aurélien', 'af@siweb.fr', NULL, 1, 'https://lh3.googleusercontent.com/-k8o5305-s6Y/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclvbWo40vqRc-BIw2eeHnT9osi_Tg/s96-c/photo.jpg', 1, '195d742f9ba3a4c21ea037db74037576f6bb38c4f7674391a29f3c6c32470c5ccf288b991d5828299f19cd771ec7bdaaa1f6bbc7c32582ae2476ca6f4cea6b2c', '2021-03-10 09:11:34', '2021-03-10 23:10:48');
 
 --
 -- Contraintes pour les tables déchargées

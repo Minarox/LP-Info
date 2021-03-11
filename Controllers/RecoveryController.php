@@ -13,11 +13,11 @@ use JetBrains\PhpStorm\NoReturn;
 
 final class RecoveryController extends Controller
 {
-    public function index(Request $request)
+    #[NoReturn] public function index(Request $request)
     {
         $validator = new Validator($_POST);
-        $timestamp = $request->get->get('timestamp') ?: $_POST['timestamp'];
-        $user_id = $request->get->get('user_id') ?: $_POST['user_id'];
+        $timestamp = $request->get->get('timestamp') ?: $request->post->get('timestamp');
+        $user_id = $request->get->get('user_id') ?: $request->post->get('user_id');
 
         if ($timestamp && $user_id) {
 
@@ -36,13 +36,13 @@ final class RecoveryController extends Controller
             ]);
 
             if(!$user) {
-                $this->addFlash('error', "Une erreur est survenue avec l'utilisateur");
+                $this->addFlash('error', "Une erreur est survenue avec l'utilisateur !");
                 $this->redirect(header: 'login', response_code: 301);
             }
 
             if ($validator->isSubmitted()) {
                 if(!$_POST['password'] || !$_POST['password-verif']) {
-                    $this->addFlash('error', "Une erreur est survenue dans le formulaire");
+                    $this->addFlash('error', "Une erreur est survenue dans le formulaire !");
                     $this->redirect(header: 'login', response_code: 301);
                 }
 
@@ -51,11 +51,11 @@ final class RecoveryController extends Controller
                 ]);
 
                 if(!$matchValue) {
-                    $this->addFlash('error', "Les deux mots de passe ne correspondent pas");
-                    $this->redirect(header: 'recovery?timestamp='.$timestamp.'&user_id='.$user_id, response_code: 301);
+                    $this->addFlash('error', "Les deux mots de passe ne correspondent pas !");
+                    $this->redirect(header: 'recovery?timestamp=' . $timestamp . '&user_id=' . $user_id, response_code: 301);
                 }
 
-                $passwords_match = password_verify($_POST['password'], $user->getPassword());
+                $passwords_match = password_verify($request->post->get('password'), $user->getPassword());
 
                 if($passwords_match) {
                     $this->addFlash('error', "Vous avez entré votre ancien mot de passe, essayer de l'utiliser pour vous connecter !");
@@ -63,8 +63,7 @@ final class RecoveryController extends Controller
                 }
 
                 $token = Token::generate();
-                $user
-                    ->setPassword(password_hash($_POST['password'], PASSWORD_ARGON2I))
+                $user->setPassword(password_hash($request->post->get('password'), PASSWORD_ARGON2I))
                     ->setToken($token)
                     ->update($user_id);
 
@@ -74,9 +73,10 @@ final class RecoveryController extends Controller
 
             $this->render(name_file: 'account/recovery', params: [
                 'timestamp' => $timestamp,
-                'user_id' => $user_id,
+                'user_id' => $user_id
             ], title: 'Récupération mot de passe');
         }
+
         ErrorController::error404();
     }
 }

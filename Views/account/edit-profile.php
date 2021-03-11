@@ -17,30 +17,30 @@
                 <section class="col-6">
                     <div>
                         <!-- Prénom -->
-                        <label for="prenom">Prénom</label>
-                        <input class="form-control" type="text" name="prenom" id="prenom" placeholder="Jean" maxlength="26" value="<?= $_SESSION['first_name'] ?>" required>
+                        <label for="first_name">Prénom</label>
+                        <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Jean" maxlength="30" value="<?= $_SESSION['first_name'] ?>" required>
                     </div>
                     <div>
                         <!-- Nom -->
-                        <label for="nom">Nom</label>
-                        <input class="form-control" type="text" name="nom" id="nom" placeholder="Dupont" maxlength="12" value="<?= $_SESSION['last_name'] ?>" required>
+                        <label for="last_name">Nom</label>
+                        <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Dupont" maxlength="30" value="<?= $_SESSION['last_name'] ?>" required>
                     </div>
                 </section>
                 <section class="col-6">
                     <div>
                         <!-- Nouveau mot de passe -->
                         <label for="password">Nouveau mot de passe</label>
-                        <input class="form-control" type="password" name="password" id="password" placeholder="***********" maxlength="99" required>
+                        <input class="form-control" type="password" name="password" id="password" placeholder="***********" maxlength="99">
                     </div>
                     <div>
                         <!-- Vérification du nouveau mot de passe -->
                         <label for="password-verify">Vérification du nouveau mot de passe</label>
-                        <input class="form-control" type="password" name="password-verify" id="password-verify" placeholder="***********" maxlength="99" required>
+                        <input class="form-control" type="password" name="password-verify" id="password-verify" placeholder="***********" maxlength="99">
                     </div>
                 </section>
             </article>
             <hr>
-            <button type="submit">Modifier</button>
+            <button type="submit" name="update">Modifier</button>
             <a class="button" href="<?= ROOT ?>account">
                 <button id="" type="button">Retour</button>
             </a>

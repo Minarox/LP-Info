@@ -47,17 +47,13 @@ final class Router
         throw new RouterException("No matching routes !", 2);
     }
 
-    /**
-     * @throws RouterException
-     */
     public function run()
     {
         try {
             $this->prepare();
         } catch (RouterException $e) {
+            if (DEBUG) echo 'Error : ' . $e->getMessage();
             $e->error404();
-
-            if (DEBUG) throw new RouterException('Error : ' . $e->getMessage());
         }
     }
 

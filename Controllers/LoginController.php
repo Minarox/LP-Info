@@ -23,7 +23,21 @@ final class LoginController extends Controller
 
         if ($validator->isSubmitted()) {
 
-            if (isset($_POST['recovery-email'])) {
+            if ($request->post->exists('recovery-email')) {
+                $recover_user = $user->findOneBy([
+                    'email' => $request->post->get('recovery-email')
+                ]);
+
+                if (!$recover_user) {
+                    $this->addFlash('error', "Nous n'avons pas trouvé d'utilisateur avec cette adresse mail !");
+                    $this->redirect(header: 'login', response_code: 301);
+                }
+
+                if (empty($recover_user->getPassword())) {
+                    $this->addFlash('error', "Vous ne pouvez pas faire cette opération en étant inscris avec un compte Google ou Facebook !");
+                    $this->redirect(header: 'login', response_code: 301);
+                }
+
                 $header = "From : no-reply@hothothot.fr\n";
                 $header .= "X-Priority : 1\n";
                 $header .= "Content-type: text/html; charset=utf-8\n";
@@ -32,31 +46,22 @@ final class LoginController extends Controller
                 $port = empty($_SERVER['HTTPS']) ? 'http' : 'https';
                 $uri = $port . '://' . $_SERVER['HTTP_HOST'] . ROOT . "recovery";
                 $timestamp = time();
-
-                $recover_user = $user->findOneBy([
-                    'email' => $_POST['recovery-email']
-                ]);
-
-                if (!$recover_user) {
-                    $this->addFlash('error', "Nous n'avons pas trouvé d'utilisateur avec cette adresse mail.");
-                    $this->redirect(header: 'login', response_code: 301);
-                }
                 $user_id = $recover_user->getId();
 
                 ob_start();
-                include_once __DIR__ . '/../Views/email/recover.php';
+                include_once dirname(__DIR__) . '/Views/email/recover.php';
                 $content = ob_get_clean();
 
-                if (!mail(Validator::filter($_POST['recovery-email']), 'Votre recupération de mot de passe chez HotHotHot !', $content, $header)) {
+                if (!mail(Validator::filter($request->post->get('recovery-email')), 'Votre récupération de mot de passe chez HotHotHot !', $content, $header)) {
                     $this->addFlash('error', "L'e-mail de confirmation du compte n'a pas pu être envoyé !");
                 } else {
-                    $this->addFlash('success', "Un email de récupération de mot de passe vous a été envoyé à l'adresse e-mail : {$_POST['recovery-email']}");
+                    $this->addFlash('success', "Un e-mail de récupération de mot de passe vous a été envoyé à l'adresse e-mail : {$request->post->get('recovery-email')}");
                     $this->redirect(header: 'login', response_code: 301);
                 }
             }
 
             $data = $user->findOneBy([
-                'email' => $_POST['email']
+                'email' => $request->post->get('email')
             ]);
 
             if (!empty($data)) {
@@ -99,13 +104,14 @@ final class LoginController extends Controller
                 'password' => $password ??= null
             ]);
 
-            if ($validator->isSuccess() && $matchValue && password_verify($_POST['password'], $password)) {
+            if ($validator->isSuccess() && $matchValue && password_verify($request->post->get('password'), $password)) {
                 if ($data->isIsVerified() == 0) {
                     $error = 'Veuillez vérifier votre compte !';
                 } else {
                     $token = Token::generate();
 
                     $user->setToken($token)
+                        ->setLastConnexion(date('Y-m-d h:i:s', time()))
                         ->update($data->getId());
 
                     $request->cookie->set('token', $token);
@@ -158,6 +164,7 @@ final class LoginController extends Controller
                     $token = Token::generate();
 
                     $user->setToken($token)
+                        ->setLastConnexion(date('Y-m-d h:i:s', time()))
                         ->update($data->getId());
 
                     $request->cookie->set('token', $token, '/');

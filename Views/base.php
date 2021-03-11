@@ -13,7 +13,7 @@
     <?php endif; ?>
 
     <!-- Titre de la page -->
-    <title><?= $title ??= null ?> | Hothothot</title>
+    <title><?= $title ??= 'Projet' ?> | Hothothot</title>
 
     <!-- CSS -->
     <link rel="icon" href="<?= SCRIPTS . 'images/favicon.ico' ?>">

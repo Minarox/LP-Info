@@ -33,13 +33,13 @@ abstract class Controller
 
     protected function render(string $name_file, array $params = [], string $template = 'base', string $title = 'Accueil', bool $caching = true): void
     {
+        //TODO: Sa doit être à cause du cache que le $title ne marche plus
         $start = microtime(true);
         $cache = new Cache(__DIR__ . '/cache', 0.05);
 
         extract($params);
 
         ob_start();
-
         require_once VIEWS . 'message/message.php';
 
         if ($caching) {

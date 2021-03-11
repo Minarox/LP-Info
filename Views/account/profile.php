@@ -47,11 +47,15 @@
         <section class="box w-sm">
             <!-- Titre -->
             <h1 class="box-title text-center">Voulez-vous vraiment supprimer votre compte ?</h1>
+            <h2 class="text-center box-subtitle">Écrivez "delete <?= $_SESSION['email'] ?>" pour confirmez</h2>
             <!-- Formulaire -->
             <form action="" method="post">
                 <hr>
+                <label for="delete_confirm">
+                    <input class="text-dark mb-3" type="text" name="delete_confirm" id="delete_confirm" required>
+                </label>
                 <!-- Boutons de choix -->
-                <button type="submit">Oui</button>
+                <button type="submit" name="delete">Oui</button>
                 <a class="button" href="#" onclick="hide()">
                     <button type="button">
                         Retour
