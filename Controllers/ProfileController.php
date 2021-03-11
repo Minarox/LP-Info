@@ -61,6 +61,34 @@ final class ProfileController extends Controller
             ]);
 
             if ($validator->isSuccess()) {
+
+                $password = trim($request->post->get('password'));
+                $password_verify = trim($request->post->get('password_verify'));
+
+                if (!empty($password) || !empty($password_verify)) {
+                    $validator->validate([
+                        'password' => ['required', "equal:$password_verify"],
+                        'password_verify' => ['required']
+                    ]);
+
+                    $password_new = password_hash($password, PASSWORD_ARGON2I);
+
+                    if (!$validator->isSuccess()) {
+                        $this->addFlash('error', 'Vos mots de passe doivent correspondre !');
+                        $this->redirect(header: 'account/edit', response_code: 301);
+                    }
+
+                    if (password_verify($password, $request->session->get('password'))) {
+                        $this->addFlash('error', 'Soyez original ! Votre ancien mot de passe est le même !');
+                        $this->redirect(header: 'account/edit', response_code: 301);
+                    }
+
+                    $user->setPassword($password_new)
+                        ->update($request->session->get('id'));
+
+                    $request->session->set('password', $password_new);
+                }
+
                 $user->setEmail(Validator::filter($request->post->get('email')))
                     ->setFirstName(Validator::filter($request->post->get('first_name')))
                     ->setLastName(Validator::filter($request->post->get('last_name')))
@@ -78,7 +106,6 @@ final class ProfileController extends Controller
             }
         }
         $this->render(name_file: 'account/edit-profile', params: [
-            'success' => $success ??= null,
             'error' => $error ??= null
         ], title: 'Profil');
     }
