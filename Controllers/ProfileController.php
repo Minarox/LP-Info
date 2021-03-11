@@ -66,7 +66,7 @@ final class ProfileController extends Controller
 
             if ($matchValue) {
                 $this->addFlash('error', "Vos informations n'ont pas changé, pas besoin de spam le bouton !");
-                $this->redirect(header: 'account/edit', response_code: 301);
+                $this->redirect(header: 'account', response_code: 301);
             }
 
             if ($validator->isSuccess()) {
@@ -81,7 +81,7 @@ final class ProfileController extends Controller
                 $request->session->set('last_name', $request->post->get('last_name'));
 
                 $this->addFlash('success', 'Vos informations ont bien été modifiée !');
-                $this->redirect(header: 'account/edit', response_code: 301);
+                $this->redirect(header: 'account', response_code: 301);
             } else {
                 $error = $validator->displayErrors();
             }
