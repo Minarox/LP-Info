@@ -5,14 +5,9 @@ use App\Core\Autoloader\Autoloader;
 use App\Core\Exceptions\RouterException;
 use App\Core\Routes\Router;
 use App\Core\Config\Config;
-//use App\Core\Routes\Routes;
 
 // Check the PHP version
 if (phpversion() <= 8.0) die("Upgrade your PHP version to 8.0 !");
-
-// Afficher les erreurs sur le serveur de prod
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
 
 require_once dirname(__DIR__) . '/Core/Autoloader/Autoloader.php';
 require_once dirname(__DIR__) . '/Core/Config/Config.php';
@@ -24,17 +19,26 @@ Config::loadConfig();
 Autoloader::register();
 
 // Création / mise à jour de la crontab
-SensorsController::crontab();
+//SensorsController::crontab();
+
+// Afficher les erreurs si le DEBUG est activé
+switch (DEBUG) {
+    case true:
+        error_reporting(E_ALL);
+        ini_set("display_errors", 1);
+        break;
+    default:
+        error_reporting(0);
+        ini_set("display_errors", 0);
+}
 
 $router = new Router($_GET['url']);
-
-//new Routes($router);
 
 // Path Route
 $router->add('/', 'HomeController');
 $router->add('/settings', 'SettingsController');
-$router->add('/account', 'ProfileController');
-$router->add('/account/edit', 'ProfileController::edit');
+$router->add('/account', 'ProfileController', ['GET', 'POST']);
+$router->add('/account/edit', 'ProfileController::edit', ['GET', 'POST']);
 $router->add('/login', 'LoginController', ['GET', 'POST']);
 $router->add('/register', 'RegisterController', ['GET', 'POST']);
 $router->add('/help', 'HelpController');
@@ -50,8 +54,4 @@ $router->add('/ajax/googleLogin', 'LoginController::google', 'POST');
 $router->add('/sync', 'SensorsController');
 $router->add('/test', 'SensorsController::crontab');
 
-try {
-    $router->run();
-} catch (RouterException $e) {
-    echo $e->getMessage();
-}
+$router->run();

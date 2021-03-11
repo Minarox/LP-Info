@@ -19,6 +19,7 @@ class UsersModel extends Model
     protected string $avatar;
     protected bool $is_verified;
     protected string $token;
+    protected ?string $last_connexion;
     protected string $created_at;
 
     /**
@@ -216,6 +217,24 @@ class UsersModel extends Model
     public function setToken(string $token): UsersModel
     {
         $this->token = $token;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastConnexion(): ?string
+    {
+        return $this->last_connexion;
+    }
+
+    /**
+     * @param string|null $last_connexion
+     * @return UsersModel
+     */
+    public function setLastConnexion(?string $last_connexion): UsersModel
+    {
+        $this->last_connexion = $last_connexion;
         return $this;
     }
 
