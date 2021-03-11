@@ -1,15 +1,15 @@
 <main class="container-lg">
     <!-- Boite principale -->
-    <section class="row w-lg box">
-        <section class="col-2 align-self-center">
+    <section class="w-lg box">
+        <!-- Titre -->
+        <h1 class="box-title">Votre profil</h1>
+        <hr>
+        <section class="d-block d-sm-none mb-3 d-flex justify-content-center">
             <img id="profil-picture" src="<?= $_SESSION['avatar'] ?>" alt="Image de profil du compte.">
         </section>
-        <section class="col-10">
-            <!-- Titre -->
-            <h1 class="box-title">Votre profil</h1>
-            <hr>
-            <article class="row">
-                <section class="col-6">
+        <article class="row">
+            <section class="col-9 col-md-10 row">
+                <section class="col-sm-6">
                     <div>
                         <h2>Prénom :</h2>
                         <p><?= $_SESSION['first_name'] ?></p>
@@ -19,7 +19,7 @@
                         <p><?= $_SESSION['last_name'] ?></p>
                     </div>
                 </section>
-                <section class="col-6">
+                <section class="col-sm-6 mt-3 mt-sm-0">
                     <div>
                         <h2>Email :</h2>
                         <p><?= $_SESSION['email'] ?></p>
@@ -29,8 +29,11 @@
                         <p><?= $_SESSION['created_at'] ?></p>
                     </div>
                 </section>
-            </article>
-        </section>
+            </section>
+            <section class="d-none d-sm-block col-sm-3 col-md-2 align-self-center">
+                <img id="profil-picture" src="<?= $_SESSION['avatar'] ?>" alt="Image de profil du compte.">
+            </section>
+        </article>
         <hr>
         <a class="button" href="<?= ROOT ?>account/edit">
             <button id="" type="button">
@@ -51,11 +54,11 @@
             <!-- Formulaire -->
             <form action="" method="post">
                 <hr>
-                <label for="delete_confirm">
-                    <input class="text-dark mb-3" type="text" name="delete_confirm" id="delete_confirm" required>
-                </label>
+                <label for="delete_confirm" hidden>Suppression du compte</label>
+                <input class="form-control text-dark" type="text" name="delete_confirm" id="delete_confirm" required>
+                <hr>
                 <!-- Boutons de choix -->
-                <button type="submit" name="delete">Oui</button>
+                <button type="submit" name="delete">Confirmer la suppression</button>
                 <a class="button" href="#" onclick="hide()">
                     <button type="button">
                         Retour
