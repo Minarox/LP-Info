@@ -18,9 +18,6 @@ Config::loadConfig();
 // Charger le chargement auto des classes
 Autoloader::register();
 
-// Création / mise à jour de la crontab
-SensorsController::crontab();
-
 // Afficher les erreurs si le DEBUG est activé
 switch (DEBUG) {
     case true:
@@ -52,6 +49,5 @@ $router->add('/ajax/googleLogin', 'LoginController::google', 'POST');
 
 // Sync Path
 $router->add('/sync', 'SensorsController');
-$router->add('/test', 'SensorsController::crontab');
 
 $router->run();

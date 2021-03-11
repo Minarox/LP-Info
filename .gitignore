@@ -3,3 +3,4 @@
 /Core/Classes/lib/google
 /Core/Classes/lib/google/
 config.dev.ini
+config.prod.ini

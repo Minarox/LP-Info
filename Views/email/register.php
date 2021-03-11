@@ -4,4 +4,4 @@
     <input type="button" value="Confirmer" name="account_verification">
 </a>
 
-<p>Si vous n'etes pas à l'origine de ce mail, veuillez ne pas en tenir compte.</p>
+<p>Si vous n'êtes pas à l'origine de ce mail, veuillez ne pas en tenir compte.</p>
