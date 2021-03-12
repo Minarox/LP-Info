@@ -98,6 +98,9 @@ final class ProfileController extends Controller
 
                     $new_file_name = dirname(__DIR__) . "/public/assets/uploads/$uniq_id.$extension";
 
+                    // On crée le dossier /uploads si celui-ci n'existe pas encore
+                    if (!file_exists(dirname(__DIR__) . "/public/assets/uploads/")) mkdir(dirname(__DIR__) . "/public/assets/uploads/", 0755);
+
                     if (!move_uploaded_file($_FILES['file']['tmp_name'], $new_file_name)) {
                         $this->addFlash('error', "La sauvegarde de votre image de profil a échouée !");
                         $this->redirect(header: 'account', response_code: 301);
