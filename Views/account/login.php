@@ -11,10 +11,10 @@
         <form id="login_form" action="" method="post">
             <hr>
             <!-- Google et Facebook -->
-            <!-- TODO: Corriger la taille des boutons -->
             <article class="row">
-                <section class="col g-signin2" data-height="40" data-onsuccess="onSignIn" data-theme="dark"></section>
-                <section class="col fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></section>
+                <section class="d-none d-sm-block col g-signin2" data-height="40" data-width="153" data-onsuccess="onSignIn" data-theme="dark"></section>
+                <section class="d-block d-sm-none col d-flex justify-content-center mb-2 g-signin2" data-height="40" data-width="283" data-onsuccess="onSignIn" data-theme="dark"></section>
+                <section class="col d-flex justify-content-center fb-login-button" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></section>
             </article>
             <hr>
             <!-- Email -->
