@@ -64,12 +64,60 @@ final class ProfileController extends Controller
                 'last_name' => $request->session->get('last_name')
             ]);
 
-            if ($matchValue) {
+            if ($matchValue && $_FILES["file"]["error"] === 4) {
                 $this->addFlash('error', "Vos informations n'ont pas changé, pas besoin de spam le bouton !");
                 $this->redirect(header: 'account', response_code: 301);
             }
 
             if ($validator->isSuccess()) {
+                if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
+                    $file_name = $_FILES['file']['name'];
+                    $file_type = $_FILES['file']['type'];
+                    $file_size = $_FILES['file']['size'];
+
+                    $allowed = [
+                        'jpg' => 'image/jpeg',
+                        'jpeg' => 'image/jpeg',
+                        'png' => 'image/png'
+                    ];
+
+                    $extension = strtolower(pathinfo($file_name,PATHINFO_EXTENSION));
+
+                    if (!array_key_exists($extension, $allowed) || !in_array($file_type, $allowed)) {
+                        $this->addFlash('error', "Format du fichier incorrect !");
+                        $this->redirect(header: 'account', response_code: 301);
+                    }
+
+                    if ($file_size > 1024 *1024) {
+                        $this->addFlash('error', "L'image est trop volumineuse et ne doit pas dépasser 1 MO !");
+                        $this->redirect(header: 'account', response_code: 301);
+                    }
+
+                    // Identifiant unique pour le nom du fichier
+                    $uniq_id = hash('sha256', uniqid());
+
+                    $new_file_name = dirname(__DIR__) . "/public/assets/uploads/$uniq_id.$extension";
+
+                    if (!move_uploaded_file($_FILES['file']['tmp_name'], $new_file_name)) {
+                        $this->addFlash('error', "La sauvegarde de votre image de profil a échouée !");
+                        $this->redirect(header: 'account', response_code: 301);
+                    }
+
+                    $old_avatar = $user->findById($request->session->get('id'))->getAvatar();
+
+                    // On supprime l'ancienne image de profile s'il celle-ci existe
+                    if (file_exists(dirname(__DIR__) . $old_avatar)) unlink(dirname(__DIR__) . $old_avatar);
+
+                    // On retire les droits d'écriture et d'exécution dans le dossier /uploads pour la sécurité
+                    chmod($new_file_name, 0644);
+
+                    $user->setAvatar("/public/assets/uploads/$uniq_id.$extension")
+                        ->update($request->session->get('id'));
+
+                    // On met à jours la session pour l'image de profil
+                    $request->session->set('avatar', "/public/assets/uploads/$uniq_id.$extension");
+                }
+
                 $user->setEmail(Validator::filter($request->post->get('email')))
                     ->setFirstName(Validator::filter($request->post->get('first_name')))
                     ->setLastName(Validator::filter($request->post->get('last_name')))
