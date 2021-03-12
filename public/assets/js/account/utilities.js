@@ -11,37 +11,26 @@ function hide() {
     getId('overlay').style.display = "none";
 }
 
-// A garder !! Pour l'Ajax
+function showMyImage(fileInput) {
+    const files = fileInput.files;
 
-// // Ajax call
-// async function postData(formData, url) {
-//     const init = {
-//         method: 'POST',
-//         body: formData,
-//     }
-//
-//     const response = await fetch(url, init)
-//     AuthSystem(await response.json())
-// }
-//
-// function AuthSystem(data) {
-//     // debug
-//     console.log(data)
-//
-//     if (data.success === true) {
-//         window.location.href = '/'
-//         return false
-//     }
-//
-//     getId('error_messages').innerHTML = ''
-//
-//     for (const key in data.message) {
-//         if (data.message.hasOwnProperty(key)) {
-//             for (const key2 in data.message[key]) {
-//                 if (data.message[key].hasOwnProperty(key2)) {
-//                     getId('error_messages').innerHTML += `<p>${data.message[key][key2]}</p>`
-//                 }
-//             }
-//         }
-//     }
-// }
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        if (!file.type.match(/image.*/)) continue;
+
+        getId('profil-picture').style.border = '3px solid green';
+        const img = getId('profil-picture');
+        img.file = file;
+
+        const reader = new FileReader();
+
+        reader.onload = (function(aImg) {
+            return function(event) {
+                aImg.src = event.target.result;
+            };
+        })(img);
+
+        reader.readAsDataURL(file);
+    }
+}

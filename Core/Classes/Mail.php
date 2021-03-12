@@ -31,7 +31,7 @@ class Mail
         );
     }
 
-    private function buffer(array $params): bool|string
+    private function buffer(?array $params): bool|string
     {
         if (!is_null($params)) extract($params);
 

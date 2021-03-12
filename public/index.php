@@ -1,8 +1,6 @@
 <?php
 
-use App\Controllers\SensorsController;
 use App\Core\Autoloader\Autoloader;
-use App\Core\Exceptions\RouterException;
 use App\Core\Routes\Router;
 use App\Core\Config\Config;
 

@@ -10,7 +10,7 @@
                     <li id="change-img">
                         <img id="profil-picture" src="<?= $_SESSION['avatar'] ?>" alt="Image de profil du compte.">
                         <label for="profilImage">&#10010;</label>
-                        <input accept="image/*" type="file" name="image" id="profilImage">
+                        <input accept="image/*" type="file" name="file" id="profilImage" onchange="showMyImage(this)">
                     </li>
                 </section>
                 <section class="col col-md-9 col-lg-10">
