@@ -344,6 +344,18 @@ form button, .button button {
 }
 
 
+/* ---------------- */
+/* --- SETTINGS --- */
+/* ---------------- */
+#select-alert {
+    height: 36px;
+}
+
+option {
+    color: black;
+}
+
+
 /* ------------------- */
 /* --- EDIT PROFIL --- */
 /* ------------------- */
