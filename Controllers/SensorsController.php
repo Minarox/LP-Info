@@ -95,7 +95,7 @@ class SensorsController extends Controller
                 'sensor_id' => $sensor->getId()
             ]);
 
-            $data[$i]['data'] = array_slice($data_raw, -128);
+            $data[$i]['data'] = array_slice($data_raw, -SENSORS_COMPARISON_DATA);
             $i++;
         }
 

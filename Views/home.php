@@ -27,7 +27,7 @@
                     <!-- Description de l\'état du capteur -->
                     <i class="sensor-state" id="sensor'.$id.'-state">Actif</i>
                     <canvas class="sensor-dot" id="sensor'.$id.'-dot"></canvas>
-                    &nbsp;<span id="sensor'.$id.'-title">Capteur</span>
+                    &nbsp; Capteur <span id="sensor'.$id.'-title"></span>
                 </h2>
                 <!-- Diagramme du capteur -->
                 <article class="pt-2 charts w-100">
@@ -95,4 +95,5 @@
 <script>
     const sensors_data = '<?= SENSORS_DATA ?>'
     const sensors_sync_time = '<?= SENSORS_SYNC_TIME ?>'
+    const sensors_comparison_data = '<?= SENSORS_COMPARISON_DATA ?>'
 </script>
