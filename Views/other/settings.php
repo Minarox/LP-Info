@@ -1,6 +1,28 @@
 <main class="container-md">
     <!-- Titre général pour l'accessibilité -->
     <h1 id="accessibility">Personnalisation des alertes des différents capteurs.</h1>
+    <!-- Boite du capteur -->
+    <article class="box mb-4">
+        <!-- Titre -->
+        <h2 class="col box-title m-0">Paramètres généraux des capteurs</h2>
+        <hr>
+        <form class="p-0" action="" method="post">
+            <!-- Modification de l\'alerte sélectionnée -->
+            <section class="row">
+                <div class="col-sm pb-0 mb-3 mb-sm-0">
+                    <label for="operator-alert">Nombre de valeurs récentes</label>
+                    <input class="form-control" type="number" name="value-alert" id="value-alert" placeholder="Par défaut : 11" maxlength="5" min="1" value="11" required>
+                </div>
+                <div class="col-sm pb-0">
+                    <label for="value-alert">Nombre de valeurs à comparer</label>
+                    <input class="form-control" type="number" name="value-alert" id="value-alert" placeholder="Par défaut : 128" maxlength="5" min="1" value="128" required>
+                </div>
+            </section>
+            <hr>
+            <button class="m-0" name="update-alert" type="submit">Modifier</button>
+        </form>
+    </article>
+    <hr class="m-2 mb-4">
     <?php
     use App\Controllers\SensorsController;
     SensorsController::get();
@@ -23,19 +45,19 @@
             $margin_box = ' mb-4';
         }
         echo '
-        <!-- Boite principale -->
+        <!-- Boite du capteur -->
         <article class="box'.$margin_box.'">
             <section>
                 <!-- Titre -->
                 <section class="row">
                     <h2 class="col box-title m-0">'.$name.' ['.$type.']</h2>
-                    <a class="col-1 d-flex align-items-center justify-content-end" href=""><img src="'. SCRIPTS . 'images/download.png' .'"></a>
+                    <a class="col-1 d-flex align-items-center justify-content-end" href="" name="download-sensor'.$id.'"><img src="'. SCRIPTS . 'images/download.png' .'" alt="Bouton de téléchargement des données du capteur."></a>
                 </section>
                 <hr>
                 <!-- Sélection de l\'alerte -->
                 <section class="row">
-                    <label class="col-3 col-sm-2 col-lg-1 d-flex align-items-center" for="select-alert">Alertes</label>
-                    <select class="col form-select" aria-label="Default select example" name="select-alert" id="select-alert" required>
+                    <label class="col-sm-2 col-lg-1 d-flex align-items-center" for="select-alert-sensor'.$id.'">Alertes</label>
+                    <select class="col form-select" aria-label="Default select example" name="select-alert-sensor'.$id.'" id="select-alert-sensor'.$id.'" required>
                         <option selected>Sélectionnez une alerte</option>
                         <option value="1">Alerte 1</option>
                         <option value="2">Alerte 2</option>
@@ -49,12 +71,12 @@
             </section>
             <form class="p-0" action="" method="post">
                 <!-- Modification de l\'alerte sélectionnée -->
-                <label for="name-alert">Nom de l\'alerte</label>
-                <input class="form-control mb-3" type="text" name="name-alert" id="name-alert" placeholder="HotHotHot !" maxlength="80" required>
+                <label for="name-alert-sensor'.$id.'">Nom de l\'alerte</label>
+                <input class="form-control mb-3" type="text" name="name-alert-sensor'.$id.'" id="name-alert-sensor'.$id.'" placeholder="HotHotHot !" maxlength="80" required>
                 <section class="row">
-                    <div class="col pb-0">
-                        <label for="operator-alert">Opérateur</label>
-                        <select class="col form-select" aria-label="Default select example" name="operator-alert" id="operator-alert" required>
+                    <div class="col-sm pb-0 mb-3 mb-sm-0">
+                        <label for="operator-alert-sensor'.$id.'">Opérateur</label>
+                        <select class="col form-select" aria-label="Default select example" name="operator-alert-sensor'.$id.'" id="operator-alert-sensor'.$id.'" required>
                             <option selected>Sélectionnez un opérateur</option>
                             <option value="1">></option>
                             <option value="2">=></option>
@@ -63,13 +85,13 @@
                             <option value="5"><</option>
                         </select>
                     </div>
-                    <div class="col pb-0">
-                        <label for="value-alert">Valeur</label>
-                        <input class="form-control" type="number" name="value-alert" id="value-alert" placeholder="35" maxlength="5" required>
+                    <div class="col-sm pb-0">
+                        <label for="value-alert-sensor'.$id.'">Valeur</label>
+                        <input class="form-control" type="number" name="value-alert-sensor'.$id.'" id="value-alert-sensor'.$id.'" placeholder="35" maxlength="5" required>
                     </div>
                 </section>
                 <hr>
-                <button class="m-0" name="update-alert" type="submit">Modifier</button>
+                <button class="m-0" name="update-alert-sensor'.$id.'" type="submit">Modifier</button>
             </form>
         </article>
         <article id="overlay">
@@ -80,11 +102,11 @@
                 <form action="" method="post">
                     <hr>
                     <!-- Nom de l\'alerte -->
-                    <label for="name-alert">Nom de l\'alerte</label>
-                    <input class="form-control" type="text" name="name-alert" id="name-alert" placeholder="HotHotHot !" maxlength="80" required>
+                    <label for="name-newalert-sensor'.$id.'">Nom de l\'alerte</label>
+                    <input class="form-control" type="text" name="name-newalert-sensor'.$id.'" id="name-newalert-sensor'.$id.'" placeholder="HotHotHot !" maxlength="80" required>
                     <!-- Opérateur de l\'alerte -->
-                    <label for="operator-alert">Opérateur</label>
-                    <select class="form-select mb-3" aria-label="Default select example" name="operator-alert" id="operator-alert" required>
+                    <label for="operator-newalert-sensor'.$id.'">Opérateur</label>
+                    <select class="form-select mb-3" aria-label="Default select example" name="operator-newalert-sensor'.$id.'" id="operator-newalert-sensor'.$id.'" required>
                         <option selected>Sélectionnez un opérateur</option>
                         <option value="1">></option>
                         <option value="2">=></option>
@@ -93,11 +115,11 @@
                         <option value="5"><</option>
                     </select>
                     <!-- Valeur de l\'alerte -->
-                    <label for="value-alert">Valeur</label>
-                    <input class="form-control" type="number" name="value-alert" id="value-alert" placeholder="35" maxlength="5" required>
+                    <label for="value-newalert-sensor'.$id.'">Valeur</label>
+                    <input class="form-control" type="number" name="value-newalert-sensor'.$id.'" id="value-newalert-sensor'.$id.'" placeholder="35" maxlength="5" required>
                     <hr>
                     <!-- Valider -->
-                    <button type="submit" name="password_update">Créer</button>
+                    <button type="submit" name="newalert-sensor'.$id.'">Créer</button>
                     <button type="button" onclick="hide()">Fermer</button>
                 </form>
             </section>
