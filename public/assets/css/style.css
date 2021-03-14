@@ -215,6 +215,10 @@ nav hr {
     display: none;
 }
 
+.no-decoration {
+    text-decoration: none;
+}
+
 h2 {
     font-size: 26px;
 }
