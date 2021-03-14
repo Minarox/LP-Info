@@ -17,7 +17,7 @@
                 <tr>
                     <td align="center" valign="top" style="padding: 36px 24px;">
                         <a href="https://hothothot.minarox.fr/" target="_blank" style="display: inline-block;">
-                            <img src="./logo.png" alt="Logo">
+                            <img src="https://hothothot.minarox.fr/public/assets/images/logo.png" alt="Logo">
                         </a>
                     </td>
                 </tr>
