@@ -19,10 +19,10 @@
             <hr>
             <!-- Email -->
             <label for="email">Email</label>
-            <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" autofocus required>
+            <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" autofocus required autocomplete="email">
             <!-- Mot de passe -->
             <label for="password">Mot de passe</label>
-            <input class="form-control" type="password" name="password" id="password" placeholder="••••••••••••••" maxlength="99" required>
+            <input class="form-control" type="password" name="password" id="password" placeholder="••••••••••••••" maxlength="99" required autocomplete="current-password">
             <a id="oublie-mdp" href="#" onclick="show(-1)">Mot de passe oublié ?</a>
             <hr>
             <!-- Se connecter -->
@@ -37,7 +37,7 @@
                     <hr>
                     <!-- Email -->
                     <label for="recovery-email">Email</label>
-                    <input class="form-control" type="email" name="recovery-email" id="recovery-email" placeholder="exemple@exemple.com" maxlength="50" required>
+                    <input class="form-control" type="email" name="recovery-email" id="recovery-email" placeholder="exemple@exemple.com" maxlength="50" required autocomplete="email">
                     <hr>
                     <!-- Valider -->
                     <button type="submit">Valider</button>
