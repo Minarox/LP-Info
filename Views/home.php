@@ -10,12 +10,12 @@
             <!-- Alerte du capteur -->
             <section class="sensor-alert" id="sensor'.$id.'-alert">
                 <!-- Titre et texte d\'alerte / description -->
-                <h2>Alerte du capteur intérieur :</h2>
+                <h2>Alerte du capteur <span id="sensor'.$id.'-name"></span> :</h2>
                 <p></p>
                 <!-- Boutons de navigation de l\'alerte -->
-                <button onclick="alertDetails('.$id.', false)" class="sensor-details-btn" id="sensor'.$id.'-details-btn">Détails</button>
-                <button onclick="alertDetails('.$id.', true)" class="sensor-back-btn" id="sensor'.$id.'-back-btn">Retour</button>
-                <button onclick="closeAlert('.$id.')">Fermer</button>
+                <button onclick="show_details_alert('.$id.', false)" class="sensor-details-btn" id="sensor'.$id.'-details-btn">Détails</button>
+                <button onclick="show_details_alert('.$id.', true)" class="sensor-back-btn" id="sensor'.$id.'-back-btn">Retour</button>
+                <button onclick="close_alert('.$id.')">Fermer</button>
             </section>
             <!-- État, titre et diagramme -->
             <section class="col col-xxl-7 p-0">
@@ -90,8 +90,9 @@
     </article>
 </main>
 <script>
-    const sensors_data = '<?= SENSORS_DATA ?>';
-    const sensors_sync_time = '<?= SENSORS_SYNC_TIME ?>';
-    const sensors_comparison_data = '<?= $_SESSION['nb_values_comparison'] ??= SENSORS_DEFAULT_NB_VALUE_COMPARISON ?>';
-    const value_sensors = '<?= $_SESSION['nb_values_sensors'] ??= SENSORS_DEFAULT_NB_VALUE ?>';
+    const sensors_data = <?= SENSORS_DATA ?>;
+    const sensors_alert = <?= SENSORS_ALERTS ?>;
+    const sensors_sync_time = <?= SENSORS_SYNC_TIME ?>;
+    const sensors_comparison_data = <?= $_SESSION['nb_values_comparison'] ??= SENSORS_DEFAULT_NB_VALUE_COMPARISON ?>;
+    const value_sensors = <?= $_SESSION['nb_values_sensors'] ??= SENSORS_DEFAULT_NB_VALUE ?>;
 </script>

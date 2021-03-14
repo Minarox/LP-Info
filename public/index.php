@@ -53,5 +53,6 @@ $router->add('/ajax/alertSensor', 'SettingsController::alertSensor', 'POST');
 
 // Sync Path
 $router->add('/sync', 'SensorsController');
+$router->add('/test', 'SettingsController::getAlert2');
 
 $router->run();

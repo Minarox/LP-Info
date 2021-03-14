@@ -13,6 +13,7 @@ final class HomeController extends Controller
     {
         SensorsController::get($_SESSION['nb_values_comparison'] ??= SENSORS_DEFAULT_NB_VALUE_COMPARISON);
         SensorsController::crontab();
+        SettingsController::getAlert();
 
         $this->render(name_file: 'home');
     }

@@ -1,147 +1,78 @@
-// Variables globales
-var descInterieur = ""
-var descExterieur = ""
-var titre = ""
-var alerte = ""
+let sensors_id = []
+let temperature = []
+let title = []
+let name = []
+let description = []
 
-// Appel au fichier JSON du capteur intérieur
-function indoorAlerts() {
-    // Appel AJAX du premier capteur
-    $.ajax({
-        // URL et format du fichier
-        url: "public/assets/data/DonneesInterieur.json",
-        dataType: "JSON",
-        // Lorsque le fichier à bien été lu :
-        success: function (capteur) {
-            // Appel AJAX des alertes
-            $.ajax({
-                // URL et format du fichier
-                url: "public/assets/data/Alertes.json",
-                dataType: "JSON",
-                // Lorsque le fichier à bien été lu :
-                success: function (alertes) {
-                    // Variables
-                    var length = capteur.Donnees.length - 1
-                    var temperature = capteur.Donnees[length].Temperatures[capteur.Donnees[length].Temperatures.length-1]
-                    // Comparaison de la valeur actuelle avec les valeurs présentes dans le fichier d'alertes
-                    if (temperature < alertes.Interieur[0].Valeur) {
-                        // Appel à la fonction d'affichage de l'erreur s'il y a une correspondance
-                        pageDisplay("indoor", alertes.Interieur[0].Titre, alertes.Interieur[0].Description)
-                    } else if (temperature < alertes.Interieur[1].Valeur) {
-                        // Appel à la fonction d'affichage de l'erreur s'il y a une correspondance
-                        pageDisplay("indoor", alertes.Interieur[1].Titre, alertes.Interieur[1].Description)
-                    } else if (temperature > alertes.Interieur[2].Valeur) {
-                        // Appel à la fonction d'affichage de l'erreur s'il y a une correspondance
-                        pageDisplay("indoor", alertes.Interieur[2].Titre, alertes.Interieur[2].Description)
-                    } else if (temperature > alertes.Interieur[3].Valeur) {
-                        // Appel à la fonction d'affichage de l'erreur s'il y a une correspondance
-                        pageDisplay("indoor", alertes.Interieur[3].Titre, alertes.Interieur[3].Description)
-                    }
-                },
-                // Lorsque le fichier est indisponible ou illisible :
-                error: function (err) {
-                    // Affichage d'une erreur dans la console
-                    console.log("[Erreur] Impossible de lire les alertes.")
-                }
-            })
-        },
-        // Lorsque le fichier est indisponible ou illisible :
-        error: function (err) {
-            // Affichage d'une erreur dans la console
-            console.log("[Erreur] Impossible de lire les données du capteur extérieur.")
-        }
-    })
-}
-
-// Appel au fichier JSON du capteur extérieur
-function outdoorAlerts() {
-    // Appel AJAX du second capteur
-    $.ajax({
-        // URL et format du fichier
-        url: "public/assets/data/DonneesExterieur.json",
-        dataType: "JSON",
-        // Lorsque le fichier à bien été lu :
-        success: function (capteur) {
-            // Appel AJAX des alertes
-            $.ajax({
-                // URL et format du fichier
-                url: "public/assets/data/Alertes.json",
-                dataType: "JSON",
-                // Lorsque le fichier à bien été lu :
-                success: function (alertes) {
-                    // Variables
-                    var length = capteur.Donnees.length - 1
-                    var temperature = capteur.Donnees[length].Temperatures[capteur.Donnees[length].Temperatures.length-1]
-                    // Comparaison de la valeur actuelle avec les valeurs présentes dans le fichier d'alertes
-                    if (temperature < alertes.Exterieur[0].Valeur) {
-                        // Appel à la fonction d'affichage de l'erreur s'il y a une correspondance
-                        pageDisplay("outdoor",alertes.Exterieur[0].Titre, alertes.Exterieur[0].Description)
-                    } else if (temperature > alertes.Exterieur[1].Valeur) {
-                        // Appel à la fonction d'affichage de l'erreur s'il y a une correspondance
-                        pageDisplay("outdoor",alertes.Exterieur[1].Titre, alertes.Exterieur[1].Description)
-                    }
-                },
-                // Lorsque le fichier est indisponible ou illisible :
-                error: function (err) {
-                    // Affichage d'une erreur dans la console
-                    console.log("[Erreur] Impossible de lire les alertes.")
-                }
-            })
-        },
-        // Lorsque le fichier est indisponible ou illisible :
-        error: function (err) {
-            // Affichage d'une erreur dans la console
-            console.log("[Erreur] Impossible de lire les données du capteur extérieur.")
-        }
-    })
-}
-
-// Fonction d'affichage de l'alerte dans la page
-function pageDisplay(capteur, alerte, description) {
-    // Sélection de la description en fonction du capteur
-    if (capteur === "indoor") {
-        descInterieur = description
-    } else {
-        descExterieur = description
-    }
-    // Modification des éléments et affichage de l'alerte
-    $("#sensor"+capteur+"-alert p").text(alerte)
-    $("#sensor"+capteur+" section").css({"filter": "blur(8px)","pointer-events": "none", "user-select": "none"})
-    $("#sensor"+capteur+"-alert").css({"opacity": "1", "transition": "opacity 0.4s 0.2s", "filter": "blur(0px)", "pointer-events": "auto", "user-select": "auto"})
-}
-
-// Fonction permettant d'afficher les détails d'une erreur
-function alertDetails(capteur, retour) {
-    // Traitement différent en fonction de l'affichage en cours
-    if (retour !== true) {
-        // Affichage des détails de l'alerte du capteur
-        titre = $("#sensor"+capteur+"-alert h2").text()
-        alerte = $("#sensor"+capteur+"-alert p").text()
-        $("#sensor"+capteur+"-details-btn").css({"display": "none"})
-        $("#sensor"+capteur+"-back-btn").css({"display": "inline"})
-        $("#sensor"+capteur+"-alert h2").text("Détails de l'alerte :")
-        // Sélection de la description en fonction du capteur
-        if (capteur === "indoor") {
-            $("#sensor"+capteur+"-alert p").text(descInterieur)
-        } else {
-            $("#sensor"+capteur+"-alert p").text(descExterieur)
-        }
-    } else {
-        // Affichage de l'erreur sans le détail
-        $("#sensor"+capteur+"-details-btn").css({"display": "inline"})
-        $("#sensor"+capteur+"-back-btn").css({"display": "none"})
-        $("#sensor"+capteur+"-alert h2").text(titre)
-        $("#sensor"+capteur+"-alert p").text(alerte)
+function parse_data(data) {
+    for (let i = 0; i < Object.keys(data).length; i++) {
+        sensors_id[i] = data[i]['id']
+        temperature[i] = data[i]['data'][sensors_comparison_data - 1]['temperature']
     }
 }
 
-// Fonction de fermeture de l'alerte
-function closeAlert(capteur) {
-    // Modification du CSS permettant de retourner à l'affichage normal
-    $("#sensor"+capteur+" section").css({"filter": "blur(0px)","pointer-events": "auto", "user-select": "auto"})
-    $("#sensor"+capteur+"-alert").css({"opacity": "0", "transition": "opacity 0.2s", "filter": "blur(0px)", "pointer-events": "none", "user-select": "none"})
+function parse_alert(alert) {
+    for (let i = 0; i < sensors_id.length; i++) {
+        for (let y = 0; y < alert.length; y++) {
+            if (sensors_id[i] === alert[y]['sensor_id']) {
+                if (alert[y]['operator'] === 1) {
+                    if (temperature[i] > alert[y]['value']) {
+                        show_alert(i, alert[y]['name'], alert[y]['description'])
+                        y = alert.length
+                    }
+                } else if (alert[y]['operator'] === 2) {
+                    if (temperature[i] >= alert[y]['value']) {
+                        show_alert(i, alert[y]['name'], alert[y]['description'])
+                        y = alert.length
+                    }
+                } else if (alert[y]['operator'] === 3) {
+                    if (temperature[i] === alert[y]['value']) {
+                        show_alert(i, alert[y]['name'], alert[y]['description'])
+                        y = alert.length
+                    }
+                } else if (alert[y]['operator'] === 4) {
+                    if (temperature[i] <= alert[y]['value']) {
+                        show_alert(i, alert[y]['name'], alert[y]['description'])
+                        y = alert.length
+                    }
+                } else if (alert[y]['operator'] === 5) {
+                    if (temperature[i] < alert[y]['value']) {
+                        show_alert(i, alert[y]['name'], alert[y]['description'])
+                        y = alert.length
+                    }
+                }
+            }
+        }
+    }
 }
 
-// Appels des fonctions pour potentiellement afficher les alertes
-setTimeout(indoorAlerts, 1250);
-setTimeout(outdoorAlerts, 1250);
+function show_alert(i, title, desc) {
+    name[i] = title
+    description[i] = desc
+    $("#sensor"+i+"-alert p").text(title)
+    $("#sensor"+i+" section").css({"filter": "blur(8px)","pointer-events": "none", "user-select": "none"})
+    $("#sensor"+i+"-alert").css({"opacity": "1", "transition": "opacity 0.4s 0.2s", "filter": "blur(0px)", "pointer-events": "auto", "user-select": "auto"})
+}
+
+function show_details_alert(id, details) {
+    if (details !== true) {
+        title[id] = $("#sensor"+id+"-alert h2").text()
+        $("#sensor"+id+"-details-btn").css({"display": "none"})
+        $("#sensor"+id+"-back-btn").css({"display": "inline"})
+        $("#sensor"+id+"-alert h2").text("Détails de l'alerte :")
+        $("#sensor"+id+"-alert p").text(description[id])
+    } else {
+        $("#sensor"+id+"-details-btn").css({"display": "inline"})
+        $("#sensor"+id+"-back-btn").css({"display": "none"})
+        $("#sensor"+id+"-alert h2").text(title[id])
+        $("#sensor"+id+"-alert p").text(name[id])
+    }
+}
+
+function close_alert(id) {
+    $("#sensor"+id+" section").css({"filter": "blur(0px)","pointer-events": "auto", "user-select": "auto"})
+    $("#sensor"+id+"-alert").css({"opacity": "0", "transition": "opacity 0.2s", "filter": "blur(0px)", "pointer-events": "none", "user-select": "none"})
+}
+
+parse_data(sensors_data)
+setTimeout(parse_alert, 1000, sensors_alert);
