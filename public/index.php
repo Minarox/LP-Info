@@ -43,6 +43,7 @@ $router->add('/logout', 'LogoutController');
 $router->add('/email/register', 'EmailRegisterController', ['GET', 'POST']);
 $router->add('/cgu', 'HomeController::cgu');
 $router->add('/mentions-legales', 'HomeController::mentions_legales');
+$router->add('/settings/download', 'SettingsController::download');
 
 // Ajax path route ( Google )
 $router->add('/ajax/googleRegister', 'RegisterController::google', 'POST');

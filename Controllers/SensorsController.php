@@ -60,7 +60,7 @@ class SensorsController extends Controller
         $this->crontab();
     }
 
-    public static function get(?int $nb_value)
+    public static function get(int $nb_value)
     {
         $sensors = new SensorsModel();
         $sensor_data = new Sensor_DataModel();

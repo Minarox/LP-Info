@@ -54,7 +54,7 @@
                 <!-- Titre -->
                 <section class="row">
                     <h2 class="col box-title m-0">'.$name.' ['.$type.']</h2>
-                    <a class="col-1 d-flex align-items-center justify-content-end" href="" name="download-sensor'.$id.'"><img src="'. SCRIPTS . 'images/download.png' .'" alt="Bouton de téléchargement des données du capteur."></a>
+                    <a class="col-1 d-flex align-items-center justify-content-end" href="'.$_SERVER['REQUEST_URI'].'/download?sensor='.$id.'" name="download-sensor'.$id.'"><img src="'. SCRIPTS . 'images/download.png' .'" alt="Bouton de téléchargement des données du capteur."></a>
                 </section>
                 <hr>
                 <!-- Sélection de l\'alerte -->

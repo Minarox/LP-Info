@@ -176,4 +176,20 @@ final class SettingsController extends Controller
 
         define('SENSORS_ALERTS', json_encode($data));
     }
+
+    public function download()
+    {
+        if(isset($_GET['sensor'])) {
+            $sensor = $_GET['sensor'];
+            SensorsController::get($_SESSION['nb_values_comparison'] ??= SENSORS_DEFAULT_NB_VALUE_COMPARISON);
+            $data = json_decode(SENSORS_DATA, true);
+            $this->addFlash('success', "Les données ont été téléchargés");
+            header('Content-disposition: attachment; filename=capteur_'.$data[$sensor]['name'].'.json');
+            header('Content-type: application/json');
+            echo json_encode($data[$sensor]);
+        } else {
+            $this->addFlash('error', "Une erreur est surevenue dans le téléchargement des données");
+            $this->redirect(header: 'settings', response_code: 301);
+        }
+    }
 }
