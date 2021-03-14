@@ -30,7 +30,7 @@ class Validator
     public const FLOAT_REGEX = '[0-9\.,]+';
     public const INT_REGEX = '[0-9]+';
     public const TEL_REGEX = '^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$';
-    public const ALPHA_REGEX = '[\p{L}]+';
+    public const ALPHA_REGEX = '[\p{L} ]+';
     public const ALPHA_NUM_REGEX = '[\p{L}0-9]+';
 
     /**
