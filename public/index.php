@@ -49,7 +49,7 @@ $router->add('/ajax/googleRegister', 'RegisterController::google', 'POST');
 $router->add('/ajax/googleLogin', 'LoginController::google', 'POST');
 
 // Ajax path route ( settings )
-$router->add('/ajax/alertSensor', 'SettingsController::alertSensor', ['GET', 'POST']);
+$router->add('/ajax/alertSensor', 'SettingsController::alertSensor', 'POST');
 
 // Sync Path
 $router->add('/sync', 'SensorsController');
