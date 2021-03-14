@@ -2,11 +2,10 @@ for(const[key, value] of Object.entries(id_sensors_list)) {
     const alert_information = getId('select-alert-sensor' + value);
 
     alert_information.addEventListener('change', (event) => {
-        console.log(event.target.value);
         const xhr = new XMLHttpRequest();
+
         xhr.open('POST', '/ajax/alertSensor');
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const sensor_data = JSON.parse(xhr.responseText);
@@ -23,5 +22,4 @@ for(const[key, value] of Object.entries(id_sensors_list)) {
 
         xhr.send('alert_id=' + event.target.value);
     });
-    // console.log(`${key}: ${value}`)
 }
