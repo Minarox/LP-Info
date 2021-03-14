@@ -183,7 +183,6 @@ final class SettingsController extends Controller
             $sensor = $_GET['sensor'];
             SensorsController::get($_SESSION['nb_values_comparison'] ??= SENSORS_DEFAULT_NB_VALUE_COMPARISON);
             $data = json_decode(SENSORS_DATA, true);
-            $this->addFlash('success', "Les données ont été téléchargés");
             header('Content-disposition: attachment; filename=capteur_'.$data[$sensor]['name'].'.json');
             header('Content-type: application/json');
             echo json_encode($data[$sensor]);
