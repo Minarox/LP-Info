@@ -9,6 +9,7 @@ use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\AlertModel;
+use App\Models\SensorsModel;
 use App\Models\UsersModel;
 
 final class SettingsController extends Controller
@@ -19,6 +20,8 @@ final class SettingsController extends Controller
 
         $validator = new Validator($_POST);
         $user = new UsersModel();
+        $alert = new AlertModel();
+        $sensors = new SensorsModel();
 
         if ($validator->isSubmitted('update-parameters')) {
 
@@ -47,6 +50,34 @@ final class SettingsController extends Controller
             }
         }
 
+        if ($validator->isSubmitted('add-alert')) {
+
+            $validator->validate([
+                'sensor-id-new-alert' => ['required', 'int'],
+                'name-new-alert' => ['required'],
+                'description-new-alert' => ['required'],
+                'operator-new-alert' => ['required', 'int'],
+                'value-new-alert' => ['required', 'int']
+            ]);
+
+            if ($validator->isSuccess()) {
+                $alert->setSensorId(Validator::filter($request->post->get('sensor-id-new-alert')))
+                    ->setUserId($request->session->get('id'))
+                    ->setName(Validator::filter($request->post->get('name-new-alert')))
+                    ->setDescription(Validator::filter($request->post->get('description-new-alert')))
+                    ->setOperator(Validator::filter($request->post->get('operator-new-alert')))
+                    ->setValue(Validator::filter($request->post->get('value-new-alert')))
+                    ->create();
+
+                $sensor = $sensors->findById($request->post->get('sensor-id-new-alert'));
+
+                $this->addFlash('success', 'L\'alerte à bien été ajoutée sur le capteur '. $sensor->getName() .' !');
+                $this->redirect(header: 'settings', response_code: 301);
+            } else {
+                $error = $validator->displayErrors();
+            }
+        }
+
         $this->render(name_file: 'other/settings', params: [
             'error' => $error ??= null
         ], title: 'Paramétrages', caching: false);
@@ -54,7 +85,6 @@ final class SettingsController extends Controller
 
     public static function id(int $id): array
     {
-
         $alert = new AlertModel();
 
         $alerts = $alert->findBy([

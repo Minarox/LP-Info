@@ -31,7 +31,7 @@
             </button>
             <!-- On vérifie s'il n'est pas connecté avec un compte Google ou Facebook -->
             <?php if (is_null($_SESSION['id_google']) && is_null($_SESSION['id_facebook'])): ?>
-                <a class="button" href="#" onclick="show()">
+                <a class="button" href="#" onclick="show(-1)">
                     <button id="" type="button">
                         Modifier le mot de passe
                     </button>
@@ -44,7 +44,7 @@
     </section>
     <!-- On vérifie s'il n'est pas connecté avec un compte Google ou Facebook -->
     <?php if (is_null($_SESSION['id_google']) && is_null($_SESSION['id_facebook'])): ?>
-        <article id="overlay">
+        <article class="overlay" id="overlay">
             <section class="box w-md">
                 <!-- Titre -->
                 <h1 class="box-title text-center">Modification du mot de passe</h1>
@@ -63,7 +63,7 @@
                     <hr>
                     <!-- Valider -->
                     <button type="submit" name="password_update">Valider</button>
-                    <button type="button" onclick="hide()">Fermer</button>
+                    <button type="button" onclick="hide(-1)">Fermer</button>
                 </form>
             </section>
         </article>

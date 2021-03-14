@@ -71,7 +71,7 @@
 
         echo '
                     </select>
-                    <a class="col-2 col-md-1 button" href="#" onclick="show()">
+                    <a class="col-2 col-md-1 button" href="#" onclick="show('.$id.')">
                         <button class="mb-0" type="button">+</button>
                     </a>
                 </section>
@@ -102,19 +102,25 @@
                 <button class="m-0" name="update-alert-sensor'.$id.'" type="submit">Modifier</button>
             </form>
         </article>
-        <article id="overlay">
+        <article class="overlay center" id="overlay'.$id.'">
             <section class="box w-md">
                 <!-- Titre -->
                 <h1 class="box-title text-center">Création d\'une nouvelle alerte</h1>
                 <!-- Formulaire -->
                 <form action="" method="post">
                     <hr>
+                    <!-- ID du capteur -->
+                    <label for="sensor-id-new-alert" hidden>ID du capteur</label>
+                    <input class="form-control" type="number" name="sensor-id-new-alert" maxlength="5" min="0" value="'.$data[$id]['id'].'" required hidden>
                     <!-- Nom de l\'alerte -->
-                    <label for="name-newalert-sensor'.$id.'">Nom de l\'alerte</label>
-                    <input class="form-control" type="text" name="name-newalert-sensor'.$id.'" id="name-newalert-sensor'.$id.'" placeholder="HotHotHot !" maxlength="80" required>
+                    <label for="name-new-alert">Nom de l\'alerte</label>
+                    <input class="form-control" type="text" name="name-new-alert" placeholder="HotHotHot !" maxlength="80" required>
+                    <!-- Description de l\'alerte -->
+                    <label for="description-new-alert">Description de l\'alerte</label>
+                    <textarea class="form-control mb-3" name="description-new-alert" placeholder="Description de l\'alerte" aria-label="With textarea" required></textarea>
                     <!-- Opérateur de l\'alerte -->
-                    <label for="operator-newalert-sensor'.$id.'">Opérateur</label>
-                    <select class="form-select mb-3" aria-label="Default select example" name="operator-newalert-sensor'.$id.'" id="operator-newalert-sensor'.$id.'" required>
+                    <label for="operator-new-alert">Opérateur</label>
+                    <select class="form-select mb-3" name="operator-new-alert" required>
                         <option selected>Sélectionnez un opérateur</option>
                         <option value="1">></option>
                         <option value="2">=></option>
@@ -123,12 +129,12 @@
                         <option value="5"><</option>
                     </select>
                     <!-- Valeur de l\'alerte -->
-                    <label for="value-newalert-sensor'.$id.'">Valeur</label>
-                    <input class="form-control" type="number" name="value-newalert-sensor'.$id.'" id="value-newalert-sensor'.$id.'" placeholder="35" maxlength="5" required>
+                    <label for="value-new-alert">Valeur</label>
+                    <input class="form-control" type="number" name="value-new-alert" placeholder="35" maxlength="5" required>
                     <hr>
                     <!-- Valider -->
-                    <button type="submit" name="newalert-sensor'.$id.'">Créer</button>
-                    <button type="button" onclick="hide()">Fermer</button>
+                    <button type="submit" name="add-alert">Créer</button>
+                    <button type="button" onclick="hide('.$id.')">Fermer</button>
                 </form>
             </section>
         </article>

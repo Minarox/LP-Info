@@ -37,13 +37,13 @@
                 Modifier
             </button>
         </a>
-        <a class="button" href="#" onclick="show()">
+        <a class="button" href="#" onclick="show(-1)">
             <button id="" type="button">
                 Supprimer le compte
             </button>
         </a>
     </section>
-    <article id="overlay">
+    <article class="overlay" id="overlay">
         <section class="box w-sm">
             <!-- Titre -->
             <h1 class="box-title text-center">Voulez-vous vraiment supprimer votre compte ?</h1>
@@ -56,7 +56,7 @@
                 <hr>
                 <!-- Boutons de choix -->
                 <button type="submit" name="delete">Confirmer la suppression</button>
-                <a class="button" href="#" onclick="hide()">
+                <a class="button" href="#" onclick="hide(-1)">
                     <button type="button">
                         Retour
                     </button>

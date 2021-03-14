@@ -313,7 +313,7 @@ form button, .button button {
     margin-bottom: 10px;
 }
 
-#overlay {
+.overlay {
     position: fixed;
     display: none;
     width: 100%;
@@ -327,15 +327,18 @@ form button, .button button {
     z-index: 2;
 }
 
-#overlay h1 {
+.overlay h1 {
     font-size: 1.5em;
     margin: 20px 0 0;
 }
 
-#overlay button {
+.overlay button {
     margin-bottom: 10px;
 }
 
+.center {
+    padding-top: 15vh;
+}
 
 @media only screen and (max-width: 460px) {
     form {
