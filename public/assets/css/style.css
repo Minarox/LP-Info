@@ -208,11 +208,25 @@ nav hr {
 }
 
 
-/* -------------------------------------------------------------- */
-/* --- LOGIN / RECOVERY / REGISTER / PROFIL / SETTINGS / HELP --- */
-/* -------------------------------------------------------------- */
+/* -------------------------------------------------------------------- */
+/* --- LOGIN / RECOVERY / REGISTER / PROFIL / SETTINGS / HELP / CGU --- */
+/* -------------------------------------------------------------------- */
 #accessibility {
     display: none;
+}
+
+h2 {
+    font-size: 26px;
+}
+
+a {
+    color: white;
+    transition: color 200ms;
+}
+
+a:hover {
+    color: lightgray;
+    transition: color 200ms;
 }
 
 .box {
@@ -259,6 +273,12 @@ nav hr {
     color: white;
     font-size: 1em;
     text-align: center;
+    transition: color 200ms;
+}
+
+.box-subtitle a:hover {
+    color: lightgray;
+    transition: color 200ms;
 }
 
 form {
@@ -272,10 +292,6 @@ form {
 
 .form-control:last-of-type {
     margin-bottom: 0;
-}
-
-form a, form a:hover {
-    color: white;
 }
 
 form button, .button button {
