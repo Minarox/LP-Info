@@ -18,21 +18,8 @@ class SensorsController extends Controller
         $sensor_data = new Sensor_DataModel();
         $sensor_types = new Sensor_TypesModel();
 
-        function data($url)
-        {
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0');
-            $content = curl_exec($ch);
-            curl_close($ch);
-            return json_decode($content, true);
-        }
-
         foreach (SENSORS_LINK as $url) {
-            $data = data($url);
+            $data = $this->data($url);
 
             if (!empty($data)) {
                 $sensor = $sensors->findOneBy([
@@ -72,6 +59,7 @@ class SensorsController extends Controller
         $this->get();
         $this->crontab();
     }
+
     public static function get()
     {
         $sensors = new SensorsModel();
@@ -88,6 +76,7 @@ class SensorsController extends Controller
                 'id' => $sensor->getTypeId()
             ]);
 
+            $data[$i]['id'] = $type->getId();
             $data[$i]['name'] = $sensor->getName();
             $data[$i]['type'] = $type->getName();
 
@@ -123,5 +112,19 @@ class SensorsController extends Controller
             $minutes = (SENSORS_SYNC_TIME % 60);
             $ssh->exec('echo "*/'.$minutes.' */'.$hours.' * * * /bin/curl https://hothothot.minarox.fr/sync" | crontab -');
         }
+    }
+
+    private function data(string $url)
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0');
+        $content = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($content, true);
     }
 }

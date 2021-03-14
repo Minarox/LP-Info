@@ -29,6 +29,7 @@ class Sensor_TypesModel extends Model
 
     /**
      * @param string $name
+     * @return Sensor_TypesModel
      */
     public function setName(string $name): Sensor_TypesModel
     {

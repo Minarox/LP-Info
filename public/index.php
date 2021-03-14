@@ -31,7 +31,7 @@ $router = new Router($_GET['url']);
 
 // Path Route
 $router->add('/', 'HomeController');
-$router->add('/settings', 'SettingsController');
+$router->add('/settings', 'SettingsController', ['GET', 'POST']);
 $router->add('/account', 'ProfileController', ['GET', 'POST']);
 $router->add('/account/edit', 'ProfileController::edit', ['GET', 'POST']);
 $router->add('/account/edit/password', 'ProfileController::password', 'POST');

@@ -36,18 +36,16 @@ abstract class Controller
         $start = microtime(true);
         $cache = new Cache(__DIR__ . '/cache', 0.05);
 
-        extract($params);
-
-        ob_start();
-        require_once VIEWS . 'message/message.php';
-
         if ($caching) {
+            ob_start();
+            require_once VIEWS . 'message/message.php';
+
             if(!$cache->start(hash('sha512', "$name_file$title"))) {
-                $this->page($name_file, $template, $title);
+                $this->page($name_file, $template, $title, $params);
                 echo $cache->end();
             }
         } else {
-            $this->page($name_file, $template, $title);
+            $this->page($name_file, $template, $title, $params);
         }
 
         $end = microtime(true);
@@ -55,8 +53,10 @@ abstract class Controller
         if (DEBUG) var_dump(round($end - $start, 5));
     }
 
-    private function page($name_file, $template, $title): void
+    private function page(string $name_file, string $template, string $title, array $params): void
     {
+        extract($params);
+
         ob_start();
 
         // On insère le fichier des fonctions utile pour la vue
