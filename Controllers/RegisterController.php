@@ -24,7 +24,6 @@ final class RegisterController extends Controller
         $validator = new Validator($_POST);
 
         if ($validator->isSubmitted()) {
-
             $email_post = $request->post->get('email');
 
             $data = $user->findOneBy([
@@ -37,7 +36,8 @@ final class RegisterController extends Controller
                 'first_name' => ['required'],
                 'email' => ['email', 'required'],
                 'password' => ['required', "equal:{$request->post->get('password_verify')}"],
-                'password_verify' => ['required']
+                'password_verify' => ['required'],
+                'cgu_check' => ['required']
             ]);
 
             if (!empty($data)) $email = $data->getEmail();

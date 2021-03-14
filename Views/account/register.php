@@ -20,19 +20,24 @@
             <input type="hidden" name="anti_bot">
             <!-- Prénom -->
             <label for="first_name">Prénom</label>
-            <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Jean" maxlength="30" autofocus required>
+            <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Jean" maxlength="30" autofocus required autocomplete="first-name">
             <!-- Nom -->
             <label for="last_name">Nom</label>
-            <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Dupont" maxlength="30" required>
+            <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Dupont" maxlength="30" required autocomplete="last-name">
             <!-- Email -->
             <label for="email">Email</label>
-            <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" required>
+            <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" required autocomplete="email">
             <!-- Mot de passe -->
             <label for="password">Mot de passe</label>
-            <input class="form-control" type="password" name="password" id="password" placeholder="••••••••••••••" maxlength="99" required>
+            <input class="form-control" type="password" name="password" id="password" placeholder="••••••••••••••" maxlength="99" required autocomplete="new-password">
             <!-- Vérification du mot de passe -->
             <label for="password_verify">Vérification du mot de passe</label>
-            <input class="form-control" type="password" name="password_verify" id="password_verify" placeholder="••••••••••••••" maxlength="99" required>
+            <input class="form-control mb-3" type="password" name="password_verify" id="password_verify" placeholder="••••••••••••••" maxlength="99" required autocomplete="new-password">
+            <!-- Acceptation des mentions légales -->
+            <label class="form-check-label" for="cgu_check">
+                <input class="form-check-input" type="checkbox" name="cgu_check" id="cgu_check" required>
+                En cochant cette case, vous acceptez nos <a href="<?= ROOT ?>cgu">Conditions Générales d'Utilisation (CGU)</a> et avez prit connaissances des <a href="<?= ROOT ?>mentions-legales">mentions légales</a>.
+            </label>
             <hr>
             <!-- Bouton de validation -->
             <button id="signUp" type="submit">Inscription</button>
