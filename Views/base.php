@@ -117,7 +117,7 @@
     <section class="container">
         <p>
             &copy; <?= date("Y"); ?>
-            <a href="<?= ROOT ?>">Hothothot.fr</a> &nbsp;|&nbsp; <a href="<?= ROOT ?>mentions-legales">Mentions légales</a>
+            <a href="<?= ROOT ?>">Hothothot.fr</a> &nbsp;|&nbsp; <a href="<?= ROOT ?>mentions-legales">Mentions Légales</a>
         <p>
     </section>
 </footer>

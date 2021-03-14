@@ -36,7 +36,7 @@
             <!-- Acceptation des mentions légales -->
             <label class="form-check-label" for="cgu_check">
                 <input class="form-check-input" type="checkbox" name="cgu_check" id="cgu_check" required>
-                En cochant cette case, vous acceptez nos <a href="<?= ROOT ?>cgu">Conditions Générales d'Utilisation (CGU)</a> et avez prit connaissances des <a href="<?= ROOT ?>mentions-legales">mentions légales</a>.
+                En cochant cette case, vous acceptez nos <a href="<?= ROOT ?>cgu">Conditions Générales d'Utilisation</a> et avez prit connaissances des <a href="<?= ROOT ?>mentions-legales">Mentions Légales</a>.
             </label>
             <hr>
             <!-- Bouton de validation -->
