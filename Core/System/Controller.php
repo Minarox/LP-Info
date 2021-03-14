@@ -78,7 +78,7 @@ abstract class Controller
         die();
     }
 
-    protected function addFlash(string $alert_type, string $message): void
+    protected function addFlash(string $alert_type, string|array $message): void
     {
         $this->request->session->set($alert_type, $message);
     }
