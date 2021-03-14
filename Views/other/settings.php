@@ -78,9 +78,15 @@
             </section>
             <form class="d-none p-0" action="" method="post">
                 <hr>
+                <!-- ID du capteur -->
+                <label for="sensor-id-new-alert" hidden>ID du capteur</label>
+                <input class="form-control" type="number" name="sensor-id-new-alert" maxlength="5" min="0" value="'.$data[$id]['id'].'" required hidden>
                 <!-- Modification de l\'alerte sélectionnée -->
                 <label for="name-alert-sensor'.$id.'">Nom de l\'alerte</label>
                 <input class="form-control mb-3" type="text" name="name-alert-sensor'.$id.'" id="name-alert-sensor'.$id.'" placeholder="HotHotHot !" maxlength="80" required>
+                <!-- Description de l\'alerte -->
+                <label for="description-new-alert">Description de l\'alerte</label>
+                <textarea class="form-control mb-3" name="description-new-alert" placeholder="Description de l\'alerte" aria-label="With textarea" required></textarea>
                 <section class="row">
                     <div class="col-sm pb-0 mb-3 mb-sm-0">
                         <label for="operator-alert-sensor'.$id.'">Opérateur</label>

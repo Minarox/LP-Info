@@ -71,7 +71,7 @@ final class SettingsController extends Controller
 
                 $sensor = $sensors->findById($request->post->get('sensor-id-new-alert'));
 
-                $this->addFlash('success', 'L\'alerte à bien été ajoutée sur le capteur '. $sensor->getName() .' !');
+                $this->addFlash('success', "L'alerte à bien été ajoutée sur le capteur ". $sensor->getName() ." !");
                 $this->redirect(header: 'settings', response_code: 301);
             } else {
                 $error = $validator->displayErrors();
