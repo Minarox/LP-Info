@@ -28,7 +28,8 @@ final class ProfileController extends Controller
             ]);
 
             if ($validator->isSuccess() && $matchValue) {
-                (new UsersModel())->delete($request->session->get('id'));
+                $user = new UsersModel();
+                $user->delete($request->session->get('id'));
 
                 $request->cookie->delete('token');
                 setcookie('token', '', time() - INACTIVITY_TIME, '/');

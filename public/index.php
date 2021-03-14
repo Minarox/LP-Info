@@ -46,7 +46,7 @@ $router->add('/mentions-legales', 'HomeController::mentions_legales');
 $router->add('/settings/download', 'SettingsController::download');
 
 // Ajax path route ( Google )
-$router->add('/ajax/googleRegister', 'RegisterController::google',['GET', 'POST']);
+$router->add('/ajax/googleRegister', 'RegisterController::google', 'POST');
 $router->add('/ajax/googleLogin', 'LoginController::google', 'POST');
 
 // Ajax path route ( settings )

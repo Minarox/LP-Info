@@ -14,7 +14,7 @@ async function ajaxRequest(id_token) {
     xhr.onload = function () {
         console.log(id_token);
         signOut();
-        document.location.href = '';
+        document.location.href = '/';
     };
 
     xhr.send('id_token=' + id_token);
