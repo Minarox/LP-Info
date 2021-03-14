@@ -48,7 +48,6 @@ final class ProfileController extends Controller
     public function edit(Request $request)
     {
         if (!$this->isAuthenticated()) ErrorController::error404();
-
         $validator = new Validator($_POST);
         $user = new UsersModel();
 
@@ -64,6 +63,7 @@ final class ProfileController extends Controller
                 'first_name' => $request->session->get('first_name'),
                 'last_name' => $request->session->get('last_name')
             ]);
+            print_r('coucou');
 
             if ($matchValue && $_FILES["file"]["error"] === 4) {
                 $this->addFlash('error', "Vos informations n'ont pas changé, pas besoin de spam le bouton !");
