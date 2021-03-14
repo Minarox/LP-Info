@@ -76,22 +76,22 @@
                     </a>
                 </section>
             </section>
-            <form class="d-none p-0" action="" method="post">
+            <form class="d-none p-0" action="" method="post" id="form-update-sensor'.$id.'">
                 <hr>
                 <!-- ID du capteur -->
                 <label for="sensor-id-new-alert" hidden>ID du capteur</label>
-                <input class="form-control" type="number" name="sensor-id-new-alert" maxlength="5" min="0" value="'.$data[$id]['id'].'" required hidden>
+                <input class="form-control" type="number" name="sensor-id-new-alert" maxlength="5" min="0" value="'.$id.'" required hidden>
                 <!-- Modification de l\'alerte sélectionnée -->
                 <label for="name-alert-sensor'.$id.'">Nom de l\'alerte</label>
                 <input class="form-control mb-3" type="text" name="name-alert-sensor'.$id.'" id="name-alert-sensor'.$id.'" placeholder="HotHotHot !" maxlength="80" required>
                 <!-- Description de l\'alerte -->
-                <label for="description-new-alert">Description de l\'alerte</label>
-                <textarea class="form-control mb-3" name="description-new-alert" placeholder="Description de l\'alerte" aria-label="With textarea" required></textarea>
+                <label for="description-new-alert'.$id.'">Description de l\'alerte</label>
+                <textarea class="form-control mb-3" name="description-new-alert'.$id.'" id="description-new-alert'.$id.'" placeholder="Description de l\'alerte" aria-label="With textarea" required></textarea>
                 <section class="row">
                     <div class="col-sm pb-0 mb-3 mb-sm-0">
                         <label for="operator-alert-sensor'.$id.'">Opérateur</label>
                         <select class="col form-select" aria-label="Default select example" name="operator-alert-sensor'.$id.'" id="operator-alert-sensor'.$id.'" required>
-                            <option selected>Sélectionnez un opérateur</option>
+                            <option selected disabled>Sélectionnez un opérateur</option>
                             <option value="1">></option>
                             <option value="2">=></option>
                             <option value="3">=</option>
@@ -153,3 +153,13 @@
     ?>
 
 </main>
+<?php
+
+$id_list = [];
+
+foreach (json_decode(SENSORS_DATA, true) as $key => $datum) $id_list[$datum['name']] = $key;
+
+?>
+<script>
+    const id_sensors_list = <?= json_encode($id_list); ?>;
+</script>

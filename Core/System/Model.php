@@ -33,27 +33,27 @@ abstract class Model
     }
 
     /**
-     * @return array|$this
+     * @return array|bool|$this
      */
-    public function findAll(): array|self
+    public function findAll(): array|self|bool
     {
         return $this->query("SELECT * FROM {$this->table}")->fetchAll();
     }
 
     /**
      * @param int $id
-     * @return array|$this
+     * @return array|bool|$this
      */
-    public function findById(int $id): array|self
+    public function findById(int $id): array|self|bool
     {
         return $this->query("SELECT * FROM {$this->table} WHERE id = {$id}")->fetch();
     }
 
     /**
      * @param array $filter
-     * @return array|$this
+     * @return array|bool|$this
      */
-    public function findBy(array $filter): array|self
+    public function findBy(array $filter): array|bool|self
     {
         $fields = [];
         $values = [];
