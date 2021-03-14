@@ -78,6 +78,15 @@ final class SettingsController extends Controller
             }
         }
 
+        if ($validator->isSubmitted('delete-alert-sensor' . $request->post->get('sensor-id-new-alert'))) {
+            $alert->delete($request->session->get('alert_id'));
+
+            $request->session->delete('alert_id');
+
+            $this->addFlash('success', "L'alerte " . $request->post->get("name-alert-sensor" . $request->post->get('sensor-id-new-alert')) . " a bien été supprimée !");
+            $this->redirect(header: '', response_code: 301);
+        }
+
         if ($validator->isSubmitted('update-alert-sensor' . $request->post->get('sensor-id-new-alert'))) {
 
             $sensor_id = $request->post->get('sensor-id-new-alert');
@@ -90,7 +99,7 @@ final class SettingsController extends Controller
             ]);
 
             if ($validator->isSuccess()) {
-                var_dump($request->session->get('alert_id'));
+
                 $alert->setName($request->post->get("name-alert-sensor$sensor_id"))
                     ->setDescription($request->post->get("description-new-alert$sensor_id"))
                     ->setOperator($request->post->get("operator-alert-sensor$sensor_id"))
@@ -134,7 +143,7 @@ final class SettingsController extends Controller
 
     public function alertSensor()
     {
-        $data = (new AlertModel())->findById($_REQUEST['alert_id']);
+        $data = (new AlertModel())->findById($_POST['alert_id']);
         echo json_encode($this->getGetter($data));
         $_SESSION['alert_id'] = $data->getId();
     }

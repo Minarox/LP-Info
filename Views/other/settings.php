@@ -107,7 +107,7 @@
                 <hr>
                 <section class="row m-0">
                     <button class="col-sm me-4 mb-2 mb-sm-0" name="update-alert-sensor'.$id.'" type="submit">Modifier</button>
-                    <button class="col-sm m-0" name="delete-alert-sensor'.$id.'" type="button">Supprimer</button>
+                    <button class="col-sm m-0" name="delete-alert-sensor'.$id.'" type="submit">Supprimer</button>
                 </section>
             </form>
         </article>
