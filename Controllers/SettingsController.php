@@ -33,15 +33,15 @@ final class SettingsController extends Controller
                     $this->redirect(header: 'settings', response_code: 301);
                 }
 
-                $user->setNbValuesComparison($request->post->get('value-sensors'))
-                    ->setNbValuesSensors($request->post->get('value-comparison'))
+                $user->setNbValuesComparison($request->post->get('value-comparison'))
+                    ->setNbValuesSensors($request->post->get('value-sensors'))
                     ->update($request->session->get('id'));
 
                 $request->session->set('nb_values_sensors', $request->post->get('value-sensors'));
                 $request->session->set('nb_values_comparison', $request->post->get('value-comparison'));
 
                 $this->addFlash('success', 'Les paramètres ont bien été modifiées !');
-                $this->redirect(header: 'settings', response_code: 301);
+                $this->redirect(header: '', response_code: 301);
             } else {
                 $error = $validator->displayErrors();
             }

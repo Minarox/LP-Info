@@ -92,6 +92,6 @@
 <script>
     const sensors_data = '<?= SENSORS_DATA ?>';
     const sensors_sync_time = '<?= SENSORS_SYNC_TIME ?>';
-    const sensors_comparison_data = '<?= $_SESSION['nb_values_comparison'] ?>';
-    const value_sensors = '<?= $_SESSION['nb_values_sensors'] ?>';
+    const sensors_comparison_data = '<?= $_SESSION['nb_values_comparison'] ??= SENSORS_DEFAULT_NB_VALUE_COMPARISON ?>';
+    const value_sensors = '<?= $_SESSION['nb_values_sensors'] ??= SENSORS_DEFAULT_NB_VALUE ?>';
 </script>
