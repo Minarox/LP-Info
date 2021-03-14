@@ -16,13 +16,13 @@
                 <section class="col col-md-9 col-lg-10">
                         <!-- Email -->
                         <label for="email">Email</label>
-                        <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" value="<?= $_SESSION['email'] ?>" required>
+                        <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" value="<?= $_SESSION['email'] ?>" required autocomplete="email">
                         <!-- Prénom -->
                         <label for="first_name">Prénom</label>
-                        <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Jean" maxlength="30" value="<?= $_SESSION['first_name'] ?>" required>
+                        <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Jean" maxlength="30" value="<?= $_SESSION['first_name'] ?>" required autocomplete="first-name">
                         <!-- Nom -->
                         <label for="last_name">Nom</label>
-                        <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Dupont" maxlength="30" value="<?= $_SESSION['last_name'] ?>" required>
+                        <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Dupont" maxlength="30" value="<?= $_SESSION['last_name'] ?>" required autocomplete="last-name">
                 </section>
             </article>
             <hr>
@@ -53,13 +53,13 @@
                     <hr>
                     <!-- Ancien mot de passe -->
                     <label for="old_password">Ancien mot de passe</label>
-                    <input class="form-control" type="password" name="old_password" id="old_password" placeholder="••••••••••••••••••••" maxlength="99" required>
+                    <input class="form-control" type="password" name="old_password" id="old_password" placeholder="••••••••••••••••••••" maxlength="99" required autocomplete="current-password">
                     <!-- Nouveau mot de passe -->
                     <label for="new_password">Nouveau mot de passe</label>
-                    <input class="form-control" type="password" name="new_password" id="new_password" placeholder="••••••••••••••" maxlength="99" required>
+                    <input class="form-control" type="password" name="new_password" id="new_password" placeholder="••••••••••••••" maxlength="99" required autocomplete="new-password">
                     <!-- Confirmation du nouveau mot de passe -->
                     <label for="new_password_verify">Confirmation du nouveau mot de passe</label>
-                    <input class="form-control" type="password" name="new_password_verify" id="new_password_verify" placeholder="••••••••••••••" maxlength="99" required>
+                    <input class="form-control" type="password" name="new_password_verify" id="new_password_verify" placeholder="••••••••••••••" maxlength="99" required autocomplete="new-password">
                     <hr>
                     <!-- Valider -->
                     <button type="submit" name="password_update">Valider</button>

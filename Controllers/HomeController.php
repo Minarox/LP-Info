@@ -16,4 +16,9 @@ final class HomeController extends Controller
 
         $this->render(name_file: 'home');
     }
+
+    public function cgu()
+    {
+        $this->render(name_file: 'other/cgu', title: "Conditions Générales d'Utilisation (CGU)");
+    }
 }

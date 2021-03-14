@@ -41,6 +41,7 @@ $router->add('/help', 'HelpController');
 $router->add('/recovery', 'RecoveryController', ['GET', 'POST']);
 $router->add('/logout', 'LogoutController');
 $router->add('/email/register', 'EmailRegisterController', ['GET', 'POST']);
+$router->add('/cgu', 'HomeController::cgu');
 
 // Ajax path route ( Google )
 $router->add('/ajax/googleRegister', 'RegisterController::google', 'POST');
