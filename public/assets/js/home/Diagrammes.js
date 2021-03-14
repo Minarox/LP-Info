@@ -18,8 +18,7 @@ colors.push({
     2: 'rgba(38,195,62,0.2)'
 })
 
-function parse_data(raw_data) {
-    let data = JSON.parse(raw_data)
+function parse_data(data) {
     let temperature_comparison = []
     let time_comparison = []
     let name_comparison = []
@@ -31,9 +30,11 @@ function parse_data(raw_data) {
         let name = data[i]['name']
         if (name) {
             $("#sensor"+i+"-title").text(name+" ("+type+")")
+            $("#sensor"+i+"-name").text(name)
         } else {
             name = i
             $("#sensor"+i+"-title").text(name)
+            $("#sensor"+i+"-name").text(name)
         }
         let sensor_data = data[i]['data']
         let temperature = []

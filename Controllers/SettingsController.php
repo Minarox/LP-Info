@@ -147,4 +147,50 @@ final class SettingsController extends Controller
         echo json_encode($this->getGetter($data));
         $_SESSION['alert_id'] = $data->getId();
     }
+
+    public static function getAlert()
+    {
+        $alerts = new AlertModel();
+
+        $list = $alerts->findBy([
+            'user_id' => $_SESSION['id']
+        ]);
+
+        $i = 0;
+        $data = [];
+
+        foreach ($list as $alert) {
+            $data[$i]['sensor_id'] = $alert->getSensorId();
+            $data[$i]['name'] = $alert->getName();
+            $data[$i]['description'] = $alert->getDescription();
+            $data[$i]['operator'] = $alert->getOperator();
+            $data[$i]['value'] = $alert->getValue();
+            $i++;
+        }
+
+        define('SENSORS_ALERTS', json_encode($data));
+    }
+
+    public static function getAlert2()
+    {
+        $alerts = new AlertModel();
+
+        $list = $alerts->findBy([
+            'user_id' => $_SESSION['id']
+        ]);
+
+        $i = 0;
+        $data = [];
+
+        foreach ($list as $alert) {
+            $data[$i]['sensor_id'] = $alert->getSensorId();
+            $data[$i]['name'] = $alert->getName();
+            $data[$i]['description'] = $alert->getDescription();
+            $data[$i]['operator'] = $alert->getOperator();
+            $data[$i]['value'] = $alert->getValue();
+            $i++;
+        }
+
+        echo json_encode($data);
+    }
 }
