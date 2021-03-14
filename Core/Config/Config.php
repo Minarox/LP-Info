@@ -44,6 +44,7 @@ abstract class Config
         // Sensors
         define('SENSORS_SYNC_TIME', $config['sync_time']);
         define('SENSORS_LINK', explode(', ', $config['links']));
-        define('SENSORS_COMPARISON_DATA', $config['number_comparison_data']);
+        define('SENSORS_DEFAULT_NB_VALUE', $config['nb_default_values_sensors']);
+        define('SENSORS_DEFAULT_NB_VALUE_COMPARISON', $config['nb_default_values_comparison']);
     }
 }

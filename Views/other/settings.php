@@ -27,7 +27,7 @@
     use App\Controllers\SensorsController;
     use App\Controllers\SettingsController;
 
-    SensorsController::get();
+    SensorsController::get($_SESSION['nb_values_comparison']);
 
     function box(int $id) {
         $data = json_decode(SENSORS_DATA, true);

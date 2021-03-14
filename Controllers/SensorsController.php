@@ -60,8 +60,12 @@ class SensorsController extends Controller
         $this->crontab();
     }
 
-    public static function get()
+    public static function get(?int $nb_value)
     {
+        if (is_null($nb_value)) {
+            $nb_value = SENSORS_DEFAULT_NB_VALUE;
+        }
+
         $sensors = new SensorsModel();
         $sensor_data = new Sensor_DataModel();
         $sensor_types = new Sensor_TypesModel();
@@ -84,13 +88,14 @@ class SensorsController extends Controller
                 'sensor_id' => $sensor->getId()
             ]);
 
-            $data[$i]['data'] = array_slice($data_raw, -SENSORS_COMPARISON_DATA);
+            $data[$i]['data'] = array_slice($data_raw, -$nb_value);
             $i++;
         }
 
         define('SENSORS_DATA', json_encode($data));
         define('SENSORS_NUMBER', count($list));
     }
+
     public static function crontab()
     {
         if (SENSORS_SYNC_TIME < 0) exit("Temps de synchronisation négatif");
