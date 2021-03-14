@@ -36,38 +36,38 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <hr class="mt-3 d-block d-sm-none">
-                        <a class="nav-link" href="<?= ROOT ?>">Home</a>
+                        <a class="nav-link" href="<?= ROOT ?>">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= ROOT ?>settings">Settings</a>
+                        <a class="nav-link" href="<?= ROOT ?>settings">Paramétrages</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= ROOT ?>help">Help</a>
+                        <a class="nav-link" href="<?= ROOT ?>help">Documentation</a>
                     </li>
                     <li class="nav-item dropdown d-block d-sm-none">
                         <hr class="mt-3">
                         <?php if (isAuthenticated()): ?>
                             <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
                                aria-expanded="false">
-                                <?= $_SESSION['first_name'] . '&nbsp;' . $_SESSION['last_name'] ?>
+                                <?= "{$_SESSION['first_name']}&nbsp;{$_SESSION['last_name']}" ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdown">
                                 <li>
-                                    <a class="dropdown-item" href="<?= ROOT ?>account">Profil</a>
+                                    <a class="dropdown-item" href="<?= ROOT ?>account">Compte</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="<?= ROOT ?>logout">Logout</a>
+                                    <a class="dropdown-item" href="<?= ROOT ?>logout">Se déconnecter</a>
                                 </li>
                             </ul>
                         <?php else: ?>
                             <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
-                               aria-expanded="false">Account</a>
+                               aria-expanded="false">Compte</a>
                             <ul class="dropdown-menu" aria-labelledby="dropdown">
                                 <li>
-                                    <a class="dropdown-item" href="<?= ROOT ?>login">Login</a>
+                                    <a class="dropdown-item" href="<?= ROOT ?>login">Se connecter</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="<?= ROOT ?>register">Register</a>
+                                    <a class="dropdown-item" href="<?= ROOT ?>register">S'inscrire</a>
                                 </li>
                             </ul>
                         <?php endif; ?>
@@ -75,31 +75,29 @@
                 </ul>
                 <section class="nav-item dropdown d-none d-sm-block">
                     <?php if (isAuthenticated()): ?>
-                        <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            <?= $_SESSION['first_name'] . '&nbsp;' . $_SESSION['last_name'] ?>
+                        <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?= "{$_SESSION['first_name']}&nbsp;{$_SESSION['last_name']}" ?>
                             <img src="<?= $_SESSION['avatar'] ?>" alt="Profil picture.">
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdown">
                             <li>
-                                <a class="dropdown-item" href="<?= ROOT ?>account">Profil</a>
+                                <a class="dropdown-item" href="<?= ROOT ?>account">Mon profil</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="<?= ROOT ?>logout">Logout</a>
+                                <a class="dropdown-item" href="<?= ROOT ?>logout">Se déconnecter</a>
                             </li>
                         </ul>
                     <?php else: ?>
-                        <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            Account
+                        <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown" aria-expanded="false">
+                            Compte
                             <img src="<?= SCRIPTS . 'images/profil-picture.png' ?>" alt="Profil picture.">
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdown">
                             <li>
-                                <a class="dropdown-item" href="<?= ROOT ?>login">Login</a>
+                                <a class="dropdown-item" href="<?= ROOT ?>login">Se connecter</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="<?= ROOT ?>register">Register</a>
+                                <a class="dropdown-item" href="<?= ROOT ?>register">S'inscrire</a>
                             </li>
                         </ul>
                     <?php endif; ?>

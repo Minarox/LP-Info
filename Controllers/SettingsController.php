@@ -16,7 +16,10 @@ final class SettingsController extends Controller
 {
     public function index(Request $request)
     {
-        if (!$this->isAuthenticated()) $this->redirect(header: 'login', response_code: 301);
+        if (!$this->isAuthenticated()) {
+            $this->addFlash('error', 'Vous devez être connecté pour accéder à la page de paramètre !');
+            $this->redirect(header: 'login', response_code: 301);
+        }
 
         $validator = new Validator($_POST);
         $user = new UsersModel();
@@ -44,7 +47,7 @@ final class SettingsController extends Controller
                 $request->session->set('nb_values_comparison', $request->post->get('value-comparison'));
 
                 $this->addFlash('success', 'Les paramètres ont bien été modifiées !');
-                $this->redirect(header: '', response_code: 301);
+                $this->redirect(header: 'settings', response_code: 301);
             } else {
                 $error = $validator->displayErrors();
             }
@@ -72,7 +75,7 @@ final class SettingsController extends Controller
                 $sensor = $sensors->findById($request->post->get('sensor-id-new-alert'));
 
                 $this->addFlash('success', "L'alerte à bien été ajoutée sur le capteur ". $sensor->getName() ." !");
-                $this->redirect(header: '', response_code: 301);
+                $this->redirect(header: 'settings', response_code: 301);
             } else {
                 $error = $validator->displayErrors();
             }
@@ -84,7 +87,7 @@ final class SettingsController extends Controller
             $request->session->delete('alert_id');
 
             $this->addFlash('success', "L'alerte " . $request->post->get("name-alert-sensor" . $request->post->get('sensor-id-new-alert')) . " a bien été supprimée !");
-            $this->redirect(header: '', response_code: 301);
+            $this->redirect(header: 'settings', response_code: 301);
         }
 
         if ($validator->isSubmitted('update-alert-sensor' . $request->post->get('sensor-id-new-alert'))) {
@@ -95,7 +98,7 @@ final class SettingsController extends Controller
                 'name-alert-sensor' . $sensor_id => ['required'],
                 'description-new-alert' . $sensor_id => ['required'],
                 'operator-alert-sensor' . $sensor_id => ['required'],
-                'value-alert-sensor' . $sensor_id => ['required', 'int'],
+                'value-alert-sensor' . $sensor_id => ['required', 'int']
             ]);
 
             if ($validator->isSuccess()) {
@@ -109,7 +112,7 @@ final class SettingsController extends Controller
                 $request->session->delete('alert_id');
 
                 $this->addFlash('success', "Les données de l'alerte " . $request->post->get("name-alert-sensor$sensor_id") . " ont bien été modifiée !");
-                $this->redirect(header: '', response_code: 301);
+                $this->redirect(header: 'settings', response_code: 301);
             } else {
                 $error = $validator->displayErrors();
             }
@@ -132,6 +135,7 @@ final class SettingsController extends Controller
         $alert_list = [];
 
         $i = 0;
+
         foreach ($alerts as $alert) {
             $alert_list[$i]['id'] = $alert->getId();
             $alert_list[$i]['name'] = $alert->getName();
@@ -141,11 +145,13 @@ final class SettingsController extends Controller
         return $alert_list;
     }
 
-    public function alertSensor()
+    public function alertSensor(Request $request): void
     {
-        $data = (new AlertModel())->findById($_POST['alert_id']);
+        $data = (new AlertModel())->findById($request->post->get('alert_id'));
+
+        $request->session->set('alert_id', $data->getId());
+
         echo json_encode($this->getGetter($data));
-        $_SESSION['alert_id'] = $data->getId();
     }
 
     public static function getAlert()

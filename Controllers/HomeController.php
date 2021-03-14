@@ -15,7 +15,7 @@ final class HomeController extends Controller
         SensorsController::crontab();
         SettingsController::getAlert();
 
-        $this->render(name_file: 'home');
+        $this->render(name_file: 'home', caching: false);
     }
 
     public function cgu()

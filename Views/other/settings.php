@@ -65,9 +65,7 @@
         ';
 
         $alert_list = SettingsController::id($data[$id]['id']);
-        foreach ($alert_list as $item) {
-            echo "<option value='{$item['id']}'>{$item['name']}</option>";
-        }
+        foreach ($alert_list as $item) echo "<option value='{$item['id']}'>{$item['name']}</option>";
 
         echo '
                     </select>
@@ -153,16 +151,13 @@
     for ($i = 0; $i < SENSORS_NUMBER; $i++) {
         box($i);
     }
+
+    $id_list = [];
+
+    foreach (json_decode(SENSORS_DATA, true) as $key => $datum) $id_list[$datum['name']] = $key;
     ?>
 
 </main>
-<?php
-
-$id_list = [];
-
-foreach (json_decode(SENSORS_DATA, true) as $key => $datum) $id_list[$datum['name']] = $key;
-
-?>
 <script>
     const id_sensors_list = <?= json_encode($id_list); ?>;
 </script>

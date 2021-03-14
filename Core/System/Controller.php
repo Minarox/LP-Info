@@ -59,6 +59,9 @@ abstract class Controller
 
         ob_start();
 
+        // On insère le fichier des messages flash
+        require_once VIEWS . 'message/message.php';
+
         // On insère le fichier des fonctions utile pour la vue
         require_once __DIR__. '/functions.php';
 
