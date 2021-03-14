@@ -25,7 +25,6 @@ class Mail
             'From' => NO_REPLY_EMAIL,
             'MIME-Version' => '1.0',
             'X-Priority' => '1',
-            'X-Mailer' => 'PHP/' . phpversion(),
             'Content-type' => 'text/html; charset=utf-8',
             'Content-Transfer-Encoding' => '8bit'
         );
