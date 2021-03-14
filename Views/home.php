@@ -2,9 +2,6 @@
     <!-- Titre général pour l'accessibilité -->
     <h1 id="accessibility">État, valeurs et historiques des capteurs.</h1>
     <?php
-    use App\Controllers\SensorsController;
-    SensorsController::get();
-    SensorsController::crontab();
 
     function box(int $id) {
         echo '
@@ -93,7 +90,8 @@
     </article>
 </main>
 <script>
-    const sensors_data = '<?= SENSORS_DATA ?>'
-    const sensors_sync_time = '<?= SENSORS_SYNC_TIME ?>'
-    const sensors_comparison_data = '<?= SENSORS_COMPARISON_DATA ?>'
+    const sensors_data = '<?= SENSORS_DATA ?>';
+    const sensors_sync_time = '<?= SENSORS_SYNC_TIME ?>';
+    const sensors_comparison_data = '<?= $_SESSION['nb_values_comparison'] ?>';
+    const value_sensors = '<?= $_SESSION['nb_values_sensors'] ?>';
 </script>

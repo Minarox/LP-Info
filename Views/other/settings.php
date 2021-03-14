@@ -10,16 +10,16 @@
             <!-- Modification de l\'alerte sélectionnée -->
             <section class="row">
                 <div class="col-sm pb-0 mb-3 mb-sm-0">
-                    <label for="operator-alert">Nombre de valeurs récentes</label>
-                    <input class="form-control" type="number" name="value-alert" id="value-alert" placeholder="Par défaut : 11" maxlength="5" min="1" value="11" required>
+                    <label for="value-sensors">Nombre de valeurs récentes</label>
+                    <input class="form-control" type="number" name="value-sensors" id="value-sensors" placeholder="Par défaut : 11" maxlength="5" min="1" max="10000" value="<?= $_SESSION['nb_values_sensors'] ?>" required>
                 </div>
                 <div class="col-sm pb-0">
-                    <label for="value-alert">Nombre de valeurs à comparer</label>
-                    <input class="form-control" type="number" name="value-alert" id="value-alert" placeholder="Par défaut : 128" maxlength="5" min="1" value="128" required>
+                    <label for="value-comparison">Nombre de valeurs à comparer</label>
+                    <input class="form-control" type="number" name="value-comparison" id="value-comparison" placeholder="Par défaut : 128" maxlength="5" min="1" max="10000" value="<?= $_SESSION['nb_values_comparison'] ?>" required>
                 </div>
             </section>
             <hr>
-            <button class="m-0" name="update-alert" type="submit">Modifier</button>
+            <button class="m-0" name="update-parameters" type="submit">Modifier</button>
         </form>
     </article>
     <hr class="m-2 mb-4">
@@ -44,6 +44,12 @@
         } else {
             $margin_box = ' mb-4';
         }
+
+        foreach (\App\Controllers\SettingsController::id($data[$id]['id']) as $item) {
+            var_dump($item);
+            echo "<option value='{$item['id']}'>{$item['name']}</option>";
+        }
+
         echo '
         <!-- Boite du capteur -->
         <article class="box'.$margin_box.'">
@@ -58,10 +64,14 @@
                 <section class="row">
                     <label class="col-sm-2 col-lg-1 d-flex align-items-center" for="select-alert-sensor'.$id.'">Alertes</label>
                     <select class="col form-select" aria-label="Default select example" name="select-alert-sensor'.$id.'" id="select-alert-sensor'.$id.'" required>
-                        <option selected>Sélectionnez une alerte</option>
-                        <option value="1">Alerte 1</option>
-                        <option value="2">Alerte 2</option>
-                        <option value="3">Alerte 3</option>
+                        <option selected disabled>Sélectionnez une alerte</option>
+        ';
+
+        foreach (\App\Controllers\SettingsController::id($data[$id]['id']) as $item) {
+            echo "<option value='{$item['id']}'>{$item['name']}</option>";
+        }
+
+        echo '
                     </select>
                     <a class="col-2 col-md-1 button" href="#" onclick="show()">
                         <button class="mb-0" type="button">+</button>

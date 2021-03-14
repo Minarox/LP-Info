@@ -32,6 +32,7 @@ class Sensor_DataModel extends Model implements JsonSerializable
 
     /**
      * @param int $sensor_id
+     * @return Sensor_DataModel
      */
     public function setSensorId(int $sensor_id): Sensor_DataModel
     {
@@ -49,6 +50,7 @@ class Sensor_DataModel extends Model implements JsonSerializable
 
     /**
      * @param float $temperature
+     * @return Sensor_DataModel
      */
     public function setTemperature(float $temperature): Sensor_DataModel
     {

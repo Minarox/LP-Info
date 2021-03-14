@@ -20,6 +20,8 @@ class UsersModel extends Model
     protected bool $is_verified;
     protected string $token;
     protected ?string $last_connexion;
+    protected int $nb_values_sensors;
+    protected int $nb_values_comparison;
     protected string $created_at;
 
     /**
@@ -239,6 +241,42 @@ class UsersModel extends Model
     }
 
     /**
+     * @return int
+     */
+    public function getNbValuesSensors(): int
+    {
+        return $this->nb_values_sensors;
+    }
+
+    /**
+     * @param int $nb_values_sensors
+     * @return UsersModel
+     */
+    public function setNbValuesSensors(int $nb_values_sensors): UsersModel
+    {
+        $this->nb_values_sensors = $nb_values_sensors;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbValuesComparison(): int
+    {
+        return $this->nb_values_comparison;
+    }
+
+    /**
+     * @param int $nb_values_comparison
+     * @return UsersModel
+     */
+    public function setNbValuesComparison(int $nb_values_comparison): UsersModel
+    {
+        $this->nb_values_comparison = $nb_values_comparison;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getCreatedAt(): string
@@ -255,4 +293,6 @@ class UsersModel extends Model
         $this->created_at = $created_at;
         return $this;
     }
+
+
 }
