@@ -91,7 +91,7 @@ abstract class Controller
         return $port . '://' . $_SERVER['HTTP_HOST'] . ROOT . $path;
     }
 
-    protected function getGetter(object $data): array
+    protected function getGetter(object $data): array|bool
     {
         $list_method = [];
 

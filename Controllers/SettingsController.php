@@ -72,7 +72,35 @@ final class SettingsController extends Controller
                 $sensor = $sensors->findById($request->post->get('sensor-id-new-alert'));
 
                 $this->addFlash('success', "L'alerte à bien été ajoutée sur le capteur ". $sensor->getName() ." !");
-                $this->redirect(header: 'settings', response_code: 301);
+                $this->redirect(header: '', response_code: 301);
+            } else {
+                $error = $validator->displayErrors();
+            }
+        }
+
+        if ($validator->isSubmitted('update-alert-sensor' . $request->post->get('sensor-id-new-alert'))) {
+
+            $sensor_id = $request->post->get('sensor-id-new-alert');
+
+            $validator->validate([
+                'name-alert-sensor' . $sensor_id => ['required'],
+                'description-new-alert' . $sensor_id => ['required'],
+                'operator-alert-sensor' . $sensor_id => ['required'],
+                'value-alert-sensor' . $sensor_id => ['required', 'int'],
+            ]);
+
+            if ($validator->isSuccess()) {
+                var_dump($request->session->get('alert_id'));
+                $alert->setName($request->post->get("name-alert-sensor$sensor_id"))
+                    ->setDescription($request->post->get("description-new-alert$sensor_id"))
+                    ->setOperator($request->post->get("operator-alert-sensor$sensor_id"))
+                    ->setValue($request->post->get("value-alert-sensor$sensor_id"))
+                    ->update($request->session->get('alert_id'));
+
+                $request->session->delete('alert_id');
+
+                $this->addFlash('success', "Les données de l'alerte " . $request->post->get("name-alert-sensor$sensor_id") . " ont bien été modifiée !");
+                $this->redirect(header: '', response_code: 301);
             } else {
                 $error = $validator->displayErrors();
             }
@@ -102,5 +130,12 @@ final class SettingsController extends Controller
         }
 
         return $alert_list;
+    }
+
+    public function alertSensor()
+    {
+        $data = (new AlertModel())->findById($_REQUEST['alert_id']);
+        echo json_encode($this->getGetter($data));
+        $_SESSION['alert_id'] = $data->getId();
     }
 }
