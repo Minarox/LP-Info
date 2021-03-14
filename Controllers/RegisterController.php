@@ -87,7 +87,7 @@ final class RegisterController extends Controller
         $user = new UsersModel();
         $role = new RolesModel();
 
-        $payload = $this->googleData($request->get->get('id_token'));
+        $payload = $this->googleData($request->post->get('id_token'));
 
         if ($payload) {
             $data = $user->findOneBy([
@@ -100,7 +100,7 @@ final class RegisterController extends Controller
                 $token = Token::generate();
 
                 $user->setIdGoogle((int) $payload['sub'])
-                    ->setLastName($payload['family_name'] ??= null)
+                    ->setLastName($payload['family_name'])
                     ->setfirstName($payload['given_name'])
                     ->setEmail($payload['email'])
                     ->setIsVerified(1)
