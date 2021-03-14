@@ -72,12 +72,13 @@ final class RegisterController extends Controller
                 $this->addFlash('success', "Un email de confirmation vous a été envoyé à l'adresse e-mail : {$email_post}");
                 $this->redirect(header: 'login', response_code: 301);
             } else {
-                $error = $matchValue ? $validator->displayErrors(['Cette e-mail est déjà utilisé !']) : $validator->displayErrors();
+                $matchValue ? $this->addFlash('error', $validator->displayErrors(['Cette e-mail est déjà utilisé !'])) : $this->addFlash('error', $validator->displayErrors());
+                $this->redirect(header: 'register', response_code: 301);
             }
         }
 
         $this->render(name_file: 'account/register', params: [
-            'error'=> $error ??= null
+            'error' => $error ??= null
         ], title: 'Inscription');
     }
 
