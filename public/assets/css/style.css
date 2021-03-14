@@ -347,12 +347,18 @@ form button, .button button {
 /* ---------------- */
 /* --- SETTINGS --- */
 /* ---------------- */
-#select-alert {
+.select-alert {
     height: 36px;
 }
 
 option {
     color: black;
+}
+
+@media only screen and (max-width: 575px) {
+    .select-alert {
+       margin-left: 12px;
+    }
 }
 
 
