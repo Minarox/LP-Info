@@ -54,6 +54,7 @@ final class SettingsController extends Controller
 
     public static function id(int $id): array
     {
+
         $alert = new AlertModel();
 
         $alerts = $alert->findBy([
@@ -63,14 +64,11 @@ final class SettingsController extends Controller
 
         $alert_list = [];
 
+        $i = 0;
         foreach ($alerts as $alert) {
-            $alert_list[]['id'] = $alert->getId();
-            $alert_list[]['name'] = $alert->getName();
-        }
-
-        for($i = 0; $i < count($alerts); $i++) {
-            $alert_list[]['id'] = $alert->getId();
-            $alert_list[]['name'] = $alert->getName();
+            $alert_list[$i]['id'] = $alert->getId();
+            $alert_list[$i]['name'] = $alert->getName();
+            $i++;
         }
 
         return $alert_list;

@@ -25,6 +25,8 @@
     <hr class="m-2 mb-4">
     <?php
     use App\Controllers\SensorsController;
+    use App\Controllers\SettingsController;
+
     SensorsController::get();
 
     function box(int $id) {
@@ -45,11 +47,6 @@
             $margin_box = ' mb-4';
         }
 
-        foreach (\App\Controllers\SettingsController::id($data[$id]['id']) as $item) {
-            var_dump($item);
-            echo "<option value='{$item['id']}'>{$item['name']}</option>";
-        }
-
         echo '
         <!-- Boite du capteur -->
         <article class="box'.$margin_box.'">
@@ -63,11 +60,12 @@
                 <!-- Sélection de l\'alerte -->
                 <section class="row">
                     <label class="col-sm-2 col-lg-1 d-flex align-items-center" for="select-alert-sensor'.$id.'">Alertes</label>
-                    <select class="col form-select" aria-label="Default select example" name="select-alert-sensor'.$id.'" id="select-alert-sensor'.$id.'" required>
+                    <select class="col form-select select-alert" aria-label="Default select example" name="select-alert-sensor'.$id.'" id="select-alert-sensor'.$id.'" required>
                         <option selected disabled>Sélectionnez une alerte</option>
         ';
 
-        foreach (\App\Controllers\SettingsController::id($data[$id]['id']) as $item) {
+        $alert_list = SettingsController::id($data[$id]['id']);
+        foreach ($alert_list as $item) {
             echo "<option value='{$item['id']}'>{$item['name']}</option>";
         }
 
@@ -77,9 +75,9 @@
                         <button class="mb-0" type="button">+</button>
                     </a>
                 </section>
-                <hr>
             </section>
-            <form class="p-0" action="" method="post">
+            <form class="d-none p-0" action="" method="post">
+                <hr>
                 <!-- Modification de l\'alerte sélectionnée -->
                 <label for="name-alert-sensor'.$id.'">Nom de l\'alerte</label>
                 <input class="form-control mb-3" type="text" name="name-alert-sensor'.$id.'" id="name-alert-sensor'.$id.'" placeholder="HotHotHot !" maxlength="80" required>

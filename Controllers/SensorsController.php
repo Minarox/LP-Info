@@ -76,7 +76,7 @@ class SensorsController extends Controller
                 'id' => $sensor->getTypeId()
             ]);
 
-            $data[$i]['id'] = $type->getId();
+            $data[$i]['id'] = $sensor->getId();
             $data[$i]['name'] = $sensor->getName();
             $data[$i]['type'] = $type->getName();
 
