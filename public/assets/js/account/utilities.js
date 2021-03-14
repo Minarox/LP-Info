@@ -3,12 +3,19 @@ function getId(id) {
     return document.getElementById(id);
 }
 
-function show() {
-    getId('overlay').style.display = "block";
-
+function show(id) {
+    if (id === -1) {
+        document.getElementById("overlay").style.display = "block";
+    } else {
+        document.getElementById("overlay"+id).style.display = "block";
+    }
 }
-function hide() {
-    getId('overlay').style.display = "none";
+function hide(id) {
+    if (id === -1) {
+        document.getElementById("overlay").style.display = "none";
+    } else {
+        document.getElementById("overlay"+id).style.display = "none";
+    }
 }
 
 function showMyImage(fileInput) {

@@ -56,16 +56,12 @@ class SensorsController extends Controller
             }
         }
 
-        $this->get();
+        $this->get($_SESSION['nb_values_comparison'] ??= SENSORS_DEFAULT_NB_VALUE_COMPARISON);
         $this->crontab();
     }
 
     public static function get(?int $nb_value)
     {
-        if (is_null($nb_value)) {
-            $nb_value = SENSORS_DEFAULT_NB_VALUE;
-        }
-
         $sensors = new SensorsModel();
         $sensor_data = new Sensor_DataModel();
         $sensor_types = new Sensor_TypesModel();

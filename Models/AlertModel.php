@@ -8,12 +8,13 @@ use App\Core\System\Model;
 
 class AlertModel extends Model
 {
-    private int $id;
-    private int $sensor_id;
-    private int $user_id;
-    private string $name;
-    private int $operator;
-    private int $value;
+    protected int $id;
+    protected int $sensor_id;
+    protected int $user_id;
+    protected string $name;
+    protected string $description;
+    protected int $operator;
+    protected int $value;
 
     /**
      * @return int
@@ -84,6 +85,24 @@ class AlertModel extends Model
     public function setName(string $name): AlertModel
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return AlertModel
+     */
+    public function setDescription(string $description): AlertModel
+    {
+        $this->description = $description;
         return $this;
     }
 

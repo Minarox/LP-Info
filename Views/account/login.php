@@ -23,12 +23,12 @@
             <!-- Mot de passe -->
             <label for="password">Mot de passe</label>
             <input class="form-control" type="password" name="password" id="password" placeholder="••••••••••••••" maxlength="99" required>
-            <a id="oublie-mdp" href="#" onclick="show()">Mot de passe oublié ?</a>
+            <a id="oublie-mdp" href="#" onclick="show(-1)">Mot de passe oublié ?</a>
             <hr>
             <!-- Se connecter -->
             <button type="submit" id="login" name="login">Se connecter</button>
         </form>
-        <article id="overlay">
+        <article class="overlay" id="overlay">
             <section class="box w-md">
                 <!-- Titre -->
                 <h1 class="box-title text-center">Récupération du compte</h1>
@@ -41,7 +41,7 @@
                     <hr>
                     <!-- Valider -->
                     <button type="submit">Valider</button>
-                    <button type="button" onclick="hide()">Fermer</button>
+                    <button type="button" onclick="hide(-1)">Fermer</button>
                 </form>
             </section>
         </article>
