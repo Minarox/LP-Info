@@ -17,9 +17,11 @@
 
     <!-- CSS -->
     <link rel="icon" href="<?= SCRIPTS . 'images/favicon.ico' ?>">
+    <link rel="stylesheet" href="<?= SCRIPTS . 'css/wbbtheme.css' ?>">
     <link rel="stylesheet" href="<?= SCRIPTS . 'css/bootstrap/bootstrap.min.css' ?>">
     <link rel="stylesheet" href="<?= SCRIPTS . 'css/style.css' ?>">
 </head>
+
 <body>
 <!-- Haut de page -->
 <header>
@@ -136,6 +138,8 @@
 <!-- Google -->
 <?= addJavaScript('https://apis.google.com/js/platform.js', 'register') ?>
 <?= addJavaScript('https://apis.google.com/js/platform.js', 'login') ?>
+<?= addJavaScript('https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js', 'help') ?>
+<?= addJavaScript('https://cdn.wysibb.com/js/jquery.wysibb.min.js', 'help') ?>
 <!-- Facebook -->
 <script>
     (function(d, s, id) {
@@ -149,6 +153,10 @@
         fjs.parentNode.insertBefore(js, fjs);
     }
     (document, 'script', 'facebook-jssdk'));
+
+    $(function() {
+        $("#editor").wysibb();
+    })
 </script>
 </body>
 </html>

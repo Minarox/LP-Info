@@ -233,6 +233,10 @@ a:hover {
     transition: color 200ms;
 }
 
+.wysibb-body, .wysibb-toolbar, .wysibb-toolbar div, .wysibb-toolbar span, .wysibb-toolbar font  {
+    color: black;
+}
+
 .box {
     background-color: #27293D;
     margin: 8px;
