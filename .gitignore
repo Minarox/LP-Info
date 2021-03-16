@@ -1,6 +1,3 @@
-.idea/*
-.idea/
-/Core/Classes/lib/google
-/Core/Classes/lib/google/
+.idea
 config.dev.ini
 config.prod.ini
