@@ -2336,8 +2336,7 @@ class File_X509
             return false;
         }
 
-        /* TODO:
-           "emailAddress attribute values are not case-sensitive (e.g., "subscriber@example.com" is the same as "SUBSCRIBER@EXAMPLE.COM")."
+        /* "emailAddress attribute values are not case-sensitive (e.g., "subscriber@example.com" is the same as "SUBSCRIBER@EXAMPLE.COM")."
             -- http://tools.ietf.org/html/rfc5280#section-4.1.2.6
 
            implement pathLenConstraint in the id-ce-basicConstraints extension */
