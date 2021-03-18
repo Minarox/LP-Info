@@ -1,6 +1,6 @@
 # [Hothothot](https://hothothot.minarox.fr/)
 Création d'une interface d'information et de gestion d'un système domotique.
-![img_1.png](Installation/Images/img_1.png)
+![homepage.png](Installation/homepage.png)
 
 
 ## Fonctionnalités
@@ -43,7 +43,7 @@ Voici la liste des fonctionnalités développées et mises en place sur le site 
 L'installation du site web est assez simple :
 
 ### Serveur web
-Le serveur est compatible avec [Apache]() et [Nginx]().
+Le serveur est compatible avec [Apache](https://httpd.apache.org/) et [Nginx](https://www.nginx.com/).
 Vous trouverez la configuration de ces 2 serveurs web dans le fichier [.htaccess](https://github.com/Minarox/hothothot/blob/main/.htaccess).
 
 ### Base de données
