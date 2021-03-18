@@ -1,19 +1,15 @@
 <?php
 
-
 namespace App\Controllers;
-
-
 
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\UsersModel;
 
-final class ProfileController extends Controller
-{
-    public function index(Request $request)
-    {
+final class ProfileController extends Controller {
+
+    public function index(Request $request) {
         if (!$this->isAuthenticated()) ErrorController::error404();
 
         $validator = new Validator($_POST);
@@ -45,8 +41,7 @@ final class ProfileController extends Controller
         $this->render(name_file: 'account/profile', title: 'Profil');
     }
 
-    public function edit(Request $request)
-    {
+    public function edit(Request $request) {
         if (!$this->isAuthenticated()) ErrorController::error404();
         $validator = new Validator($_POST);
         $user = new UsersModel();
@@ -180,4 +175,5 @@ final class ProfileController extends Controller
             'error' => $error ??= null
         ], title: 'Profil', caching: false);
     }
+
 }

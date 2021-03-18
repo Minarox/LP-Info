@@ -1,9 +1,6 @@
 <?php
 
-
 namespace App\Controllers;
-
-
 
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Classes\Validator;
@@ -12,10 +9,9 @@ use App\Models\AlertModel;
 use App\Models\SensorsModel;
 use App\Models\UsersModel;
 
-final class SettingsController extends Controller
-{
-    public function index(Request $request)
-    {
+final class SettingsController extends Controller {
+
+    public function index(Request $request) {
         if (!$this->isAuthenticated()) {
             $this->addFlash('error', 'Vous devez être connecté pour accéder à la page de paramètre !');
             $this->redirect(header: 'login', response_code: 301);
@@ -123,17 +119,14 @@ final class SettingsController extends Controller
         ], title: 'Paramétrages', caching: false);
     }
 
-    public static function id(int $id): array
-    {
+    public static function id(int $id): array {
         $alert = new AlertModel();
-
         $alerts = $alert->findBy([
             'user_id' => $_SESSION['id'],
             'sensor_id' => $id
         ]);
 
         $alert_list = [];
-
         $i = 0;
 
         foreach ($alerts as $alert) {
@@ -145,17 +138,14 @@ final class SettingsController extends Controller
         return $alert_list;
     }
 
-    public function alertSensor(Request $request): void
-    {
+    public function alertSensor(Request $request): void {
         $data = (new AlertModel())->findById($request->post->get('alert_id'));
-
         $request->session->set('alert_id', $data->getId());
 
         echo json_encode($this->getGetter($data));
     }
 
-    public static function getAlert()
-    {
+    public static function getAlert() {
         $alerts = new AlertModel();
 
         $list = $alerts->findBy([
@@ -177,8 +167,7 @@ final class SettingsController extends Controller
         define('SENSORS_ALERTS', json_encode($data));
     }
 
-    public function download()
-    {
+    public function download() {
         if(isset($_GET['sensor'])) {
             $sensor = $_GET['sensor'];
             SensorsController::get($_SESSION['nb_values_comparison'] ??= SENSORS_DEFAULT_NB_VALUE_COMPARISON);
@@ -191,4 +180,5 @@ final class SettingsController extends Controller
             $this->redirect(header: 'settings', response_code: 301);
         }
     }
+
 }

@@ -1,15 +1,13 @@
 <?php
 
-
 namespace App\Core\Routes;
-
 
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Exceptions\RouterException;
 use JetBrains\PhpStorm\Pure;
 
-final class Route
-{
+final class Route {
+
     private string $path, $action;
     private array $matches;
     private array $pattern = array(
@@ -18,14 +16,12 @@ final class Route
         '#{(all)}#' => '([\w]+)'
     );
 
-    #[Pure] public function __construct(string $path, string $action)
-    {
+    #[Pure] public function __construct(string $path, string $action) {
         $this->path = Router::cleanUrl($path);
         $this->action = $action;
     }
 
-    public function match(string $url): bool
-    {
+    public function match(string $url): bool {
         $path = preg_replace(array_keys($this->pattern), $this->pattern, $this->path);
         $regex = "#^$path$#";
 
@@ -38,8 +34,7 @@ final class Route
     /**
      * @throws RouterException
      */
-    public function execute()
-    {
+    public function execute() {
         if (!preg_match('#{(::)}#', $this->action)) $this->action = $this->action . '::index';
 
         $params = explode('::', $this->action);
@@ -51,4 +46,5 @@ final class Route
 
         isset($this->matches[1]) ? $controller->$method($this->matches[1], new Request()) : $controller->$method(new Request());
     }
+
 }

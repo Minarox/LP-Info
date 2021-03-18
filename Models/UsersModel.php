@@ -1,13 +1,11 @@
 <?php
 
-
 namespace App\Models;
-
 
 use App\Core\System\Model;
 
-class UsersModel extends Model
-{
+class UsersModel extends Model {
+
     protected int $id;
     protected ?int $id_google;
     protected ?int $id_facebook;
@@ -27,8 +25,7 @@ class UsersModel extends Model
     /**
      * @return int
      */
-    public function getId(): int
-    {
+    public function getId(): int {
         return $this->id;
     }
 
@@ -36,8 +33,7 @@ class UsersModel extends Model
      * @param int $id
      * @return UsersModel
      */
-    public function setId(int $id): UsersModel
-    {
+    public function setId(int $id): UsersModel {
         $this->id = $id;
         return $this;
     }
@@ -45,8 +41,7 @@ class UsersModel extends Model
     /**
      * @return int|null
      */
-    public function getIdGoogle(): ?int
-    {
+    public function getIdGoogle(): ?int {
         return $this->id_google;
     }
 
@@ -54,8 +49,7 @@ class UsersModel extends Model
      * @param int|null $id_google
      * @return UsersModel
      */
-    public function setIdGoogle(?int $id_google): UsersModel
-    {
+    public function setIdGoogle(?int $id_google): UsersModel {
         $this->id_google = $id_google;
         return $this;
     }
@@ -63,8 +57,7 @@ class UsersModel extends Model
     /**
      * @return int|null
      */
-    public function getIdFacebook(): ?int
-    {
+    public function getIdFacebook(): ?int {
         return $this->id_facebook;
     }
 
@@ -72,8 +65,7 @@ class UsersModel extends Model
      * @param int|null $id_facebook
      * @return UsersModel
      */
-    public function setIdFacebook(?int $id_facebook): UsersModel
-    {
+    public function setIdFacebook(?int $id_facebook): UsersModel {
         $this->id_facebook = $id_facebook;
         return $this;
     }
@@ -81,8 +73,7 @@ class UsersModel extends Model
     /**
      * @return int
      */
-    public function getRoleId(): int
-    {
+    public function getRoleId(): int {
         return $this->role_id;
     }
 
@@ -90,8 +81,7 @@ class UsersModel extends Model
      * @param int $role_id
      * @return UsersModel
      */
-    public function setRoleId(int $role_id): UsersModel
-    {
+    public function setRoleId(int $role_id): UsersModel {
         $this->role_id = $role_id;
         return $this;
     }
@@ -99,8 +89,7 @@ class UsersModel extends Model
     /**
      * @return string|null
      */
-    public function getLastName(): ?string
-    {
+    public function getLastName(): ?string {
         return $this->last_name;
     }
 
@@ -108,8 +97,7 @@ class UsersModel extends Model
      * @param string|null $last_name
      * @return UsersModel
      */
-    public function setLastName(?string $last_name): UsersModel
-    {
+    public function setLastName(?string $last_name): UsersModel {
         $this->last_name = $last_name;
         return $this;
     }
@@ -117,8 +105,7 @@ class UsersModel extends Model
     /**
      * @return string
      */
-    public function getFirstName(): string
-    {
+    public function getFirstName(): string {
         return $this->first_name;
     }
 
@@ -126,8 +113,7 @@ class UsersModel extends Model
      * @param string $first_name
      * @return UsersModel
      */
-    public function setFirstName(string $first_name): UsersModel
-    {
+    public function setFirstName(string $first_name): UsersModel {
         $this->first_name = $first_name;
         return $this;
     }
@@ -135,8 +121,7 @@ class UsersModel extends Model
     /**
      * @return string
      */
-    public function getEmail(): string
-    {
+    public function getEmail(): string {
         return $this->email;
     }
 
@@ -144,8 +129,7 @@ class UsersModel extends Model
      * @param string $email
      * @return UsersModel
      */
-    public function setEmail(string $email): UsersModel
-    {
+    public function setEmail(string $email): UsersModel {
         $this->email = $email;
         return $this;
     }
@@ -153,8 +137,7 @@ class UsersModel extends Model
     /**
      * @return string|null
      */
-    public function getPassword(): ?string
-    {
+    public function getPassword(): ?string {
         return $this->password;
     }
 
@@ -162,8 +145,7 @@ class UsersModel extends Model
      * @param string|null $password
      * @return UsersModel
      */
-    public function setPassword(?string $password): UsersModel
-    {
+    public function setPassword(?string $password): UsersModel {
         $this->password = $password;
         return $this;
     }
@@ -171,8 +153,7 @@ class UsersModel extends Model
     /**
      * @return string
      */
-    public function getAvatar(): string
-    {
+    public function getAvatar(): string {
         return $this->avatar;
     }
 
@@ -180,8 +161,7 @@ class UsersModel extends Model
      * @param string $avatar
      * @return UsersModel
      */
-    public function setAvatar(string $avatar): UsersModel
-    {
+    public function setAvatar(string $avatar): UsersModel {
         $this->avatar = $avatar;
         return $this;
     }
@@ -189,8 +169,7 @@ class UsersModel extends Model
     /**
      * @return bool
      */
-    public function isIsVerified(): bool
-    {
+    public function isIsVerified(): bool {
         return $this->is_verified;
     }
 
@@ -198,8 +177,7 @@ class UsersModel extends Model
      * @param bool $is_verified
      * @return UsersModel
      */
-    public function setIsVerified(bool $is_verified): UsersModel
-    {
+    public function setIsVerified(bool $is_verified): UsersModel {
         $this->is_verified = $is_verified;
         return $this;
     }
@@ -207,8 +185,7 @@ class UsersModel extends Model
     /**
      * @return string
      */
-    public function getToken(): string
-    {
+    public function getToken(): string {
         return $this->token;
     }
 
@@ -216,8 +193,7 @@ class UsersModel extends Model
      * @param string $token
      * @return UsersModel
      */
-    public function setToken(string $token): UsersModel
-    {
+    public function setToken(string $token): UsersModel {
         $this->token = $token;
         return $this;
     }
@@ -225,8 +201,7 @@ class UsersModel extends Model
     /**
      * @return string|null
      */
-    public function getLastConnexion(): ?string
-    {
+    public function getLastConnexion(): ?string {
         return $this->last_connexion;
     }
 
@@ -234,8 +209,7 @@ class UsersModel extends Model
      * @param string|null $last_connexion
      * @return UsersModel
      */
-    public function setLastConnexion(?string $last_connexion): UsersModel
-    {
+    public function setLastConnexion(?string $last_connexion): UsersModel {
         $this->last_connexion = $last_connexion;
         return $this;
     }
@@ -243,8 +217,7 @@ class UsersModel extends Model
     /**
      * @return int
      */
-    public function getNbValuesSensors(): int
-    {
+    public function getNbValuesSensors(): int {
         return $this->nb_values_sensors;
     }
 
@@ -252,8 +225,7 @@ class UsersModel extends Model
      * @param int $nb_values_sensors
      * @return UsersModel
      */
-    public function setNbValuesSensors(int $nb_values_sensors): UsersModel
-    {
+    public function setNbValuesSensors(int $nb_values_sensors): UsersModel {
         $this->nb_values_sensors = $nb_values_sensors;
         return $this;
     }
@@ -261,8 +233,7 @@ class UsersModel extends Model
     /**
      * @return int
      */
-    public function getNbValuesComparison(): int
-    {
+    public function getNbValuesComparison(): int {
         return $this->nb_values_comparison;
     }
 
@@ -270,8 +241,7 @@ class UsersModel extends Model
      * @param int $nb_values_comparison
      * @return UsersModel
      */
-    public function setNbValuesComparison(int $nb_values_comparison): UsersModel
-    {
+    public function setNbValuesComparison(int $nb_values_comparison): UsersModel {
         $this->nb_values_comparison = $nb_values_comparison;
         return $this;
     }
@@ -279,8 +249,7 @@ class UsersModel extends Model
     /**
      * @return string
      */
-    public function getCreatedAt(): string
-    {
+    public function getCreatedAt(): string {
         return $this->created_at;
     }
 
@@ -288,11 +257,9 @@ class UsersModel extends Model
      * @param string $created_at
      * @return UsersModel
      */
-    public function setCreatedAt(string $created_at): UsersModel
-    {
+    public function setCreatedAt(string $created_at): UsersModel {
         $this->created_at = $created_at;
         return $this;
     }
-
 
 }

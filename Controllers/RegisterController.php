@@ -1,9 +1,6 @@
 <?php
 
-
 namespace App\Controllers;
-
-
 
 use App\Core\Classes\Mail;
 use App\Core\Classes\SuperGlobals\Request;
@@ -13,10 +10,9 @@ use App\Core\Classes\Token;
 use App\Models\UsersModel;
 use App\Models\RolesModel;
 
-final class RegisterController extends Controller
-{
-    public function index(Request $request)
-    {
+final class RegisterController extends Controller {
+
+    public function index(Request $request) {
         if ($this->isAuthenticated()) ErrorController::error404();
 
         $user = new UsersModel();
@@ -82,8 +78,7 @@ final class RegisterController extends Controller
         ], title: 'Inscription');
     }
 
-    public function google(Request $request)
-    {
+    public function google(Request $request) {
         $user = new UsersModel();
         $role = new RolesModel();
 
@@ -125,4 +120,5 @@ final class RegisterController extends Controller
             $this->addFlash('error', "Erreur lors de l'inscription avec Google !");
         }
     }
+
 }

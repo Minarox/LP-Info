@@ -1,13 +1,11 @@
 <?php
 
-
 namespace App\Models;
-
 
 use App\Core\System\Model;
 
-class SensorsModel extends Model
-{
+class SensorsModel extends Model {
+
     protected int $id;
     protected int $type_id;
     protected string $name;
@@ -16,24 +14,22 @@ class SensorsModel extends Model
     /**
      * @return int
      */
-    public function getId(): int
-    {
+    public function getId(): int {
         return $this->id;
     }
 
     /**
      * @return int
      */
-    public function getTypeId(): int
-    {
+    public function getTypeId(): int {
         return $this->type_id;
     }
 
     /**
      * @param int $type_id
+     * @return SensorsModel
      */
-    public function setTypeId(int $type_id): SensorsModel
-    {
+    public function setTypeId(int $type_id): SensorsModel {
         $this->type_id = $type_id;
         return $this;
     }
@@ -41,16 +37,15 @@ class SensorsModel extends Model
     /**
      * @return string
      */
-    public function getName(): string
-    {
+    public function getName(): string {
         return $this->name;
     }
 
     /**
      * @param string $name
+     * @return SensorsModel
      */
-    public function setName(string $name): SensorsModel
-    {
+    public function setName(string $name): SensorsModel {
         $this->name = $name;
         return $this;
     }
@@ -58,17 +53,17 @@ class SensorsModel extends Model
     /**
      * @return bool
      */
-    public function isActive(): bool
-    {
+    public function isActive(): bool {
         return $this->active;
     }
 
     /**
      * @param bool $active
+     * @return SensorsModel
      */
-    public function setActive(bool $active): SensorsModel
-    {
+    public function setActive(bool $active): SensorsModel {
         $this->active = $active;
         return $this;
     }
+
 }

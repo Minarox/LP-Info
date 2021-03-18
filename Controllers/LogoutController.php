@@ -1,17 +1,14 @@
 <?php
 
-
 namespace App\Controllers;
-
 
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\System\Controller;
 use JetBrains\PhpStorm\NoReturn;
 
-class LogoutController extends Controller
-{
-    #[NoReturn] public function index(Request $request)
-    {
+class LogoutController extends Controller {
+
+    #[NoReturn] public function index(Request $request) {
         if (!$this->isAuthenticated()) {
             ErrorController::error404();
         } else {
@@ -23,4 +20,5 @@ class LogoutController extends Controller
             $this->redirect(header: 'login', response_code: 301);
         }
     }
+
 }

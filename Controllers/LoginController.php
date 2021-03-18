@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controllers;
-
 
 use App\Core\Classes\Mail;
 use App\Core\Classes\SuperGlobals\Request;
@@ -12,10 +10,9 @@ use App\Core\Classes\Token;
 use App\Models\BanModel;
 use App\Models\UsersModel;
 
-final class LoginController extends Controller
-{
-    public function index(Request $request)
-    {
+final class LoginController extends Controller {
+
+    public function index(Request $request) {
         if ($this->isAuthenticated()) ErrorController::error404();
 
         $user = new UsersModel();
@@ -23,7 +20,6 @@ final class LoginController extends Controller
         $validator = new Validator($_POST);
 
         if ($validator->isSubmitted()) {
-
             if ($request->post->exists('recovery-email')) {
                 $recover_user = $user->findOneBy([
                     'email' => $request->post->get('recovery-email')
@@ -141,14 +137,11 @@ final class LoginController extends Controller
         ], title: 'Connexion');
     }
 
-    public function google(Request $request)
-    {
+    public function google(Request $request) {
         $user = new UsersModel();
-
         $payload = $this->googleData($_POST['id_token']);
 
         if ($payload) {
-
             $data = $user->findOneBy([
                 'email' => $payload['email'] ??= null
             ]);
@@ -175,4 +168,5 @@ final class LoginController extends Controller
             $this->addFlash('error', "Erreur lors de la connexion avec Google !");
         }
     }
+
 }

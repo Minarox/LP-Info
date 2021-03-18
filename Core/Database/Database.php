@@ -1,14 +1,12 @@
 <?php
 
-
 namespace App\Core\Database;
-
 
 use PDO;
 use PDOException;
 
-final class Database extends PDO
-{
+final class Database extends PDO {
+
     private static ?self $pdo = null;
 
     private function __construct() {
@@ -23,8 +21,8 @@ final class Database extends PDO
         }
     }
 
-    public static function getPDO(): self
-    {
+    public static function getPDO(): self {
         return self::$pdo ?? new self();
     }
+
 }

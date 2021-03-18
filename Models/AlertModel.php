@@ -1,13 +1,10 @@
 <?php
 
-
 namespace App\Models;
-
 
 use App\Core\System\Model;
 
-class AlertModel extends Model
-{
+class AlertModel extends Model {
     protected int $id;
     protected int $sensor_id;
     protected int $user_id;
@@ -19,8 +16,7 @@ class AlertModel extends Model
     /**
      * @return int
      */
-    public function getId(): int
-    {
+    public function getId(): int {
         return $this->id;
     }
 
@@ -28,8 +24,7 @@ class AlertModel extends Model
      * @param int $id
      * @return AlertModel
      */
-    public function setId(int $id): AlertModel
-    {
+    public function setId(int $id): AlertModel {
         $this->id = $id;
         return $this;
     }
@@ -37,8 +32,7 @@ class AlertModel extends Model
     /**
      * @return int
      */
-    public function getSensorId(): int
-    {
+    public function getSensorId(): int {
         return $this->sensor_id;
     }
 
@@ -46,8 +40,7 @@ class AlertModel extends Model
      * @param int $sensor_id
      * @return AlertModel
      */
-    public function setSensorId(int $sensor_id): AlertModel
-    {
+    public function setSensorId(int $sensor_id): AlertModel {
         $this->sensor_id = $sensor_id;
         return $this;
     }
@@ -55,8 +48,7 @@ class AlertModel extends Model
     /**
      * @return int
      */
-    public function getUserId(): int
-    {
+    public function getUserId(): int {
         return $this->user_id;
     }
 
@@ -64,8 +56,7 @@ class AlertModel extends Model
      * @param int $user_id
      * @return AlertModel
      */
-    public function setUserId(int $user_id): AlertModel
-    {
+    public function setUserId(int $user_id): AlertModel {
         $this->user_id = $user_id;
         return $this;
     }
@@ -73,8 +64,7 @@ class AlertModel extends Model
     /**
      * @return string
      */
-    public function getName(): string
-    {
+    public function getName(): string {
         return $this->name;
     }
 
@@ -82,8 +72,7 @@ class AlertModel extends Model
      * @param string $name
      * @return AlertModel
      */
-    public function setName(string $name): AlertModel
-    {
+    public function setName(string $name): AlertModel {
         $this->name = $name;
         return $this;
     }
@@ -91,8 +80,7 @@ class AlertModel extends Model
     /**
      * @return string
      */
-    public function getDescription(): string
-    {
+    public function getDescription(): string {
         return $this->description;
     }
 
@@ -100,8 +88,7 @@ class AlertModel extends Model
      * @param string $description
      * @return AlertModel
      */
-    public function setDescription(string $description): AlertModel
-    {
+    public function setDescription(string $description): AlertModel {
         $this->description = $description;
         return $this;
     }
@@ -109,8 +96,7 @@ class AlertModel extends Model
     /**
      * @return int
      */
-    public function getOperator(): int
-    {
+    public function getOperator(): int {
         return $this->operator;
     }
 
@@ -118,8 +104,7 @@ class AlertModel extends Model
      * @param int $operator
      * @return AlertModel
      */
-    public function setOperator(int $operator): AlertModel
-    {
+    public function setOperator(int $operator): AlertModel {
         $this->operator = $operator;
         return $this;
     }
@@ -127,8 +112,7 @@ class AlertModel extends Model
     /**
      * @return int
      */
-    public function getValue(): int
-    {
+    public function getValue(): int {
         return $this->value;
     }
 
@@ -136,11 +120,9 @@ class AlertModel extends Model
      * @param int $value
      * @return AlertModel
      */
-    public function setValue(int $value): AlertModel
-    {
+    public function setValue(int $value): AlertModel {
         $this->value = $value;
         return $this;
     }
-
 
 }

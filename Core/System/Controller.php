@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Core\System;
-
 
 use App\Core\Classes\SuperGlobals\Request;
 use Google_Client;
@@ -11,12 +9,11 @@ use GuzzleHttp\Client;
 use JetBrains\PhpStorm\NoReturn;
 use JetBrains\PhpStorm\Pure;
 
-abstract class Controller
-{
+abstract class Controller {
+
     protected Request $request;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->request = new Request();
 
         if (session_status() == PHP_SESSION_NONE) session_start();
@@ -28,11 +25,9 @@ abstract class Controller
             $this->addFlash('error', 'Vous avez été déconnectée pour inactivité !');
             $this->redirect(header: '', response_code: 301);
         }
-
     }
 
-    protected function render(string $name_file, array $params = [], string $template = 'base', string $title = 'Accueil', bool $caching = true): void
-    {
+    protected function render(string $name_file, array $params = [], string $template = 'base', string $title = 'Accueil', bool $caching = true): void {
         $start = microtime(true);
         $cache = new Cache(__DIR__ . '/cache', 0.05);
 
@@ -53,8 +48,7 @@ abstract class Controller
         if (DEBUG) var_dump(round($end - $start, 5));
     }
 
-    private function page(string $name_file, string $template, string $title, array $params): void
-    {
+    private function page(string $name_file, string $template, string $title, array $params): void {
         extract($params);
 
         ob_start();
@@ -72,30 +66,25 @@ abstract class Controller
         require_once VIEWS . "$template.php";
     }
 
-    #[NoReturn] protected function redirect(string $header, bool $replace = false, int $response_code = 0): void
-    {
+    #[NoReturn] protected function redirect(string $header, bool $replace = false, int $response_code = 0): void {
         header('Location: ' . ROOT . $header, $replace, $response_code);
         die();
     }
 
-    protected function addFlash(string $alert_type, string|array $message): void
-    {
+    protected function addFlash(string $alert_type, string|array $message): void {
         $this->request->session->set($alert_type, $message);
     }
 
-    #[Pure] protected function isAuthenticated(): bool
-    {
+    #[Pure] protected function isAuthenticated(): bool {
         return $this->request->cookie->exists('token');
     }
 
-    protected function getActualUri(string $path): string
-    {
+    protected function getActualUri(string $path): string {
         $port = empty($_SERVER['HTTPS']) ? 'http' : 'https';
         return $port . '://' . $_SERVER['HTTP_HOST'] . ROOT . $path;
     }
 
-    protected function getGetter(object $data): array|bool
-    {
+    protected function getGetter(object $data): array|bool {
         $list_method = [];
 
         foreach (get_class_methods($data) as $method) {
@@ -109,8 +98,7 @@ abstract class Controller
         return $list_method;
     }
 
-    protected function googleData(string $token): array
-    {
+    protected function googleData(string $token): array {
         require_once dirname(__DIR__) . '/Classes/lib/google/vendor/autoload.php';
 
         $guzzle = new Client(array( 'curl' => array( CURLOPT_SSL_VERIFYPEER => false, ), ));
@@ -124,4 +112,5 @@ abstract class Controller
 
         return $client->verifyIdToken($token);
     }
+
 }

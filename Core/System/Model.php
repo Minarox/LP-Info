@@ -1,24 +1,20 @@
 <?php
 
-
 namespace App\Core\System;
-
 
 use App\Core\Database\Database;
 use PDO;
 use PDOStatement;
 
-abstract class Model
-{
+abstract class Model {
+
     private string $table;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->table = str_replace('model', '', substr(strrchr(strtolower(get_class($this)), "\\"), 1));
     }
 
-    private function query(string $sql, array $params = null): bool|PDOStatement
-    {
+    private function query(string $sql, array $params = null): bool|PDOStatement {
         $db = Database::getPDO();
 
         if ($params === null) {
@@ -35,8 +31,7 @@ abstract class Model
     /**
      * @return array|bool|$this
      */
-    public function findAll(): array|self|bool
-    {
+    public function findAll(): array|self|bool {
         return $this->query("SELECT * FROM {$this->table}")->fetchAll();
     }
 
@@ -44,8 +39,7 @@ abstract class Model
      * @param int $id
      * @return array|bool|$this
      */
-    public function findById(int $id): array|self|bool
-    {
+    public function findById(int $id): array|self|bool {
         return $this->query("SELECT * FROM {$this->table} WHERE id = {$id}")->fetch();
     }
 
@@ -53,8 +47,7 @@ abstract class Model
      * @param array $filter
      * @return array|bool|$this
      */
-    public function findBy(array $filter): array|bool|self
-    {
+    public function findBy(array $filter): array|bool|self {
         $fields = [];
         $values = [];
 
@@ -72,8 +65,7 @@ abstract class Model
      * @param array $filter
      * @return array|bool|PDOStatement|$this
      */
-    public function findOneBy(array $filter): array|bool|PDOStatement|self
-    {
+    public function findOneBy(array $filter): array|bool|PDOStatement|self {
         $fields = [];
         $values = [];
 
@@ -87,8 +79,7 @@ abstract class Model
         return $this->query("SELECT * FROM {$this->table} WHERE {$fields_list}", $values)->fetch();
     }
 
-    public function create(): bool|PDOStatement
-    {
+    public function create(): bool|PDOStatement {
         $fields = [];
         $inter = [];
         $values = [];
@@ -107,8 +98,7 @@ abstract class Model
         return $this->query("INSERT INTO {$this->table} ({$fields_list}) VALUES ({$inter_list})", $values);
     }
 
-    public function update(int $id): bool|PDOStatement
-    {
+    public function update(int $id): bool|PDOStatement {
         $fields = [];
         $values = [];
 
@@ -124,13 +114,11 @@ abstract class Model
         return $this->query("UPDATE {$this->table} SET {$fields_list} WHERE id = $id", $values);
     }
 
-    public function delete(int $id): bool|PDOStatement
-    {
+    public function delete(int $id): bool|PDOStatement {
         return $this->query("DELETE FROM {$this->table} WHERE id = :id", ['id' => $id]);
     }
 
-    public function hydrate(array $data): self
-    {
+    public function hydrate(array $data): self {
         foreach ($data as $k => $v) {
             $setter = 'set' . ucfirst($k);
 
@@ -139,4 +127,5 @@ abstract class Model
 
         return $this;
     }
+
 }

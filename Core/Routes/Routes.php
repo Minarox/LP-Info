@@ -1,13 +1,10 @@
 <?php
 
-
 namespace App\Core\Routes;
 
+final class Routes {
 
-final class Routes
-{
-    public function __construct($router)
-    {
+    public function __construct($router) {
         $controllers = scandir(dirname(__DIR__,2) . '/Controllers');
 
         foreach ($controllers as $controller) {
@@ -22,4 +19,5 @@ final class Routes
         // $router->add('/ajax/loginSystem', 'LoginController::loginSystem', 'POST');
         // $router->add('/ajax/signUpSystem', 'RegisterController::signUpSystem', 'POST');
     }
+
 }

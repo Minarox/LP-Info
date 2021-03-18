@@ -1,13 +1,10 @@
 <?php
 
-
 namespace App\Core\Config;
 
+abstract class Config {
 
-abstract class Config
-{
-    public static function loadConfig()
-    {
+    public static function loadConfig() {
         $config = parse_ini_file(dirname(__DIR__,2) . '/config.ini');
 
         // Public sources path
@@ -44,4 +41,5 @@ abstract class Config
         define('SENSORS_DEFAULT_NB_VALUE', $config['nb_default_values_sensors']);
         define('SENSORS_DEFAULT_NB_VALUE_COMPARISON', $config['nb_default_values_comparison']);
     }
+
 }
