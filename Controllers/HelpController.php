@@ -1,18 +1,15 @@
 <?php
 
-
 namespace App\Controllers;
-
 
 use App\Core\System\Controller;
 use App\Models\DocumentationModel;
 use JBBCode\DefaultCodeDefinitionSet;
 use JBBCode\Parser;
 
-final class HelpController extends Controller
-{
-    public function index()
-    {
+final class HelpController extends Controller {
+
+    public function index() {
         if (isset($_POST['documentation'])) {
             $new_documentation = new DocumentationModel();
             $new_documentation->setContent($_POST['documentation'])
@@ -38,4 +35,13 @@ final class HelpController extends Controller
             'documentations'=> $data
         ], title: 'Documentation');
     }
+
+    public function gcu() {
+        $this->render(name_file: 'other/gcu', title: "Conditions Générales d'Utilisation (CGU)");
+    }
+
+    public function legal_notices() {
+        $this->render(name_file: 'other/legal-notices', title: "Mentions légales");
+    }
+
 }

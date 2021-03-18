@@ -41,8 +41,8 @@ $router->add('/help', 'HelpController', ['GET', 'POST']);
 $router->add('/recovery', 'RecoveryController', ['GET', 'POST']);
 $router->add('/logout', 'LogoutController');
 $router->add('/email/register', 'EmailRegisterController', ['GET', 'POST']);
-$router->add('/cgu', 'HomeController::gcu');
-$router->add('/mentions-legales', 'HomeController::legal_notices');
+$router->add('/cgu', 'HelpController::gcu');
+$router->add('/mentions-legales', 'HelpController::legal_notices');
 $router->add('/settings/download', 'SettingsController::download');
 
 // Ajax path route ( Google )
