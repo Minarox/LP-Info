@@ -2,15 +2,13 @@
 
 namespace App\Core\Classes;
 
-
 use JetBrains\PhpStorm\Pure;
 
 /**
  * Class Validator
  * @package App\Core\Classes
  */
-class Validator
-{
+class Validator {
     /**
      * @var array
      */
@@ -50,19 +48,13 @@ class Validator
      * Validator constructor.
      * @param array $data
      */
-    public function __construct(
-        private array $data
-    )
-    {
-
-    }
+    public function __construct(private array $data) {}
 
     /**
      * Call the correct method according to the rules given
      * @param array $rules
      */
-    public function validate(array $rules)
-    {
+    public function validate(array $rules) {
         foreach ($rules as $name => $rulesArray) {
             if (array_key_exists($name, $this->data)) {
                 foreach ($rulesArray as $rule) {
@@ -105,8 +97,7 @@ class Validator
      * Custom an error message
      * @param array $errorMessage
      */
-    public function customErrors(array $errorMessage)
-    {
+    public function customErrors(array $errorMessage) {
         foreach ($errorMessage as $name => $message) {
             $arrayKey = str_replace(".", "", strstr($name, '.'));
             $name = strstr($name, '.', true);
@@ -120,8 +111,7 @@ class Validator
      * @param string $value
      * @param string $rule
      */
-    private function pattern(string $name, string $value, string $rule)
-    {
+    private function pattern(string $name, string $value, string $rule) {
         if (array_key_exists($rule, $this->patterns)) {
             if (count($this->patterns[$rule]) === 1) {
                 if (!filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => "/^({$this->patterns[$rule][0]})$/u")))) {
@@ -147,8 +137,7 @@ class Validator
      * @param string $value
      * @param string $rule
      */
-    private function customPattern(string $name, string $value, string $rule)
-    {
+    private function customPattern(string $name, string $value, string $rule) {
         $regex = substr($rule, 8);
 
         if (!preg_match("/^({$regex})$/u", $value)) {
@@ -164,8 +153,7 @@ class Validator
      * @param string $name
      * @param string $value
      */
-    private function required(string $name, string $value)
-    {
+    private function required(string $name, string $value) {
         if (!isset($value) || empty($value)) {
             $this->errors[$name][] = "Le champ $name est requis !";
             $this->customErrors[$name][] = true;
@@ -179,8 +167,7 @@ class Validator
      * @param string $name
      * @param string $value
      */
-    private function empty(string $name, string $value)
-    {
+    private function empty(string $name, string $value) {
         if (!empty($value)) {
             $this->errors[$name][] = "Ce champs ne peut pas être remplis !";
             $this->customErrors[$name][] = true;
@@ -194,8 +181,7 @@ class Validator
      * @param string $name
      * @param string $value
      */
-    private function tel(string $name, string $value)
-    {
+    private function tel(string $name, string $value) {
         $value = str_replace(" ", "", $value);
 
         if (!strlen($value) === 10 || !is_numeric($value) || !preg_match("/^(".self::TEL_REGEX.")$/u", $value)) {
@@ -212,8 +198,7 @@ class Validator
      * @param string $value
      * @param string $rule
      */
-    private function min(string $name, string $value, string $rule)
-    {
+    private function min(string $name, string $value, string $rule) {
         preg_match_all('/(\d+)/', $rule, $matches);
         $limit = (int) $matches[0][0];
 
@@ -231,8 +216,7 @@ class Validator
      * @param string $value
      * @param string $rule
      */
-    private function max(string $name, string $value, string $rule)
-    {
+    private function max(string $name, string $value, string $rule) {
         preg_match_all('/(\d+)/', $rule, $matches);
         $limit = (int) $matches[0][0];
 
@@ -250,8 +234,7 @@ class Validator
      * @param string $value
      * @param string $rule
      */
-    private function between(string $name, string $value, string $rule)
-    {
+    private function between(string $name, string $value, string $rule) {
         $betweenArray = explode(":", substr($rule, 8));
 
         if (strlen($value) < (int) $betweenArray[0] || strlen($value) > (int) $betweenArray[1]) {
@@ -268,8 +251,7 @@ class Validator
      * @param string $value
      * @param string $rule
      */
-    private function equal(string $name, string $value, string $rule)
-    {
+    private function equal(string $name, string $value, string $rule) {
         $equal = substr($rule, 6);
 
         if ($value !== $equal) {
@@ -285,8 +267,7 @@ class Validator
      * @param array $values
      * @return bool
      */
-    public function matchValue(array $values): bool
-    {
+    public function matchValue(array $values): bool {
         $bool = [];
 
         foreach ($values as $key => $value) {
@@ -302,8 +283,7 @@ class Validator
      * Validated fields
      * @return bool
      */
-    public function isSuccess(): bool
-    {
+    public function isSuccess(): bool {
         return empty($this->errors) && !empty($this->data);
     }
 
@@ -312,8 +292,7 @@ class Validator
      * @param string|null $submit
      * @return bool
      */
-    public function isSubmitted(string $submit = null): bool
-    {
+    public function isSubmitted(string $submit = null): bool {
         $submitButton = array_pop($this->data);
 
         if ($submit) {
@@ -330,8 +309,7 @@ class Validator
      * @param array|null $message
      * @return array|null
      */
-    public function displayErrors(array $message = null): ?array
-    {
+    public function displayErrors(array $message = null): ?array {
         if ($message) {
             foreach ($message as $key => $value) $this->errors['others'] = $message;
         }
@@ -344,8 +322,7 @@ class Validator
      * @param string $data
      * @return string
      */
-    #[Pure] public static function filter(string $data): string
-    {
+    #[Pure] public static function filter(string $data): string {
         $data = trim($data);
         $data = stripslashes($data);
         $data = strip_tags($data);
@@ -353,4 +330,5 @@ class Validator
 
         return $data;
     }
+
 }

@@ -1,26 +1,17 @@
 <?php
 
-
 namespace App\Core\Classes;
-
 
 use JetBrains\PhpStorm\ArrayShape;
 
-class Mail
-{
+class Mail {
     private array $header;
 
-    public function __construct(
-        private string $to,
-        private string $subject,
-        private string $template_path
-    )
-    {
+    public function __construct(private string $to, private string $subject, private string $template_path) {
         $this->header = $this->addHeader();
     }
 
-    #[ArrayShape(['From' => "string", 'MIME-Version' => "string", 'X-Priority' => "string", 'X-Mailer' => "string", 'Content-type' => "string", 'Content-Transfer-Encoding' => "string"])] private function addHeader(): array
-    {
+    #[ArrayShape(['From' => "string", 'MIME-Version' => "string", 'X-Priority' => "string", 'X-Mailer' => "string", 'Content-type' => "string", 'Content-Transfer-Encoding' => "string"])] private function addHeader(): array {
         return array(
             'From' => NO_REPLY_EMAIL,
             'MIME-Version' => '1.0',
@@ -30,8 +21,7 @@ class Mail
         );
     }
 
-    private function buffer(?array $params): bool|string
-    {
+    private function buffer(?array $params): bool|string {
         if (!is_null($params)) extract($params);
 
         ob_start();
@@ -39,8 +29,8 @@ class Mail
         return ob_get_clean();
     }
 
-    public function send(array $params = null): bool
-    {
+    public function send(array $params = null): bool {
         return mail($this->to, $this->subject, $this->buffer($params), $this->header);
     }
+
 }

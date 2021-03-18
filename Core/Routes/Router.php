@@ -1,27 +1,23 @@
 <?php
 
-
 namespace App\Core\Routes;
-
 
 use JetBrains\PhpStorm\Pure;
 use App\Core\Exceptions\RouterException;
 
-final class Router
-{
+final class Router {
+
     private string $url;
     private array $routes = [];
     private array $method = array(
         'GET', 'POST', 'HEAD', 'PUT', 'DELETE'
     );
 
-    #[Pure] public function __construct(string $url)
-    {
+    #[Pure] public function __construct(string $url) {
         $this->url = self::cleanUrl($url);
     }
 
-    public function add(string $path, string $action, string|array $method = 'GET'): void
-    {
+    public function add(string $path, string $action, string|array $method = 'GET'): void {
         if (is_array($method)) {
             foreach ($method as $value) {
                 $method = strtoupper($value);
@@ -38,8 +34,7 @@ final class Router
     /**
      * @throws RouterException
      */
-    private function prepare()
-    {
+    private function prepare() {
         foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $route) {
             if ($route->match($this->url)) return $route->execute();
         }
@@ -47,8 +42,7 @@ final class Router
         throw new RouterException("No matching routes !", 2);
     }
 
-    public function run()
-    {
+    public function run() {
         try {
             $this->prepare();
         } catch (RouterException $e) {
@@ -57,10 +51,10 @@ final class Router
         }
     }
 
-    #[Pure] public static function cleanUrl(string $url): string
-    {
+    #[Pure] public static function cleanUrl(string $url): string {
         $url = trim($url, '/');
         $url = filter_var($url, FILTER_SANITIZE_URL);
         return $url;
     }
+
 }

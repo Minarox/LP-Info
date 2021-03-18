@@ -1,21 +1,18 @@
 <?php
 
-
 namespace App\Models;
-
 
 use App\Core\System\Model;
 
-class RolesModel extends Model
-{
+class RolesModel extends Model {
+
     protected int $id;
     protected string $name;
 
     /**
      * @return int
      */
-    public function getId(): int
-    {
+    public function getId(): int {
         return $this->id;
     }
 
@@ -23,8 +20,7 @@ class RolesModel extends Model
      * @param int $id
      * @return RolesModel
      */
-    public function setId(int $id): RolesModel
-    {
+    public function setId(int $id): RolesModel {
         $this->id = $id;
         return $this;
     }
@@ -32,8 +28,7 @@ class RolesModel extends Model
     /**
      * @return string
      */
-    public function getName(): string
-    {
+    public function getName(): string {
         return $this->name;
     }
 
@@ -41,9 +36,9 @@ class RolesModel extends Model
      * @param string $name
      * @return RolesModel
      */
-    public function setName(string $name): RolesModel
-    {
+    public function setName(string $name): RolesModel {
         $this->name = $name;
         return $this;
     }
+
 }

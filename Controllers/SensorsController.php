@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controllers;
-
 
 use App\Core\System\Controller;
 use App\Models\SensorsModel;
@@ -10,10 +8,9 @@ use App\Models\Sensor_DataModel;
 use App\Models\Sensor_TypesModel;
 use Net_SSH2;
 
-class SensorsController extends Controller
-{
-    public function index()
-    {
+class SensorsController extends Controller {
+
+    public function index() {
         $sensors = new SensorsModel();
         $sensor_data = new Sensor_DataModel();
         $sensor_types = new Sensor_TypesModel();
@@ -60,8 +57,7 @@ class SensorsController extends Controller
         $this->crontab();
     }
 
-    public static function get(int $nb_value)
-    {
+    public static function get(int $nb_value) {
         $sensors = new SensorsModel();
         $sensor_data = new Sensor_DataModel();
         $sensor_types = new Sensor_TypesModel();
@@ -92,8 +88,7 @@ class SensorsController extends Controller
         define('SENSORS_NUMBER', count($list));
     }
 
-    public static function crontab()
-    {
+    public static function crontab() {
         if (SENSORS_SYNC_TIME < 0) exit("Temps de synchronisation négatif");
 
         require_once dirname(__DIR__) . '/Core/Classes/lib/phpseclib/Net/SSH2.php';
@@ -115,8 +110,7 @@ class SensorsController extends Controller
         }
     }
 
-    private function data(string $url)
-    {
+    private function data(string $url) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -128,4 +122,5 @@ class SensorsController extends Controller
 
         return json_decode($content, true);
     }
+
 }

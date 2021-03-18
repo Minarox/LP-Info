@@ -1,28 +1,18 @@
 <?php
 
-
 namespace App\Core\System;
 
+class Cache {
 
-class Cache
-{
     private string|bool $buffer;
 
-    public function __construct(
-        private string $dirname,
-        private float $duration
-    )
-    {
+    public function __construct(private string $dirname, private float $duration) {}
 
-    }
-
-    private function write(string $filename, string $content): bool|int
-    {
+    private function write(string $filename, string $content): bool|int {
         return file_put_contents("{$this->dirname}/$filename", $content, LOCK_EX);
     }
 
-    private function read(string $filename): bool|string
-    {
+    private function read(string $filename): bool|string {
         $file_path = "{$this->dirname}/$filename";
 
         foreach(glob("{$this->dirname}/*") as $file) {
@@ -32,8 +22,7 @@ class Cache
         return !file_exists($file_path) || (time() - filemtime($file_path)) / 60 > $this->duration ? false : file_get_contents($file_path);
     }
 
-    public function start(string $cache_name): bool
-    {
+    public function start(string $cache_name): bool {
         if (!file_exists($this->dirname)) mkdir($this->dirname, 0755);
 
         if($content = $this->read($cache_name)) {
@@ -47,8 +36,7 @@ class Cache
         return false;
     }
 
-    public function end(): bool|string
-    {
+    public function end(): bool|string {
         if(!$this->buffer) return false;
 
         $content = ob_get_clean();
@@ -59,8 +47,8 @@ class Cache
     /**
      * Function using to delete all cache files
      */
-    private function clear()
-    {
+    private function clear() {
         foreach(glob("{$this->dirname}/*") as $file) unlink($file);
     }
+
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controllers;
-
 
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Classes\Token;
@@ -11,16 +9,14 @@ use App\Core\System\Controller;
 use App\Models\UsersModel;
 use JetBrains\PhpStorm\NoReturn;
 
-final class RecoveryController extends Controller
-{
-    #[NoReturn] public function index(Request $request)
-    {
+final class RecoveryController extends Controller {
+
+    #[NoReturn] public function index(Request $request) {
         $validator = new Validator($_POST);
         $timestamp = $request->get->get('timestamp') ?: $request->post->get('timestamp');
         $user_id = $request->get->get('user_id') ?: $request->post->get('user_id');
 
         if ($timestamp && $user_id) {
-
             $current_time = time();
             $timestamp = $request->get->get('timestamp');
 
@@ -30,7 +26,6 @@ final class RecoveryController extends Controller
             }
 
             $user = new UsersModel();
-
             $user = $user->findOneBy([
                 'id' => $user_id
             ]);
@@ -79,4 +74,5 @@ final class RecoveryController extends Controller
 
         ErrorController::error404();
     }
+
 }
