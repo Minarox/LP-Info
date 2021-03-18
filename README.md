@@ -1,5 +1,5 @@
 # [Hothothot](https://hothothot.minarox.fr/)
-Création d'une interface d'information et de gestion d'un système domotique.  
+Création d'une interface d'information et de gestion d'un système domotique.
 ![homepage.png](Installation/homepage.png)
 
 
