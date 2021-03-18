@@ -8,10 +8,7 @@ abstract class Config
 {
     public static function loadConfig()
     {
-        $config = match ($_SERVER['REMOTE_ADDR']) {
-            '127.0.0.1', '::1' => parse_ini_file(dirname(__DIR__,2) . '/config.dev.ini'),
-            default => parse_ini_file(dirname(__DIR__,2) . '/config.prod.ini')
-        };
+        $config = parse_ini_file(dirname(__DIR__,2) . '/config.ini');
 
         // Public sources path
         define('VIEWS', dirname(__DIR__,2) . '/Views/');
