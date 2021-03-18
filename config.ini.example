@@ -27,7 +27,7 @@ db_pass = 'hothothot'
 # time between synchronizations in minutes
 sync_time = 5
 
-# link(s) to getting sensor(s) data
+# links to getting sensors data
 links = 'https://example.com/sensor1, https://example.com/sensor2'
 
 # default values displayed on the home page
