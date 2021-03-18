@@ -1,38 +1,61 @@
-# `hothothot` - https://hothothot.minarox.fr/
-
-## Listes des étapes à suivre :
-
----
-
-- Récupérer la base de données !
-
-![img_1.png](img_1.png)
-
----
-
-- Le fichier config.ini se présente maintenant de la façon suivante (La variable `root_path` correspond au placement du site sur le serveur que tu utilises, `/` étant la racine du serveur) :
-
-![img_2.png](img_2.png)
-
----
-
-- Faire fonctionner la fonction `mail()` de PHP en local sous wamp :
+# [Hothothot](https://hothothot.minarox.fr/)
+Création d'une interface d'information et de gestion d'un système domotique.
+![img_1.png](Installation/img_1.png)
 
 
-    https://grafikart.fr/blog/mail-local-wamp
+## Fonctionnalités
+Voici la liste des fonctionnalités développées et mises en place sur le site web :
 
----
+### Global
+* Synchronisation et récupération automatique des informations des capteurs
+* Valeurs actuelles, maximales et minimales enregistré par les capteurs
+* Historique des valeurs des différents capteurs
+* Comparaison des valeurs des différents capteurs
+* Alertes personnalisables sur chaque capteur
+* 100 % responsive design
 
-- Télécharger Google lib
+### Comptes
+* Inscription et connexion par adresse mail ou avec [Google](https://github.com/googleapis/google-api-php-client).
+* Système de confirmation de compte et récupération du mot de passe avec envoie de mail
+* Système anti-spam et anti-bot
+* [CGU](https://hothothot.minarox.fr/cgu) et [Mentions légales](https://hothothot.minarox.fr/mentions-legales)
+* Personnalisation, modification et suppression du compte
+* Personnalisation de l'affichage des capteur par compte
+* Personnalisation des alertes par capteur et par compte
 
-URL autorisées pour l'authentification avec Google (Vous ne pouvez faire marcher la connexion Google sur votre Vhost s'il n'est pas en HTTPS ou qu'il ne se finisse pas par une extension de domaine publique de premier niveau telle que : `.com` `.fr` ) :
+### Autres
+* Fichier de configuration modifiable
+* Système de cache
+* Exportation des données des capteurs
+* Documentation
+* Éditeur Wisiwig
 
-![img_3.png](img_3.png)
 
-Créer une arborescence de cette façon :
+## Dépendances
+* [PHP 8.0](https://www.php.net/)
+* [Google Lib](https://github.com/googleapis/google-api-php-client)
+* [JBBCode](https://github.com/jbowens/jBBCode)
+* [PHPseclib](https://github.com/phpseclib/phpseclib)
+* [Crontab](https://www.linuxtricks.fr/wiki/cron-et-crontab-le-planificateur-de-taches)
 
-![img.png](img.png)
 
-Puis y faire la commande suivante dans le dossier 'google' que tu as créé (cela peut prendre un certain temps ...) :
-    
-    composer require google/apiclient
+## Installation
+L'installation du site web est assez simple :
+
+### Serveur web
+Le serveur est compatible avec [Apache]() et [Nginx](). Vous trouverez la configuration de ces 2 serveurs web dans le fichier [.htaccess]().
+
+### Base de données
+Il vous fait installer [MySQL](https://www.mysql.com/), créer un utilisateur dédié au site web, puis importer la base de données.  
+
+### Crontab et SSH
+Il vous faut également installer [Crontab](https://www.linuxtricks.fr/wiki/cron-et-crontab-le-planificateur-de-taches) (nécessaire pour la récupération automatique des données des capteurs) et posséder un accès SSH permettant le contrôler.
+Nous vous conseillons fortement de créer un utilisateur exclusif au site web et ayant les droits d'exécuter crontab.
+
+### Bibliothèques
+Toutes les bibliothèques sont déjà pré-installées dans le dossier [Core/Classes/lib](). Vous n'avez rien d'autres à faire de ce côté-là.
+
+### Fichier de configuration
+Le projet dispose d'un fichier de configuration servant d'exemple ici.
+Vous devez le copier à la racine du projet et le renommer en "config.ini" pour que le site fonctionne.
+![img_1.png](Installation/img_1.png)
