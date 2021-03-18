@@ -43,7 +43,7 @@ Voici la liste des fonctionnalités développées et mises en place sur le site 
 L'installation du site web est assez simple :
 
 ### Serveur web
-Le serveur est compatible avec [Apache]() et [Nginx]().
+Le serveur est compatible avec [Apache](https://httpd.apache.org/) et [Nginx](https://www.nginx.com/).
 Vous trouverez la configuration de ces 2 serveurs web dans le fichier [.htaccess](https://github.com/Minarox/hothothot/blob/main/.htaccess).
 
 ### Base de données
@@ -54,7 +54,7 @@ Il vous faut également installer [Crontab](https://www.linuxtricks.fr/wiki/cron
 Nous vous conseillons fortement de créer un utilisateur exclusif au site web et ayant les droits d'exécuter crontab.
 
 ### Bibliothèques
-Toutes les bibliothèques sont déjà pré-installées dans le dossier [Core/Classes/lib](https://github.com/Minarox/hothothot/tree/main/Core/Classes/lib).
+Toutes les bibliothèques sont déjà préinstallées dans le dossier [Core/Classes/lib](https://github.com/Minarox/hothothot/tree/main/Core/Classes/lib).
 Vous n'avez rien d'autres à faire de ce côté-là.
 
 ### Fichier de configuration
@@ -95,7 +95,7 @@ Vous devez le copier à la racine du projet et le renommer en "config.ini" pour 
     nb_default_values_comparison = 128
 
 #### Cookies
-    # Temps d'innactivité avant la déconnexion automatique
+    # Temps d'inactivité avant la déconnexion automatique
     inactivity_time = 600
     
     # Temps avant l'invalidation du lien de récupération du mot de passe
