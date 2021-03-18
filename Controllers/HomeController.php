@@ -18,13 +18,13 @@ final class HomeController extends Controller
         $this->render(name_file: 'home', caching: false);
     }
 
-    public function cgu()
+    public function gcu()
     {
-        $this->render(name_file: 'other/cgu', title: "Conditions Générales d'Utilisation (CGU)");
+        $this->render(name_file: 'other/gcu', title: "Conditions Générales d'Utilisation (CGU)");
     }
 
-    public function mentions_legales()
+    public function legal_notices()
     {
-        $this->render(name_file: 'other/mentions-legales', title: "Mentions légales");
+        $this->render(name_file: 'other/legal-notices', title: "Mentions légales");
     }
 }
