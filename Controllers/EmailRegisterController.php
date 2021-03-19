@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Classes\Token;
 use App\Core\System\Controller;
@@ -10,7 +11,7 @@ use JetBrains\PhpStorm\NoReturn;
 
 class EmailRegisterController extends Controller {
 
-    #[NoReturn] public function index(Request $request) {
+    #[NoReturn] #[Route('/email/register', 'email.register', ['GET', 'POST'])] public function index(Request $request) {
         if (!$request->get->exists('token_email')) ErrorController::error404();
 
         $user = new UsersModel();
@@ -28,11 +29,10 @@ class EmailRegisterController extends Controller {
                 ->update($data->getId());
 
             $this->addFlash('success', "Votre compte a bien été vérifié ! Veuillez vous connecter avec vos identifiant :)");
-            $this->redirect(header: 'login', response_code: 301);
+            $this->redirect(self::reverse('login'));
         }
 
         $this->addFlash('error', "Le lien a déjà été utilisé ou est expiré !");
-        $this->redirect(header: 'login', response_code: 301);
+        $this->redirect(self::reverse('login'));
     }
-
 }

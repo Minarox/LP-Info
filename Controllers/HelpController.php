@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\Attributes\Route;
 use App\Core\System\Controller;
 use App\Models\DocumentationModel;
 use JBBCode\DefaultCodeDefinitionSet;
@@ -9,7 +10,7 @@ use JBBCode\Parser;
 
 final class HelpController extends Controller {
 
-    public function index() {
+    #[Route('/help', 'help', ['GET', 'POST'])] public function index() {
         if (isset($_POST['documentation'])) {
             $new_documentation = new DocumentationModel();
             $new_documentation->setContent($_POST['documentation'])
@@ -36,12 +37,11 @@ final class HelpController extends Controller {
         ], title: 'Documentation');
     }
 
-    public function gcu() {
+    #[Route('/cgu', 'cgu')] public function gcu() {
         $this->render(name_file: 'other/gcu', title: "Conditions Générales d'Utilisation (CGU)");
     }
 
-    public function legal_notices() {
+    #[Route('/mentions-legales', 'mentions-legales')] public function legal_notices() {
         $this->render(name_file: 'other/legal-notices', title: "Mentions légales");
     }
-
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\Attributes\Route;
 use App\Core\System\Controller;
 use App\Models\SensorsModel;
 use App\Models\Sensor_DataModel;
@@ -10,7 +11,7 @@ use Net_SSH2;
 
 class SensorsController extends Controller {
 
-    public function index() {
+    #[Route('/sync', 'sync')] public function index() {
         $sensors = new SensorsModel();
         $sensor_data = new Sensor_DataModel();
         $sensor_types = new Sensor_TypesModel();

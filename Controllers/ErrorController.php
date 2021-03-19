@@ -12,5 +12,4 @@ final class ErrorController extends Controller {
         (new ErrorController)->render(name_file: 'error/404', title: 'Erreur', caching: false);
         die();
     }
-
 }

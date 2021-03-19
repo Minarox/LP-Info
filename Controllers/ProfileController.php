@@ -2,14 +2,15 @@
 
 namespace App\Controllers;
 
+use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\UsersModel;
 
-final class ProfileController extends Controller {
+#[Route('/account')] final class ProfileController extends Controller {
 
-    public function index(Request $request) {
+    #[Route('', 'account', ['GET', 'POST'])] public function index(Request $request) {
         if (!$this->isAuthenticated()) ErrorController::error404();
 
         $validator = new Validator($_POST);
@@ -32,16 +33,16 @@ final class ProfileController extends Controller {
                 $request->session->delete(restart_session: true);
 
                 $this->addFlash('success', "Votre compte a bien été supprimée ! Au revoir {$request->session->get('first_name')} {$request->session->get('last_name')}");
-                $this->redirect(header: 'login', response_code: 301);
+                $this->redirect(self::reverse('login'));
             } else {
                 $this->addFlash('error', 'Le texte que vous avez saisi pour supprimer votre compte ne correspond pas !');
-                $this->redirect(header: 'account', response_code: 301);
+                $this->redirect(self::reverse('account'));
             }
         }
-        $this->render(name_file: 'account/profile', title: 'Profil');
+        $this->render(name_file: 'account/profile', title: 'Profil', caching: false);
     }
 
-    public function edit(Request $request) {
+    #[Route('/edit', 'account.edit', ['GET', 'POST'])] public function edit(Request $request) {
         if (!$this->isAuthenticated()) ErrorController::error404();
         $validator = new Validator($_POST);
         $user = new UsersModel();
@@ -58,11 +59,10 @@ final class ProfileController extends Controller {
                 'first_name' => $request->session->get('first_name'),
                 'last_name' => $request->session->get('last_name')
             ]);
-            print_r('coucou');
 
             if ($matchValue && $_FILES["file"]["error"] === 4) {
                 $this->addFlash('error', "Vos informations n'ont pas changé, pas besoin de spam le bouton !");
-                $this->redirect(header: 'account', response_code: 301);
+                $this->redirect(self::reverse('account'));
             }
 
             if ($validator->isSuccess()) {
@@ -81,12 +81,12 @@ final class ProfileController extends Controller {
 
                     if (!array_key_exists($extension, $allowed) || !in_array($file_type, $allowed)) {
                         $this->addFlash('error', "Format du fichier incorrect !");
-                        $this->redirect(header: 'account', response_code: 301);
+                        $this->redirect(self::reverse('account'));
                     }
 
                     if ($file_size > 1024 *1024) {
                         $this->addFlash('error', "L'image est trop volumineuse et ne doit pas dépasser 1 MO !");
-                        $this->redirect(header: 'account', response_code: 301);
+                        $this->redirect(self::reverse('account'));
                     }
 
                     // Identifiant unique pour le nom du fichier
@@ -99,7 +99,7 @@ final class ProfileController extends Controller {
 
                     if (!move_uploaded_file($_FILES['file']['tmp_name'], $new_file_name)) {
                         $this->addFlash('error', "La sauvegarde de votre image de profil a échouée !");
-                        $this->redirect(header: 'account', response_code: 301);
+                        $this->redirect(self::reverse('account'));
                     }
 
                     $old_avatar = $user->findById($request->session->get('id'))->getAvatar();
@@ -128,7 +128,7 @@ final class ProfileController extends Controller {
                 $request->session->set('last_name', $request->post->get('last_name'));
 
                 $this->addFlash('success', 'Vos informations ont bien été modifiée !');
-                $this->redirect(header: 'account', response_code: 301);
+                $this->redirect(self::reverse('account'));
             } else {
                 $error = $validator->displayErrors();
             }
@@ -149,17 +149,17 @@ final class ProfileController extends Controller {
 
             if (!password_verify($old_password, $request->session->get('password'))) {
                 $this->addFlash('error', 'Votre ancien mot de passe ne correspond pas avec celui là !');
-                $this->redirect(header: 'account/edit', response_code: 301);
+                $this->redirect(self::reverse('account.edit'));
             }
 
             if (password_verify($new_password, $request->session->get('password'))) {
                 $this->addFlash('error', 'Soyez original ! Votre ancien mot de passe est le même !');
-                $this->redirect(header: 'account/edit', response_code: 301);
+                $this->redirect(self::reverse('account.edit'));
             }
 
             if (!$validator->isSuccess()) {
                 $this->addFlash('error', 'Vos mots de passe doivent correspondre !');
-                $this->redirect(header: 'account/edit', response_code: 301);
+                $this->redirect(self::reverse('account.edit'));
             }
 
             $user->setPassword($new_hash_password)
@@ -168,7 +168,7 @@ final class ProfileController extends Controller {
             $request->session->set('password', $new_hash_password);
 
             $this->addFlash('success', 'Vos mots de passe a bien été mis à jour !');
-            $this->redirect(header: 'account', response_code: 301);
+            $this->redirect(self::reverse('account'));
         }
 
         $this->render(name_file: 'account/edit-profile', params: [

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\Attributes\Route;
 use App\Core\Classes\Mail;
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\System\Controller;
@@ -12,7 +13,7 @@ use App\Models\UsersModel;
 
 final class LoginController extends Controller {
 
-    public function index(Request $request) {
+    #[Route('/login', 'login', ['GET', 'POST'])] public function index(Request $request) {
         if ($this->isAuthenticated()) ErrorController::error404();
 
         $user = new UsersModel();
@@ -27,12 +28,12 @@ final class LoginController extends Controller {
 
                 if (!$recover_user) {
                     $this->addFlash('error', "Nous n'avons pas trouvé d'utilisateur avec cette adresse mail !");
-                    $this->redirect(header: 'login', response_code: 301);
+                    $this->redirect(self::reverse('login'));
                 }
 
                 if (empty($recover_user->getPassword())) {
                     $this->addFlash('error', "Vous ne pouvez pas faire cette opération en étant inscris avec un compte Google ou Facebook !");
-                    $this->redirect(header: 'login', response_code: 301);
+                    $this->redirect(self::reverse('login'));
                 }
 
                 $mail = new Mail(
@@ -50,7 +51,7 @@ final class LoginController extends Controller {
                     $this->addFlash('error', "L'e-mail de confirmation du compte n'a pas pu être envoyé !");
                 } else {
                     $this->addFlash('success', "Un e-mail de récupération de mot de passe vous a été envoyé à l'adresse e-mail : {$request->post->get('recovery-email')}");
-                    $this->redirect(header: 'login', response_code: 301);
+                    $this->redirect(self::reverse('login'));
                 }
             }
 
@@ -61,7 +62,7 @@ final class LoginController extends Controller {
             if (!empty($data)) {
                 if (!is_null($data->getIdGoogle())) {
                     $this->addFlash('error', 'Cette adresse e-mail a été utilisé avec Google !');
-                    $this->redirect(header: 'login', response_code: 301);
+                    $this->redirect(self::reverse('login'));
                 }
             }
 
@@ -73,7 +74,7 @@ final class LoginController extends Controller {
             if ($data_ban && $data_ban->getAttempt() === 5) {
                 if (time() - $data_ban->getTime() < (60 * 1)) {
                     $this->addFlash('error', 'Veuillez attendre ' . 60 - (time() - $data_ban->getTime()) . ' seconde(s) avant de réessayer !');
-                    $this->redirect(header: 'login', response_code: 301);
+                    $this->redirect(self::reverse('login'));
                 } else {
                     $data_ban->delete($data_ban->getId());
                 }
@@ -105,6 +106,7 @@ final class LoginController extends Controller {
 
                     $user->setToken($token)
                         ->setLastConnexion(date('Y-m-d h:i:s', time()))
+                        ->setNbConnexion($data->getNbConnexion() + 1)
                         ->update($data->getId());
 
                     $request->cookie->set('token', $token);
@@ -114,7 +116,7 @@ final class LoginController extends Controller {
                     if (!empty($data_ban)) $data_ban->delete($data_ban->getId());
 
                     $this->addFlash('success', "Bienvenue {$data->getFirstName()} {$data->getLastName()} !");
-                    $this->redirect(header: '', response_code: 301);
+                    $this->redirect(self::reverse('home'));
                 }
             } else {
                 if (empty($data_ban)) {
@@ -137,7 +139,7 @@ final class LoginController extends Controller {
         ], title: 'Connexion');
     }
 
-    public function google(Request $request) {
+    #[Route('/ajax/googleLogin', 'login.google', 'POST')] public function google(Request $request) {
         $user = new UsersModel();
         $payload = $this->googleData($_POST['id_token']);
 
@@ -156,6 +158,7 @@ final class LoginController extends Controller {
 
                     $user->setToken($token)
                         ->setLastConnexion(date('Y-m-d h:i:s', time()))
+                        ->setNbConnexion($data->getNbConnexion() + 1)
                         ->update($data->getId());
 
                     $request->cookie->set('token', $token, '/');
@@ -168,5 +171,4 @@ final class LoginController extends Controller {
             $this->addFlash('error', "Erreur lors de la connexion avec Google !");
         }
     }
-
 }
