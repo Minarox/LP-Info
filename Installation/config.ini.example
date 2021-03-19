@@ -34,6 +34,9 @@ links = 'https://example.com/sensor1, https://example.com/sensor2'
 nb_default_values_sensors = 11
 nb_default_values_comparison = 128
 
+# default sensors alerts
+default_alerts_path = 'Installation/alerts.example.json'
+
 
 # --- COOKIES ---
 # Time of inactivity before disconnection

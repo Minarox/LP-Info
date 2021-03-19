@@ -40,6 +40,7 @@ abstract class Config {
         define('SENSORS_LINK', explode(', ', $config['links']));
         define('SENSORS_DEFAULT_NB_VALUE', $config['nb_default_values_sensors']);
         define('SENSORS_DEFAULT_NB_VALUE_COMPARISON', $config['nb_default_values_comparison']);
+        define('SENSORS_DEFAULT_ALERTS', $config['default_alerts_path']);
     }
 
 }
