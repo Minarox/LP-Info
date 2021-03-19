@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Classes\Token;
 use App\Core\Classes\Validator;
@@ -11,7 +12,7 @@ use JetBrains\PhpStorm\NoReturn;
 
 final class RecoveryController extends Controller {
 
-    #[NoReturn] public function index(Request $request) {
+    #[NoReturn] #[Route('/recovery', 'recovery', ['GET', 'POST'])] public function index(Request $request) {
         $validator = new Validator($_POST);
         $timestamp = $request->get->get('timestamp') ?: $request->post->get('timestamp');
         $user_id = $request->get->get('user_id') ?: $request->post->get('user_id');
@@ -22,7 +23,7 @@ final class RecoveryController extends Controller {
 
             if ($current_time - $timestamp > PASSWORD_RECOVERY_TIME) {
                 $this->addFlash('error', "Le lien de récupération de mot de passe a expiré");
-                $this->redirect(header: 'login', response_code: 301);
+                $this->redirect(self::reverse('login'));
             }
 
             $user = new UsersModel();
@@ -32,13 +33,13 @@ final class RecoveryController extends Controller {
 
             if(!$user) {
                 $this->addFlash('error', "Une erreur est survenue avec l'utilisateur !");
-                $this->redirect(header: 'login', response_code: 301);
+                $this->redirect(self::reverse('login'));
             }
 
             if ($validator->isSubmitted()) {
                 if(!$_POST['password'] || !$_POST['password-verif']) {
                     $this->addFlash('error', "Une erreur est survenue dans le formulaire !");
-                    $this->redirect(header: 'login', response_code: 301);
+                    $this->redirect(self::reverse('login'));
                 }
 
                 $matchValue = $validator->matchValue([
@@ -47,14 +48,14 @@ final class RecoveryController extends Controller {
 
                 if(!$matchValue) {
                     $this->addFlash('error', "Les deux mots de passe ne correspondent pas !");
-                    $this->redirect(header: 'recovery?timestamp=' . $timestamp . '&user_id=' . $user_id, response_code: 301);
+                    $this->redirect(header: 'recovery?timestamp=' . $timestamp . '&user_id=' . $user_id);
                 }
 
                 $passwords_match = password_verify($request->post->get('password'), $user->getPassword());
 
                 if($passwords_match) {
                     $this->addFlash('error', "Vous avez entré votre ancien mot de passe, essayer de l'utiliser pour vous connecter !");
-                    $this->redirect(header: 'login', response_code: 301);
+                    $this->redirect(self::reverse('login'));
                 }
 
                 $token = Token::generate();
@@ -63,7 +64,7 @@ final class RecoveryController extends Controller {
                     ->update($user_id);
 
                 $this->addFlash('success', "Votre mot de passe a bien été modifié !");
-                $this->redirect(header: 'login', response_code: 301);
+                $this->redirect(self::reverse('login'));
             }
 
             $this->render(name_file: 'account/recovery', params: [
@@ -74,5 +75,4 @@ final class RecoveryController extends Controller {
 
         ErrorController::error404();
     }
-
 }

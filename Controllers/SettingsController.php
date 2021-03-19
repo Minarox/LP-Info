@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Classes\Validator;
 use App\Core\System\Controller;
@@ -11,10 +12,10 @@ use App\Models\UsersModel;
 
 final class SettingsController extends Controller {
 
-    public function index(Request $request) {
+    #[Route('/settings', 'settings', ['GET', 'POST'])] public function index(Request $request) {
         if (!$this->isAuthenticated()) {
             $this->addFlash('error', 'Vous devez être connecté pour accéder à la page de paramètre !');
-            $this->redirect(header: 'login', response_code: 301);
+            $this->redirect(self::reverse('login'));
         }
 
         $validator = new Validator($_POST);
@@ -32,7 +33,7 @@ final class SettingsController extends Controller {
             if ($validator->isSuccess()) {
                 if ($request->post->get('value-sensors') > $request->post->get('value-comparison')) {
                     $this->addFlash('error', 'Le nombre de données à comparer doit être supérieur au nombre de donnée par capteur !');
-                    $this->redirect(header: 'settings', response_code: 301);
+                    $this->redirect(self::reverse('settings'));
                 }
 
                 $user->setNbValuesComparison($request->post->get('value-comparison'))
@@ -43,7 +44,7 @@ final class SettingsController extends Controller {
                 $request->session->set('nb_values_comparison', $request->post->get('value-comparison'));
 
                 $this->addFlash('success', 'Les paramètres ont bien été modifiées !');
-                $this->redirect(header: 'settings', response_code: 301);
+                $this->redirect(self::reverse('settings'));
             } else {
                 $error = $validator->displayErrors();
             }
@@ -71,7 +72,7 @@ final class SettingsController extends Controller {
                 $sensor = $sensors->findById($request->post->get('sensor-id-new-alert'));
 
                 $this->addFlash('success', "L'alerte à bien été ajoutée sur le capteur ". $sensor->getName() ." !");
-                $this->redirect(header: 'settings', response_code: 301);
+                $this->redirect(self::reverse('settings'));
             } else {
                 $error = $validator->displayErrors();
             }
@@ -83,7 +84,7 @@ final class SettingsController extends Controller {
             $request->session->delete('alert_id');
 
             $this->addFlash('success', "L'alerte " . $request->post->get("name-alert-sensor" . $request->post->get('sensor-id-new-alert')) . " a bien été supprimée !");
-            $this->redirect(header: 'settings', response_code: 301);
+            $this->redirect(self::reverse('settings'));
         }
 
         if ($validator->isSubmitted('update-alert-sensor' . $request->post->get('sensor-id-new-alert'))) {
@@ -108,7 +109,7 @@ final class SettingsController extends Controller {
                 $request->session->delete('alert_id');
 
                 $this->addFlash('success', "Les données de l'alerte " . $request->post->get("name-alert-sensor$sensor_id") . " ont bien été modifiée !");
-                $this->redirect(header: 'settings', response_code: 301);
+                $this->redirect(self::reverse('settings'));
             } else {
                 $error = $validator->displayErrors();
             }
@@ -138,7 +139,7 @@ final class SettingsController extends Controller {
         return $alert_list;
     }
 
-    public function alertSensor(Request $request): void {
+    #[Route('/ajax/alertSensor', 'settings.alert', 'POST')] public function alertSensor(Request $request): void {
         $data = (new AlertModel())->findById($request->post->get('alert_id'));
         $request->session->set('alert_id', $data->getId());
 
@@ -149,7 +150,7 @@ final class SettingsController extends Controller {
         $alerts = new AlertModel();
 
         $list = $alerts->findBy([
-            'user_id' => $_SESSION['id']
+            'user_id' => $_SESSION['id'] ?? null
         ]);
 
         $i = 0;
@@ -167,7 +168,7 @@ final class SettingsController extends Controller {
         define('SENSORS_ALERTS', json_encode($data));
     }
 
-    public function download() {
+    #[Route('/settings/download', 'settings.download')] public function download() {
         if(isset($_GET['sensor'])) {
             $sensor = $_GET['sensor'];
             SensorsController::get($_SESSION['nb_values_comparison'] ??= SENSORS_DEFAULT_NB_VALUE_COMPARISON);
@@ -177,7 +178,7 @@ final class SettingsController extends Controller {
             echo json_encode($data[$sensor]);
         } else {
             $this->addFlash('error', "Une erreur est surevenue dans le téléchargement des données");
-            $this->redirect(header: 'settings', response_code: 301);
+            $this->redirect(self::reverse('settings'));
         }
     }
 

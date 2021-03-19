@@ -3,6 +3,7 @@
 namespace App\Core\System;
 
 use App\Core\Classes\SuperGlobals\Request;
+use App\Core\Routes\Route;
 use Google_Client;
 use Google_Service_Oauth2;
 use GuzzleHttp\Client;
@@ -23,7 +24,7 @@ abstract class Controller {
         if (!$this->isAuthenticated() && $this->request->session->exists('token')) {
             $this->request->session->delete(restart_session: true);
             $this->addFlash('error', 'Vous avez été déconnectée pour inactivité !');
-            $this->redirect(header: '', response_code: 301);
+            $this->redirect(self::reverse('home'));
         }
     }
 
@@ -66,9 +67,28 @@ abstract class Controller {
         require_once VIEWS . "$template.php";
     }
 
-    #[NoReturn] protected function redirect(string $header, bool $replace = false, int $response_code = 0): void {
-        header('Location: ' . ROOT . $header, $replace, $response_code);
+    #[NoReturn] protected function redirect(string $header, bool $replace = false, int $response_code = 301): void {
+        $new_header = ROOT . $header;
+
+        if (str_contains($new_header, '//')) {
+            $new_header = str_replace('//', '/', $new_header);
+        }
+
+        header("Location: $new_header", $replace, $response_code);
         die();
+    }
+
+    protected static function reverse(string $name, array $params = null): string
+    {
+        $path = array_search($name, Route::$name);
+
+        if (!is_null($params)) {
+            foreach ($params as $param) {
+                $path = preg_replace('#{(int|str|all)}#', $param, $path, 1);
+            }
+        }
+
+        return $path;
     }
 
     protected function addFlash(string $alert_type, string|array $message): void {

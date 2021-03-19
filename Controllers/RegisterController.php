@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\Attributes\Route;
 use App\Core\Classes\Mail;
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\System\Controller;
@@ -12,7 +13,7 @@ use App\Models\RolesModel;
 
 final class RegisterController extends Controller {
 
-    public function index(Request $request) {
+    #[Route('/register', 'register', ['GET', 'POST'])] public function index(Request $request) {
         if ($this->isAuthenticated()) ErrorController::error404();
 
         $user = new UsersModel();
@@ -54,7 +55,7 @@ final class RegisterController extends Controller {
                     'uri' => $this->getActualUri('email/register')
                 ])) {
                     $this->addFlash('error', "L'e-mail de confirmation du compte n'a pas pu être envoyé !");
-                    $this->redirect(header: 'register', response_code: 301);
+                    $this->redirect(self::reverse('register'));
                 }
 
                 $user->setLastName(Validator::filter($request->post->get('last_name')))
@@ -66,10 +67,10 @@ final class RegisterController extends Controller {
                     ->create();
 
                 $this->addFlash('success', "Un email de confirmation vous a été envoyé à l'adresse e-mail : {$email_post}");
-                $this->redirect(header: 'login', response_code: 301);
+                $this->redirect(self::reverse('login'));
             } else {
                 $matchValue ? $this->addFlash('error', $validator->displayErrors(['Cette e-mail est déjà utilisé !'])) : $this->addFlash('error', $validator->displayErrors());
-                $this->redirect(header: 'register', response_code: 301);
+                $this->redirect(self::reverse('register'));
             }
         }
 
@@ -78,7 +79,7 @@ final class RegisterController extends Controller {
         ], title: 'Inscription');
     }
 
-    public function google(Request $request) {
+    #[Route('/ajax/googleRegister', 'register.google', 'POST')] public function google(Request $request) {
         $user = new UsersModel();
         $role = new RolesModel();
 
@@ -102,6 +103,7 @@ final class RegisterController extends Controller {
                     ->setAvatar($payload['picture'])
                     ->setRoleId($role->findById(1)->getId())
                     ->setLastConnexion(date('Y-m-d h:i:s', time()))
+                    ->setNbConnexion($data->getNbConnexion() + 1)
                     ->setToken($token)
                     ->create();
 
