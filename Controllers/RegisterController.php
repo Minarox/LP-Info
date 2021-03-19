@@ -8,6 +8,8 @@ use App\Core\Classes\SuperGlobals\Request;
 use App\Core\System\Controller;
 use App\Core\Classes\Validator;
 use App\Core\Classes\Token;
+use App\Models\AlertModel;
+use App\Models\SensorsModel;
 use App\Models\UsersModel;
 use App\Models\RolesModel;
 
@@ -66,6 +68,12 @@ final class RegisterController extends Controller {
                     ->setToken($token)
                     ->create();
 
+                $new_user = $user->findOneBy([
+                    'token' => $token
+                ]);
+
+                $this->add_alerts($new_user->getId());
+
                 $this->addFlash('success', "Un email de confirmation vous a été envoyé à l'adresse e-mail : {$email_post}");
                 $this->redirect(self::reverse('login'));
             } else {
@@ -120,6 +128,43 @@ final class RegisterController extends Controller {
             }
         } else {
             $this->addFlash('error', "Erreur lors de l'inscription avec Google !");
+        }
+    }
+
+    public function add_alerts(int $user_id) {
+        $alerts_file = file_get_contents(dirname(__DIR__) . '/' . SENSORS_DEFAULT_ALERTS);
+        $alerts_array = json_decode($alerts_file, true);
+
+        $sensors = new SensorsModel();
+        $alert_model = new AlertModel();
+        $operator = 0;
+
+        foreach ($alerts_array as $sensor_name) {
+            $sensor = $sensors->findOneBy([
+                'name' => $sensor_name['sensor_name']
+            ]);
+
+            foreach ($sensor_name['alerts'] as $alert) {
+                if ($alert['operator'] == '>') {
+                    $operator = 1;
+                } elseif ($alert['operator'] == '=>') {
+                    $operator = 2;
+                } elseif ($alert['operator'] == '=') {
+                    $operator = 3;
+                } elseif ($alert['operator'] == '<=') {
+                    $operator = 4;
+                } elseif ($alert['operator'] == '<') {
+                    $operator = 5;
+                }
+
+                $alert_model->setSensorId($sensor->getId())
+                    ->setUserId($user_id)
+                    ->setName($alert['name'])
+                    ->setDescription($alert['description'])
+                    ->setOperator($operator)
+                    ->setValue($alert['value'])
+                    ->create();
+            }
         }
     }
 
