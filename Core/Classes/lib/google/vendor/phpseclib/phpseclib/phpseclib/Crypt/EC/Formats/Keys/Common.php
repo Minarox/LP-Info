@@ -340,6 +340,7 @@ trait Common
     /**
      * Encode Parameters
      *
+     * @todo Maybe at some point this could be moved to __toString() for each of the curves?
      * @param \phpseclib3\Crypt\EC\BaseCurves\Base $curve
      * @param bool $returnArray optional
      * @param array $options optional

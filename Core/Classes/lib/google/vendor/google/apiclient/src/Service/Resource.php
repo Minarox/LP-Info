@@ -76,6 +76,7 @@ class Resource
   }
 
   /**
+   * TODO: This function needs simplifying.
    * @param $name
    * @param $arguments
    * @param $expectedClass - optional, the expected class name
@@ -121,6 +122,7 @@ class Resource
       unset($parameters['postBody']);
     }
 
+    // TODO: optParams here probably should have been
     // handled already - this may well be redundant code.
     if (isset($parameters['optParams'])) {
       $optParams = $parameters['optParams'];
@@ -226,6 +228,7 @@ class Resource
     // if the client is marked for deferring, rather than
     // execute the request, return the response
     if ($this->client->shouldDefer()) {
+      // @TODO find a better way to do this
       $request = $request
         ->withHeader('X-Php-Expected-Class', $expectedClass);
 
