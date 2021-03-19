@@ -39,6 +39,9 @@ class OAuth2 implements FetchAuthTokenInterface
     const DEFAULT_SKEW_SECONDS = 60; // 1 minute
     const JWT_URN = 'urn:ietf:params:oauth:grant-type:jwt-bearer';
 
+    /**
+     * TODO: determine known methods from the keys of JWT::methods.
+     */
     public static $knownSigningAlgorithms = array(
         'HS256',
         'HS512',
@@ -1347,6 +1350,8 @@ class OAuth2 implements FetchAuthTokenInterface
     }
 
     /**
+     * @todo handle uri as array
+     *
      * @param string $uri
      * @return null|UriInterface
      */
