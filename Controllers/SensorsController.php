@@ -90,6 +90,7 @@ class SensorsController extends Controller {
     }
 
     public static function crontab() {
+        if (PHP_OS != 'Linux') exit("Le site web ne tourne pas sous Linux.");
         if (SENSORS_SYNC_TIME < 0) exit("Temps de synchronisation négatif");
 
         require_once dirname(__DIR__) . '/Core/Classes/lib/phpseclib/Net/SSH2.php';
