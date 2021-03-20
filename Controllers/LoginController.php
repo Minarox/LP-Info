@@ -111,7 +111,7 @@ final class LoginController extends Controller {
 
                     $request->cookie->set('token', $token);
                     foreach ($this->getGetter($data) as $k => $v) $request->session->set($k, $v);
-                    if ($request->session->exists('last_name')) $request->session->set('last_name', ' ');
+                    if (!$request->session->exists('last_name')) $request->session->set('last_name', ' ');
 
                     if (!empty($data_ban)) $data_ban->delete($data_ban->getId());
 
