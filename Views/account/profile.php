@@ -26,7 +26,7 @@
                     </div>
                     <div>
                         <h2>Date de création :</h2>
-                        <p><?= date("d-m-Y H:i:s", strtotime($_SESSION['created_at'])) ?></p>
+                        <p><?= date("d-m-Y - H:i:s", strtotime($_SESSION['created_at'])) ?></p>
                     </div>
                 </section>
             </section>
