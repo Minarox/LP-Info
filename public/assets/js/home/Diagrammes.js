@@ -89,7 +89,7 @@ function chart(id, data, labels) {
     let label = []
     let value = []
     let y = 0
-    for (let i = value_sensors; i >= 0; i--) {
+    for (let i = value_sensors - 1; i >= 0; i--) {
         value.push(data[i])
         let str = labels[i].split(' ')
         let str_date = str[0].split('-')
