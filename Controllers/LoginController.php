@@ -105,8 +105,8 @@ final class LoginController extends Controller {
                     $token = Token::generate();
 
                     $user->setToken($token)
-                        ->setLastConnexion(date("Y-m-d H:i:s", time()))
-                        ->setNbConnexion($data->getNbConnexion() + 1)
+                        ->setLastConnection(date("Y-m-d H:i:s", time()))
+                        ->setNbConnection($data->getNbConnection() + 1)
                         ->update($data->getId());
 
                     $request->cookie->set('token', $token);
@@ -157,8 +157,8 @@ final class LoginController extends Controller {
                     $token = Token::generate();
 
                     $user->setToken($token)
-                        ->setLastConnexion(date("Y-m-d H:i:s", time()))
-                        ->setNbConnexion($data->getNbConnexion() + 1)
+                        ->setLastConnection(date("Y-m-d H:i:s", time()))
+                        ->setNbConnection($data->getNbConnection() + 1)
                         ->update($data->getId());
 
                     $request->cookie->set('token', $token, '/');
