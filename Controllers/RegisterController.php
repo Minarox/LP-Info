@@ -66,6 +66,8 @@ final class RegisterController extends Controller {
                     ->setPassword(password_hash($request->post->get('password'), PASSWORD_ARGON2I))
                     ->setRoleId($role->findById(1)->getId())
                     ->setToken($token)
+                    ->setNbValuesSensors(SENSORS_DEFAULT_NB_VALUE)
+                    ->setNbValuesComparison(SENSORS_DEFAULT_NB_VALUE_COMPARISON)
                     ->create();
 
                 $new_user = $user->findOneBy([
@@ -110,9 +112,10 @@ final class RegisterController extends Controller {
                     ->setIsVerified(1)
                     ->setAvatar($payload['picture'])
                     ->setRoleId($role->findById(1)->getId())
-                    ->setLastConnexion(date('Y-m-d h:i:s', time()))
-                    ->setNbConnexion($data->getNbConnexion() + 1)
+                    ->setLastConnexion(date("Y-m-d H:i:s", time()))
                     ->setToken($token)
+                    ->setNbValuesSensors(SENSORS_DEFAULT_NB_VALUE)
+                    ->setNbValuesComparison(SENSORS_DEFAULT_NB_VALUE_COMPARISON)
                     ->create();
 
                 $request->session->set('last_name', $payload['family_name']);
