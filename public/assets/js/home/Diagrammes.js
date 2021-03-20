@@ -92,13 +92,15 @@ function chart(id, data, labels) {
     for (let i = value_sensors; i >= 0; i--) {
         value.push(data[i])
         let str = labels[i].split(' ')
-        date.push(str[0])
-        time.push(str[1])
+        let str_date = str[0].split('-')
+        let str_time = str[1].split(':')
+        date.push(str_date[2]+'-'+str_date[1]+'-'+str_date[0])
+        time.push(str_time[0]+'h'+str_time[1])
         let str2 = str[1].split(':')
         if (label.length === 0) {
-            label.push(str2[0]+"h"+str2[1])
+            label.push(str2[0]+'h'+str2[1])
         } else if (date[y] === date[y-1]) {
-            label.push(str2[0]+"h"+str2[1])
+            label.push(str2[0]+'h'+str2[1])
         } else {
             label.push(str[0])
         }
@@ -143,15 +145,17 @@ function comparison_chart(data, labels, name) {
     let y = 0
     for (let i = sensors_comparison_data - 1; i >= 0; i--) {
         let str = labels[0][i].split(' ')
-        date.push(str[0])
-        time.push(str[1])
+        let str_date = str[0].split('-')
+        let str_time = str[1].split(':')
+        date.push(str_date[2]+'-'+str_date[1]+'-'+str_date[0])
+        time.push(str_time[0]+'h'+str_time[1])
         let str2 = str[1].split(':')
         if (label.length === 0) {
-            label.push(str2[0]+"h"+str2[1])
+            label.push(str2[0]+'h'+str2[1])
         } else if (date[y] === date[y-1]) {
-            label.push(str2[0]+"h"+str2[1])
+            label.push(str2[0]+'h'+str2[1])
         } else {
-            label.push(str[0])
+            label.push(str_date[2]+'-'+str_date[1]+'-'+str_date[0])
         }
         y++
     }
@@ -176,7 +180,7 @@ function comparison_chart(data, labels, name) {
             scales: { yAxes: [{ ticks: { beginAtZero: true } }] },
             tooltips: { callbacks: {
                     title: function(tooltipItem) {
-                        tooltipItem.xLabel = date[tooltipItem[0].index] + " - " + time[tooltipItem[0].index]
+                        tooltipItem.xLabel = date[tooltipItem[0].index] + ' - ' + time[tooltipItem[0].index]
                         return tooltipItem.xLabel;
                     } }
             }
