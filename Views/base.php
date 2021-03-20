@@ -4,8 +4,6 @@
     <!-- Meta pour l'encodage et l'affichage mobile -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--    <meta name="viewport" content="width=device-width, user-scalable=no,
-    initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <?php if ($_SERVER['REQUEST_URI'] === ROOT . 'register' || $_SERVER['REQUEST_URI'] === ROOT . 'login'): ?>
         <meta name="google-signin-client_id" content="85563966196-f61n6rna4a9dm6f2o3unk9cqa4agu1s1.apps.googleusercontent.com">

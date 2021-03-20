@@ -17,8 +17,8 @@ class UsersModel extends Model {
     protected string $avatar;
     protected bool $is_verified;
     protected string $token;
-    protected ?string $last_connexion;
-    protected ?int $nb_connexion;
+    protected ?string $last_connection;
+    protected ?int $nb_connection;
     protected int $nb_values_sensors;
     protected int $nb_values_comparison;
     protected string $created_at;
@@ -224,36 +224,36 @@ class UsersModel extends Model {
     /**
      * @return string|null
      */
-    public function getLastConnexion(): ?string
+    public function getLastConnection(): ?string
     {
-        return $this->last_connexion;
+        return $this->last_connection;
     }
 
     /**
-     * @param string|null $last_connexion
+     * @param string|null $last_connection
      * @return UsersModel
      */
-    public function setLastConnexion(?string $last_connexion): UsersModel
+    public function setLastConnection(?string $last_connection): UsersModel
     {
-        $this->last_connexion = $last_connexion;
+        $this->last_connection = $last_connection;
         return $this;
     }
 
     /**
      * @return int|null
      */
-    public function getNbConnexion(): ?int
+    public function getNbConnection(): ?int
     {
-        return $this->nb_connexion;
+        return $this->nb_connection;
     }
 
     /**
-     * @param int|null $nb_connexion
+     * @param int|null $nb_connection
      * @return UsersModel
      */
-    public function setNbConnexion(?int $nb_connexion): UsersModel
+    public function setNbConnection(?int $nb_connection): UsersModel
     {
-        $this->nb_connexion = $nb_connexion;
+        $this->nb_connection = $nb_connection;
         return $this;
     }
 
@@ -310,6 +310,5 @@ class UsersModel extends Model {
         $this->created_at = $created_at;
         return $this;
     }
-
 
 }
