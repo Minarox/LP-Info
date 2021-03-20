@@ -81,6 +81,26 @@ abstract class Model {
     }
 
     /**
+     * @param int $limit
+     * @param array $filter
+     * @return bool|array|$this
+     */
+    public function findByLimit(array $filter, string $order_by, int $limit): bool|array|self
+    {
+        $fields = [];
+        $values = [];
+
+        foreach ($filter as $k => $v) {
+            $fields[] = "$k = :$k";
+            $values[] = [":$k", $v, $this->match($k)];
+        }
+
+        $field_list = implode(' AND ', $fields);
+
+        return $this->query("SELECT * FROM {$this->table} WHERE {$field_list} ORDER BY {$order_by} DESC LIMIT {$limit}", $values)->fetchAll();
+    }
+
+    /**
      * @param array $filter
      * @return bool|PDOStatement|$this
      */

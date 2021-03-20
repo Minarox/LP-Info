@@ -7,6 +7,7 @@ use App\Core\System\Controller;
 use App\Models\SensorsModel;
 use App\Models\Sensor_DataModel;
 use App\Models\Sensor_TypesModel;
+use JetBrains\PhpStorm\NoReturn;
 use Net_SSH2;
 
 class SensorsController extends Controller {
@@ -58,7 +59,8 @@ class SensorsController extends Controller {
         $this->crontab();
     }
 
-    public static function get(int $nb_value) {
+    public static function get() {
+        $nb_value = 138;
         $sensors = new SensorsModel();
         $sensor_data = new Sensor_DataModel();
         $sensor_types = new Sensor_TypesModel();
@@ -77,11 +79,10 @@ class SensorsController extends Controller {
             $data[$i]['name'] = $sensor->getName();
             $data[$i]['type'] = $type->getName();
 
-            $data_raw = $sensor_data->findBy([
+            $data[$i]['data'] = $sensor_data->findByLimit([
                 'sensor_id' => $sensor->getId()
-            ]);
+            ], 'id', $nb_value);
 
-            $data[$i]['data'] = array_slice($data_raw, -$nb_value);
             $i++;
         }
 
