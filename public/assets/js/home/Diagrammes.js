@@ -48,7 +48,7 @@ function parse_data(data) {
             $("#sensor" + i + "-max").text("NaN")
             $("#sensor" + i + "-min").text("NaN")
         } else {
-            if (Date.now() - Date.parse(data[i]['data'][sensors_comparison_data - 1]['time']) > sensors_sync_time*60000) {
+            if (Date.now() - Date.parse(data[i]['data'][0]['time']) > sensors_sync_time*60000) {
                 $("#sensor" + i + "-dot").css("background-color", "red")
                 let text = $("#sensor" + i + "-state").text()
                 $("#sensor" + i + "-state").text(text.replace("Actif", "Inactif"))
@@ -58,7 +58,7 @@ function parse_data(data) {
                 temperature.push(data[i]['data'][j]['temperature'])
                 time.push(data[i]['data'][j]['time'])
             }
-            $("#sensor"+i+"-now").text(data[i]['data'][sensors_comparison_data - 1]['temperature']+"°C")
+            $("#sensor"+i+"-now").text(data[i]['data'][0]['temperature']+"°C")
             $("#sensor"+i+"-max").text(Math.max(...temperature)+"°C")
             $("#sensor"+i+"-min").text(Math.min(...temperature)+"°C")
         }
@@ -68,6 +68,14 @@ function parse_data(data) {
         chart(i, temperature, time)
     }
     comparison_chart(temperature_comparison, time_comparison, name_comparison)
+}
+
+function reverse_data(data) {
+    let array = []
+    for (let i = data.length - 1; i >= 0; i--) {
+        array.push(data[i])
+    }
+    return array
 }
 
 function chart(id, data, labels) {
@@ -81,7 +89,7 @@ function chart(id, data, labels) {
     let label = []
     let value = []
     let y = 0
-    for (let i = sensors_comparison_data - value_sensors; i < sensors_comparison_data; i++) {
+    for (let i = value_sensors; i >= 0; i--) {
         value.push(data[i])
         let str = labels[i].split(' ')
         date.push(str[0])
@@ -131,11 +139,9 @@ function comparison_chart(data, labels, name) {
     let date = []
     let time = []
     let label = []
-    let value = []
     let datasets = []
     let y = 0
-    for (let i = 0; i < sensors_comparison_data; i++) {
-        value.push(data[i])
+    for (let i = sensors_comparison_data - 1; i >= 0; i--) {
         let str = labels[0][i].split(' ')
         date.push(str[0])
         time.push(str[1])
@@ -155,7 +161,7 @@ function comparison_chart(data, labels, name) {
             borderColor: colors[i][1],
             borderWidth: 2,
             pointBackgroundColor: colors[i][0],
-            data: data[i]
+            data: reverse_data(data[i])
         },)
     }
     new Chart(ctx, {
