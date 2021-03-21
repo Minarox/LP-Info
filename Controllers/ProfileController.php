@@ -6,7 +6,7 @@ use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Classes\Validator;
 use App\Core\System\Controller;
-use App\Models\UsersModel;
+use App\Models\UserModel;
 
 #[Route('/account')] final class ProfileController extends Controller {
 
@@ -25,7 +25,7 @@ use App\Models\UsersModel;
             ]);
 
             if ($validator->isSuccess() && $matchValue) {
-                $user = new UsersModel();
+                $user = new UserModel();
                 $user->delete($request->session->get('id'));
 
                 $request->cookie->delete('token');
@@ -45,7 +45,7 @@ use App\Models\UsersModel;
     #[Route('/edit', 'account.edit', ['GET', 'POST'])] public function edit(Request $request) {
         if (!$this->isAuthenticated()) ErrorController::error404();
         $validator = new Validator($_POST);
-        $user = new UsersModel();
+        $user = new UserModel();
 
         if ($validator->isSubmitted('update')) {
             $validator->validate([

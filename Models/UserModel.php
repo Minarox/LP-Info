@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Core\System\Model;
 
-class UsersModel extends Model {
+class UserModel extends Model {
 
     protected int $id;
     protected ?int $id_google;
@@ -33,9 +33,9 @@ class UsersModel extends Model {
 
     /**
      * @param int $id
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setId(int $id): UsersModel
+    public function setId(int $id): UserModel
     {
         $this->id = $id;
         return $this;
@@ -51,9 +51,9 @@ class UsersModel extends Model {
 
     /**
      * @param int|null $id_google
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setIdGoogle(?int $id_google): UsersModel
+    public function setIdGoogle(?int $id_google): UserModel
     {
         $this->id_google = $id_google;
         return $this;
@@ -69,9 +69,9 @@ class UsersModel extends Model {
 
     /**
      * @param int|null $id_facebook
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setIdFacebook(?int $id_facebook): UsersModel
+    public function setIdFacebook(?int $id_facebook): UserModel
     {
         $this->id_facebook = $id_facebook;
         return $this;
@@ -87,9 +87,9 @@ class UsersModel extends Model {
 
     /**
      * @param int $role_id
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setRoleId(int $role_id): UsersModel
+    public function setRoleId(int $role_id): UserModel
     {
         $this->role_id = $role_id;
         return $this;
@@ -105,9 +105,9 @@ class UsersModel extends Model {
 
     /**
      * @param string|null $last_name
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setLastName(?string $last_name): UsersModel
+    public function setLastName(?string $last_name): UserModel
     {
         $this->last_name = $last_name;
         return $this;
@@ -123,9 +123,9 @@ class UsersModel extends Model {
 
     /**
      * @param string $first_name
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setFirstName(string $first_name): UsersModel
+    public function setFirstName(string $first_name): UserModel
     {
         $this->first_name = $first_name;
         return $this;
@@ -141,9 +141,9 @@ class UsersModel extends Model {
 
     /**
      * @param string $email
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setEmail(string $email): UsersModel
+    public function setEmail(string $email): UserModel
     {
         $this->email = $email;
         return $this;
@@ -159,9 +159,9 @@ class UsersModel extends Model {
 
     /**
      * @param string|null $password
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setPassword(?string $password): UsersModel
+    public function setPassword(?string $password): UserModel
     {
         $this->password = $password;
         return $this;
@@ -177,9 +177,9 @@ class UsersModel extends Model {
 
     /**
      * @param string $avatar
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setAvatar(string $avatar): UsersModel
+    public function setAvatar(string $avatar): UserModel
     {
         $this->avatar = $avatar;
         return $this;
@@ -195,9 +195,9 @@ class UsersModel extends Model {
 
     /**
      * @param bool $is_verified
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setIsVerified(bool $is_verified): UsersModel
+    public function setIsVerified(bool $is_verified): UserModel
     {
         $this->is_verified = $is_verified;
         return $this;
@@ -213,9 +213,9 @@ class UsersModel extends Model {
 
     /**
      * @param string $token
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setToken(string $token): UsersModel
+    public function setToken(string $token): UserModel
     {
         $this->token = $token;
         return $this;
@@ -231,9 +231,9 @@ class UsersModel extends Model {
 
     /**
      * @param string|null $last_connection
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setLastConnection(?string $last_connection): UsersModel
+    public function setLastConnection(?string $last_connection): UserModel
     {
         $this->last_connection = $last_connection;
         return $this;
@@ -249,9 +249,9 @@ class UsersModel extends Model {
 
     /**
      * @param int|null $nb_connection
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setNbConnection(?int $nb_connection): UsersModel
+    public function setNbConnection(?int $nb_connection): UserModel
     {
         $this->nb_connection = $nb_connection;
         return $this;
@@ -267,9 +267,9 @@ class UsersModel extends Model {
 
     /**
      * @param int $nb_values_sensors
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setNbValuesSensors(int $nb_values_sensors): UsersModel
+    public function setNbValuesSensors(int $nb_values_sensors): UserModel
     {
         $this->nb_values_sensors = $nb_values_sensors;
         return $this;
@@ -285,9 +285,9 @@ class UsersModel extends Model {
 
     /**
      * @param int $nb_values_comparison
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setNbValuesComparison(int $nb_values_comparison): UsersModel
+    public function setNbValuesComparison(int $nb_values_comparison): UserModel
     {
         $this->nb_values_comparison = $nb_values_comparison;
         return $this;
@@ -303,9 +303,9 @@ class UsersModel extends Model {
 
     /**
      * @param string $created_at
-     * @return UsersModel
+     * @return UserModel
      */
-    public function setCreatedAt(string $created_at): UsersModel
+    public function setCreatedAt(string $created_at): UserModel
     {
         $this->created_at = $created_at;
         return $this;

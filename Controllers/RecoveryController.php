@@ -7,7 +7,7 @@ use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Classes\Token;
 use App\Core\Classes\Validator;
 use App\Core\System\Controller;
-use App\Models\UsersModel;
+use App\Models\UserModel;
 use JetBrains\PhpStorm\NoReturn;
 
 final class RecoveryController extends Controller {
@@ -26,7 +26,7 @@ final class RecoveryController extends Controller {
                 $this->redirect(self::reverse('login'));
             }
 
-            $user = new UsersModel();
+            $user = new UserModel();
             $user = $user->findOneBy([
                 'id' => $user_id
             ]);

@@ -19,13 +19,16 @@
                 <p class="box-subtitle">Par <?= $documentation['username'] ?> le <?= date("d-m-Y à H:i:s", strtotime($documentation['date'])) ?>
                 </p>
                 <hr>
-                <?php if ($documentation['user_id'] == $_SESSION['id'] ??= -1): ?>
+                <?php if ($documentation['user_id'] === $_SESSION['id'] || $_SESSION['role_id'] === 1): ?>
                 <section class="d-flex bd-highlight">
-                    <p class="flex-grow-1 m-0 me-2 bd-highlight"><?= $documentation['content'] ?></p>
-                    <a class="p-0 bd-highlight" href="#" onclick="show(<?= $documentation['id'] ?>)"><img src="<?= SCRIPTS . 'images/download.png' ?>" alt="Bouton de suppression du commentaire."></a>
+                    <span class="flex-grow-1 m-0 me-2 bd-highlight"><?= $documentation['content'] ?></span>
+                    <?php if ($documentation['user_id'] === $_SESSION['id']): ?>
+                    <a class="p-0 bd-highlight me-2" href="<?= ROOT ?>help/editor?comment=<?= $documentation['id'] ?>"><img src="<?= SCRIPTS . 'images/edit.png' ?>" alt="Bouton de suppression du commentaire."></a>
+                    <?php endif; ?>
+                    <a class="p-0 bd-highlight" href="#" onclick="show(<?= $documentation['id'] ?>)"><img src="<?= SCRIPTS . 'images/delete.png' ?>" alt="Bouton de suppression du commentaire."></a>
                 </section>
                 <?php else: ?>
-                    <p class="m-0"><?= $documentation['content'] ?></p>
+                    <?= $documentation['content'] ?>
                 <?php endif; ?>
             </section>
             <article class="overlay center" id="overlay<?= $documentation['id'] ?>">

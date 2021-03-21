@@ -7,8 +7,8 @@ use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\AlertModel;
-use App\Models\SensorsModel;
-use App\Models\UsersModel;
+use App\Models\SensorModel;
+use App\Models\UserModel;
 
 final class SettingsController extends Controller {
 
@@ -19,9 +19,9 @@ final class SettingsController extends Controller {
         }
 
         $validator = new Validator($_POST);
-        $user = new UsersModel();
+        $user = new UserModel();
         $alert = new AlertModel();
-        $sensors = new SensorsModel();
+        $sensors = new SensorModel();
 
         if ($validator->isSubmitted('update-parameters')) {
 

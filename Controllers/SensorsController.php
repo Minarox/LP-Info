@@ -4,18 +4,18 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\System\Controller;
-use App\Models\SensorsModel;
+use App\Models\SensorModel;
 use App\Models\Sensor_DataModel;
-use App\Models\Sensor_TypesModel;
+use App\Models\Sensor_TypeModel;
 use JetBrains\PhpStorm\NoReturn;
 use Net_SSH2;
 
 class SensorsController extends Controller {
 
     #[Route('/sync', 'sync')] public function index() {
-        $sensors = new SensorsModel();
+        $sensors = new SensorModel();
         $sensor_data = new Sensor_DataModel();
-        $sensor_types = new Sensor_TypesModel();
+        $sensor_types = new Sensor_TypeModel();
 
         foreach (SENSORS_LINK as $url) {
             $data = $this->data($url);
@@ -60,9 +60,9 @@ class SensorsController extends Controller {
     }
 
     public static function get(int $nb_value) {
-        $sensors = new SensorsModel();
+        $sensors = new SensorModel();
         $sensor_data = new Sensor_DataModel();
-        $sensor_types = new Sensor_TypesModel();
+        $sensor_types = new Sensor_TypeModel();
 
         $list = $sensors->findAll();
 

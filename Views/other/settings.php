@@ -119,7 +119,7 @@
                             <hr>
                             <!-- Valider -->
                             <button class="col-sm" name="delete-alert-sensor'.$id.'" type="submit">Supprimer</button>
-                            <button type="button" onclick="hide('.$id.', true)">Fermer</button>
+                            <button type="button" onclick="hide('.$id.', true)">Annuler</button>
                     </section>
                 </article>
             </form>
