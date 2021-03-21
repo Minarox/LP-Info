@@ -169,7 +169,7 @@ final class HelpController extends Controller {
             'updated_at' => $content->getUpdatedAt()
         ];
 
-        $this->render(name_file: 'other/help', params: [
+        $this->render(name_file: 'other/documentation', params: [
             'documentation' => $data
         ], title: $title);
     }
