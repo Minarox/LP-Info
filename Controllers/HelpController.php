@@ -14,26 +14,7 @@ use ChrisKonnertz\BBCode\BBCode;
 final class HelpController extends Controller {
 
     #[Route('/help', 'help')] public function index() {
-        require_once dirname(__DIR__) . '/Core/Classes/lib/BBCode/vendor/autoload.php';
-
-        $documentation = new DocumentationModel();
-        $bbcode = new BBCode();
-
-        $content = $documentation->findOneBy([
-            'page' => 'help'
-        ]);
-
-        $data = [
-            'username' => $content->getUsername(),
-            'page' => $content->getPage(),
-            'title' => $content->getTitle(),
-            'content' => $bbcode->render($content->getContent()),
-            'updated_at' => $content->getUpdatedAt()
-        ];
-
-        $this->render(name_file: 'other/help', params: [
-            'documentation' => $data
-        ], title: "Documentation Utilisateur");
+        $this->data_page('help', "Documentation Utilisateur");
     }
 
     #[Route('/help/framework', 'framework')] public function framework() {
@@ -42,27 +23,7 @@ final class HelpController extends Controller {
             $this->redirect(self::reverse('login'));
         }
 
-        require_once dirname(__DIR__) . '/Core/Classes/lib/BBCode/vendor/autoload.php';
-
-        $documentation = new DocumentationModel();
-        $bbcode = new BBCode();
-        $users = new UserModel();
-
-        $content = $documentation->findOneBy([
-            'page' => 'framework'
-        ]);
-
-        $data = [
-            'username' => $content->getUsername(),
-            'page' => $content->getPage(),
-            'title' => $content->getTitle(),
-            'content' => $bbcode->render($content->getContent()),
-            'updated_at' => $content->getUpdatedAt()
-        ];
-
-        $this->render(name_file: 'other/help', params: [
-            'documentation' => $data
-        ], title: "Documentation Framework");
+        $this->data_page('framework', "Documentation Framework");
     }
 
     #[Route('/help/edition', 'edition', ['GET', 'POST'])] public function edition(Request $request) {
@@ -183,10 +144,33 @@ final class HelpController extends Controller {
     }
 
     #[Route('/cgu', 'cgu')] public function gcu() {
-        $this->render(name_file: 'other/gcu', title: "Conditions Générales d'Utilisation (CGU)");
+        $this->data_page('cgu', "Conditions Générales d'Utilisation (CGU)");
     }
 
     #[Route('/mentions-legales', 'mentions-legales')] public function legal_notices() {
-        $this->render(name_file: 'other/legal-notices', title: "Mentions légales");
+        $this->data_page('mentions-legales', "Mentions légales");
+    }
+
+    private function data_page(string $route, string $title) {
+        require_once dirname(__DIR__) . '/Core/Classes/lib/BBCode/vendor/autoload.php';
+
+        $documentation = new DocumentationModel();
+        $bbcode = new BBCode();
+
+        $content = $documentation->findOneBy([
+            'page' => $route
+        ]);
+
+        $data = [
+            'username' => $content->getUsername(),
+            'page' => $content->getPage(),
+            'title' => $content->getTitle(),
+            'content' => $bbcode->render($content->getContent()),
+            'updated_at' => $content->getUpdatedAt()
+        ];
+
+        $this->render(name_file: 'other/help', params: [
+            'documentation' => $data
+        ], title: $title);
     }
 }
