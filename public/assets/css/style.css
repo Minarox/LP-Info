@@ -274,6 +274,7 @@ a:hover {
 .box-title {
     font-size: 1.6em;
     font-weight: bold;
+    margin: 0;
 }
 
 .box-subtitle, .box-subtitle a {
@@ -298,8 +299,12 @@ form {
     padding: 6px;
 }
 
-.form-control:last-of-type {
+.form-control:last-child, form button:last-child {
     margin-bottom: 0;
+}
+
+.m-top {
+    margin-top: 10px;
 }
 
 form button, .button button {
@@ -353,7 +358,6 @@ form button, .button button {
 
 .overlay h1 {
     font-size: 1.5em;
-    margin: 20px 0 0;
 }
 
 .overlay button {
@@ -368,6 +372,44 @@ form button, .button button {
     form {
         padding: 0;
     }
+}
+
+.titleDoc {
+    text-align: right;
+    float: right;
+}
+
+.hr {
+    /* centre verticalement les enfants entre eux */
+    align-items: center;
+
+    /* active flexbox */
+    display: flex;
+
+    /* garde le texte centré s’il passe sur plusieurs lignes ou si flexbox n’est pas supporté */
+    text-align: center;
+}
+
+.hr::before,  .hr::after {
+    /* la couleur est volontairement absente ; ainsi elle sera celle du texte */
+    border-top: .0625em solid;
+
+    /* nécessaire pour afficher les pseudo-éléments */
+    content: "";
+
+    /* partage le reste de la largeur disponible */
+    flex: 1;
+
+    /* espace les traits du texte */
+    margin: 0 .5em;
+}
+
+.no-background {
+    background: none;
+}
+
+#editor {
+    height: 60px;
 }
 
 

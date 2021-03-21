@@ -95,4 +95,5 @@
     const sensors_sync_time = <?= SENSORS_SYNC_TIME ?>;
     const sensors_comparison_data = <?= $_SESSION['nb_values_comparison'] ??= SENSORS_DEFAULT_NB_VALUE_COMPARISON ?>;
     const value_sensors = <?= $_SESSION['nb_values_sensors'] ??= SENSORS_DEFAULT_NB_VALUE ?>;
+    console.log(sensors_comparison_data)
 </script>

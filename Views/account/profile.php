@@ -38,7 +38,7 @@
             </button>
         </a>
         <a class="button" href="#" onclick="show(-1)">
-            <button id="" type="button">
+            <button class="m-0" id="" type="button">
                 Supprimer le compte
             </button>
         </a>
