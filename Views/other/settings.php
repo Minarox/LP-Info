@@ -32,7 +32,7 @@
     function box(int $id) {
         $data = json_decode(SENSORS_DATA, true);
         if ($data[$id]["name"]) {
-            $name = $data[$id]["name"];
+            $name = 'Capteur '.$data[$id]["name"];
         } else {
             $name = $id;
         }
@@ -53,7 +53,7 @@
             <section>
                 <!-- Titre -->
                 <section class="row">
-                    <h2 class="col box-title m-0">Capteur '.$name.' ['.$type.']</h2>
+                    <h2 class="col box-title m-0">'.$name.' ['.$type.']</h2>
                     <a class="col-1 d-flex align-items-center justify-content-end" href="'.$_SERVER['REQUEST_URI'].'/download?sensor='.$id.'" name="download-sensor'.$id.'"><img src="'. SCRIPTS . 'images/download.png' .'" alt="Bouton de téléchargement des données du capteur."></a>
                 </section>
                 <hr>
