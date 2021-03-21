@@ -8,7 +8,7 @@
         composer require chriskonnertz/bbcode
 
 ### Google Lib
-        composer require chriskonnertz/bbcode
+        composer require google/apiclient
 
 ### PHPseclib
-        composer require chriskonnertz/bbcode
+        composer require phpseclib/phpseclib
