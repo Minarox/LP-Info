@@ -596,6 +596,10 @@
     z-index: 1100
 }
 
+.wbbm > * {
+    color: black;
+}
+
 #wbbmodal .wbbm {
     background: #fff;
     text-align: left;
