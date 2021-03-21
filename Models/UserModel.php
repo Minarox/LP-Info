@@ -8,7 +8,6 @@ class UserModel extends Model {
 
     protected int $id;
     protected ?int $id_google;
-    protected ?int $id_facebook;
     protected int $role_id;
     protected ?string $last_name;
     protected string $first_name;
@@ -56,24 +55,6 @@ class UserModel extends Model {
     public function setIdGoogle(?int $id_google): UserModel
     {
         $this->id_google = $id_google;
-        return $this;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getIdFacebook(): ?int
-    {
-        return $this->id_facebook;
-    }
-
-    /**
-     * @param int|null $id_facebook
-     * @return UserModel
-     */
-    public function setIdFacebook(?int $id_facebook): UserModel
-    {
-        $this->id_facebook = $id_facebook;
         return $this;
     }
 

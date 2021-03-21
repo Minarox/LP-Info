@@ -157,22 +157,10 @@
 <!-- Google -->
 <?= addJavaScript('https://apis.google.com/js/platform.js', 'register') ?>
 <?= addJavaScript('https://apis.google.com/js/platform.js', 'login') ?>
+<!-- Editeur Wisiwig -->
 <?= addJavaScript('https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js') ?>
 <?= addJavaScript('https://cdn.wysibb.com/js/jquery.wysibb.min.js') ?>
-<!-- Facebook -->
 <script>
-    (function(d, s, id) {
-        let js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=803591893562929";
-        fjs.parentNode.insertBefore(js, fjs);
-    }
-    (document, 'script', 'facebook-jssdk'));
-
     $(function() {
         $("#editor").wysibb();
     })
