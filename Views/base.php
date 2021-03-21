@@ -157,8 +157,8 @@
 <!-- Google -->
 <?= addJavaScript('https://apis.google.com/js/platform.js', 'register') ?>
 <?= addJavaScript('https://apis.google.com/js/platform.js', 'login') ?>
-<?= addJavaScript('https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js', 'help/editor') ?>
-<?= addJavaScript('https://cdn.wysibb.com/js/jquery.wysibb.min.js', 'help/editor') ?>
+<?= addJavaScript('https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js') ?>
+<?= addJavaScript('https://cdn.wysibb.com/js/jquery.wysibb.min.js') ?>
 <!-- Facebook -->
 <script>
     (function(d, s, id) {

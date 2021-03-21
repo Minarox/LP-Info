@@ -9,17 +9,17 @@ use App\Core\System\Controller;
 use App\Core\Classes\Validator;
 use App\Core\Classes\Token;
 use App\Models\AlertModel;
-use App\Models\SensorsModel;
-use App\Models\UsersModel;
-use App\Models\RolesModel;
+use App\Models\SensorModel;
+use App\Models\UserModel;
+use App\Models\RoleModel;
 
 final class RegisterController extends Controller {
 
     #[Route('/register', 'register', ['GET', 'POST'])] public function index(Request $request) {
         if ($this->isAuthenticated()) ErrorController::error404();
 
-        $user = new UsersModel();
-        $role = new RolesModel();
+        $user = new UserModel();
+        $role = new RoleModel();
         $validator = new Validator($_POST);
 
         if ($validator->isSubmitted()) {
@@ -64,7 +64,7 @@ final class RegisterController extends Controller {
                     ->setfirstName(Validator::filter($request->post->get('first_name')))
                     ->setEmail(Validator::filter($email_post))
                     ->setPassword(password_hash($request->post->get('password'), PASSWORD_ARGON2I))
-                    ->setRoleId($role->findById(1)->getId())
+                    ->setRoleId($role->findById(2)->getId())
                     ->setToken($token)
                     ->setNbValuesSensors(SENSORS_DEFAULT_NB_VALUE)
                     ->setNbValuesComparison(SENSORS_DEFAULT_NB_VALUE_COMPARISON)
@@ -86,12 +86,12 @@ final class RegisterController extends Controller {
 
         $this->render(name_file: 'account/register', params: [
             'error' => $error ??= null
-        ], title: 'Inscription');
+        ], title: 'Inscription', caching: false);
     }
 
     #[Route('/ajax/googleRegister', 'register.google', 'POST')] public function google(Request $request) {
-        $user = new UsersModel();
-        $role = new RolesModel();
+        $user = new UserModel();
+        $role = new RoleModel();
 
         $payload = $this->googleData($request->post->get('id_token'));
 
@@ -111,7 +111,7 @@ final class RegisterController extends Controller {
                     ->setEmail($payload['email'])
                     ->setIsVerified(1)
                     ->setAvatar($payload['picture'])
-                    ->setRoleId($role->findById(1)->getId())
+                    ->setRoleId($role->findById(2)->getId())
                     ->setLastConnection(date("Y-m-d H:i:s", time()))
                     ->setNbConnection(1)
                     ->setToken($token)
@@ -125,6 +125,9 @@ final class RegisterController extends Controller {
 
                 $this->add_alerts($new_user->getId());
 
+                $request->session->set('id', $new_user->getId());
+                $request->session->set('id_google', $new_user->getIdGoogle());
+                $request->session->set('id_facebook', $new_user->getIdFacebook());
                 $request->session->set('last_name', $payload['family_name']);
                 $request->session->set('first_name', $payload['given_name']);
                 $request->session->set('email', $payload['email']);
@@ -145,7 +148,7 @@ final class RegisterController extends Controller {
         $alerts_file = file_get_contents(dirname(__DIR__) . '/' . SENSORS_DEFAULT_ALERTS);
         $alerts_array = json_decode($alerts_file, true);
 
-        $sensors = new SensorsModel();
+        $sensors = new SensorModel();
         $alert_model = new AlertModel();
         $operator = 0;
 

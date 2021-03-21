@@ -7,10 +7,11 @@ use App\Core\System\Model;
 class DocumentationModel extends Model {
 
     protected int $id;
-    protected int $user_id;
-    protected string $content;
+    protected string $username;
+    protected string $page;
     protected string $title;
-    protected string $created_at;
+    protected string $content;
+    protected string $updated_at;
 
     /**
      * @return int
@@ -20,34 +21,34 @@ class DocumentationModel extends Model {
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getUserId(): int {
-        return $this->user_id;
+    public function getUsername(): string {
+        return $this->username;
     }
 
     /**
-     * @param int $user_id
+     * @param string $username
      * @return DocumentationModel
      */
-    public function setUserId(int $user_id): DocumentationModel {
-        $this->user_id = $user_id;
+    public function setUsername(string $username): DocumentationModel {
+        $this->username = $username;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getContent(): string {
-        return $this->content;
+    public function getPage(): string {
+        return $this->page;
     }
 
     /**
-     * @param string $content
+     * @param string $page
      * @return DocumentationModel
      */
-    public function setContent(string $content): DocumentationModel {
-        $this->content = $content;
+    public function setPage(string $page): DocumentationModel {
+        $this->page = $page;
         return $this;
     }
 
@@ -70,8 +71,33 @@ class DocumentationModel extends Model {
     /**
      * @return string
      */
-    public function getCreatedAt(): string {
-        return $this->created_at;
+    public function getContent(): string {
+        return $this->content;
+    }
+
+    /**
+     * @param string $content
+     * @return DocumentationModel
+     */
+    public function setContent(string $content): DocumentationModel {
+        $this->content = $content;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string {
+        return $this->updated_at;
+    }
+
+    /**
+     * @param string $updated_at
+     * @return DocumentationModel
+     */
+    public function setUpdatedAt(string $updated_at): DocumentationModel {
+        $this->updated_at = $updated_at;
+        return $this;
     }
 
 }

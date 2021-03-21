@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Core\System\Model;
 
-class RolesModel extends Model {
+class RoleModel extends Model {
 
     protected int $id;
     protected string $name;
@@ -18,9 +18,9 @@ class RolesModel extends Model {
 
     /**
      * @param int $id
-     * @return RolesModel
+     * @return RoleModel
      */
-    public function setId(int $id): RolesModel {
+    public function setId(int $id): RoleModel {
         $this->id = $id;
         return $this;
     }
@@ -34,9 +34,9 @@ class RolesModel extends Model {
 
     /**
      * @param string $name
-     * @return RolesModel
+     * @return RoleModel
      */
-    public function setName(string $name): RolesModel {
+    public function setName(string $name): RoleModel {
         $this->name = $name;
         return $this;
     }

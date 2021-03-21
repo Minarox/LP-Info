@@ -9,14 +9,14 @@ use App\Core\System\Controller;
 use App\Core\Classes\Validator;
 use App\Core\Classes\Token;
 use App\Models\BanModel;
-use App\Models\UsersModel;
+use App\Models\UserModel;
 
 final class LoginController extends Controller {
 
     #[Route('/login', 'login', ['GET', 'POST'])] public function index(Request $request) {
         if ($this->isAuthenticated()) ErrorController::error404();
 
-        $user = new UsersModel();
+        $user = new UserModel();
         $ban = new BanModel();
         $validator = new Validator($_POST);
 
@@ -136,11 +136,11 @@ final class LoginController extends Controller {
 
         $this->render(name_file: 'account/login', params: [
             'error' => $error ??= null
-        ], title: 'Connexion');
+        ], title: 'Connexion', caching: false);
     }
 
     #[Route('/ajax/googleLogin', 'login.google', 'POST')] public function google(Request $request) {
-        $user = new UsersModel();
+        $user = new UserModel();
         $payload = $this->googleData($_POST['id_token']);
 
         if ($payload) {

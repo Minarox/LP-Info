@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Core\System\Model;
 
-class Sensor_TypesModel extends Model {
+class Sensor_TypeModel extends Model {
 
     protected int $id;
     protected string $name;
@@ -25,9 +25,9 @@ class Sensor_TypesModel extends Model {
 
     /**
      * @param string $name
-     * @return Sensor_TypesModel
+     * @return Sensor_TypeModel
      */
-    public function setName(string $name): Sensor_TypesModel {
+    public function setName(string $name): Sensor_TypeModel {
         $this->name = $name;
         return $this;
     }
