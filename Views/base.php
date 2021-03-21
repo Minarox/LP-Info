@@ -41,8 +41,29 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<?= ROOT ?>settings">Paramétrages</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= ROOT ?>help">Documentation</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Documentation
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown">
+                            <li>
+                                <a class="dropdown-item" href="<?= ROOT ?>help">Notice utilisateur</a>
+                            </li>
+                            <?php if (isAuthenticated()): ?>
+                            <li>
+                                <a class="dropdown-item" href="<?= ROOT ?>help/framework">Framework</a>
+                            </li>
+                            <?php endif; ?>
+                            <li>
+                                <a class="dropdown-item" href="<?= ROOT ?>help/edition">Édition</a>
+                            </li>
+                            <?php if (isAuthenticated()): ?>
+                            <li>
+                                <a class="dropdown-item" href="<?= ROOT ?>help/editor">Éditeur</a>
+                            </li>
+                            <?php endif; ?>
+                        </ul>
                     </li>
                     <li class="nav-item dropdown d-block d-sm-none">
                         <hr class="mt-3">
@@ -136,8 +157,8 @@
 <!-- Google -->
 <?= addJavaScript('https://apis.google.com/js/platform.js', 'register') ?>
 <?= addJavaScript('https://apis.google.com/js/platform.js', 'login') ?>
-<?= addJavaScript('https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js', 'help') ?>
-<?= addJavaScript('https://cdn.wysibb.com/js/jquery.wysibb.min.js', 'help') ?>
+<?= addJavaScript('https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js', 'help/editor') ?>
+<?= addJavaScript('https://cdn.wysibb.com/js/jquery.wysibb.min.js', 'help/editor') ?>
 <!-- Facebook -->
 <script>
     (function(d, s, id) {

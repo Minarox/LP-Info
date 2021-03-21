@@ -3,16 +3,20 @@ function getId(id) {
     return document.getElementById(id);
 }
 
-function show(id) {
+function show(id, alternate) {
     if (id === -1) {
         document.getElementById("overlay").style.display = "block";
+    } else if (alternate === true) {
+        document.getElementById("overlay2"+id).style.display = "block";
     } else {
         document.getElementById("overlay"+id).style.display = "block";
     }
 }
-function hide(id) {
+function hide(id, alternate) {
     if (id === -1) {
         document.getElementById("overlay").style.display = "none";
+    } else if (alternate === true) {
+        document.getElementById("overlay2"+id).style.display = "none";
     } else {
         document.getElementById("overlay"+id).style.display = "none";
     }

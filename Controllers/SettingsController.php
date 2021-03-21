@@ -71,7 +71,7 @@ final class SettingsController extends Controller {
 
                 $sensor = $sensors->findById($request->post->get('sensor-id-new-alert'));
 
-                $this->addFlash('success', "L'alerte à bien été ajoutée sur le capteur ". $sensor->getName() ." !");
+                $this->addFlash('success', 'L\'alerte à bien été ajoutée sur le capteur "'. $sensor->getName() .'" !');
                 $this->redirect(self::reverse('settings'));
             } else {
                 $error = $validator->displayErrors();
@@ -83,7 +83,7 @@ final class SettingsController extends Controller {
 
             $request->session->delete('alert_id');
 
-            $this->addFlash('success', "L'alerte " . $request->post->get("name-alert-sensor" . $request->post->get('sensor-id-new-alert')) . " a bien été supprimée !");
+            $this->addFlash('success', 'L\'alerte "' . $request->post->get("name-alert-sensor" . $request->post->get('sensor-id-new-alert')) . '" a bien été supprimée !');
             $this->redirect(self::reverse('settings'));
         }
 
@@ -108,7 +108,7 @@ final class SettingsController extends Controller {
 
                 $request->session->delete('alert_id');
 
-                $this->addFlash('success', "Les données de l'alerte " . $request->post->get("name-alert-sensor$sensor_id") . " ont bien été modifiée !");
+                $this->addFlash('success', 'Les données de l\'alerte "' . $request->post->get("name-alert-sensor$sensor_id") . '" ont bien été modifiée !');
                 $this->redirect(self::reverse('settings'));
             } else {
                 $error = $validator->displayErrors();
@@ -177,7 +177,7 @@ final class SettingsController extends Controller {
             header('Content-type: application/json');
             echo json_encode($data[$sensor]);
         } else {
-            $this->addFlash('error', "Une erreur est surevenue dans le téléchargement des données");
+            $this->addFlash('error', "Une erreur est survenue lors du téléchargement des données.");
             $this->redirect(self::reverse('settings'));
         }
     }

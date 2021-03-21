@@ -102,7 +102,7 @@ function chart(id, data, labels) {
         } else if (date[y] === date[y-1]) {
             label.push(str2[0]+'h'+str2[1])
         } else {
-            label.push(str[0])
+            label.push(str_date[2]+'-'+str_date[1]+'-'+str_date[0])
         }
         y++
     }

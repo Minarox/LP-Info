@@ -19,7 +19,7 @@
                 </div>
             </section>
             <hr>
-            <button class="m-0" name="update-parameters" type="submit">Modifier</button>
+            <button name="update-parameters" type="submit">Modifier</button>
         </form>
     </article>
     <hr class="m-2 mb-4">
@@ -32,7 +32,7 @@
     function box(int $id) {
         $data = json_decode(SENSORS_DATA, true);
         if ($data[$id]["name"]) {
-            $name = 'Capteur '.$data[$id]["name"];
+            $name = $data[$id]["name"];
         } else {
             $name = $id;
         }
@@ -53,7 +53,7 @@
             <section>
                 <!-- Titre -->
                 <section class="row">
-                    <h2 class="col box-title m-0">'.$name.' ['.$type.']</h2>
+                    <h2 class="col box-title m-0">Capteur '.$name.' ['.$type.']</h2>
                     <a class="col-1 d-flex align-items-center justify-content-end" href="'.$_SERVER['REQUEST_URI'].'/download?sensor='.$id.'" name="download-sensor'.$id.'"><img src="'. SCRIPTS . 'images/download.png' .'" alt="Bouton de téléchargement des données du capteur."></a>
                 </section>
                 <hr>
@@ -105,8 +105,23 @@
                 <hr>
                 <section class="row m-0">
                     <button class="col-sm me-4 mb-2 mb-sm-0" name="update-alert-sensor'.$id.'" type="submit">Modifier</button>
-                    <button class="col-sm m-0" name="delete-alert-sensor'.$id.'" type="submit">Supprimer</button>
+                    <a class="col-sm" href="#" onclick="show('.$id.', true)">
+                        <button class="m-0" type="button">
+                            Supprimer
+                        </button>
+                    </a>
                 </section>
+                <article class="overlay center" id="overlay2'.$id.'">
+                    <section class="box w-md">
+                        <!-- Titre -->
+                        <h1 class="box-title text-center">Suppression de l\'alerte</h1>
+                        <p class="box-subtitle text-center">Voulez vous vraiment supprimer cette alerte du capteur '.$name.' ?</p>
+                            <hr>
+                            <!-- Valider -->
+                            <button class="col-sm" name="delete-alert-sensor'.$id.'" type="submit">Supprimer</button>
+                            <button type="button" onclick="hide('.$id.', true)">Fermer</button>
+                    </section>
+                </article>
             </form>
         </article>
         <article class="overlay center" id="overlay'.$id.'">

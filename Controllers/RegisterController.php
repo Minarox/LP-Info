@@ -119,6 +119,12 @@ final class RegisterController extends Controller {
                     ->setNbValuesComparison(SENSORS_DEFAULT_NB_VALUE_COMPARISON)
                     ->create();
 
+                $new_user = $user->findOneBy([
+                    'token' => $token
+                ]);
+
+                $this->add_alerts($new_user->getId());
+
                 $request->session->set('last_name', $payload['family_name']);
                 $request->session->set('first_name', $payload['given_name']);
                 $request->session->set('email', $payload['email']);

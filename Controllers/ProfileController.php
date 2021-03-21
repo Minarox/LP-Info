@@ -61,7 +61,7 @@ use App\Models\UsersModel;
             ]);
 
             if ($matchValue && $_FILES["file"]["error"] === 4) {
-                $this->addFlash('error', "Vos informations n'ont pas changé, pas besoin de spam le bouton !");
+                $this->addFlash('error', "Vous n'avez pas modifié vos informations.");
                 $this->redirect(self::reverse('account'));
             }
 
