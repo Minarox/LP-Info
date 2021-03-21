@@ -1,14 +1,16 @@
 <main class="container-fluid">
+    <!-- Titre général pour l'accessibilité -->
+    <h1 id="accessibility">Page de connexion.</h1>
     <!-- Connexion -->
     <section class="box w-sm">
         <!-- Titre et redirection vers inscription -->
-        <h1 class="box-title text-center">Connexion</h1>
+        <h2 class="box-title text-center">Connexion</h2>
         <p class="box-subtitle">Vous n'avez pas de compte ?
             <br>
             <a href="<?= ROOT ?>register">Créer un compte</a>
         </p>
         <!-- Formulaire -->
-        <form id="login_form" action="" method="post">
+        <form id="login_form" action="<?= ROOT ?>login" method="post">
             <hr>
             <!-- Google et Facebook -->
             <article class="row">
@@ -31,9 +33,9 @@
         <article class="overlay" id="overlay">
             <section class="box w-md">
                 <!-- Titre -->
-                <h1 class="box-title text-center">Récupération du compte</h1>
+                <h2 class="box-title text-center">Récupération du compte</h2>
                 <!-- Formulaire -->
-                <form action="" method="post">
+                <form action="<?= ROOT ?>login" method="post">
                     <hr>
                     <!-- Email -->
                     <label for="recovery-email">Email</label>

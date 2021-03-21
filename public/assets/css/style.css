@@ -5,7 +5,6 @@
 
 * {
     font-family: "Roboto", Arial, Helvetica, sans-serif;
-    color: white;
     padding: 0;
     margin: 0;
 }
@@ -93,6 +92,7 @@ nav hr {
 }
 
 .sensor-alert button, #outdoor-alert button {
+    color: white;
     width: 150px;
     margin: 0 2.5% 0 0;
     padding: 8px 40px;
@@ -312,13 +312,24 @@ form {
     margin-top: 10px;
 }
 
-form button, .button button {
+form button, .button, .button:hover, .little-button {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: white;
     width: 100%;
     margin-bottom: 10px;
     padding: 6px;
     border-radius: 4px;
     border: 0;
     background: linear-gradient(to right, #593EC2, #7E3EC2);
+}
+
+.little-button {
+    margin: 0 12px;
+
+    width: 40px;
+    display: inline;
 }
 
 #profil-picture {
@@ -477,7 +488,7 @@ option {
     height: 300px;
 }
 
-.big h1 {
+.big h2 {
     font-size: 4em;
 }
 

@@ -17,6 +17,10 @@
     font-size: 12px
 }
 
+.wysibb a, .wysibb a:hover {
+    color: black;
+}
+
 .wysibb button:focus,
 .wysibb button:active,
 #wbbmodal button:focus,

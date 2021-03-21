@@ -1,9 +1,11 @@
 <main class="container-lg">
+    <!-- Titre général pour l'accessibilité -->
+    <h1 id="accessibility">Page d'édition des informations du compte.</h1>
     <!-- Boite principale -->
     <section class="w-lg box">
-        <form class="p-0" action="" method="post" enctype="multipart/form-data">
+        <form class="p-0" action="<?= ROOT ?>account/edit" method="post" enctype="multipart/form-data">
             <!-- Titre -->
-            <h1 class="box-title">Votre profil</h1>
+            <h2 class="box-title">Votre profil</h2>
             <hr>
             <article class="row">
                 <section class="col-sm-4 col-md-3 col-lg-2 mb-3 mb-sm-0 align-self-center d-flex justify-content-center">
@@ -19,27 +21,19 @@
                         <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" value="<?= $_SESSION['email'] ?>" required autocomplete="email">
                         <!-- Prénom -->
                         <label for="first_name">Prénom</label>
-                        <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Jean" maxlength="30" value="<?= $_SESSION['first_name'] ?>" required autocomplete="first-name">
+                        <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Jean" maxlength="30" value="<?= $_SESSION['first_name'] ?>" required autocomplete="name">
                         <!-- Nom -->
                         <label for="last_name">Nom</label>
-                        <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Dupont" maxlength="30" value="<?= $_SESSION['last_name'] ?>" required autocomplete="last-name">
+                        <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Dupont" maxlength="30" value="<?= $_SESSION['last_name'] ?>" required autocomplete="family-name">
                 </section>
             </article>
             <hr>
-            <button id="" name="update" type="submit">
-                Modifier
-            </button>
+            <button name="update" type="submit">Modifier</button>
             <!-- On vérifie s'il n'est pas connecté avec un compte Google ou Facebook -->
             <?php if (is_null($_SESSION['id_google']) && is_null($_SESSION['id_facebook'])): ?>
-                <a class="button" href="#" onclick="show(-1)">
-                    <button id="" type="button">
-                        Modifier le mot de passe
-                    </button>
-                </a>
+                <button type="button" onclick="show(-1)">Modifier le mot de passe</button>
             <?php endif; ?>
-            <a class="button" href="<?= ROOT ?>account">
-                <button class="m-top" id="" type="button">Retour</button>
-            </a>
+            <a class="button m-0 m-top" href="<?= ROOT ?>account">Retour</a>
         </form>
     </section>
     <!-- On vérifie s'il n'est pas connecté avec un compte Google ou Facebook -->
@@ -47,9 +41,9 @@
         <article class="overlay" id="overlay">
             <section class="box w-md">
                 <!-- Titre -->
-                <h1 class="box-title text-center">Modification du mot de passe</h1>
+                <h2 class="box-title text-center">Modification du mot de passe</h2>
                 <!-- Formulaire -->
-                <form action="" method="post">
+                <form action="<?= ROOT ?>account/edit" method="post">
                     <hr>
                     <!-- Ancien mot de passe -->
                     <label for="old_password">Ancien mot de passe</label>

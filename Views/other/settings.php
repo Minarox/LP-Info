@@ -6,7 +6,7 @@
         <!-- Titre -->
         <h2 class="col box-title m-0">Paramètres généraux des capteurs</h2>
         <hr>
-        <form class="p-0" action="" method="post">
+        <form class="p-0" action="<?= ROOT ?>settings" method="post">
             <!-- Modification de l\'alerte sélectionnée -->
             <section class="row">
                 <div class="col-sm pb-0 mb-3 mb-sm-0">
@@ -69,12 +69,10 @@
 
         echo '
                     </select>
-                    <a class="col-2 col-md-1 button" href="#" onclick="show('.$id.')">
-                        <button class="mb-0" type="button">+</button>
-                    </a>
+                    <button class="col-2 col-md-1 mb-0 little-button" onclick="show('.$id.')">+</button>
                 </section>
             </section>
-            <form class="d-none p-0" action="" method="post" id="form-update-sensor'.$id.'">
+            <form class="d-none p-0" action="'.ROOT.'settings" method="post" id="form-update-sensor'.$id.'">
                 <hr>
                 <!-- ID du capteur -->
                 <label for="sensor-id-new-alert" hidden>ID du capteur</label>
@@ -105,11 +103,7 @@
                 <hr>
                 <section class="row m-0">
                     <button class="col-sm me-4 mb-2 mb-sm-0" name="update-alert-sensor'.$id.'" type="submit">Modifier</button>
-                    <a class="col-sm" href="#" onclick="show('.$id.', true)">
-                        <button class="m-0" type="button">
-                            Supprimer
-                        </button>
-                    </a>
+                    <button class="col-sm m-0" type="button" onclick="show('.$id.', true)">Supprimer</button>
                 </section>
                 <article class="overlay center" id="overlay2'.$id.'">
                     <section class="box w-md">
@@ -129,7 +123,7 @@
                 <!-- Titre -->
                 <h1 class="box-title text-center">Création d\'une nouvelle alerte</h1>
                 <!-- Formulaire -->
-                <form action="" method="post">
+                <form action="'.ROOT.'settings" method="post">
                     <hr>
                     <!-- ID du capteur -->
                     <label for="sensor-id-new-alert" hidden>ID du capteur</label>
