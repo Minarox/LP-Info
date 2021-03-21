@@ -27,12 +27,12 @@ final class LoginController extends Controller {
                 ]);
 
                 if (!$recover_user) {
-                    $this->addFlash('error', "Nous n'avons pas trouvé d'utilisateur avec cette adresse mail !");
+                    $this->addFlash('error', "Nous n'avons pas trouvé d'utilisateur avec cette adresse mail.");
                     $this->redirect(self::reverse('login'));
                 }
 
                 if (empty($recover_user->getPassword())) {
-                    $this->addFlash('error', "Vous ne pouvez pas faire cette opération en étant inscris avec un compte Google ou Facebook !");
+                    $this->addFlash('error', "Vous ne pouvez pas faire cette opération en étant inscris avec un compte Google.");
                     $this->redirect(self::reverse('login'));
                 }
 
@@ -48,7 +48,7 @@ final class LoginController extends Controller {
                     'timestamp' => $timestamp,
                     'user_id' => $user_id
                 ])) {
-                    $this->addFlash('error', "L'e-mail de confirmation du compte n'a pas pu être envoyé !");
+                    $this->addFlash('error', "L'e-mail de confirmation du compte n'a pas pu être envoyé.");
                 } else {
                     $this->addFlash('success', "Un e-mail de récupération de mot de passe vous a été envoyé à l'adresse e-mail : {$request->post->get('recovery-email')}");
                     $this->redirect(self::reverse('login'));
