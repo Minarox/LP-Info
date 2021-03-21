@@ -20,7 +20,7 @@ Voici la liste des fonctionnalités développées et mises en place sur le site 
 * Système anti-spam et anti-bot
 * [CGU](https://hothothot.minarox.fr/cgu) et [Mentions légales](https://hothothot.minarox.fr/mentions-legales)
 * Personnalisation, modification et suppression du compte
-* Personnalisation de l'affichage des capteur par compte
+* Personnalisation de l'affichage des capteurs par compte
 * Personnalisation des alertes par capteur et par compte
 
 ### Autres
@@ -33,8 +33,8 @@ Voici la liste des fonctionnalités développées et mises en place sur le site 
 
 ## Dépendances
 * [PHP 8.0](https://www.php.net/)
+* [BBCode](https://github.com/chriskonnertz/bbcode)
 * [Google Lib](https://github.com/googleapis/google-api-php-client)
-* [JBBCode](https://github.com/jbowens/jBBCode)
 * [PHPseclib](https://github.com/phpseclib/phpseclib)
 * [Crontab](https://www.linuxtricks.fr/wiki/cron-et-crontab-le-planificateur-de-taches)
 
@@ -58,7 +58,7 @@ Toutes les bibliothèques sont déjà préinstallées dans le dossier [Core/Clas
 Vous n'avez rien d'autres à faire de ce côté-là.
 
 ### Fichier de configuration
-Le projet dispose d'un fichier de configuration servant d'exemple ici.
+Le projet dispose d'un fichier de configuration servant d'exemple [ici](https://github.com/Minarox/hothothot/blob/main/Installation/config_example.ini).
 Vous devez le copier à la racine du projet et le renommer en "config.ini" pour que le site fonctionne.  
 
 #### Configuration globale
@@ -100,3 +100,7 @@ Vous devez le copier à la racine du projet et le renommer en "config.ini" pour 
     
     # Temps avant l'invalidation du lien de récupération du mot de passe
     password_recovery_time = 600
+
+### Alertes par défaut
+Le projet dispose aussi d'un fichier contenant une liste d'alertes par défaut au format JSON [ici](https://github.com/Minarox/hothothot/blob/main/Installation/alerts_example.json).
+Vous devez le copier dans le dossier '/public/assets/js/account' et le renommer en "alerts.json".  
