@@ -1,21 +1,19 @@
 <main class="container-md">
+    <!-- Titre général pour l'accessibilité -->
+    <h1 id="accessibility">Commentaires des utilisateurs.</h1>
     <?php if (!$documentations): ?>
         <section class="box">
             <!-- Titre -->
-            <h1 class="box-title hr">Aucun message</h1>
+            <h2 class="box-title hr">Aucun message</h2>
             <p class="box-subtitle">Les utilisateurs n'ont pas encore posté de messages.</p>
             <hr>
-            <a class="button" href="<?= ROOT ?>">
-                <button class="m-0" type="button">
-                    Retour à l'accueil
-                </button>
-            </a>
+            <a class="button m-0" href="<?= ROOT ?>">Retour à l'accueil</a>
         </section>
     <?php else: ?>
         <?php foreach ($documentations as $documentation): ?>
             <section class="box mb-4">
                 <!-- Titre -->
-                <h1 class="box-title hr"><?= $documentation['title'] ?></h1>
+                <h2 class="box-title hr"><?= $documentation['title'] ?></h2>
                 <p class="box-subtitle">Par <?= $documentation['username'] ?> le <?= date("d-m-Y à H:i:s", strtotime($documentation['date'])) ?>
                 </p>
                 <hr>
@@ -34,10 +32,10 @@
             <article class="overlay center" id="overlay<?= $documentation['id'] ?>">
                 <section class="box w-md">
                     <!-- Titre -->
-                    <h1 class="box-title text-center">Suppression du message</h1>
+                    <h2 class="box-title text-center">Suppression du message</h2>
                     <p class="box-subtitle text-center">Voulez vous vraiment supprimer le message "<?= $documentation['title'] ?>" ?</p>
                     <!-- Formulaire -->
-                    <form action="" method="post">
+                    <form action="<?= ROOT ?>help/edition" method="post">
                         <hr>
                         <input type="number" name="id" value="<?= $documentation['id'] ?>" required hidden>
                         <!-- Valider -->

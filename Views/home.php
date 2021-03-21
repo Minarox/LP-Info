@@ -2,9 +2,6 @@
     <!-- Titre général pour l'accessibilité -->
     <h1 id="accessibility">État, valeurs et historiques des capteurs.</h1>
     <?php
-
-    var_dump($_SESSION);
-
     function box(int $id) {
         echo '
         <!-- Capteur -->

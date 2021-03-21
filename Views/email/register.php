@@ -78,7 +78,7 @@
             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                 <tr>
                     <td align="center" bgcolor="#1E1E2E" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;color: white">
-                        <p style="margin: 0;">Vous avez reçu cet e-mail, car nous avons reçu une demande de confirmation pour votre compte. Si vous n'avez pas demandé de confirmation, vous pouvez supprimer cet e-mail en toute sécurité.</p>
+                        <p style="margin: 0;">Vous avez reçu cet e-mail, car nous avons reçu une demande de confirmation pour votre compte. Si vous n'êtes pas à l'origine de cette demande, veuillez ignorer cet e-mail.</p>
                     </td>
                 </tr>
             </table>

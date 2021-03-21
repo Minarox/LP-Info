@@ -1,8 +1,10 @@
 <main class="container-lg">
+    <!-- Titre général pour l'accessibilité -->
+    <h1 id="accessibility">Page de profil du compte.</h1>
     <!-- Boite principale -->
     <section class="w-lg box">
         <!-- Titre -->
-        <h1 class="box-title">Votre profil</h1>
+        <h2 class="box-title">Votre profil</h2>
         <hr>
         <article class="row">
             <section class="col-sm-4 col-md-3 col-lg-2 mb-3 mb-sm-0 align-self-center d-flex justify-content-center">
@@ -32,35 +34,23 @@
             </section>
         </article>
         <hr>
-        <a class="button" href="<?= ROOT ?>account/edit">
-            <button id="" type="button">
-                Modifier
-            </button>
-        </a>
-        <a class="button" href="#" onclick="show(-1)">
-            <button class="m-0" id="" type="button">
-                Supprimer le compte
-            </button>
-        </a>
+        <a class="button" href="<?= ROOT ?>account/edit">Modifier</a>
+        <a class="button m-0" href="#" onclick="show(-1)">Supprimer le compte</a>
     </section>
     <article class="overlay" id="overlay">
         <section class="box w-sm">
             <!-- Titre -->
-            <h1 class="box-title text-center">Voulez-vous vraiment supprimer votre compte ?</h1>
-            <h2 class="text-center box-subtitle">Écrivez "delete <?= $_SESSION['email'] ?>" pour confirmez</h2>
+            <h2 class="box-title text-center">Voulez-vous vraiment supprimer votre compte ?</h2>
+            <p class="text-center box-subtitle">Écrivez "delete <?= $_SESSION['email'] ?>" pour confirmez</p>
             <!-- Formulaire -->
-            <form action="" method="post">
+            <form action="<?= ROOT ?>account" method="post">
                 <hr>
                 <label for="delete_confirm" hidden>Suppression du compte</label>
                 <input class="form-control text-dark" type="text" name="delete_confirm" id="delete_confirm" required>
                 <hr>
                 <!-- Boutons de choix -->
                 <button type="submit" name="delete">Confirmer la suppression</button>
-                <a class="button" href="#" onclick="hide(-1)">
-                    <button type="button">
-                        Retour
-                    </button>
-                </a>
+                <a class="button m-0" href="#" onclick="hide(-1)">Retour</a>
             </form>
         </section>
     </article>

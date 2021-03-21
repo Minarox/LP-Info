@@ -42,11 +42,11 @@
                         <a class="nav-link" href="<?= ROOT ?>settings">Paramétrages</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
+                        <a class="nav-link" id="dropdown1" href="" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             Documentation
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdown">
+                        <ul class="dropdown-menu" aria-labelledby="dropdown1">
                             <li>
                                 <a class="dropdown-item" href="<?= ROOT ?>help">Notice utilisateur</a>
                             </li>
@@ -68,11 +68,11 @@
                     <li class="nav-item dropdown d-block d-sm-none">
                         <hr class="mt-3">
                         <?php if (isAuthenticated()): ?>
-                            <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
+                            <a class="nav-link" id="dropdown2" href="" data-bs-toggle="dropdown"
                                aria-expanded="false">
                                 <?= "{$_SESSION['first_name']}&nbsp;{$_SESSION['last_name']}" ?>
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdown">
+                            <ul class="dropdown-menu" aria-labelledby="dropdown2">
                                 <li>
                                     <a class="dropdown-item" href="<?= ROOT ?>account">Compte</a>
                                 </li>
@@ -81,9 +81,9 @@
                                 </li>
                             </ul>
                         <?php else: ?>
-                            <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown"
+                            <a class="nav-link" id="dropdown2" href="" data-bs-toggle="dropdown"
                                aria-expanded="false">Compte</a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdown">
+                            <ul class="dropdown-menu" aria-labelledby="dropdown2">
                                 <li>
                                     <a class="dropdown-item" href="<?= ROOT ?>login">Se connecter</a>
                                 </li>
@@ -96,11 +96,11 @@
                 </ul>
                 <section class="nav-item dropdown d-none d-sm-block">
                     <?php if (isAuthenticated()): ?>
-                        <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link" id="dropdown3" href="" data-bs-toggle="dropdown" aria-expanded="false">
                             <?= "{$_SESSION['first_name']}&nbsp;{$_SESSION['last_name']}" ?>
                             <img src="<?= $_SESSION['avatar'] ?>" alt="Profil picture.">
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdown">
+                        <ul class="dropdown-menu" aria-labelledby="dropdown3">
                             <li>
                                 <a class="dropdown-item" href="<?= ROOT ?>account">Mon profil</a>
                             </li>
@@ -109,11 +109,11 @@
                             </li>
                         </ul>
                     <?php else: ?>
-                        <a class="nav-link" id="dropdown" href="" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link" id="dropdown3" href="" data-bs-toggle="dropdown" aria-expanded="false">
                             Compte
                             <img src="<?= SCRIPTS . 'images/profil-picture.png' ?>" alt="Profil picture.">
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdown">
+                        <ul class="dropdown-menu" aria-labelledby="dropdown3">
                             <li>
                                 <a class="dropdown-item" href="<?= ROOT ?>login">Se connecter</a>
                             </li>

@@ -1,14 +1,16 @@
 <main class="container-fluid">
+    <!-- Titre général pour l'accessibilité -->
+    <h1 id="accessibility">Page d'inscription.</h1>
     <!-- Inscription -->
     <section class="box w-sm">
         <!-- Titre et redirection vers connexion -->
-        <h1 class="box-title text-center">Inscription</h1>
+        <h2 class="box-title text-center">Inscription</h2>
         <p class="box-subtitle">Vous avez un compte ?
             <br>
             <a href="<?= ROOT ?>login">Se connecter</a>
         </p>
         <!-- Formulaire -->
-        <form id="signUp_form" action="" method="post">
+        <form id="signUp_form" action="<?= ROOT ?>register" method="post">
             <hr>
             <!-- Google et Facebook -->
             <article class="row">
@@ -20,10 +22,10 @@
             <input type="hidden" name="anti_bot">
             <!-- Prénom -->
             <label for="first_name">Prénom</label>
-            <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Jean" maxlength="30" autofocus required autocomplete="first-name">
+            <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Jean" maxlength="30" autofocus required autocomplete="name">
             <!-- Nom -->
             <label for="last_name">Nom</label>
-            <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Dupont" maxlength="30" required autocomplete="last-name">
+            <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Dupont" maxlength="30" required autocomplete="family-name">
             <!-- Email -->
             <label for="email">Email</label>
             <input class="form-control" type="email" name="email" id="email" placeholder="exemple@exemple.com" maxlength="50" required autocomplete="email">
