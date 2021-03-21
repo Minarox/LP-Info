@@ -1,7 +1,8 @@
 [
 	{
-		"sensor_name": "exterieur",
-		"alerts": [{
+		"sensor_name": "interieur",
+		"alerts": [
+			{
 				"name": "Baissez le chauffage !",
 				"description": "La valeur du capteur extérieur dépasse 22°C.",
 				"operator": ">",
@@ -28,8 +29,9 @@
 		]
 	},
 	{
-		"sensor_name": "interieur",
-		"alerts": [{
+		"sensor_name": "exterieur",
+		"alerts": [
+			{
 				"name": "Hot Hot Hot !",
 				"description": "La valeur du capteur intérieur dépasse 35°C.",
 				"operator": ">",

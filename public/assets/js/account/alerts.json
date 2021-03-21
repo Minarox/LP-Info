@@ -1,12 +1,13 @@
 [
 	{
-		"sensor_name": "exterieur",
-		"alerts": [{
-			"name": "Baissez le chauffage !",
-			"description": "La valeur du capteur extérieur dépasse 22°C.",
-			"operator": ">",
-			"value": 22
-		},
+		"sensor_name": "interieur",
+		"alerts": [
+			{
+				"name": "Baissez le chauffage !",
+				"description": "La valeur du capteur extérieur dépasse 22°C.",
+				"operator": ">",
+				"value": 22
+			},
 			{
 				"name": "Appelez les pompiers ou arrêtez votre barbecue !",
 				"description": "La valeur du capteur extérieur dépasse 50°C.",
@@ -28,13 +29,14 @@
 		]
 	},
 	{
-		"sensor_name": "interieur",
-		"alerts": [{
-			"name": "Hot Hot Hot !",
-			"description": "La valeur du capteur intérieur dépasse 35°C.",
-			"operator": ">",
-			"value": 35
-		},
+		"sensor_name": "exterieur",
+		"alerts": [
+			{
+				"name": "Hot Hot Hot !",
+				"description": "La valeur du capteur intérieur dépasse 35°C.",
+				"operator": ">",
+				"value": 35
+			},
 			{
 				"name": "Banquise en vue !",
 				"description": "La valeur du capteur intérieur est en dessous de 0°C.",
