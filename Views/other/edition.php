@@ -7,6 +7,7 @@
             <h2 class="box-title hr">Aucun message</h2>
             <p class="box-subtitle">Les utilisateurs n'ont pas encore posté de messages.</p>
             <hr>
+            <a class="button" href="<?= ROOT ?>help/editor">Ajouter un message</a>
             <a class="button m-0" href="<?= ROOT ?>">Retour à l'accueil</a>
         </section>
     <?php else: ?>
@@ -45,5 +46,9 @@
                 </section>
             </article>
         <?php endforeach; ?>
+        <section class="container pe-2 px-2">
+            <a class="button" href="<?= ROOT ?>help/editor">Ajouter un message</a>
+            <a class="button m-0" href="<?= ROOT ?>">Retour à l'accueil</a>
+        </section>
     <?php endif; ?>
 </main>

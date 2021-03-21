@@ -35,9 +35,16 @@ final class HelpController extends Controller {
         $bbcode = new BBCode();
 
         if ($validator->isSubmitted('remove-edition')) {
+            $doc = $documentations->findById($request->post->get('id'));
+            $doc_id = $doc->getUserId();
+
             $documentations->delete($request->post->get('id'));
 
-            $this->addFlash('success', "Votre message à bien été supprimé.");
+            if ($doc_id == $_SESSION['id']) {
+                $this->addFlash('success', "Votre message à bien été supprimé.");
+            } else {
+                $this->addFlash('success', "Le message à bien été supprimé.");
+            }
         }
 
         $documentations = $documentations->findAll();
@@ -117,7 +124,8 @@ final class HelpController extends Controller {
 
         if ($validator->isSubmitted('documentation')) {
             if (isset($_GET['page']) && $_SESSION['role_id'] ??= -1 === 1) {
-                $documentation->setTitle($request->post->get('title'))
+                $documentation->setUsername($_SESSION['first_name'])
+                    ->setTitle($request->post->get('title'))
                     ->setContent($request->post->get('documentation'))
                     ->setUpdatedAt(date("Y-m-d H:i:s", time()))
                     ->update($request->post->get('id'));
