@@ -12,12 +12,8 @@
         <!-- Formulaire -->
         <form id="login_form" action="<?= ROOT ?>login" method="post">
             <hr>
-            <!-- Google et Facebook -->
-            <article class="row">
-                <section class="d-none d-sm-block col g-signin2" data-height="40" data-width="153" data-onsuccess="onSignIn" data-theme="dark"></section>
-                <section class="d-block d-sm-none col d-flex justify-content-center mb-2 g-signin2" data-height="40" data-width="283" data-onsuccess="onSignIn" data-theme="dark"></section>
-                <section class="col d-flex justify-content-center fb-login-button" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></section>
-            </article>
+            <!-- Google -->
+            <section class="d-flex justify-content-center g-signin2" data-height="40" data-width="500" data-onsuccess="onSignIn" data-theme="dark"></section>
             <hr>
             <!-- Email -->
             <label for="email">Email</label>
