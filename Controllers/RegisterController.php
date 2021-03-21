@@ -80,7 +80,7 @@ final class RegisterController extends Controller {
                 $this->redirect(self::reverse('login'));
             } else {
                 $matchValue ? $this->addFlash('error', $validator->displayErrors(['Cette e-mail est déjà utilisé !'])) : $this->addFlash('error', $validator->displayErrors());
-                $this->redirect(self::reverse('register'));
+                $this->redirect(self::reverse('login'));
             }
         }
 
@@ -127,7 +127,6 @@ final class RegisterController extends Controller {
 
                 $request->session->set('id', $new_user->getId());
                 $request->session->set('id_google', $new_user->getIdGoogle());
-                $request->session->set('id_facebook', $new_user->getIdFacebook());
                 $request->session->set('last_name', $payload['family_name']);
                 $request->session->set('first_name', $payload['given_name']);
                 $request->session->set('email', $payload['email']);
