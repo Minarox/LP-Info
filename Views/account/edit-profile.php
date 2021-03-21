@@ -38,7 +38,7 @@
                 </a>
             <?php endif; ?>
             <a class="button" href="<?= ROOT ?>account">
-                <button class="b-top" id="" type="button">Retour</button>
+                <button class="m-top" id="" type="button">Retour</button>
             </a>
         </form>
     </section>
