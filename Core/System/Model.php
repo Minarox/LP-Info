@@ -20,7 +20,7 @@ abstract class Model {
         $db_pass = $db_pass?:$_SESSION['db_pass'];
 
         try {
-            $db = new PDO('mysql:dbname='. $db_name .';host='. DB_HOST, $db_user, $db_pass);
+            $db = new PDO(DB_TYPE . ':dbname='. $db_name .';host='. DB_HOST, $db_user, $db_pass);
         }
         catch (PDOException $e) {
             return $e->getMessage();
