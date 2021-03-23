@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
+use App\Core\Classes\Token;
 use App\Core\System\Controller;
 use App\Core\Classes\Validator;
 use App\Core\System\Model;
@@ -29,27 +30,29 @@ class AccountController extends Controller {
                 $query = $mysql_user->connect($request->post->get('username'), $request->post->get('password'));
 
                 if ($query != 1) {
-                    $request->session->set('authenticated', 1);
+                    $token = Token::generate();
+
+                    $request->cookie->set('token', $token);
+                    $request->session->set('token', $token);
                     $request->session->set('username', $request->post->get('username'));
-                    $this->addFlash('success', "Vous êtes à présent connecté.");
+                    $this->addFlash('success', 'Vous êtes à présent connecté avec le compe "'. $request->post->get('username') .'".');
                     $this->redirect(self::reverse('home'));
+                } else {
+                    $this->addFlash('error', "Les identifiants de connexion sont invalides.");
                 }
-                exit();
             } else {
-                $this->addFlash('error', 'Les identifiants sont invalides.');
+                $this->addFlash('error', 'Les identifiants de connexion sont invalides.');
             }
         }
-        $this->render(name_file: 'account/login', params: [
-            'error' => $error ??= null
-        ], title: 'Connexion');
+        $this->render(name_file: 'account/login', title: 'Connexion');
     }
 
     #[NoReturn] #[Route('/logout', 'logout')] public function logout(Request $request) {
         if (!$this->isAuthenticated()) {
             ErrorController::error404();
         } else {
-            $request->session->delete('authenticated');
-            setcookie('authenticated', '', time() - INACTIVITY_TIME, '/');
+            $request->cookie->delete('token');
+            setcookie('token', '', time() - INACTIVITY_TIME, '/');
             $request->session->delete(restart_session: true);
 
             $this->addFlash('success', "Vous avez été déconnecté avec succès !");

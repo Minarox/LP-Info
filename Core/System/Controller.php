@@ -85,7 +85,7 @@ abstract class Controller {
     }
 
     #[Pure] protected function isAuthenticated(): bool {
-        return $this->request->cookie->exists('authenticated');
+        return $this->request->cookie->exists('token');
     }
 
     protected function getActualUri(string $path): string {

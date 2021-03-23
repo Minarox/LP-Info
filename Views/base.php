@@ -33,12 +33,6 @@
                         <hr class="mt-3 d-block d-sm-none">
                         <a class="nav-link" href="<?= ROOT ?>">Accueil</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= ROOT ?>settings">Paramétrages</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= ROOT ?>help">Documentation</a>
-                    </li>
                     <li class="nav-item dropdown d-block d-sm-none">
                         <hr class="mt-3">
                         <?php if (isAuthenticated()): ?>
@@ -104,7 +98,7 @@
 </footer>
 
 <!-- Scripts -->
-<script src="js/bootstrap/bootstrap.min.js"></script>
-<script src="js/jquery/jquery-3.5.1.min.js"></script>
+<?= addJavaScript('js/bootstrap/bootstrap.min.js') ?>
+<?= addJavaScript('js/jquery/jquery-3.5.1.min.js','') ?>
 </body>
 </html>

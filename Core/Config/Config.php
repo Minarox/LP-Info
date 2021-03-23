@@ -26,7 +26,6 @@ abstract class Config {
 
         // Cookies time
         define('INACTIVITY_TIME', $config['inactivity_time']);
-        define('PASSWORD_RECOVERY_TIME', $config['password_recovery_time']);
     }
 
 }
