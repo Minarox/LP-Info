@@ -11,7 +11,7 @@ final class HomeController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
-            $this->render(name_file: 'home', caching: false);
+            $this->render(name_file: 'home');
         };
     }
 
