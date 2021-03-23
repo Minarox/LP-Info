@@ -5,7 +5,6 @@
 
 * {
     font-family: "Roboto", Arial, Helvetica, sans-serif;
-    color: white;
     padding: 0;
     margin: 0;
 }
@@ -13,7 +12,6 @@
 body {
     background-color: #1E1E2E;
     font-family: "Roboto", Arial, Helvetica, sans-serif;
-    color: white;
     /*background-image: url("../images/dog.jpg");*/
     /*background-position: top;*/
     /*background-position-y: -200px;*/
@@ -238,6 +236,7 @@ a:hover {
 }
 
 .box {
+    color: white;
     background-color: #27293D;
     margin: 8px;
     border-radius: 8px;
@@ -303,6 +302,7 @@ form {
 }
 
 form button, .button button {
+    color: white;
     width: 100%;
     margin-bottom: 10px;
     padding: 6px;
@@ -439,6 +439,7 @@ option {
 }
 
 footer {
+    color: white;
     z-index: 100;
     padding: 15px;
     position: fixed;
@@ -480,4 +481,8 @@ footer a, footer a:hover {
         opacity: 0;
         display: none;
     }
+}
+
+.xdebug-var-dump, text {
+    color: white;
 }
