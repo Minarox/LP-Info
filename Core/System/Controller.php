@@ -28,21 +28,10 @@ abstract class Controller {
         }
     }
 
-    protected function render(string $name_file, array $params = [], string $template = 'base', string $title = 'Accueil', bool $caching = true): void {
+    protected function render(string $name_file, array $params = [], string $template = 'base', string $title = 'Accueil'): void {
         $start = microtime(true);
-        $cache = new Cache(__DIR__ . '/cache', 0.05);
 
-        if ($caching) {
-            ob_start();
-            require_once VIEWS . 'message/message.php';
-
-            if(!$cache->start(hash('sha512', "$name_file$title"))) {
-                $this->page($name_file, $template, $title, $params);
-                echo $cache->end();
-            }
-        } else {
-            $this->page($name_file, $template, $title, $params);
-        }
+        $this->page($name_file, $template, $title, $params);
 
         $end = microtime(true);
 
@@ -96,7 +85,7 @@ abstract class Controller {
     }
 
     #[Pure] protected function isAuthenticated(): bool {
-        return $this->request->cookie->exists('authenticated');
+        return $this->request->cookie->exists('token');
     }
 
     protected function getActualUri(string $path): string {

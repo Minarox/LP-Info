@@ -4,10 +4,8 @@
     <!-- Comparaison des 2 capteurs -->
     <article class="m-1 box">
         <!-- Titre -->
-        <h2 class="comparison-title">Graphique comparatif</h2>
+        <h2 class="comparison-title">Table MySQL</h2>
         <!-- Diagramme de comparaison -->
-        <article class="comparison-chart w-100">
-            <canvas class="pt-2" id="comparison"></canvas>
-        </article>
+        <article class="comparison-chart w-100"></article>
     </article>
 </main>
