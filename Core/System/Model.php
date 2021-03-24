@@ -15,9 +15,9 @@ abstract class Model {
         $this->table = str_replace('model', '', substr(strrchr(strtolower(get_class($this)), "\\"), 1));
     }
 
-    public function connect(string|null $db_user, string|null $db_pass, string|null $db_name = DB_NAME): bool|PDO {
-        $db_user = $db_user?:$_SESSION['db_user'];
-        $db_pass = $db_pass?:$_SESSION['db_pass'];
+    public function connect(string $db_user = null, string $db_pass = null, string $db_name = DB_NAME): bool|PDO {
+        $db_user = $db_user?:$_SESSION['username'];
+        $db_pass = $db_pass?:$_SESSION['password'];
 
         try {
             $db = new PDO(DB_TYPE . ':dbname='. $db_name .';host='. DB_HOST, $db_user, $db_pass);
@@ -29,7 +29,7 @@ abstract class Model {
         return $db;
     }
 
-    public function query(string $sql, object|null $db, array $params = null): bool|PDOStatement {
+    public function query(string $sql, object $db = null, array $params = null): bool|PDOStatement {
         $db = $db?:$this->connect();
 
         if (is_null($params)) {

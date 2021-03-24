@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <!-- Titre de la page -->
-    <title><?= $title ??= 'Projet' ?> | Hothothot</title>
+    <title><?= $title ??= 'Projet' ?> | Simulateur</title>
 
     <!-- CSS -->
     <link rel="icon" href="<?= SCRIPTS . 'images/favicon.ico' ?>">

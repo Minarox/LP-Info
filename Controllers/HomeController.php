@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\System\Controller;
+use App\Models\UserModel;
 
 final class HomeController extends Controller {
 
@@ -11,7 +12,11 @@ final class HomeController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
-            $this->render(name_file: 'home');
+            $query = (new UserModel())->query('SHOW GRANTS FOR CURRENT_USER();')->fetch();
+            $permissions = array_values(get_object_vars($query));
+            $this->render(name_file: 'home', params: [
+                'permissions' => $permissions
+            ]);
         };
     }
 
