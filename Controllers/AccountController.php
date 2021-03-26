@@ -35,6 +35,7 @@ class AccountController extends Controller {
                     $request->cookie->set('token', $token);
                     $request->session->set('token', $token);
                     $request->session->set('username', $request->post->get('username'));
+                    $request->session->set('password', $request->post->get('password'));
                     $this->addFlash('success', 'Vous êtes à présent connecté avec le compe "'. $request->post->get('username') .'".');
                     $this->redirect(self::reverse('home'));
                 } else {
