@@ -13,6 +13,16 @@ use JetBrains\PhpStorm\NoReturn;
 
 class AccountController extends Controller {
 
+    public function get_string_between($string, $start, $end) {
+        $string = ' ' . $string;
+        $ini = strpos($string, $start);
+        if ($ini == 0) return '';
+        $ini += strlen($start);
+        $len = strpos($string, $end, $ini) - $ini;
+
+        return substr($string, $ini, $len);
+    }
+
     #[Route('/login', 'login', ['GET', 'POST'])] public function login(Request $request) {
         if ($this->isAuthenticated()) ErrorController::error404();
         $mysql_user = new UserModel();
@@ -31,11 +41,32 @@ class AccountController extends Controller {
 
                 if ($query != 1) {
                     $token = Token::generate();
+                    $grants = $query->query('SHOW GRANTS FOR CURRENT_USER();')->fetchAll();
+
+                    $authorizations = [];
+                    for ($i = 1; $i < count($grants); $i++) {
+                        $grant = array_values($grants[$i]);
+
+                        $table = $this->get_string_between($grant[1], ' ON ', ' TO ');
+                        $table = str_replace(array('`', '\\'), '', $table);
+                        $table = explode('.', $table);
+
+                        $permissions = $this->get_string_between($grant[1], 'GRANT ', ' ON ');
+                        $permissions = explode(', ', $permissions);
+
+                        $authorizations[$i-1]['db'] = $table[0];
+                        $authorizations[$i-1]['table'] = $table[1];
+
+                        foreach ($permissions as $permission) {
+                            $authorizations[$i-1]['permissions'][] = $permission;
+                        }
+                    }
 
                     $request->cookie->set('token', $token);
                     $request->session->set('token', $token);
                     $request->session->set('username', $request->post->get('username'));
                     $request->session->set('password', $request->post->get('password'));
+                    $request->session->set('authorizations', $authorizations);
                     $this->addFlash('success', 'Vous êtes à présent connecté avec le compe "'. $request->post->get('username') .'".');
                     $this->redirect(self::reverse('home'));
                 } else {
