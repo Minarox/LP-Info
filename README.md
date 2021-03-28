@@ -1,6 +1,8 @@
 # Hothothot
 Création d'une interface d’information et de gestion d’un système domotique.
 
+![assets/images/homepage.png](assets/images/homepage.png)
+
 ## Fonctionnalités
 * Gestion de multiples capteurs
 * Graphique des températures sur plusieurs heures
@@ -12,3 +14,7 @@ Création d'une interface d’information et de gestion d’un système domotiqu
 * CSS
 * JavaScript
 * JSON
+
+## Dépendances
+* [ChartJS](https://www.chartjs.org/)
+* [Jquery](https://jquery.com/)
