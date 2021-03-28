@@ -2,6 +2,8 @@
 Projet de fin de semestre 5 de la Licence Pro en Développement Web.  
 Création d'une simulation de Zoo avec gestions des animaux, des enclos et de l'employé.
 
+![src/demo.png](src/demo.png)
+
 ## Sommaire
 * [Fonctionnalités](https://github.com/lp-dev-web/projet-zoo#fonctionnalités)
 * [Dossiers](https://github.com/lp-dev-web/projet-zoo#dossiers)
