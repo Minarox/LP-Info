@@ -85,15 +85,6 @@ abstract class Model {
     }
 
     /**
-     * @param string $user
-     * @return bool|Model
-     */
-    public function findUser(string $user): bool|array|self {
-        $db = $this->connect(DB_USER, DB_PASS, 'mysql');
-        return $db->query("SELECT user FROM `user` WHERE user = '$user' LIMIT 1")->fetch();
-    }
-
-    /**
      * @param int $id
      * @return bool|$this
      */
@@ -133,6 +124,38 @@ abstract class Model {
 
         $field_list = implode(' AND ', $fields);
         return $this->query("SELECT * FROM {$this->table} WHERE {$field_list} LIMIT 1", $values)->fetch();
+    }
+
+    /**
+     * @return bool|array|$this
+     * A supprimer / ne pas utiliser
+     */
+    public function findAll(): bool|array|self
+    {
+        return $this->query("SELECT * FROM {$this->table}")->fetchAll();
+    }
+
+    /**
+     * @return bool|string|$this
+     */
+    public function getTableName(): bool|string|self
+    {
+        $query = $this->query("SELECT * FROM {$this->table} LIMIT 0");
+        $name = $query->getColumnMeta(0);
+        return $name['table'];
+    }
+
+    /**
+     * @return bool|array|$this
+     */
+    public function getColumnsNames(): bool|array|self
+    {
+        $query = $this->query("SELECT * FROM {$this->table} LIMIT 0");
+        for ($i = 0; $i < $query->columnCount(); $i++) {
+            $col = $query->getColumnMeta($i);
+            $columns[] = $col['name'];
+        }
+        return $columns;
     }
 
     #[Pure] private function match(int|string $key): int {
