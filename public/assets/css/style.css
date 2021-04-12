@@ -12,6 +12,7 @@
 body {
     background-color: #1E1E2E;
     font-family: "Roboto", Arial, Helvetica, sans-serif;
+    color: white;
     /*background-image: url("../images/dog.jpg");*/
     /*background-position: top;*/
     /*background-position-y: -200px;*/
@@ -20,6 +21,7 @@ body {
 
 main {
     margin: 20px 0 70px;
+    height: calc(100vh - 195px);
 }
 
 
@@ -91,6 +93,7 @@ nav hr {
 }
 
 .sensor-alert button, #outdoor-alert button {
+    color: white;
     width: 150px;
     margin: 0 2.5% 0 0;
     padding: 8px 40px;
@@ -236,7 +239,6 @@ a:hover {
 }
 
 .box {
-    color: white;
     background-color: #27293D;
     margin: 8px;
     border-radius: 8px;
@@ -271,8 +273,9 @@ a:hover {
 }
 
 .box-title {
-    font-size: 1.6em;
+    font-size: 2em;
     font-weight: bold;
+    margin: 0 0 20px 0;
 }
 
 .box-subtitle, .box-subtitle a {
@@ -281,6 +284,11 @@ a:hover {
     font-size: 1em;
     text-align: center;
     transition: color 200ms;
+}
+
+.text-left {
+    text-align: left;
+    margin: 0;
 }
 
 .box-subtitle a:hover {
@@ -297,11 +305,18 @@ form {
     padding: 6px;
 }
 
-.form-control:last-of-type {
+.form-control:last-child, form button:last-child {
     margin-bottom: 0;
 }
 
-form button, .button button {
+.m-top {
+    margin-top: 10px;
+}
+
+form button, .button, .button:hover, .little-button {
+    display: block;
+    text-align: center;
+    text-decoration: none;
     color: white;
     width: 100%;
     margin-bottom: 10px;
@@ -309,6 +324,13 @@ form button, .button button {
     border-radius: 4px;
     border: 0;
     background: linear-gradient(to right, #593EC2, #7E3EC2);
+}
+
+.little-button {
+    margin: 0 12px;
+
+    width: 40px;
+    display: inline;
 }
 
 #profil-picture {
@@ -353,7 +375,6 @@ form button, .button button {
 
 .overlay h1 {
     font-size: 1.5em;
-    margin: 20px 0 0;
 }
 
 .overlay button {
@@ -370,6 +391,170 @@ form button, .button button {
     }
 }
 
+.titleDoc {
+    text-align: right;
+    float: right;
+}
+
+.hr {
+    /* centre verticalement les enfants entre eux */
+    align-items: center;
+
+    /* active flexbox */
+    display: flex;
+
+    /* garde le texte centré s’il passe sur plusieurs lignes ou si flexbox n’est pas supporté */
+    text-align: center;
+}
+
+.hr::before,  .hr::after {
+    /* la couleur est volontairement absente ; ainsi elle sera celle du texte */
+    border-top: .0625em solid;
+
+    /* nécessaire pour afficher les pseudo-éléments */
+    content: "";
+
+    /* partage le reste de la largeur disponible */
+    flex: 1;
+
+    /* espace les traits du texte */
+    margin: 0 .5em;
+}
+
+.no-background {
+    background: none;
+}
+
+#editor {
+    height: 60px;
+}
+
+.list {
+    table-layout: fixed;
+    display: table;
+}
+
+.list thead {
+    text-align: center;
+}
+
+.list thead th {
+    padding: 5px;
+}
+
+.list thead th:first-child {
+    border-radius: 10px 0 0 0;
+}
+
+.list thead th:last-child {
+    border-radius: 0 10px 0 0;
+}
+
+.list thead th:nth-child(2n+1) {
+    background-color: #6A758E;
+}
+
+.list thead th:nth-child(2n) {
+     background-color: #79829A;
+}
+
+.list tbody {
+    color: #000;
+    font-weight: bold;
+    width: 100%;
+    height: 200px;
+    display: block;
+    overflow: auto;
+}
+
+.list tbody tr {
+    border-bottom: solid 1px #B0B0B1;
+}
+
+.list tbody tr td {
+    padding: 10px;
+}
+
+.list tbody tr td:nth-child(2n+1) {
+    background-color: #F6F7FA;
+}
+
+.list tbody tr td:nth-child(2n) {
+    background-color: #FEFEFE;
+}
+
+.list tbody tr:last-child {
+    border: none;
+}
+
+table{
+    width:100%;
+    table-layout: fixed;
+}
+.tbl-header {
+    border-radius: 10px;
+}
+.tbl-header th:first-child {
+    border-radius: 10px 0 0 0;
+}
+.tbl-header th:last-child {
+    border-radius: 0 10px 0 0;
+}
+.tbl-header th:nth-child(2n+1) {
+    background-color: #6A758E;
+}
+.tbl-header th:nth-child(2n) {
+    background-color: #79829A;
+}
+.tbl-header th{
+    padding: 15px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 12px;
+    color: #fff;
+    text-transform: uppercase;
+}
+.tbl-content{
+    border-radius: 0 0 10px 10px;
+    height:500px;
+    overflow-x:auto;
+    margin-top: 0px;
+}
+.tbl-content tr {
+    border-bottom: solid 1px #B0B0B1;
+}
+.tbl-content tr td{
+    color: #000000;
+    padding: 15px;
+    text-align: left;
+    vertical-align:middle;
+    font-weight: 300;
+    font-size: 12px;
+}
+.tbl-content td:nth-child(2n+1) {
+    background-color: #F6F7FA;
+}
+.tbl-content td:nth-child(2n) {
+    background-color: #FFFFFF;
+}
+.actions-container {
+    margin-top: 10px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+.actions-container input {
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    color: #FFFFFF;
+    padding: 10px;
+    background-color: #6A758E;
+    transition: 0.3s;
+}
+.actions-container input:hover {
+    background-color: #79829A;
+}
 
 /* ---------------- */
 /* --- SETTINGS --- */
@@ -384,7 +569,7 @@ option {
 
 @media only screen and (max-width: 575px) {
     .select-alert {
-       margin-left: 12px;
+        margin-left: 12px;
     }
 }
 
@@ -430,7 +615,7 @@ option {
     height: 300px;
 }
 
-.big h1 {
+.big h2 {
     font-size: 4em;
 }
 
@@ -439,7 +624,6 @@ option {
 }
 
 footer {
-    color: white;
     z-index: 100;
     padding: 15px;
     position: fixed;
@@ -481,8 +665,4 @@ footer a, footer a:hover {
         opacity: 0;
         display: none;
     }
-}
-
-.xdebug-var-dump, text {
-    color: white;
 }
