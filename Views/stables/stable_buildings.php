@@ -22,9 +22,9 @@
                     <tbody>
                     <?php foreach ($data as $row) : ?>
                     <tr>
-                        <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['stableid']."-".$row['buildingid'] ?>"></td>
-                        <td><?= $row['stableid'] ?></td>
-                        <td><?= $row['buildingid'] ?></td>
+                        <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['stable_id']."-".$row['building_id'] ?>"></td>
+                        <td><?= $row['stable_id'] ?></td>
+                        <td><?= $row['building_id'] ?></td>
                         <td class="cw-100 action"><a href="<?= ROOT ?>table/edit/id"><input type="button" value="Editer"></a></td>
                     </tr>
                     <?php endforeach; ?>

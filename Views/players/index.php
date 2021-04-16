@@ -22,13 +22,13 @@
             <div class="tbl-content">
                 <table cellpadding="0" cellspacing="0" border="0">
                     <tbody>
-                    <?php foreach ($data as $player) : ?>
+                    <?php foreach ($data as $row) : ?>
                     <tr>
-                        <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $player['id'] ?>"></td>
-                        <td class="cw-90"><?= $player['id'] ?></td>
-                        <td><?= $player['nickname'] ?></td>
-                        <td><?= $player['mail'] ?></td>
-                        <td><?= $player['logInDateTime'] ?: "null" ?></td>
+                        <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['id'] ?>"></td>
+                        <td class="cw-90"><?= $row['id'] ?></td>
+                        <td><?= $row['nickname'] ?></td>
+                        <td><?= $row['mail'] ?></td>
+                        <td><?= $row['logInDateTime'] ?: "null" ?></td>
                         <td class="cw-100 action"><a href="<?= ROOT ?>table/edit/id"><input type="button" value="Editer"></a></td>
                     </tr>
                     <?php endforeach; ?>

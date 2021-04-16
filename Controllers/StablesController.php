@@ -6,9 +6,6 @@ use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Classes\Validator;
 use App\Core\System\Controller;
-use App\Models\HorsesModel;
-use App\Models\Player_HorsesModel;
-use App\Models\PlayersModel;
 use App\Models\Stable_BuildingsModel;
 use App\Models\StablesModel;
 
@@ -20,7 +17,6 @@ final class StablesController extends Controller {
         } else {
 
             $stables = new StablesModel();
-            $players = new PlayersModel();
 
             if(isset($_POST['row'])) {
                 if(isset($_POST['delete'])) {
@@ -39,10 +35,8 @@ final class StablesController extends Controller {
             $i = 0;
 
             foreach ($stables as $stable) {
-                $player = $players->findById($stable->getPlayerId());
-
                 $data[$i]['id'] = $stable->getId();
-                $data[$i]['player'] = $player->getNickname();
+                $data[$i]['player'] = $stable->getPlayerId();
                 $data[$i]['building_limit'] = $stable->getBuildingsLimit();
                 $i++;
             }
@@ -80,8 +74,8 @@ final class StablesController extends Controller {
             $i = 0;
 
             foreach ($stable_buildings as $stable_building) {
-                $data[$i]['stableid'] = $stable_building->getStableId();
-                $data[$i]['buildingid'] = $stable_building->getBuildingId();
+                $data[$i]['stable_id'] = $stable_building->getStableId();
+                $data[$i]['building_id'] = $stable_building->getBuildingId();
                 $i++;
             }
 

@@ -33,18 +33,18 @@
                 <header>
                     <img src="/public/assets/images/horse.png" class="table-icon"><h1>Items</h1>
                 </header>
-                <a href="#" class="link">Items</a>
-                <a href="#" class="link">Items types</a>
+                <a href="<?= ROOT ?>items" class="link">Items</a>
+                <a href="<?= ROOT ?>items/types" class="link">Items types</a>
             </section>
             <section class="table">
                 <header>
                     <img src="/public/assets/images/horse.png" class="table-icon"><h1>Horses</h1>
                 </header>
-                <a href="#" class="link">Horses</a>
-                <a href="#" class="link">Horse breeds</a>
-                <a href="#" class="link">Horse items</a>
-                <a href="#" class="link">Horse status</a>
-                <a href="#" class="link">Statuses</a>
+                <a href="<?= ROOT ?>horses" class="link">Horses</a>
+                <a href="<?= ROOT ?>horse/breeds" class="link">Horse breeds</a>
+                <a href="<?= ROOT ?>horse/items" class="link">Horse items</a>
+                <a href="<?= ROOT ?>horse/status" class="link">Horse status</a>
+                <a href="<?= ROOT ?>statuses" class="link">Statuses</a>
             </section>
             <section class="table">
                 <header>
