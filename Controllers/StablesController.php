@@ -36,7 +36,7 @@ final class StablesController extends Controller {
 
             foreach ($stables as $stable) {
                 $data[$i]['id'] = $stable->getId();
-                $data[$i]['player'] = $stable->getPlayerId();
+                $data[$i]['player_id'] = $stable->getPlayerId();
                 $data[$i]['building_limit'] = $stable->getBuildingsLimit();
                 $i++;
             }

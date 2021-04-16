@@ -1,7 +1,7 @@
 <main class="container-md">
     <section class="mb-3">
         <!-- Titre -->
-        <h2 class="box-title hr">Stables</h2>
+        <h2 class="box-title hr">Building automatic tasks</h2>
 
         <form method="post">
 
@@ -11,8 +11,10 @@
                     <tr>
                         <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
                         <th class="cw-90">Id</th>
-                        <th>Player</th>
-                        <th>Building Limit</th>
+                        <th>Automatic task action</th>
+                        <th>Stable building</th>
+                        <th>Item</th>
+                        <th>Frequency</th>
                         <th class="cw-100 action">Action</th>
                     </tr>
                     </thead>
@@ -25,8 +27,10 @@
                     <tr>
                         <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['id'] ?>"></td>
                         <td class="cw-90"><?= $row['id'] ?></td>
-                        <td><?= $row['player_id'] ?: "null" ?></td>
-                        <td><?= $row['building_limit'] ?></td>
+                        <td><?= $row['automatic_task_action_id'] ?></td>
+                        <td><?= $row['stable_building_id'] ?></td>
+                        <td><?= $row['item_id'] ?></td>
+                        <td><?= $row['frequency'] ?></td>
                         <td class="cw-100 action"><a href="<?= ROOT ?>table/edit/id"><input type="button" value="Editer"></a></td>
                     </tr>
                     <?php endforeach; ?>
