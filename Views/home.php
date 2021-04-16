@@ -50,24 +50,24 @@
                 <header>
                     <img src="/public/assets/images/horse.png" class="table-icon"><h1>Clubs</h1>
                 </header>
-                <a href="#" class="link">Clubs</a>
-                <a href="#" class="link">Club buildings</a>
-                <a href="#" class="link">Club items</a>
-                <a href="#" class="link">Club members</a>
-                <a href="#" class="link">Club tournaments</a>
-                <a href="#" class="link">Club tournaments registrations</a>
-                <a href="#" class="link">Club tournaments rewards</a>
+                <a href="<?= ROOT ?>clubs" class="link">Clubs</a>
+                <a href="<?= ROOT ?>club/buildings" class="link">Club buildings</a>
+                <a href="<?= ROOT ?>club/items" class="link">Club items</a>
+                <a href="<?= ROOT ?>club/members" class="link">Club members</a>
+                <a href="<?= ROOT ?>club/tournaments" class="link">Club tournaments</a>
+                <a href="<?= ROOT ?>club/tournament/registrations" class="link">Club tournaments registrations</a>
+                <a href="<?= ROOT ?>club/tournament/rewards" class="link">Club tournaments rewards</a>
             </section>
             <section class="table">
                 <header>
                     <img src="/public/assets/images/horse.png" class="table-icon"><h1>Buildings</h1>
                 </header>
-                <a href="#" class="link">Buildings</a>
-                <a href="#" class="link">Building families</a>
-                <a href="#" class="link">Building items</a>
-                <a href="#" class="link">Building types</a>
-                <a href="#" class="link">Automatic tasks</a>
-                <a href="#" class="link">Automatic tasks actions</a>
+                <a href="<?= ROOT ?>buildings" class="link">Buildings</a>
+                <a href="<?= ROOT ?>building/families" class="link">Building families</a>
+                <a href="<?= ROOT ?>building/items" class="link">Building items</a>
+                <a href="<?= ROOT ?>building/types" class="link">Building types</a>
+                <a href="<?= ROOT ?>automatics" class="link">Automatic tasks</a>
+                <a href="<?= ROOT ?>automatic/actions" class="link">Automatic tasks actions</a>
             </section>
             <section class="table">
                 <header>
