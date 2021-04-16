@@ -66,15 +66,15 @@
                 <a href="<?= ROOT ?>building/families" class="link">Building families</a>
                 <a href="<?= ROOT ?>building/items" class="link">Building items</a>
                 <a href="<?= ROOT ?>building/types" class="link">Building types</a>
-                <a href="<?= ROOT ?>automatics" class="link">Automatic tasks</a>
+                <a href="<?= ROOT ?>automatic" class="link">Automatic tasks</a>
                 <a href="<?= ROOT ?>automatic/actions" class="link">Automatic tasks actions</a>
             </section>
             <section class="table">
                 <header>
                     <img src="/public/assets/images/horse.png" class="table-icon"><h1>Bank accounts</h1>
                 </header>
-                <a href="#" class="link">Bank accounts</a>
-                <a href="#" class="link">Bank account history</a>
+                <a href="<?= ROOT ?>bank" class="link">Bank accounts</a>
+                <a href="<?= ROOT ?>bank/history" class="link">Bank account history</a>
             </section>
         </section>
     </section>
