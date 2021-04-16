@@ -1,7 +1,7 @@
 <main class="container-md">
     <section class="mb-3">
         <!-- Titre -->
-        <h2 class="box-title hr">Stable buildings</h2>
+        <h2 class="box-title hr">Horse items</h2>
 
         <form method="post">
 
@@ -10,8 +10,9 @@
                     <thead>
                     <tr>
                         <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
-                        <th>Stable</th>
-                        <th>Building</th>
+                        <th>Horse</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
                         <th class="cw-100 action">Action</th>
                     </tr>
                     </thead>
@@ -22,9 +23,10 @@
                     <tbody>
                     <?php foreach ($data as $row) : ?>
                     <tr>
-                        <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['stable_id']."-".$row['building_id'] ?>"></td>
-                        <td><?= $row['stable_id'] ?></td>
-                        <td><?= $row['building_id'] ?></td>
+                        <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['horse_id']."-".$row['item_id'] ?>"></td>
+                        <td><?= $row['horse_id'] ?></td>
+                        <td><?= $row['item_id'] ?></td>
+                        <td><?= $row['quantity'] ?></td>
                         <td class="cw-100 action"><a href="<?= ROOT ?>table/edit/id"><input type="button" value="Editer"></a></td>
                     </tr>
                     <?php endforeach; ?>

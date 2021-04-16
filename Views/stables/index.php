@@ -21,12 +21,12 @@
             <div class="tbl-content">
                 <table cellpadding="0" cellspacing="0" border="0">
                     <tbody>
-                    <?php foreach ($data as $stable) : ?>
+                    <?php foreach ($data as $row) : ?>
                     <tr>
-                        <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $stable['id'] ?>"></td>
-                        <td class="cw-90"><?= $stable['id'] ?></td>
-                        <td><?= $stable['player'] ?: "null" ?></td>
-                        <td><?= $stable['building_limit'] ?></td>
+                        <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['id'] ?>"></td>
+                        <td class="cw-90"><?= $row['id'] ?></td>
+                        <td><?= $row['player'] ?: "null" ?></td>
+                        <td><?= $row['building_limit'] ?></td>
                         <td class="cw-100 action"><a href="<?= ROOT ?>table/edit/id"><input type="button" value="Editer"></a></td>
                     </tr>
                     <?php endforeach; ?>

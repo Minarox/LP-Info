@@ -78,7 +78,7 @@ final class NewspapersController extends Controller {
 
             foreach ($news as $row) {
                 $data[$i]['id'] = $row->getId();
-                $data[$i]['playerid'] = $row->getPlayerId();
+                $data[$i]['player_id'] = $row->getPlayerId();
                 $data[$i]['date'] = $row->getDate();
                 $data[$i]['name'] = $row->getName();
                 $i++;
@@ -105,7 +105,7 @@ final class NewspapersController extends Controller {
                         $ids = explode("-", $row);
                         $newspaperid = $ids[0];
                         $adid = $ids[1];
-                        $newspaper_ads->query("DELETE FROM {$newspaper_ads->getTableName()} WHERE newspaper_id = $newspaperid AND ad_id = $adid");
+                        $newspaper_ads->query("DELETE FROM {$newspaper_ads->get()} WHERE newspaper_id = $newspaperid AND ad_id = $adid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
                     $this->redirect(header: 'newspapers/ads', response_code: 301);
@@ -117,8 +117,8 @@ final class NewspapersController extends Controller {
             $i = 0;
 
             foreach ($newspaper_ads as $row) {
-                $data[$i]['newspaperid'] = $row->getNewspaperId();
-                $data[$i]['adid'] = $row->getAdId();
+                $data[$i]['newspaper_id'] = $row->getNewspaperId();
+                $data[$i]['ad_id'] = $row->getAdId();
                 $i++;
             }
 
@@ -153,7 +153,7 @@ final class NewspapersController extends Controller {
 
             foreach ($upcoming_events as $upcoming_event) {
                 $data[$i]['id'] = $upcoming_event->getId();
-                $data[$i]['newspaperid'] = $upcoming_event->getNewspaperId();
+                $data[$i]['newspaper_id'] = $upcoming_event->getNewspaperId();
                 $data[$i]['name'] = $upcoming_event->getName();
                 $i++;
             }
@@ -204,33 +204,33 @@ final class NewspapersController extends Controller {
             $this->redirect(self::reverse('login'));
         } else {
 
-            $ads = new WeathersModel();
+            $weathers = new WeathersModel();
 
             if(isset($_POST['row'])) {
                 if(isset($_POST['delete'])) {
                     $i = 0;
                     foreach ($_POST['row'] as $row) {
                         $i++;
-                        $ads->delete($row);
+                        $weathers->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'ads', response_code: 301);
+                    $this->redirect(header: 'weathers', response_code: 301);
                 }
             }
 
-            $ads = $ads->findAll();
+            $weathers = $weathers->findAll();
             $data = [];
             $i = 0;
 
-            foreach ($ads as $ad) {
-                $data[$i]['id'] = $ad->getId();
-                $data[$i]['name'] = $ad->getName();
+            foreach ($weathers as $weather) {
+                $data[$i]['id'] = $weather->getId();
+                $data[$i]['name'] = $weather->getName();
                 $i++;
             }
 
-            $this->render(name_file: 'newspapers/ads', params: [
+            $this->render(name_file: 'newspapers/weathers', params: [
                 'data'=> $data
-            ], title: 'Ads');
+            ], title: 'Weathers');
         };
     }
 }
