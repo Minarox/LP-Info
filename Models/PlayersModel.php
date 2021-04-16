@@ -11,19 +11,19 @@ class PlayersModel extends Model {
     protected string $mail;
     protected string $password;
     protected string $last_name;
-    protected string $first_name;
-    protected string $sexe;
-    protected string $phone;
-    protected string $street;
-    protected string $city;
-    protected string $zip_code;
-    protected string $country;
-    protected string $avatar;
-    protected string $description;
-    protected string $website;
-    protected string $ip_address;
-    protected string $register_datetime;
-    protected string $log_in_datetime;
+    protected ?string $first_name;
+    protected ?string $sexe;
+    protected ?string $phone;
+    protected ?string $street;
+    protected ?string $city;
+    protected ?string $zip_code;
+    protected ?string $country;
+    protected ?string $avatar;
+    protected ?string $description;
+    protected ?string $website;
+    protected ?string $ip_address;
+    protected ?string $register_datetime;
+    protected ?string $log_in_datetime;
 
     /**
      * @return int
@@ -106,9 +106,9 @@ class PlayersModel extends Model {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFirstName(): string {
+    public function getFirstName(): ?string {
         return $this->first_name;
     }
 
@@ -122,9 +122,9 @@ class PlayersModel extends Model {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSexe(): string {
+    public function getSexe(): ?string {
         return $this->sexe;
     }
 
@@ -138,9 +138,9 @@ class PlayersModel extends Model {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPhone(): string {
+    public function getPhone(): ?string {
         return $this->phone;
     }
 
@@ -154,9 +154,9 @@ class PlayersModel extends Model {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getStreet(): string {
+    public function getStreet(): ?string {
         return $this->street;
     }
 
@@ -170,9 +170,9 @@ class PlayersModel extends Model {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCity(): string {
+    public function getCity(): ?string {
         return $this->city;
     }
 
@@ -186,9 +186,9 @@ class PlayersModel extends Model {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getZipCode(): string {
+    public function getZipCode(): ?string {
         return $this->zip_code;
     }
 
@@ -202,9 +202,9 @@ class PlayersModel extends Model {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCountry(): string {
+    public function getCountry(): ?string {
         return $this->country;
     }
 
@@ -218,9 +218,9 @@ class PlayersModel extends Model {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getAvatar(): string {
+    public function getAvatar(): ?string {
         return $this->avatar;
     }
 
@@ -234,9 +234,9 @@ class PlayersModel extends Model {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription(): string {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
@@ -250,9 +250,9 @@ class PlayersModel extends Model {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getWebsite(): string {
+    public function getWebsite(): ?string {
         return $this->website;
     }
 
@@ -266,9 +266,9 @@ class PlayersModel extends Model {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getIpAddress(): string {
+    public function getIpAddress(): ?string {
         return $this->ip_address;
     }
 
@@ -282,9 +282,9 @@ class PlayersModel extends Model {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getRegisterDatetime(): string {
+    public function getRegisterDatetime(): ?string {
         return $this->register_datetime;
     }
 
@@ -298,9 +298,9 @@ class PlayersModel extends Model {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLogInDatetime(): string {
+    public function getLogInDatetime(): ?string {
         return $this->log_in_datetime;
     }
 

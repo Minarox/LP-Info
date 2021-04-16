@@ -13,6 +13,9 @@
     <link rel="icon" href="<?= SCRIPTS . 'images/favicon.ico' ?>">
     <link rel="stylesheet" href="<?= SCRIPTS . 'css/bootstrap/bootstrap.min.css' ?>">
     <link rel="stylesheet" href="<?= SCRIPTS . 'css/style.css' ?>">
+
+    <!-- Jquery insertion before template is loaded needed to use $ short code -->
+    <?= addJavaScript('js/jquery/jquery-3.5.1.min.js') ?>
 </head>
 
 <body>
@@ -99,7 +102,6 @@
 
 <!-- Scripts -->
 <?= addJavaScript('js/bootstrap/bootstrap.min.js') ?>
-<?= addJavaScript('js/jquery/jquery-3.5.1.min.js') ?>
 <?= addJavaScript('js/tables.js') ?>
 
 </body>

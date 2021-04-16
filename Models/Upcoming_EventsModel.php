@@ -7,7 +7,7 @@ use App\Core\System\Model;
 class Upcoming_EventsModel extends Model {
 
     protected int $id;
-    protected int $id_newspaper;
+    protected int $newspaper_id;
     protected string $name;
     protected string $description;
     protected string $image;
@@ -31,16 +31,16 @@ class Upcoming_EventsModel extends Model {
     /**
      * @return int
      */
-    public function getIdNewspaper(): int {
-        return $this->id_newspaper;
+    public function getNewspaperId(): int {
+        return $this->newspaper_id;
     }
 
     /**
-     * @param int $id_newspaper
+     * @param int $newspaper_id
      * @return Upcoming_EventsModel
      */
-    public function setIdNewspaper(int $id_newspaper): Upcoming_EventsModel {
-        $this->id_newspaper = $id_newspaper;
+    public function setNewspaperId(int $newspaper_id): Upcoming_EventsModel {
+        $this->newspaper_id = $newspaper_id;
         return $this;
     }
 
