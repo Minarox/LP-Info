@@ -516,14 +516,14 @@ table{
 }
 .tbl-content{
     border-radius: 0 0 10px 10px;
-    height:500px;
+    max-height:500px;
     overflow-x:auto;
     margin-top: 0px;
 }
 .tbl-content tr {
     border-bottom: solid 1px #B0B0B1;
 }
-.tbl-content tr td{
+.tbl-content tr td {
     color: #000000;
     padding: 15px;
     text-align: left;
@@ -554,6 +554,116 @@ table{
 }
 .actions-container input:hover {
     background-color: #79829A;
+}
+
+.tbl-header .checkbox {
+    margin: auto;
+}
+
+.tbl-content .checkbox {
+    margin: auto;
+    text-align: center;
+}
+
+.tbl-content .action {
+    text-align: center;
+}
+
+.tbl-content input {
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    color: #FFFFFF;
+    padding: 10px;
+    background-color: #6A758E;
+    transition: 0.3s;
+}
+
+.tbl-content input:hover {
+    background-color: #79829A;
+}
+
+.cw-45 {
+    width: 45px;
+}
+
+.cw-85 {
+    width: 85px;
+}
+
+.cw-90 {
+    width: 90px;
+}
+
+.cw-95 {
+    width: 95px;
+}
+
+.cw-100 {
+    width: 100px;
+}
+
+/* HOME PAGE */
+
+.tables-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
+
+.tables-container h1 {
+    font-size: 24px;
+    color: #FFFFFF;
+}
+
+.table {
+    width: auto;
+}
+
+.table header {
+    border-radius: 10px 10px 0 0;
+    background-color: #6A758E;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.table header .table-icon {
+    width: 30px;
+    height: 30px;
+    display: block;
+    margin: auto 0;
+}
+
+.table header h1 {
+    margin: 0 0 0 20px;
+}
+
+.table .link {
+    color: #000000;
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.table .link:nth-child(2n+1) {
+    background-color: #F6F7FA;
+}
+
+.table .link:nth-child(2n+1):hover {
+    background-color: #e5eaff;
+}
+
+.table .link:nth-child(2n) {
+    background-color: #FFFFFF;
+}
+
+.table .link:nth-child(2n):hover {
+    background-color: #e5e5e5;
+}
+
+.table .link:last-child {
+    border-radius: 0 0 10px 10px;
 }
 
 /* ---------------- */

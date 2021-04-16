@@ -8,6 +8,7 @@ class NewsModel extends Model {
 
     protected int $id;
     protected int $player_id;
+    protected string $date;
     protected string $name;
     protected string $description;
     protected string $image;
@@ -41,6 +42,22 @@ class NewsModel extends Model {
      */
     public function setPlayerId(int $player_id): NewsModel {
         $this->player_id = $player_id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDate(): string {
+        return $this->date;
+    }
+
+    /**
+     * @param string $date
+     * @return NewsModel
+     */
+    public function setDate(string $date): NewsModel {
+        $this->date = $date;
         return $this;
     }
 
