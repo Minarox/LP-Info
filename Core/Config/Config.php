@@ -26,6 +26,9 @@ abstract class Config {
 
         // Cookies time
         define('INACTIVITY_TIME', $config['inactivity_time']);
+
+        // Item per pages
+        define('NB_PER_PAGE', $config['nb_per_page']);
     }
 
 }
