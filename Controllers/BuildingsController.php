@@ -43,8 +43,17 @@ final class BuildingsController extends Controller {
                 }
             }
 
-            $buildings = $buildings->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $buildings->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $buildings = $buildings->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($buildings as $building) {
@@ -56,7 +65,9 @@ final class BuildingsController extends Controller {
             }
 
             $this->render(name_file: 'buildings/index', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Buildings');
         };
     }
@@ -80,8 +91,17 @@ final class BuildingsController extends Controller {
                 }
             }
 
-            $building_families = $building_families->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $building_families->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $building_families = $building_families->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($building_families as $building_family) {
@@ -91,7 +111,9 @@ final class BuildingsController extends Controller {
             }
 
             $this->render(name_file: 'buildings/building_families', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Building families');
         };
     }
@@ -118,8 +140,17 @@ final class BuildingsController extends Controller {
                 }
             }
 
-            $building_items = $building_items->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $building_items->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $building_items = $building_items->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($building_items as $row) {
@@ -130,7 +161,9 @@ final class BuildingsController extends Controller {
             }
 
             $this->render(name_file: 'buildings/building_items', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Building items');
         };
     }
@@ -154,8 +187,17 @@ final class BuildingsController extends Controller {
                 }
             }
 
-            $building_types = $building_types->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $building_types->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $building_types = $building_types->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($building_types as $building_type) {
@@ -167,7 +209,9 @@ final class BuildingsController extends Controller {
             }
 
             $this->render(name_file: 'buildings/building_types', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Building types');
         };
     }
@@ -191,8 +235,17 @@ final class BuildingsController extends Controller {
                 }
             }
 
-            $automatic_tasks = $automatic_tasks->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $automatic_tasks->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $automatic_tasks = $automatic_tasks->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($automatic_tasks as $automatic_task) {
@@ -205,7 +258,9 @@ final class BuildingsController extends Controller {
             }
 
             $this->render(name_file: 'buildings/automatic_tasks', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Building automatic tasks');
         };
     }
@@ -229,8 +284,17 @@ final class BuildingsController extends Controller {
                 }
             }
 
-            $automatic_task_actions = $automatic_task_actions->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $automatic_task_actions->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $automatic_task_actions = $automatic_task_actions->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($automatic_task_actions as $automatic_task_action) {
@@ -240,7 +304,9 @@ final class BuildingsController extends Controller {
             }
 
             $this->render(name_file: 'buildings/automatic_task_actions', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Building automatic task actions');
         };
     }

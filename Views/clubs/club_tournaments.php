@@ -38,9 +38,32 @@
                     <a href="<?= ROOT ?>table/add"><input type="button" name="add" value="Ajouter"></a>
                     <input type="submit" name="delete" value="Supprimer">
                 </div>
-                <div>
-                    <input type="button" value="Page précedente">
-                    <input type="button" value="Page suivante">
+                <div class="pages-container">
+                    <a href="<?= ROOT ?>players?page=1"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
+                    <?php $i = 2 ?>
+                    <?php if($current_page - 2 > 1) : ?>
+                        <?php $i = $current_page - 2 ?>
+                        <p>...</p>
+                    <?php endif; ?>
+                    <?php if($last_page > 1) : ?>
+                        <?php for ($i; $i<=$last_page; $i++) : ?>
+                            <?php if($i >= $current_page + 3) : ?>
+                                <?php if($current_page + 3 < $last_page) : ?>
+                                    <p>...</p>
+                                <?php endif; ?>
+                                <a href="<?= ROOT ?>players?page=<?= $last_page ?>">
+                                    <input <?= $current_page == $last_page ? "class='active'" : "" ?> type="button" value="<?= $last_page ?>">
+                                </a>
+                                <?php break; ?>
+                            <?php endif; ?>
+                            <a href="<?= ROOT ?>players?page=<?= $i ?>">
+                                <input <?= $i == $current_page ? "class='active'" : "" ?> type="button" value="<?= $i ?>">
+                            </a>
+                        <?php endfor; ?>
+                    <?php endif ?>
+                    <form>
+                        <input class="page-input" type="number" min="1" name="page" placeholder="Page">
+                    </form>
                 </div>
             </div>
         </form>

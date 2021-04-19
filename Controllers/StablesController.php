@@ -30,8 +30,18 @@ final class StablesController extends Controller {
                 }
             }
 
-            $stables = $stables->findAll();
             $data = [];
+
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $stables->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $stables = $stables->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($stables as $stable) {
@@ -42,7 +52,9 @@ final class StablesController extends Controller {
             }
 
             $this->render(name_file: 'stables/index', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Stables');
         };
     }
@@ -69,8 +81,17 @@ final class StablesController extends Controller {
                 }
             }
 
-            $stable_buildings = $stable_buildings->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $stable_buildings->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $stable_buildings = $stable_buildings->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($stable_buildings as $stable_building) {
@@ -80,7 +101,9 @@ final class StablesController extends Controller {
             }
 
             $this->render(name_file: 'stables/stable_buildings', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Stable buildings');
         };
     }

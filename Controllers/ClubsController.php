@@ -42,8 +42,17 @@ final class ClubsController extends Controller {
                 }
             }
 
-            $clubs = $clubs->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $clubs->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $clubs = $clubs->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($clubs as $club) {
@@ -55,7 +64,9 @@ final class ClubsController extends Controller {
             }
 
             $this->render(name_file: 'clubs/index', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page,
             ], title: 'Clubs');
         };
     }
@@ -82,8 +93,17 @@ final class ClubsController extends Controller {
                 }
             }
 
-            $club_buildings = $club_buildings->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $club_buildings->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $club_buildings = $club_buildings->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($club_buildings as $club_building) {
@@ -94,7 +114,9 @@ final class ClubsController extends Controller {
             }
 
             $this->render(name_file: 'clubs/club_buildings', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Club buildings');
         };
     }
@@ -121,8 +143,17 @@ final class ClubsController extends Controller {
                 }
             }
 
-            $club_items = $club_items->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $club_items->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $club_items = $club_items->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($club_items as $club_item) {
@@ -133,7 +164,9 @@ final class ClubsController extends Controller {
             }
 
             $this->render(name_file: 'clubs/club_items', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Club items');
         };
     }
@@ -160,8 +193,17 @@ final class ClubsController extends Controller {
                 }
             }
 
-            $club_members = $club_members->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $club_members->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $club_members = $club_members->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($club_members as $club_item) {
@@ -171,7 +213,9 @@ final class ClubsController extends Controller {
             }
 
             $this->render(name_file: 'clubs/club_members', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Club members');
         };
     }
@@ -195,8 +239,17 @@ final class ClubsController extends Controller {
                 }
             }
 
-            $club_tournaments = $club_tournaments->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $club_tournaments->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $club_tournaments = $club_tournaments->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($club_tournaments as $club_tournament) {
@@ -207,7 +260,9 @@ final class ClubsController extends Controller {
             }
 
             $this->render(name_file: 'clubs/club_tournaments', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Club tournaments');
         }
     }
@@ -234,8 +289,17 @@ final class ClubsController extends Controller {
                 }
             }
 
-            $club_tournament_registrations = $club_tournament_registrations->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $club_tournament_registrations->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $club_tournament_registrations = $club_tournament_registrations->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($club_tournament_registrations as $club_tournament_registration) {
@@ -246,7 +310,9 @@ final class ClubsController extends Controller {
             }
 
             $this->render(name_file: 'clubs/club_tournament_registrations', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Club tournament registrations');
         }
     }
@@ -270,8 +336,17 @@ final class ClubsController extends Controller {
                 }
             }
 
-            $club_tournament_rewards = $club_tournament_rewards->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $club_tournament_rewards->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $club_tournament_rewards = $club_tournament_rewards->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($club_tournament_rewards as $club_tournament_reward) {
@@ -284,7 +359,9 @@ final class ClubsController extends Controller {
             }
 
             $this->render(name_file: 'clubs/club_tournament_rewards', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Club tournament rewards');
         }
     }
