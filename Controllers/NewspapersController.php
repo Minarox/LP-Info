@@ -37,8 +37,17 @@ final class NewspapersController extends Controller {
                 }
             }
 
-            $newspapers = $newspapers->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $newspapers->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $newspapers = $newspapers->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($newspapers as $newspaper) {
@@ -48,7 +57,9 @@ final class NewspapersController extends Controller {
             }
 
             $this->render(name_file: 'newspapers/index', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Newspapers');
         };
     }
@@ -72,8 +83,17 @@ final class NewspapersController extends Controller {
                 }
             }
 
-            $news = $news->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $news->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $news = $news->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($news as $row) {
@@ -85,7 +105,9 @@ final class NewspapersController extends Controller {
             }
 
             $this->render(name_file: 'newspapers/news', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'News');
         };
     }
@@ -112,8 +134,17 @@ final class NewspapersController extends Controller {
                 }
             }
 
-            $newspaper_ads = $newspaper_ads->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $newspaper_ads->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $newspaper_ads = $newspaper_ads->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($newspaper_ads as $row) {
@@ -123,7 +154,9 @@ final class NewspapersController extends Controller {
             }
 
             $this->render(name_file: 'newspapers/newspaper_ads', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Newspapers ads');
         };
     }
@@ -147,8 +180,17 @@ final class NewspapersController extends Controller {
                 }
             }
 
-            $upcoming_events = $upcoming_events->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $upcoming_events->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $upcoming_events = $upcoming_events->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($upcoming_events as $upcoming_event) {
@@ -159,7 +201,9 @@ final class NewspapersController extends Controller {
             }
 
             $this->render(name_file: 'newspapers/upcoming_events', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Upcoming events');
         };
     }
@@ -183,8 +227,17 @@ final class NewspapersController extends Controller {
                 }
             }
 
-            $ads = $ads->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $ads->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $ads = $ads->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($ads as $ad) {
@@ -194,7 +247,9 @@ final class NewspapersController extends Controller {
             }
 
             $this->render(name_file: 'newspapers/ads', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Ads');
         };
     }
@@ -218,8 +273,17 @@ final class NewspapersController extends Controller {
                 }
             }
 
-            $weathers = $weathers->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $weathers->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $weathers = $weathers->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($weathers as $weather) {
@@ -229,7 +293,9 @@ final class NewspapersController extends Controller {
             }
 
             $this->render(name_file: 'newspapers/weathers', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Weathers');
         };
     }

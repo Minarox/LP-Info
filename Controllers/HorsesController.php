@@ -35,8 +35,17 @@ final class HorsesController extends Controller {
                 }
             }
 
-            $horses = $horses->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $horses->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $horses = $horses->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($horses as $horse) {
@@ -50,7 +59,9 @@ final class HorsesController extends Controller {
             }
 
             $this->render(name_file: 'horses/index', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Horses');
         };
     }
@@ -74,8 +85,17 @@ final class HorsesController extends Controller {
                 }
             }
 
-            $horse_breeds = $horse_breeds->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $horse_breeds->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $horse_breeds = $horse_breeds->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($horse_breeds as $horse_breed) {
@@ -85,7 +105,9 @@ final class HorsesController extends Controller {
             }
 
             $this->render(name_file: 'horses/horse_breeds', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Horse breeds');
         };
     }
@@ -112,8 +134,17 @@ final class HorsesController extends Controller {
                 }
             }
 
-            $horse_items = $horse_items->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $horse_items->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $horse_items = $horse_items->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($horse_items as $horse_item) {
@@ -124,7 +155,9 @@ final class HorsesController extends Controller {
             }
 
             $this->render(name_file: 'horses/horse_items', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Horse items');
         };
     }
@@ -151,8 +184,17 @@ final class HorsesController extends Controller {
                 }
             }
 
-            $horse_status = $horse_status->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $horse_status->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $horse_status = $horse_status->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($horse_status as $row) {
@@ -163,7 +205,9 @@ final class HorsesController extends Controller {
             }
 
             $this->render(name_file: 'horses/horse_status', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Horse status');
         }
     }
@@ -187,8 +231,17 @@ final class HorsesController extends Controller {
                 }
             }
 
-            $statuses = $statuses->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $statuses->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $statuses = $statuses->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($statuses as $status) {
@@ -198,7 +251,9 @@ final class HorsesController extends Controller {
             }
 
             $this->render(name_file: 'horses/statuses', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Statuses');
         }
     }

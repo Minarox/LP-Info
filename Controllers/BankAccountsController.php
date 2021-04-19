@@ -32,8 +32,17 @@ final class BankAccountsController extends Controller {
                 }
             }
 
-            $bank_accounts = $bank_accounts->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $bank_accounts->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $bank_accounts = $bank_accounts->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($bank_accounts as $bank_account) {
@@ -44,7 +53,9 @@ final class BankAccountsController extends Controller {
             }
 
             $this->render(name_file: 'bank/index', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Bank accounts');
         };
     }
@@ -68,8 +79,17 @@ final class BankAccountsController extends Controller {
                 }
             }
 
-            $bank_account_history = $bank_account_history->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $bank_account_history->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $bank_account_history = $bank_account_history->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($bank_account_history as $row) {
@@ -83,7 +103,9 @@ final class BankAccountsController extends Controller {
             }
 
             $this->render(name_file: 'bank/bank_history', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Bank account history');
         };
     }

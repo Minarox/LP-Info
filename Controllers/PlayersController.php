@@ -61,7 +61,7 @@ final class PlayersController extends Controller {
             $this->render(name_file: 'players/index', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
             ], title: 'Players');
         };
     }
@@ -110,7 +110,7 @@ final class PlayersController extends Controller {
             $this->render(name_file: 'players/player_horses', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
             ], title: 'Players horses');
         };
     }
