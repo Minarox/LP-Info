@@ -31,8 +31,23 @@ final class PlayersController extends Controller {
                 }
             }
 
-            $players = $players->findAll();
             $data = [];
+
+            // Pages system
+            $nb_items = $players->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            if(isset($_POST['page'])) {
+                $input_page = $_POST['page'];
+                if($input_page < 1) $current_page = 1;
+                else if($input_page > $last_page) $current_page = $last_page;
+                else $current_page = $_POST['page'];
+            }
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $players = $players->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($players as $player) {
@@ -44,7 +59,9 @@ final class PlayersController extends Controller {
             }
 
             $this->render(name_file: 'players/index', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Players');
         };
     }
@@ -71,8 +88,17 @@ final class PlayersController extends Controller {
                 }
             }
 
-            $player_horses = $player_horses->findAll();
             $data = [];
+
+            // Pages system
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'];
+
+            $nb_items = $player_horses->countAll()->nb_items;
+            $last_page = ceil($nb_items/NB_PER_PAGE);
+
+            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+            $player_horses = $player_horses->findPageRange($first_of_page, NB_PER_PAGE);
             $i = 0;
 
             foreach ($player_horses as $player_horse) {
@@ -82,7 +108,9 @@ final class PlayersController extends Controller {
             }
 
             $this->render(name_file: 'players/player_horses', params: [
-                'data'=> $data
+                'data'=> $data,
+                'current_page'=> $current_page,
+                'last_page'=> $last_page
             ], title: 'Players horses');
         };
     }

@@ -136,6 +136,22 @@ abstract class Model {
     }
 
     /**
+     * @return bool|array|$this
+     */
+    public function countAll(): bool|array|self
+    {
+        return $this->query("SELECT COUNT(*) as nb_items FROM {$this->table}")->fetch();
+    }
+
+    /**
+     * @return bool|array|$this
+     */
+    public function findPageRange($first_of_page, $nb_per_page): bool|array|self
+    {
+        return $this->query("SELECT * FROM {$this->table} LIMIT $first_of_page, $nb_per_page")->fetchAll();
+    }
+
+    /**
      * @return bool|string|$this
      */
     public function getTableName(): bool|string|self

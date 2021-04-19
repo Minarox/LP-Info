@@ -666,6 +666,36 @@ table{
     border-radius: 0 0 10px 10px;
 }
 
+.pages-container {
+    display: flex;
+    flex-flow: row;
+}
+
+.pages-container a {
+    margin-right: 10px;
+}
+
+.pages-container a:last-child {
+    margin-right: 0;
+}
+
+.pages-container .active {
+    background-color: #F6F7FA;
+    color: #000000;
+}
+
+.pages-container p {
+    margin: auto 10px auto 0;
+}
+
+.page-input {
+    width: 100px;
+}
+
+.page-input::placeholder {
+    color: #bebebe;
+}
+
 /* ---------------- */
 /* --- SETTINGS --- */
 /* ---------------- */
