@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
-use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\Club_BuildingsModel;
 use App\Models\Club_ItemsModel;
@@ -13,13 +12,6 @@ use App\Models\Club_Tournament_RegistrantsModel;
 use App\Models\Club_Tournament_RewardsModel;
 use App\Models\Club_TournamentsModel;
 use App\Models\ClubsModel;
-use App\Models\Horse_BreedsModel;
-use App\Models\Horse_ItemsModel;
-use App\Models\Horse_StatusModel;
-use App\Models\HorsesModel;
-use App\Models\Player_HorsesModel;
-use App\Models\PlayersModel;
-use App\Models\StatusesModel;
 
 final class ClubsController extends Controller {
 
@@ -27,6 +19,13 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("clubs", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $clubs = new ClubsModel();
 
@@ -80,6 +79,13 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("club_buildings", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $club_buildings = new Club_BuildingsModel();
 
@@ -135,6 +141,13 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("club_items", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $club_items = new Club_ItemsModel();
 
@@ -190,6 +203,13 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("club_members", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $club_members = new Club_MembersModel();
 
@@ -244,6 +264,13 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("club_tournaments", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $club_tournaments = new Club_TournamentsModel();
 
@@ -296,6 +323,13 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("club_tournament_registrants", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $club_tournament_registrations = new Club_Tournament_RegistrantsModel();
 
@@ -351,6 +385,13 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("club_tournament_rewards", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $club_tournament_rewards = new Club_Tournament_RewardsModel();
 
