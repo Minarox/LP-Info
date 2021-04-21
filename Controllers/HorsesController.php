@@ -23,6 +23,13 @@ final class HorsesController extends Controller {
             if (!$this->permissions("horses", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("horses", $tables)) {
+                    $position = array_search("horses", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $horses = new HorsesModel();
@@ -71,6 +78,7 @@ final class HorsesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Horses');
         };
     }
@@ -85,6 +93,13 @@ final class HorsesController extends Controller {
             if (!$this->permissions("horse_breeds", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("horse_breeds", $tables)) {
+                    $position = array_search("horse_breeds", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $horse_breeds = new Horse_BreedsModel();
@@ -129,6 +144,7 @@ final class HorsesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Horse breeds');
         };
     }
@@ -143,6 +159,13 @@ final class HorsesController extends Controller {
             if (!$this->permissions("horse_items", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("horse_items", $tables)) {
+                    $position = array_search("horse_items", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $horse_items = new Horse_ItemsModel();
@@ -191,6 +214,7 @@ final class HorsesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Horse items');
         };
     }
@@ -205,6 +229,13 @@ final class HorsesController extends Controller {
             if (!$this->permissions("horse_status", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("horse_status", $tables)) {
+                    $position = array_search("horse_status", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $horse_status = new Horse_StatusModel();
@@ -253,6 +284,7 @@ final class HorsesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Horse status');
         }
     }
@@ -267,6 +299,13 @@ final class HorsesController extends Controller {
             if (!$this->permissions("statuses", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("statuses", $tables)) {
+                    $position = array_search("statuses", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $statuses = new StatusesModel();
@@ -311,6 +350,7 @@ final class HorsesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Statuses');
         }
     }

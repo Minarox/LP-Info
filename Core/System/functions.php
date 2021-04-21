@@ -25,6 +25,8 @@ use JetBrains\PhpStorm\Pure;
         return true;
     } elseif ((in_array("*", $permissions))) {
         return true;
+    } elseif ((in_array("ALL PRIVILEGES", $permissions))) {
+        return true;
     } else {
         return false;
     }

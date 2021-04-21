@@ -20,6 +20,13 @@ final class PlayersController extends Controller {
             if (!$this->permissions("players", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("players", $tables)) {
+                    $position = array_search("players", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $players = new PlayersModel();
@@ -66,6 +73,7 @@ final class PlayersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Players');
         };
     }
@@ -80,6 +88,13 @@ final class PlayersController extends Controller {
             if (!$this->permissions("player_horses", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("player_horses", $tables)) {
+                    $position = array_search("player_horses", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $player_horses = new Player_HorsesModel();
@@ -127,6 +142,7 @@ final class PlayersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Players horses');
         };
     }

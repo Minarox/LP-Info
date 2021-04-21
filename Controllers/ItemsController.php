@@ -20,6 +20,13 @@ final class ItemsController extends Controller {
             if (!$this->permissions("items", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("items", $tables)) {
+                    $position = array_search("items", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $items = new ItemsModel();
@@ -66,6 +73,7 @@ final class ItemsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'items');
         };
     }
@@ -80,6 +88,13 @@ final class ItemsController extends Controller {
             if (!$this->permissions("item_types", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("item_types", $tables)) {
+                    $position = array_search("item_types", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $item_types = new Item_TypesModel();
@@ -124,6 +139,7 @@ final class ItemsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Items types');
         };
     }

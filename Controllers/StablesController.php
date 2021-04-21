@@ -20,6 +20,13 @@ final class StablesController extends Controller {
             if (!$this->permissions("stables", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("stables", $tables)) {
+                    $position = array_search("stables", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $stables = new StablesModel();
@@ -65,6 +72,7 @@ final class StablesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Stables');
         };
     }
@@ -79,6 +87,13 @@ final class StablesController extends Controller {
             if (!$this->permissions("stable_buildings", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("stable_buildings", $tables)) {
+                    $position = array_search("stable_buildings", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $stable_buildings = new Stable_BuildingsModel();
@@ -126,6 +141,7 @@ final class StablesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Stable buildings');
         };
     }

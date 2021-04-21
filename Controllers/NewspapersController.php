@@ -24,6 +24,13 @@ final class NewspapersController extends Controller {
             if (!$this->permissions("newspapers", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("newspapers", $tables)) {
+                    $position = array_search("newspapers", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $newspapers = new NewspapersModel();
@@ -68,6 +75,7 @@ final class NewspapersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Newspapers');
         };
     }
@@ -82,6 +90,13 @@ final class NewspapersController extends Controller {
             if (!$this->permissions("news", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("news", $tables)) {
+                    $position = array_search("news", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $news = new NewsModel();
@@ -128,6 +143,7 @@ final class NewspapersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'News');
         };
     }
@@ -142,6 +158,13 @@ final class NewspapersController extends Controller {
             if (!$this->permissions("ads", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("ads", $tables)) {
+                    $position = array_search("ads", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $newspaper_ads = new Newspaper_AdsModel();
@@ -189,6 +212,7 @@ final class NewspapersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Newspapers ads');
         };
     }
@@ -203,6 +227,13 @@ final class NewspapersController extends Controller {
             if (!$this->permissions("upcoming_events", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("upcoming_events", $tables)) {
+                    $position = array_search("upcoming_events", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $upcoming_events = new Upcoming_EventsModel();
@@ -248,6 +279,7 @@ final class NewspapersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Upcoming events');
         };
     }
@@ -262,6 +294,13 @@ final class NewspapersController extends Controller {
             if (!$this->permissions("ads", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("ads", $tables)) {
+                    $position = array_search("ads", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $ads = new AdsModel();
@@ -306,6 +345,7 @@ final class NewspapersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Ads');
         };
     }
@@ -320,6 +360,13 @@ final class NewspapersController extends Controller {
             if (!$this->permissions("weathers", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("weathers", $tables)) {
+                    $position = array_search("weathers", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $weathers = new WeathersModel();
@@ -364,6 +411,7 @@ final class NewspapersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Weathers');
         };
     }
