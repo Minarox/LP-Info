@@ -35,7 +35,7 @@ final class HorsesController extends Controller {
                         $horses->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'horses', response_code: 301);
+                    $this->redirect(header: 'horses');
                 }
             }
 
@@ -97,7 +97,7 @@ final class HorsesController extends Controller {
                         $horse_breeds->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'horse/breeds', response_code: 301);
+                    $this->redirect(header: 'horse/breeds');
                 }
             }
 
@@ -158,7 +158,7 @@ final class HorsesController extends Controller {
                         $horse_items->query("DELETE FROM {$horse_items->getTableName()} WHERE horse_id = $horseid AND item_id = $itemid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'horse/items', response_code: 301);
+                    $this->redirect(header: 'horse/items');
                 }
             }
 
@@ -220,7 +220,7 @@ final class HorsesController extends Controller {
                         $horse_status->query("DELETE FROM {$horse_status->getTableName()} WHERE horse_id = $horseid AND status_id = $statusid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'horse/status', response_code: 301);
+                    $this->redirect(header: 'horse/status');
                 }
             }
 
@@ -279,7 +279,7 @@ final class HorsesController extends Controller {
                         $statuses->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'statuses', response_code: 301);
+                    $this->redirect(header: 'statuses');
                 }
             }
 

@@ -36,7 +36,7 @@ final class BuildingsController extends Controller {
                         $buildings->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'buildings', response_code: 301);
+                    $this->redirect(header: 'buildings');
                 }
             }
 
@@ -96,7 +96,7 @@ final class BuildingsController extends Controller {
                         $building_families->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'building/families', response_code: 301);
+                    $this->redirect(header: 'building/families');
                 }
             }
 
@@ -157,7 +157,7 @@ final class BuildingsController extends Controller {
                         $building_items->query("DELETE FROM {$building_items->get()} WHERE building_id = $buildingid AND item_id = $itemid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'building/items', response_code: 301);
+                    $this->redirect(header: 'building/items');
                 }
             }
 
@@ -216,7 +216,7 @@ final class BuildingsController extends Controller {
                         $building_types->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'building/types', response_code: 301);
+                    $this->redirect(header: 'building/types');
                 }
             }
 
@@ -276,7 +276,7 @@ final class BuildingsController extends Controller {
                         $automatic_tasks->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'automatic', response_code: 301);
+                    $this->redirect(header: 'automatic');
                 }
             }
 
@@ -337,7 +337,7 @@ final class BuildingsController extends Controller {
                         $automatic_task_actions->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'automatic/actions', response_code: 301);
+                    $this->redirect(header: 'automatic/actions');
                 }
             }
 

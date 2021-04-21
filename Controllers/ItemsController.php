@@ -32,7 +32,7 @@ final class ItemsController extends Controller {
                         $items->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'items', response_code: 301);
+                    $this->redirect(header: 'items');
                 }
             }
 
@@ -92,7 +92,7 @@ final class ItemsController extends Controller {
                         $item_types->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'items/types', response_code: 301);
+                    $this->redirect(header: 'items/types');
                 }
             }
 

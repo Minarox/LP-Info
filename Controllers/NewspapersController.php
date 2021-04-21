@@ -36,7 +36,7 @@ final class NewspapersController extends Controller {
                         $newspapers->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'newspapers', response_code: 301);
+                    $this->redirect(header: 'newspapers');
                 }
             }
 
@@ -94,7 +94,7 @@ final class NewspapersController extends Controller {
                         $news->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'newspapers/news', response_code: 301);
+                    $this->redirect(header: 'newspapers/news');
                 }
             }
 
@@ -157,7 +157,7 @@ final class NewspapersController extends Controller {
                         $newspaper_ads->query("DELETE FROM {$newspaper_ads->get()} WHERE newspaper_id = $newspaperid AND ad_id = $adid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'newspapers/ads', response_code: 301);
+                    $this->redirect(header: 'newspapers/ads');
                 }
             }
 
@@ -215,7 +215,7 @@ final class NewspapersController extends Controller {
                         $upcoming_events->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'newspapers/upcoming', response_code: 301);
+                    $this->redirect(header: 'newspapers/upcoming');
                 }
             }
 
@@ -274,7 +274,7 @@ final class NewspapersController extends Controller {
                         $ads->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'ads', response_code: 301);
+                    $this->redirect(header: 'ads');
                 }
             }
 
@@ -332,7 +332,7 @@ final class NewspapersController extends Controller {
                         $weathers->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'weathers', response_code: 301);
+                    $this->redirect(header: 'weathers');
                 }
             }
 
