@@ -32,7 +32,7 @@ final class BankAccountsController extends Controller {
                         $bank_accounts->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'bank', response_code: 301);
+                    $this->redirect(header: 'bank');
                 }
             }
 
@@ -91,7 +91,7 @@ final class BankAccountsController extends Controller {
                         $bank_account_history->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'bank', response_code: 301);
+                    $this->redirect(header: 'bank');
                 }
             }
 

@@ -37,7 +37,7 @@ final class ClubsController extends Controller {
                         $clubs->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'clubs', response_code: 301);
+                    $this->redirect(header: 'clubs');
                 }
             }
 
@@ -100,7 +100,7 @@ final class ClubsController extends Controller {
                         $club_buildings->query("DELETE FROM {$club_buildings->getTableName()} WHERE club_id = $clubid AND building_id = $buildingid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'club/buildings', response_code: 301);
+                    $this->redirect(header: 'club/buildings');
                 }
             }
 
@@ -162,7 +162,7 @@ final class ClubsController extends Controller {
                         $club_items->query("DELETE FROM {$club_items->getTableName()} WHERE club_id = $clubid AND item_id = $itemid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'club/items', response_code: 301);
+                    $this->redirect(header: 'club/items');
                 }
             }
 
@@ -224,7 +224,7 @@ final class ClubsController extends Controller {
                         $club_members->query("DELETE FROM {$club_members->getTableName()} WHERE club_id = $clubid AND player_id = $playerid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'club/members', response_code: 301);
+                    $this->redirect(header: 'club/members');
                 }
             }
 
@@ -282,7 +282,7 @@ final class ClubsController extends Controller {
                         $club_tournaments->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'clubs/tournaments', response_code: 301);
+                    $this->redirect(header: 'clubs/tournaments');
                 }
             }
 
@@ -344,7 +344,7 @@ final class ClubsController extends Controller {
                         $club_tournament_registrations->query("DELETE FROM {$club_tournament_registrations->getTableName()} WHERE club_tournament_id = $clubtournamentid AND player_id = $playerid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'club/tournament/registrations', response_code: 301);
+                    $this->redirect(header: 'club/tournament/registrations');
                 }
             }
 
@@ -403,7 +403,7 @@ final class ClubsController extends Controller {
                         $club_tournament_rewards->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'club/tournament/rewards', response_code: 301);
+                    $this->redirect(header: 'club/tournament/rewards');
                 }
             }
 

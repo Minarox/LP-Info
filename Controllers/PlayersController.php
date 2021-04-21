@@ -32,7 +32,7 @@ final class PlayersController extends Controller {
                         $players->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'players', response_code: 301);
+                    $this->redirect(header: 'players');
                 }
             }
 
@@ -95,7 +95,7 @@ final class PlayersController extends Controller {
                         $player_horses->query("DELETE FROM {$player_horses->getTableName()} WHERE player_id = $playerid AND horse_id = $horseid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'player/horses', response_code: 301);
+                    $this->redirect(header: 'player/horses');
                 }
             }
 

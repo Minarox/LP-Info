@@ -32,7 +32,7 @@ final class StablesController extends Controller {
                         $stables->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'stables', response_code: 301);
+                    $this->redirect(header: 'stables');
                 }
             }
 
@@ -94,7 +94,7 @@ final class StablesController extends Controller {
                         $stable_buildings->query("DELETE FROM {$stable_buildings->getTableName()} WHERE stable_id = $stableid AND building_id = $buildingid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'stable/buildings', response_code: 301);
+                    $this->redirect(header: 'stable/buildings');
                 }
             }
 
