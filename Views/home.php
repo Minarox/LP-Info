@@ -6,21 +6,21 @@
         <section class="tables-container">
             <section class="table">
                 <header>
-                    <img src="/public/assets/images/horse.png" class="table-icon"><h1>Players</h1>
+                    <img src="<?= SCRIPTS . 'images/horse.png' ?>" class="table-icon"><h1>Players</h1>
                 </header>
                 <a href="<?= ROOT ?>players" class="link">Players</a>
                 <a href="<?= ROOT ?>player/horses" class="link">Player Horses</a>
             </section>
             <section class="table">
                 <header>
-                    <img src="/public/assets/images/horse.png" class="table-icon"><h1>Stables</h1>
+                    <img src="<?= SCRIPTS . 'images/horse.png' ?>" class="table-icon"><h1>Stables</h1>
                 </header>
                 <a href="<?= ROOT ?>stables" class="link">Stables</a>
                 <a href="<?= ROOT ?>stable/buildings" class="link">Stable buldings</a>
             </section>
             <section class="table">
                 <header>
-                    <img src="/public/assets/images/horse.png" class="table-icon"><h1>Newspapers</h1>
+                    <img src="<?= SCRIPTS . 'images/horse.png' ?>" class="table-icon"><h1>Newspapers</h1>
                 </header>
                 <a href="<?= ROOT ?>newspapers" class="link">Newspapers</a>
                 <a href="<?= ROOT ?>newspapers/news" class="link">News</a>
@@ -31,14 +31,14 @@
             </section>
             <section class="table">
                 <header>
-                    <img src="/public/assets/images/horse.png" class="table-icon"><h1>Items</h1>
+                    <img src="<?= SCRIPTS . 'images/horse.png' ?>" class="table-icon"><h1>Items</h1>
                 </header>
                 <a href="<?= ROOT ?>items" class="link">Items</a>
                 <a href="<?= ROOT ?>items/types" class="link">Items types</a>
             </section>
             <section class="table">
                 <header>
-                    <img src="/public/assets/images/horse.png" class="table-icon"><h1>Horses</h1>
+                    <img src="<?= SCRIPTS . 'images/horse.png' ?>" class="table-icon"><h1>Horses</h1>
                 </header>
                 <a href="<?= ROOT ?>horses" class="link">Horses</a>
                 <a href="<?= ROOT ?>horse/breeds" class="link">Horse breeds</a>
@@ -48,7 +48,7 @@
             </section>
             <section class="table">
                 <header>
-                    <img src="/public/assets/images/horse.png" class="table-icon"><h1>Clubs</h1>
+                    <img src="<?= SCRIPTS . 'images/horse.png' ?>" class="table-icon"><h1>Clubs</h1>
                 </header>
                 <a href="<?= ROOT ?>clubs" class="link">Clubs</a>
                 <a href="<?= ROOT ?>club/buildings" class="link">Club buildings</a>
@@ -60,7 +60,7 @@
             </section>
             <section class="table">
                 <header>
-                    <img src="/public/assets/images/horse.png" class="table-icon"><h1>Buildings</h1>
+                    <img src="<?= SCRIPTS . 'images/horse.png' ?>" class="table-icon"><h1>Buildings</h1>
                 </header>
                 <a href="<?= ROOT ?>buildings" class="link">Buildings</a>
                 <a href="<?= ROOT ?>building/families" class="link">Building families</a>
@@ -71,7 +71,7 @@
             </section>
             <section class="table">
                 <header>
-                    <img src="/public/assets/images/horse.png" class="table-icon"><h1>Bank accounts</h1>
+                    <img src="<?= SCRIPTS . 'images/horse.png' ?>" class="table-icon"><h1>Bank accounts</h1>
                 </header>
                 <a href="<?= ROOT ?>bank" class="link">Bank accounts</a>
                 <a href="<?= ROOT ?>bank/history" class="link">Bank account history</a>
