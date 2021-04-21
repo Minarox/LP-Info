@@ -95,7 +95,7 @@
     <section class="container">
         <p>
             &copy; <?= date("Y"); ?>
-            <a href="<?= ROOT ?>">Horse_sim.fr</a> &nbsp;|&nbsp; <a href="<?= ROOT ?>mentions-legales">Mentions Légales</a>
+            <a href="<?= ROOT ?>">Horse_sim.fr</a>
         <p>
     </section>
 </footer>
