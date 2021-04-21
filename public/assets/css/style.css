@@ -696,6 +696,35 @@ table{
     color: #bebebe;
 }
 
+.search-container {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.search-container .input {
+    padding: .375rem .75rem;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #FFFFFF;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    appearance: none;
+}
+
+.search-container .submit {
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    color: #FFFFFF;
+    padding: 10px;
+    background-color: #6A758E;
+    transition: 0.3s;
+}
+
+.search-container .submit:hover {
+    background-color: #79829A;
+}
+
 /* ---------------- */
 /* --- SETTINGS --- */
 /* ---------------- */

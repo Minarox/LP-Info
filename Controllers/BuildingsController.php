@@ -45,15 +45,19 @@ final class BuildingsController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($buildings->countLike($search_string, ["id", "building_type_id", "description", "level"]));
+            } else $nb_items = $buildings->countAll()->nb_items;
 
-            $nb_items = $buildings->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $buildings = $buildings->findPageRange($first_of_page, NB_PER_PAGE);
+            $buildings = $buildings->find($search_string, ["id", "building_type_id", "description", "level"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($buildings as $building) {
@@ -67,7 +71,8 @@ final class BuildingsController extends Controller {
             $this->render(name_file: 'buildings/index', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Buildings');
         };
     }
@@ -93,15 +98,19 @@ final class BuildingsController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($building_families->countLike($search_string, ["id", "name"]));
+            } else $nb_items = $building_families->countAll()->nb_items;
 
-            $nb_items = $building_families->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $building_families = $building_families->findPageRange($first_of_page, NB_PER_PAGE);
+            $building_families = $building_families->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($building_families as $building_family) {
@@ -113,7 +122,8 @@ final class BuildingsController extends Controller {
             $this->render(name_file: 'buildings/building_families', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Building families');
         };
     }
@@ -142,15 +152,19 @@ final class BuildingsController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($building_items->countLike($search_string, ["building_id", "item_id", "quantity"]));
+            } else $nb_items = $building_items->countAll()->nb_items;
 
-            $nb_items = $building_items->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $building_items = $building_items->findPageRange($first_of_page, NB_PER_PAGE);
+            $building_items = $building_items->find($search_string, ["building_id", "item_id", "quantity"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($building_items as $row) {
@@ -163,7 +177,8 @@ final class BuildingsController extends Controller {
             $this->render(name_file: 'buildings/building_items', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Building items');
         };
     }
@@ -189,15 +204,19 @@ final class BuildingsController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($building_types->countLike($search_string, ["id", "name", "items_limit", "horses_limit"]));
+            } else $nb_items = $building_types->countAll()->nb_items;
 
-            $nb_items = $building_types->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $building_types = $building_types->findPageRange($first_of_page, NB_PER_PAGE);
+            $building_types = $building_types->find($search_string, ["id", "name", "items_limit", "horses_limit"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($building_types as $building_type) {
@@ -211,7 +230,8 @@ final class BuildingsController extends Controller {
             $this->render(name_file: 'buildings/building_types', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Building types');
         };
     }
@@ -237,15 +257,19 @@ final class BuildingsController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($automatic_tasks->countLike($search_string, ["id", "automatic_task_action_id", "stable_building_id", "item_id", "frequency"]));
+            } else $nb_items = $automatic_tasks->countAll()->nb_items;
 
-            $nb_items = $automatic_tasks->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $automatic_tasks = $automatic_tasks->findPageRange($first_of_page, NB_PER_PAGE);
+            $automatic_tasks = $automatic_tasks->find($search_string, ["id", "automatic_task_action_id", "stable_building_id", "item_id", "frequency"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($automatic_tasks as $automatic_task) {
@@ -260,7 +284,8 @@ final class BuildingsController extends Controller {
             $this->render(name_file: 'buildings/automatic_tasks', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Building automatic tasks');
         };
     }
@@ -286,15 +311,19 @@ final class BuildingsController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($automatic_task_actions->countLike($search_string, ["id", "name"]));
+            } else $nb_items = $automatic_task_actions->countAll()->nb_items;
 
-            $nb_items = $automatic_task_actions->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $automatic_task_actions = $automatic_task_actions->findPageRange($first_of_page, NB_PER_PAGE);
+            $automatic_task_actions = $automatic_task_actions->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($automatic_task_actions as $automatic_task_action) {
@@ -306,7 +335,8 @@ final class BuildingsController extends Controller {
             $this->render(name_file: 'buildings/automatic_task_actions', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Building automatic task actions');
         };
     }

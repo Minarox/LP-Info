@@ -37,15 +37,19 @@ final class HorsesController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($horses->countLike($search_string, ["id", "name", "breed_id", "global_condition", "experience", "level"]));
+            } else $nb_items = $horses->countAll()->nb_items;
 
-            $nb_items = $horses->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $horses = $horses->findPageRange($first_of_page, NB_PER_PAGE);
+            $horses = $horses->find($search_string, ["id", "name", "breed_id", "global_condition", "experience", "level"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($horses as $horse) {
@@ -61,7 +65,8 @@ final class HorsesController extends Controller {
             $this->render(name_file: 'horses/index', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Horses');
         };
     }
@@ -87,15 +92,19 @@ final class HorsesController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($horse_breeds->countLike($search_string, ["id", "name"]));
+            } else $nb_items = $horse_breeds->countAll()->nb_items;
 
-            $nb_items = $horse_breeds->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $horse_breeds = $horse_breeds->findPageRange($first_of_page, NB_PER_PAGE);
+            $horse_breeds = $horse_breeds->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($horse_breeds as $horse_breed) {
@@ -107,7 +116,8 @@ final class HorsesController extends Controller {
             $this->render(name_file: 'horses/horse_breeds', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Horse breeds');
         };
     }
@@ -136,15 +146,19 @@ final class HorsesController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($horse_items->countLike($search_string, ["horse_id", "item_id", "quantity"]));
+            } else $nb_items = $horse_items->countAll()->nb_items;
 
-            $nb_items = $horse_items->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $horse_items = $horse_items->findPageRange($first_of_page, NB_PER_PAGE);
+            $horse_items = $horse_items->find($search_string, ["horse_id", "item_id", "quantity"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($horse_items as $horse_item) {
@@ -157,7 +171,8 @@ final class HorsesController extends Controller {
             $this->render(name_file: 'horses/horse_items', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Horse items');
         };
     }
@@ -186,15 +201,19 @@ final class HorsesController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($horse_status->countLike($search_string, ["horse_id", "status_id", "onset_date"]));
+            } else $nb_items = $horse_status->countAll()->nb_items;
 
-            $nb_items = $horse_status->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $horse_status = $horse_status->findPageRange($first_of_page, NB_PER_PAGE);
+            $horse_status = $horse_status->find($search_string, ["horse_id", "status_id", "onset_date"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($horse_status as $row) {
@@ -207,7 +226,8 @@ final class HorsesController extends Controller {
             $this->render(name_file: 'horses/horse_status', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Horse status');
         }
     }
@@ -233,15 +253,19 @@ final class HorsesController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($statuses->countLike($search_string, ["id", "name"]));
+            } else $nb_items = $statuses->countAll()->nb_items;
 
-            $nb_items = $statuses->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $statuses = $statuses->findPageRange($first_of_page, NB_PER_PAGE);
+            $statuses = $statuses->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($statuses as $status) {
@@ -253,7 +277,8 @@ final class HorsesController extends Controller {
             $this->render(name_file: 'horses/statuses', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Statuses');
         }
     }

@@ -3,6 +3,11 @@
         <!-- Titre -->
         <h2 class="box-title hr">Ads</h2>
 
+        <form class="search-container">
+            <input class="input" name="search" type="text" value="<?= $search ?: "" ?>" placeholder="Votre recherche">
+            <input class="submit" type="submit" value="Rechercher">
+        </form>
+
         <form method="post">
 
             <div class="tbl-header">
@@ -37,9 +42,9 @@
                     <input type="submit" name="delete" value="Supprimer">
                 </div>
                 <div class="pages-container">
-                    <a href="<?= ROOT ?>players?page=1"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
+                    <a href="<?= ROOT ?>players?page=1<?= $search ? "&search=$search" : "" ?>"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
                     <?php $i = 2 ?>
-                    <?php if($current_page - 2 > 1) : ?>
+                    <?php if($current_page - 3 > 1) : ?>
                         <?php $i = $current_page - 2 ?>
                         <p>...</p>
                     <?php endif; ?>
@@ -49,12 +54,12 @@
                                 <?php if($current_page + 3 < $last_page) : ?>
                                     <p>...</p>
                                 <?php endif; ?>
-                                <a href="<?= ROOT ?>players?page=<?= $last_page ?>">
+                                <a href="<?= ROOT ?>players?page=<?= $last_page ?><?= $search ? "&search=$search" : "" ?>">
                                     <input <?= $current_page == $last_page ? "class='active'" : "" ?> type="button" value="<?= $last_page ?>">
                                 </a>
                                 <?php break; ?>
                             <?php endif; ?>
-                            <a href="<?= ROOT ?>players?page=<?= $i ?>">
+                            <a href="<?= ROOT ?>players?page=<?= $i ?><?= $search ? "&search=$search" : "" ?>">
                                 <input <?= $i == $current_page ? "class='active'" : "" ?> type="button" value="<?= $i ?>">
                             </a>
                         <?php endfor; ?>

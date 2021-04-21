@@ -31,15 +31,19 @@ final class ItemsController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($items->countLike($search_string, ["id", "item_type_id", "description", "level"]));
+            } else $nb_items = $items->countAll()->nb_items;
 
-            $nb_items = $items->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $items = $items->findPageRange($first_of_page, NB_PER_PAGE);
+            $items = $items->find($search_string, ["id", "item_type_id", "description", "level"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($items as $item) {
@@ -53,7 +57,8 @@ final class ItemsController extends Controller {
             $this->render(name_file: 'items/index', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'items');
         };
     }
@@ -79,15 +84,19 @@ final class ItemsController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($item_types->countLike($search_string, ["item_type_id", "name"]));
+            } else $nb_items = $item_types->countAll()->nb_items;
 
-            $nb_items = $item_types->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $item_types = $item_types->findPageRange($first_of_page, NB_PER_PAGE);
+            $item_types = $item_types->find($search_string, ["item_type_id", "name"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($item_types as $item_type) {
@@ -99,7 +108,8 @@ final class ItemsController extends Controller {
             $this->render(name_file: 'items/items_types', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Items types');
         };
     }
