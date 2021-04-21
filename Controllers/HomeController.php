@@ -4,8 +4,6 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\System\Controller;
-use App\Models\AdsModel;
-use App\Models\UserModel;
 
 final class HomeController extends Controller {
 
@@ -13,7 +11,13 @@ final class HomeController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
-            $this->render(name_file: 'home', title: 'Accueil');
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+
+            $this->render(name_file: 'home', params: [
+                'tables'=> $tables
+            ]);
         };
     }
 

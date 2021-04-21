@@ -19,3 +19,13 @@ use JetBrains\PhpStorm\Pure;
     $request = new Request();
     return $request->cookie->exists('token');
 }
+
+#[Pure] function permissions(string $value, array $permissions): bool {
+    if (in_array($value, $permissions)) {
+        return true;
+    } elseif ((in_array("*", $permissions))) {
+        return true;
+    } else {
+        return false;
+    }
+}
