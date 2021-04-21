@@ -25,6 +25,13 @@ final class ClubsController extends Controller {
             if (!$this->permissions("clubs", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("clubs", $tables)) {
+                    $position = array_search("clubs", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $clubs = new ClubsModel();
@@ -71,6 +78,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Clubs');
         };
     }
@@ -85,6 +93,13 @@ final class ClubsController extends Controller {
             if (!$this->permissions("club_buildings", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("club_buildings", $tables)) {
+                    $position = array_search("club_buildings", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $club_buildings = new Club_BuildingsModel();
@@ -133,6 +148,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Club buildings');
         };
     }
@@ -147,6 +163,13 @@ final class ClubsController extends Controller {
             if (!$this->permissions("club_items", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("club_items", $tables)) {
+                    $position = array_search("club_items", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $club_items = new Club_ItemsModel();
@@ -195,6 +218,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Club items');
         };
     }
@@ -209,6 +233,13 @@ final class ClubsController extends Controller {
             if (!$this->permissions("club_members", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("club_members", $tables)) {
+                    $position = array_search("club_members", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $club_members = new Club_MembersModel();
@@ -256,6 +287,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Club members');
         };
     }
@@ -270,6 +302,13 @@ final class ClubsController extends Controller {
             if (!$this->permissions("club_tournaments", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("club_tournaments", $tables)) {
+                    $position = array_search("club_tournaments", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $club_tournaments = new Club_TournamentsModel();
@@ -315,6 +354,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Club tournaments');
         }
     }
@@ -329,6 +369,13 @@ final class ClubsController extends Controller {
             if (!$this->permissions("club_tournament_registrants", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("club_tournament_registrants", $tables)) {
+                    $position = array_search("club_tournament_registrants", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $club_tournament_registrations = new Club_Tournament_RegistrantsModel();
@@ -377,6 +424,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Club tournament registrations');
         }
     }
@@ -391,6 +439,13 @@ final class ClubsController extends Controller {
             if (!$this->permissions("club_tournament_rewards", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("club_tournament_rewards", $tables)) {
+                    $position = array_search("club_tournament_rewards", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $club_tournament_rewards = new Club_Tournament_RewardsModel();
@@ -438,6 +493,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Club tournament rewards');
         }
     }

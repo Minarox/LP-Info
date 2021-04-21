@@ -20,6 +20,13 @@ final class BankAccountsController extends Controller {
             if (!$this->permissions("bank_accounts", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("bank_accounts", $tables)) {
+                    $position = array_search("bank_accounts", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $bank_accounts = new Bank_AccountsModel();
@@ -65,6 +72,7 @@ final class BankAccountsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Bank accounts');
         };
     }
@@ -79,6 +87,13 @@ final class BankAccountsController extends Controller {
             if (!$this->permissions("bank_account_history", $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("bank_account_history", $tables)) {
+                    $position = array_search("bank_account_history", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
             $bank_account_history = new Bank_Account_HistoryModel();
@@ -127,6 +142,7 @@ final class BankAccountsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Bank account history');
         };
     }
