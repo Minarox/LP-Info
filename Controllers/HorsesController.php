@@ -4,14 +4,11 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
-use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\Horse_BreedsModel;
 use App\Models\Horse_ItemsModel;
 use App\Models\Horse_StatusModel;
 use App\Models\HorsesModel;
-use App\Models\Player_HorsesModel;
-use App\Models\PlayersModel;
 use App\Models\StatusesModel;
 
 final class HorsesController extends Controller {
@@ -20,6 +17,13 @@ final class HorsesController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("horses", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $horses = new HorsesModel();
 
@@ -75,6 +79,13 @@ final class HorsesController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("horse_breeds", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $horse_breeds = new Horse_BreedsModel();
 
@@ -126,6 +137,13 @@ final class HorsesController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("horse_items", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $horse_items = new Horse_ItemsModel();
 
@@ -181,6 +199,13 @@ final class HorsesController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("horse_status", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $horse_status = new Horse_StatusModel();
 
@@ -236,6 +261,13 @@ final class HorsesController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("statuses", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $statuses = new StatusesModel();
 

@@ -4,15 +4,11 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
-use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\AdsModel;
-use App\Models\HorsesModel;
 use App\Models\NewsModel;
 use App\Models\Newspaper_AdsModel;
 use App\Models\NewspapersModel;
-use App\Models\Player_HorsesModel;
-use App\Models\PlayersModel;
 use App\Models\Upcoming_EventsModel;
 use App\Models\WeathersModel;
 
@@ -22,6 +18,13 @@ final class NewspapersController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("newspapers", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $newspapers = new NewspapersModel();
 
@@ -73,6 +76,13 @@ final class NewspapersController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("news", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $news = new NewsModel();
 
@@ -122,10 +132,17 @@ final class NewspapersController extends Controller {
         };
     }
 
-    #[Route('/newspapers/ads', 'newspapers_ads', ['GET', 'POST'])] public function newspapersAds(Request $request) {
+    #[Route('/newspapers/ads', 'ads', ['GET', 'POST'])] public function newspapersAds(Request $request) {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("ads", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $newspaper_ads = new Newspaper_AdsModel();
 
@@ -180,6 +197,13 @@ final class NewspapersController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("upcoming_events", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $upcoming_events = new Upcoming_EventsModel();
 
@@ -232,6 +256,13 @@ final class NewspapersController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("ads", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $ads = new AdsModel();
 
@@ -283,6 +314,13 @@ final class NewspapersController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("weathers", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $weathers = new WeathersModel();
 

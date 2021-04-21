@@ -4,12 +4,9 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
-use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\Bank_Account_HistoryModel;
 use App\Models\Bank_AccountsModel;
-use App\Models\Stable_BuildingsModel;
-use App\Models\StablesModel;
 
 final class BankAccountsController extends Controller {
 
@@ -17,6 +14,13 @@ final class BankAccountsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("bank_accounts", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $bank_accounts = new Bank_AccountsModel();
 
@@ -69,6 +73,13 @@ final class BankAccountsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("bank_account_history", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $bank_account_history = new Bank_Account_HistoryModel();
 

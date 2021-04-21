@@ -4,23 +4,13 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
-use App\Core\Classes\Validator;
 use App\Core\System\Controller;
-use App\Models\AdsModel;
 use App\Models\Automatic_Task_ActionsModel;
 use App\Models\Automatic_TasksModel;
 use App\Models\Building_FamiliesModel;
 use App\Models\Building_ItemsModel;
 use App\Models\Building_TypesModel;
 use App\Models\BuildingsModel;
-use App\Models\HorsesModel;
-use App\Models\NewsModel;
-use App\Models\Newspaper_AdsModel;
-use App\Models\NewspapersModel;
-use App\Models\Player_HorsesModel;
-use App\Models\PlayersModel;
-use App\Models\Upcoming_EventsModel;
-use App\Models\WeathersModel;
 
 final class BuildingsController extends Controller {
 
@@ -28,6 +18,13 @@ final class BuildingsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("buildings", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $buildings = new BuildingsModel();
 
@@ -81,6 +78,13 @@ final class BuildingsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("building_families", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $building_families = new Building_FamiliesModel();
 
@@ -132,6 +136,13 @@ final class BuildingsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("building_items", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $building_items = new Building_ItemsModel();
 
@@ -187,6 +198,13 @@ final class BuildingsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("building_types", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $building_types = new Building_TypesModel();
 
@@ -240,6 +258,13 @@ final class BuildingsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("automatic_tasks", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $automatic_tasks = new Automatic_TasksModel();
 
@@ -294,6 +319,13 @@ final class BuildingsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("automatic_task_actions", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            }
 
             $automatic_task_actions = new Automatic_Task_ActionsModel();
 
