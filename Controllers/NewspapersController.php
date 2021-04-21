@@ -39,15 +39,19 @@ final class NewspapersController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($newspapers->countLike($search_string, ["id", "date"]));
+            } else $nb_items = $newspapers->countAll()->nb_items;
 
-            $nb_items = $newspapers->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $newspapers = $newspapers->findPageRange($first_of_page, NB_PER_PAGE);
+            $newspapers = $newspapers->find($search_string, ["id", "date"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($newspapers as $newspaper) {
@@ -59,7 +63,8 @@ final class NewspapersController extends Controller {
             $this->render(name_file: 'newspapers/index', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Newspapers');
         };
     }
@@ -85,15 +90,19 @@ final class NewspapersController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($news->countLike($search_string, ["id", "player_id", "date", "name"]));
+            } else $nb_items = $news->countAll()->nb_items;
 
-            $nb_items = $news->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $news = $news->findPageRange($first_of_page, NB_PER_PAGE);
+            $news = $news->find($search_string, ["id", "player_id", "date", "name"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($news as $row) {
@@ -107,7 +116,8 @@ final class NewspapersController extends Controller {
             $this->render(name_file: 'newspapers/news', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'News');
         };
     }
@@ -136,15 +146,19 @@ final class NewspapersController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($newspaper_ads->countLike($search_string, ["newspaper_id", "ad_id"]));
+            } else $nb_items = $newspaper_ads->countAll()->nb_items;
 
-            $nb_items = $newspaper_ads->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $newspaper_ads = $newspaper_ads->findPageRange($first_of_page, NB_PER_PAGE);
+            $newspaper_ads = $newspaper_ads->find($search_string, ["newspaper_id", "ad_id"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($newspaper_ads as $row) {
@@ -156,7 +170,8 @@ final class NewspapersController extends Controller {
             $this->render(name_file: 'newspapers/newspaper_ads', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Newspapers ads');
         };
     }
@@ -182,15 +197,19 @@ final class NewspapersController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($upcoming_events->countLike($search_string, ["id", "newspaper_id", "name"]));
+            } else $nb_items = $upcoming_events->countAll()->nb_items;
 
-            $nb_items = $upcoming_events->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $upcoming_events = $upcoming_events->findPageRange($first_of_page, NB_PER_PAGE);
+            $upcoming_events = $upcoming_events->find($search_string, ["id", "newspaper_id", "name"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($upcoming_events as $upcoming_event) {
@@ -203,7 +222,8 @@ final class NewspapersController extends Controller {
             $this->render(name_file: 'newspapers/upcoming_events', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Upcoming events');
         };
     }
@@ -229,15 +249,19 @@ final class NewspapersController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($ads->countLike($search_string, ["id", "name"]));
+            } else $nb_items = $ads->countAll()->nb_items;
 
-            $nb_items = $ads->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $ads = $ads->findPageRange($first_of_page, NB_PER_PAGE);
+            $ads = $ads->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($ads as $ad) {
@@ -249,7 +273,8 @@ final class NewspapersController extends Controller {
             $this->render(name_file: 'newspapers/ads', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Ads');
         };
     }
@@ -275,15 +300,19 @@ final class NewspapersController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($weathers->countLike($search_string, ["id", "name"]));
+            } else $nb_items = $weathers->countAll()->nb_items;
 
-            $nb_items = $weathers->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $weathers = $weathers->findPageRange($first_of_page, NB_PER_PAGE);
+            $weathers = $weathers->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($weathers as $weather) {
@@ -295,7 +324,8 @@ final class NewspapersController extends Controller {
             $this->render(name_file: 'newspapers/weathers', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Weathers');
         };
     }

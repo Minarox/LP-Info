@@ -34,15 +34,19 @@ final class BankAccountsController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($bank_accounts->countLike($search_string, ["id", "player_id", "balance"]));
+            } else $nb_items = $bank_accounts->countAll()->nb_items;
 
-            $nb_items = $bank_accounts->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $bank_accounts = $bank_accounts->findPageRange($first_of_page, NB_PER_PAGE);
+            $bank_accounts = $bank_accounts->find($search_string, ["id", "player_id", "balance"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($bank_accounts as $bank_account) {
@@ -55,7 +59,8 @@ final class BankAccountsController extends Controller {
             $this->render(name_file: 'bank/index', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Bank accounts');
         };
     }
@@ -81,15 +86,19 @@ final class BankAccountsController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($bank_account_history->countLike($search_string, ["id", "bank_account_id", "action", "amount", "label", "date"]));
+            } else $nb_items = $bank_account_history->countAll()->nb_items;
 
-            $nb_items = $bank_account_history->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $bank_account_history = $bank_account_history->findPageRange($first_of_page, NB_PER_PAGE);
+            $bank_account_history = $bank_account_history->find($search_string, ["id", "bank_account_id", "action", "amount", "label", "date"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($bank_account_history as $row) {
@@ -105,7 +114,8 @@ final class BankAccountsController extends Controller {
             $this->render(name_file: 'bank/bank_history', params: [
                 'data'=> $data,
                 'current_page'=> $current_page,
-                'last_page'=> $last_page
+                'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Bank account history');
         };
     }

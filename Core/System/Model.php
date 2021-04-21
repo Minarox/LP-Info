@@ -128,19 +128,45 @@ abstract class Model {
 
     /**
      * @return bool|array|$this
-     * A supprimer / ne pas utiliser
-     */
-    public function findAll(): bool|array|self
-    {
-        return $this->query("SELECT * FROM {$this->table}")->fetchAll();
-    }
-
-    /**
-     * @return bool|array|$this
      */
     public function countAll(): bool|array|self
     {
         return $this->query("SELECT COUNT(*) as nb_items FROM {$this->table}")->fetch();
+    }
+
+    /**
+     * @param string $search_string
+     * @param array $tables
+     * @return bool|array|$this
+     */
+    public function countLike(string $search_string, array $search_columns): bool|array|self {
+        $where_list = "";
+        if(!empty($search_string)) {
+            foreach ($search_columns as $column) {
+                if (!empty($where_list)) $where_list =  $where_list. " OR " . $column . " LIKE '%$search_string%'";
+                else $where_list = "WHERE " . $column . " LIKE '%$search_string%'";
+            }
+        }
+        return $this->query("SELECT * FROM {$this->table} $where_list")->fetchAll();
+    }
+
+    /**
+     * @param string $search_string
+     * @param array $search_columns
+     * @param int $first_of_page
+     * @param int $nb_per_page
+     * @return bool|array|$this
+     */
+    public function find(string $search_string, array $search_columns, int $first_of_page, int $nb_per_page): bool|array|self
+    {
+        $where_list = "";
+        if(!empty($search_string)) {
+            foreach ($search_columns as $column) {
+                if (!empty($where_list)) $where_list =  $where_list. " OR " . $column . " LIKE '%$search_string%'";
+                else $where_list = "WHERE " . $column . " LIKE '%$search_string%'";
+            }
+        }
+        return $this->query("SELECT * FROM {$this->table} $where_list LIMIT $first_of_page, $nb_per_page")->fetchAll();
     }
 
     /**

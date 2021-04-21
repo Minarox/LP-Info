@@ -33,21 +33,19 @@ final class PlayersController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $nb_items = $players->countAll()->nb_items;
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($players->countLike($search_string, ["id", "nickname", "mail"]));
+            } else $nb_items = $players->countAll()->nb_items;
+
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
             $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
-            if(isset($_POST['page'])) {
-                $input_page = $_POST['page'];
-                if($input_page < 1) $current_page = 1;
-                else if($input_page > $last_page) $current_page = $last_page;
-                else $current_page = $_POST['page'];
-            }
-
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $players = $players->findPageRange($first_of_page, NB_PER_PAGE);
+            $players = $players->find($search_string, ["id", "nickname", "mail"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($players as $player) {
@@ -62,6 +60,7 @@ final class PlayersController extends Controller {
                 'data'=> $data,
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Players');
         };
     }
@@ -90,15 +89,19 @@ final class PlayersController extends Controller {
 
             $data = [];
 
-            // Pages system
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'];
+            $search_string = "";
+            if(isset($_GET['search'])) {
+                $search_string = $_GET['search'];
+                $nb_items = count($player_horses->countLike($search_string, ["player_id", "horse_id"]));
+            } else $nb_items = $player_horses->countAll()->nb_items;
 
-            $nb_items = $player_horses->countAll()->nb_items;
             $last_page = ceil($nb_items/NB_PER_PAGE);
-
+            $current_page = 1;
+            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $player_horses = $player_horses->findPageRange($first_of_page, NB_PER_PAGE);
+            $player_horses = $player_horses->find($search_string, ["player_id", "horse_id"], $first_of_page, NB_PER_PAGE);
+
             $i = 0;
 
             foreach ($player_horses as $player_horse) {
@@ -111,6 +114,7 @@ final class PlayersController extends Controller {
                 'data'=> $data,
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
+                'search'=> $search_string,
             ], title: 'Players horses');
         };
     }
