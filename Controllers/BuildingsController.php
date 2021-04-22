@@ -4,23 +4,13 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
-use App\Core\Classes\Validator;
 use App\Core\System\Controller;
-use App\Models\AdsModel;
 use App\Models\Automatic_Task_ActionsModel;
 use App\Models\Automatic_TasksModel;
 use App\Models\Building_FamiliesModel;
 use App\Models\Building_ItemsModel;
 use App\Models\Building_TypesModel;
 use App\Models\BuildingsModel;
-use App\Models\HorsesModel;
-use App\Models\NewsModel;
-use App\Models\Newspaper_AdsModel;
-use App\Models\NewspapersModel;
-use App\Models\Player_HorsesModel;
-use App\Models\PlayersModel;
-use App\Models\Upcoming_EventsModel;
-use App\Models\WeathersModel;
 
 final class BuildingsController extends Controller {
 
@@ -28,6 +18,20 @@ final class BuildingsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("buildings", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("buildings", $tables)) {
+                    $position = array_search("buildings", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $buildings = new BuildingsModel();
 
@@ -39,7 +43,7 @@ final class BuildingsController extends Controller {
                         $buildings->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'buildings', response_code: 301);
+                    $this->redirect(header: 'buildings');
                 }
             }
 
@@ -73,6 +77,7 @@ final class BuildingsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Buildings');
         };
     }
@@ -81,6 +86,20 @@ final class BuildingsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("building_families", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("building_families", $tables)) {
+                    $position = array_search("building_families", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $building_families = new Building_FamiliesModel();
 
@@ -92,7 +111,7 @@ final class BuildingsController extends Controller {
                         $building_families->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'building/families', response_code: 301);
+                    $this->redirect(header: 'building/families');
                 }
             }
 
@@ -124,6 +143,7 @@ final class BuildingsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Building families');
         };
     }
@@ -132,6 +152,20 @@ final class BuildingsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("building_items", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("building_items", $tables)) {
+                    $position = array_search("building_items", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $building_items = new Building_ItemsModel();
 
@@ -146,7 +180,7 @@ final class BuildingsController extends Controller {
                         $building_items->query("DELETE FROM {$building_items->get()} WHERE building_id = $buildingid AND item_id = $itemid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'building/items', response_code: 301);
+                    $this->redirect(header: 'building/items');
                 }
             }
 
@@ -179,6 +213,7 @@ final class BuildingsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Building items');
         };
     }
@@ -187,6 +222,20 @@ final class BuildingsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("building_types", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("building_types", $tables)) {
+                    $position = array_search("building_types", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $building_types = new Building_TypesModel();
 
@@ -198,7 +247,7 @@ final class BuildingsController extends Controller {
                         $building_types->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'building/types', response_code: 301);
+                    $this->redirect(header: 'building/types');
                 }
             }
 
@@ -232,6 +281,7 @@ final class BuildingsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Building types');
         };
     }
@@ -240,6 +290,20 @@ final class BuildingsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("automatic_tasks", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("automatic_tasks", $tables)) {
+                    $position = array_search("automatic_tasks", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $automatic_tasks = new Automatic_TasksModel();
 
@@ -251,7 +315,7 @@ final class BuildingsController extends Controller {
                         $automatic_tasks->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'automatic', response_code: 301);
+                    $this->redirect(header: 'automatic');
                 }
             }
 
@@ -286,6 +350,7 @@ final class BuildingsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Building automatic tasks');
         };
     }
@@ -294,6 +359,20 @@ final class BuildingsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("automatic_task_actions", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("automatic_task_actions", $tables)) {
+                    $position = array_search("automatic_task_actions", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $automatic_task_actions = new Automatic_Task_ActionsModel();
 
@@ -305,7 +384,7 @@ final class BuildingsController extends Controller {
                         $automatic_task_actions->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'automatic/actions', response_code: 301);
+                    $this->redirect(header: 'automatic/actions');
                 }
             }
 
@@ -337,6 +416,7 @@ final class BuildingsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Building automatic task actions');
         };
     }

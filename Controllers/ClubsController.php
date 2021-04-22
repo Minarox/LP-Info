@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
-use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\Club_BuildingsModel;
 use App\Models\Club_ItemsModel;
@@ -13,13 +12,6 @@ use App\Models\Club_Tournament_RegistrantsModel;
 use App\Models\Club_Tournament_RewardsModel;
 use App\Models\Club_TournamentsModel;
 use App\Models\ClubsModel;
-use App\Models\Horse_BreedsModel;
-use App\Models\Horse_ItemsModel;
-use App\Models\Horse_StatusModel;
-use App\Models\HorsesModel;
-use App\Models\Player_HorsesModel;
-use App\Models\PlayersModel;
-use App\Models\StatusesModel;
 
 final class ClubsController extends Controller {
 
@@ -27,6 +19,20 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("clubs", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("clubs", $tables)) {
+                    $position = array_search("clubs", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $clubs = new ClubsModel();
 
@@ -38,7 +44,7 @@ final class ClubsController extends Controller {
                         $clubs->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'clubs', response_code: 301);
+                    $this->redirect(header: 'clubs');
                 }
             }
 
@@ -72,6 +78,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Clubs');
         };
     }
@@ -80,6 +87,20 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("club_buildings", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("club_buildings", $tables)) {
+                    $position = array_search("club_buildings", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $club_buildings = new Club_BuildingsModel();
 
@@ -94,7 +115,7 @@ final class ClubsController extends Controller {
                         $club_buildings->query("DELETE FROM {$club_buildings->getTableName()} WHERE club_id = $clubid AND building_id = $buildingid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'club/buildings', response_code: 301);
+                    $this->redirect(header: 'club/buildings');
                 }
             }
 
@@ -127,6 +148,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Club buildings');
         };
     }
@@ -135,6 +157,20 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("club_items", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("club_items", $tables)) {
+                    $position = array_search("club_items", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $club_items = new Club_ItemsModel();
 
@@ -149,7 +185,7 @@ final class ClubsController extends Controller {
                         $club_items->query("DELETE FROM {$club_items->getTableName()} WHERE club_id = $clubid AND item_id = $itemid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'club/items', response_code: 301);
+                    $this->redirect(header: 'club/items');
                 }
             }
 
@@ -182,6 +218,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Club items');
         };
     }
@@ -190,6 +227,20 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("club_members", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("club_members", $tables)) {
+                    $position = array_search("club_members", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $club_members = new Club_MembersModel();
 
@@ -204,7 +255,7 @@ final class ClubsController extends Controller {
                         $club_members->query("DELETE FROM {$club_members->getTableName()} WHERE club_id = $clubid AND player_id = $playerid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'club/members', response_code: 301);
+                    $this->redirect(header: 'club/members');
                 }
             }
 
@@ -236,6 +287,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Club members');
         };
     }
@@ -244,6 +296,20 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("club_tournaments", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("club_tournaments", $tables)) {
+                    $position = array_search("club_tournaments", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $club_tournaments = new Club_TournamentsModel();
 
@@ -255,7 +321,7 @@ final class ClubsController extends Controller {
                         $club_tournaments->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'clubs/tournaments', response_code: 301);
+                    $this->redirect(header: 'clubs/tournaments');
                 }
             }
 
@@ -288,6 +354,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Club tournaments');
         }
     }
@@ -296,6 +363,20 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("club_tournament_registrants", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("club_tournament_registrants", $tables)) {
+                    $position = array_search("club_tournament_registrants", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $club_tournament_registrations = new Club_Tournament_RegistrantsModel();
 
@@ -310,7 +391,7 @@ final class ClubsController extends Controller {
                         $club_tournament_registrations->query("DELETE FROM {$club_tournament_registrations->getTableName()} WHERE club_tournament_id = $clubtournamentid AND player_id = $playerid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'club/tournament/registrations', response_code: 301);
+                    $this->redirect(header: 'club/tournament/registrations');
                 }
             }
 
@@ -343,6 +424,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Club tournament registrations');
         }
     }
@@ -351,6 +433,20 @@ final class ClubsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("club_tournament_rewards", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("club_tournament_rewards", $tables)) {
+                    $position = array_search("club_tournament_rewards", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $club_tournament_rewards = new Club_Tournament_RewardsModel();
 
@@ -362,7 +458,7 @@ final class ClubsController extends Controller {
                         $club_tournament_rewards->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'club/tournament/rewards', response_code: 301);
+                    $this->redirect(header: 'club/tournament/rewards');
                 }
             }
 
@@ -397,6 +493,7 @@ final class ClubsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Club tournament rewards');
         }
     }

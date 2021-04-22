@@ -3,52 +3,71 @@
         <!-- Titre -->
         <h2 class="box-title hr">Bank account history</h2>
 
-        <form class="search-container">
-            <input class="input" name="search" type="text" value="<?= $search ?: "" ?>" placeholder="Votre recherche">
-            <input class="submit" type="submit" value="Rechercher">
-        </form>
+        <?php if (permissions("SELECT", $permissions)): ?>
+            <form class="search-container">
+                <input class="input" name="search" type="text" value="<?= $search ?: "" ?>" placeholder="Votre recherche">
+                <input class="submit" type="submit" value="Rechercher">
+            </form>
+        <?php endif; ?>
 
         <form method="post">
 
             <div class="tbl-header">
                 <table cellpadding="0" cellspacing="0" border="0">
                     <thead>
-                    <tr>
-                        <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
-                        <th class="cw-90">Id</th>
-                        <th>Bank account</th>
-                        <th>Action</th>
-                        <th>Amount</th>
-                        <th>Label</th>
-                        <th>Date</th>
-                        <th class="cw-100 action">Action</th>
-                    </tr>
+                        <?php if (permissions("SELECT", $permissions)): ?>
+                            <tr>
+                                <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
+                                <th class="cw-90">Id</th>
+                                <th>Bank account</th>
+                                <th>Action</th>
+                                <th>Amount</th>
+                                <th>Label</th>
+                                <th>Date</th>
+                                <?php if (permissions("UPDATE", $permissions)): ?>
+                                    <th class="cw-100 action">Action</th>
+                                <?php endif; ?>
+                            </tr>
+                        <?php else: ?>
+                            <tr>
+                                <th>Permissions insuffisantes.</th>
+                            </tr>
+                        <?php endif; ?>
                     </thead>
                 </table>
             </div>
             <div class="tbl-content">
                 <table cellpadding="0" cellspacing="0" border="0">
                     <tbody>
-                    <?php foreach ($data as $row) : ?>
-                    <tr>
-                        <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['id'] ?>"></td>
-                        <td class="cw-90"><?= $row['id'] ?></td>
-                        <td><?= $row['bank_account_id'] ?></td>
-                        <td><?= $row['action'] ?></td>
-                        <td><?= $row['amount'] ?></td>
-                        <td><?= $row['label'] ?></td>
-                        <td><?= $row['date'] ?></td>
-                        <td class="cw-100 action"><a href="<?= ROOT ?>table/edit/id"><input type="button" value="Editer"></a></td>
-                    </tr>
-                    <?php endforeach; ?>
+                        <?php if (permissions("SELECT", $permissions)): ?>
+                            <?php foreach ($data as $row) : ?>
+                                <tr>
+                                    <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['id'] ?>"></td>
+                                    <td class="cw-90"><?= $row['id'] ?></td>
+                                    <td><?= $row['bank_account_id'] ?></td>
+                                    <td><?= $row['action'] ?></td>
+                                    <td><?= $row['amount'] ?></td>
+                                    <td><?= $row['label'] ?></td>
+                                    <td><?= $row['date'] ?></td>
+                                    <?php if (permissions("UPDATE", $permissions)): ?>
+                                        <td class="cw-100 action"><a href="<?= ROOT ?>table/edit/id"><input type="button" value="Editer"></a></td>
+                                    <?php endif; ?>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
             <div class="actions-container">
                 <div>
-                    <a href="<?= ROOT ?>table/add"><input type="button" name="add" value="Ajouter"></a>
-                    <input type="submit" name="delete" value="Supprimer">
+                    <?php if (permissions("INSERT", $permissions)): ?>
+                        <a href="<?= ROOT ?>table/add"><input type="button" name="add" value="Ajouter"></a>
+                    <?php endif; ?>
+                    <?php if (permissions("DELETE", $permissions)): ?>
+                        <input type="submit" name="delete" value="Supprimer">
+                    <?php endif; ?>
                 </div>
+                <?php if (permissions("SELECT", $permissions)): ?>
                 <div class="pages-container">
                     <a href="<?= ROOT ?>players?page=1<?= $search ? "&search=$search" : "" ?>"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
                     <?php $i = 2 ?>
@@ -76,22 +95,25 @@
                         <input class="page-input" type="number" min="1" name="page" placeholder="Page">
                     </form>
                 </div>
+                <?php endif ?>
             </div>
         </form>
 
     </section>
 </main>
 
-<script type="text/javascript">
-    $('#select-all').click(function(event) {
-        if(this.checked) {
-            $(':checkbox').each(function() {
-                this.checked = true;
-            });
-        } else {
-            $(':checkbox').each(function() {
-                this.checked = false;
-            });
-        }
-    });
-</script>
+<?php if (permissions("SELECT", $permissions)): ?>
+    <script type="text/javascript">
+        $('#select-all').click(function(event) {
+            if(this.checked) {
+                $(':checkbox').each(function() {
+                    this.checked = true;
+                });
+            } else {
+                $(':checkbox').each(function() {
+                    this.checked = false;
+                });
+            }
+        });
+    </script>
+<?php endif ?>

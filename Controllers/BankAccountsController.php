@@ -4,12 +4,9 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
-use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\Bank_Account_HistoryModel;
 use App\Models\Bank_AccountsModel;
-use App\Models\Stable_BuildingsModel;
-use App\Models\StablesModel;
 
 final class BankAccountsController extends Controller {
 
@@ -17,6 +14,20 @@ final class BankAccountsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("bank_accounts", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("bank_accounts", $tables)) {
+                    $position = array_search("bank_accounts", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $bank_accounts = new Bank_AccountsModel();
 
@@ -28,7 +39,7 @@ final class BankAccountsController extends Controller {
                         $bank_accounts->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'bank', response_code: 301);
+                    $this->redirect(header: 'bank');
                 }
             }
 
@@ -61,6 +72,7 @@ final class BankAccountsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Bank accounts');
         };
     }
@@ -69,6 +81,20 @@ final class BankAccountsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("bank_account_history", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("bank_account_history", $tables)) {
+                    $position = array_search("bank_account_history", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $bank_account_history = new Bank_Account_HistoryModel();
 
@@ -80,7 +106,7 @@ final class BankAccountsController extends Controller {
                         $bank_account_history->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'bank', response_code: 301);
+                    $this->redirect(header: 'bank');
                 }
             }
 
@@ -116,6 +142,7 @@ final class BankAccountsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Bank account history');
         };
     }
