@@ -1,7 +1,7 @@
 <main class="container-md">
     <section class="mb-3">
         <!-- Titre -->
-        <h2 class="box-title hr">Building automatic tasks</h2>
+        <h2 class="box-title hr">Building automatic tasks actions</h2>
 
         <?php if (permissions("SELECT", $permissions)): ?>
             <form class="search-container">
