@@ -65,7 +65,7 @@
                 </div>
                 <?php if (permissions("SELECT", $permissions)): ?>
                     <div class="pages-container">
-                        <a href="<?= ROOT ?>players?page=1<?= $search ? "&search=$search" : "" ?>"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
+                        <a href="<?= ROOT ?>buildings?page=1<?= $search ? "&search=$search" : "" ?>"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
                         <?php $i = 2 ?>
                         <?php if($current_page - 3 > 1) : ?>
                             <?php $i = $current_page - 2 ?>
@@ -77,12 +77,12 @@
                                     <?php if($current_page + 3 < $last_page) : ?>
                                         <p>...</p>
                                     <?php endif; ?>
-                                    <a href="<?= ROOT ?>players?page=<?= $last_page ?><?= $search ? "&search=$search" : "" ?>">
+                                    <a href="<?= ROOT ?>buildings?page=<?= $last_page ?><?= $search ? "&search=$search" : "" ?>">
                                         <input <?= $current_page == $last_page ? "class='active'" : "" ?> type="button" value="<?= $last_page ?>">
                                     </a>
                                     <?php break; ?>
                                 <?php endif; ?>
-                                <a href="<?= ROOT ?>players?page=<?= $i ?><?= $search ? "&search=$search" : "" ?>">
+                                <a href="<?= ROOT ?>buildings?page=<?= $i ?><?= $search ? "&search=$search" : "" ?>">
                                     <input <?= $i == $current_page ? "class='active'" : "" ?> type="button" value="<?= $i ?>">
                                 </a>
                             <?php endfor; ?>
