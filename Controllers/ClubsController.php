@@ -278,7 +278,7 @@ final class ClubsController extends Controller {
 
             foreach ($club_members as $club_item) {
                 $data[$i]['club_id'] = $club_item->getClubId();
-                $data[$i]['player_id'] = $club_item->getMemberId();
+                $data[$i]['player_id'] = $club_item->getPlayerId();
                 $i++;
             }
 
