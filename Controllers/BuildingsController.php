@@ -4,7 +4,9 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
+use App\Core\Classes\Validator;
 use App\Core\System\Controller;
+use App\Core\System\Model;
 use App\Models\Automatic_Task_ActionsModel;
 use App\Models\Automatic_TasksModel;
 use App\Models\Building_FamiliesModel;
@@ -80,6 +82,106 @@ final class BuildingsController extends Controller {
                 'permissions'=> $permissions,
             ], title: 'Buildings');
         };
+    }
+
+    #[Route('/buildings/form', 'buildings_form', ['GET', 'POST'])] public function indexForm(Request $request)
+    {
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("buildings", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("buildings", $tables)) {
+                    $position = array_search("buildings", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse('buildings'));
+                } else {
+                    $validator = new Validator($_POST);
+                    $buildings = new BuildingsModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $buildings->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse('buildings'));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'bank_account_id' => ['required'],
+                                    'action' => ['required'],
+                                    'amount' => ['required'],
+                                    'label' => ['required'],
+                                    'date' => ['required'],
+                                ]);
+
+                                if (!$bank_accounts->findById($request->post->get('bank_account_id'))) {
+                                    $this->addFlash('error', "Ce Bank Account ID n'existe pas.");
+                                    $this->redirect("/bank/history/form?id=".$request->get->get('id'));
+                                } else {
+                                    $bank_accounts_history->setBankAccountId($request->post->get('bank_account_id'))
+                                        ->setAction($request->post->get('action'))
+                                        ->setAmount($request->post->get('amount'))
+                                        ->setLabel($request->post->get('label'))
+                                        ->setDate($request->post->get('date'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse('buildings'));
+                                }
+                            }
+
+                            $data[] = $account->getBankAccountId();
+                            $data[] = $account->getAction();
+                            $data[] = $account->getAmount();
+                            $data[] = $account->getLabel();
+                            $data[] = $account->getDate();
+
+                            $this->render(name_file: 'buildings/index_form', params: [
+                                "data"=> $data,
+                            ], title: 'Bank accounts');
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'bank_account_id' => ['required'],
+                                'action' => ['required'],
+                                'amount' => ['required'],
+                                'label' => ['required'],
+                                'date' => ['required'],
+                            ]);
+
+                            if (!$bank_accounts->findById($request->post->get('bank_account_id'))) {
+                                $this->addFlash('error', "Ce Bank Account ID n'existe pas.");
+                                $this->redirect(self::reverse('buildings_form'));
+                            } else {
+                                $bank_accounts_history->setBankAccountId($request->post->get('bank_account_id'))
+                                    ->setAction($request->post->get('action'))
+                                    ->setAmount($request->post->get('amount'))
+                                    ->setLabel($request->post->get('label'))
+                                    ->setDate($request->post->get('date'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse('buildings'));
+                            }
+                        }
+
+                        $this->render(name_file: 'buildings/index_form', title: 'Bank account history');
+                    }
+                }
+            }
+        }
     }
 
     #[Route('/building/families', 'building_families', ['GET', 'POST'])] public function buildingFamilies(Request $request) {

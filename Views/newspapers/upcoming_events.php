@@ -1,7 +1,7 @@
 <main class="container-md">
     <section class="mb-3">
         <!-- Titre -->
-        <h2 class="box-title hr">Newspaper ads</h2>
+        <h2 class="box-title hr">Upcoming Events</h2>
 
         <?php if (permissions("SELECT", $permissions)): ?>
             <form class="search-container">
