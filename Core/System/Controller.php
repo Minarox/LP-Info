@@ -82,7 +82,7 @@ abstract class Controller {
     }
 
     #[Pure] protected function isAuthenticated(): bool {
-        return $this->request->cookie->exists('token');
+        return $this->request->session->exists('token');
     }
 
     #[Pure] function permissions(string $value, array $permissions): bool {
