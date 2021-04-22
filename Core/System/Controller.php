@@ -82,13 +82,15 @@ abstract class Controller {
     }
 
     #[Pure] protected function isAuthenticated(): bool {
-        return $this->request->cookie->exists('token');
+        return $this->request->session->exists('token');
     }
 
     #[Pure] function permissions(string $value, array $permissions): bool {
         if (in_array($value, $permissions)) {
             return true;
         } elseif ((in_array("*", $permissions))) {
+            return true;
+        } elseif ((in_array("ALL PRIVILEGES", $permissions))) {
             return true;
         } else {
             return false;

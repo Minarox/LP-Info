@@ -44,7 +44,7 @@
                                     <td><?= $row['player_id'] ?></td>
                                     <td><?= $row['rank'] ?></td>
                                     <?php if (permissions("UPDATE", $permissions)): ?>
-                                        <td class="cw-100 action"><a href="<?= ROOT ?>table/edit/id"><input type="button" value="Editer"></a></td>
+                                        <td class="cw-100 action"><a href="<?= ROOT ?>club/tournament/registrations/form?id=<?= $row['club_tournament_id'] ?>"><input type="button" value="Editer"></a></td>
                                     <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
@@ -55,7 +55,7 @@
             <div class="actions-container">
                 <div>
                     <?php if (permissions("INSERT", $permissions)): ?>
-                        <a href="<?= ROOT ?>table/add"><input type="button" name="add" value="Ajouter"></a>
+                        <a href="<?= ROOT ?>club/tournament/registrations/form"><input type="button" name="add" value="Ajouter"></a>
                     <?php endif; ?>
                     <?php if (permissions("DELETE", $permissions)): ?>
                         <input type="submit" name="delete" value="Supprimer">
