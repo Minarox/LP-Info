@@ -16,7 +16,6 @@
                     <tr>
                         <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
                         <th class="cw-90">Id</th>
-                        <th class="cw-90">Player</th>
                         <th>Date</th>
                         <th>Name</th>
                         <th class="cw-100 action">Action</th>
@@ -31,7 +30,6 @@
                     <tr>
                         <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['id'] ?>"></td>
                         <td class="cw-90"><?= $row['id'] ?></td>
-                        <td class="cw-90"><?= $row['player_id'] ?></td>
                         <td><?= $row['date'] ?></td>
                         <td><?= $row['name'] ?></td>
                         <td class="cw-100 action"><a href="<?= ROOT ?>table/edit/id"><input type="button" value="Editer"></a></td>

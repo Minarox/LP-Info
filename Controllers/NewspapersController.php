@@ -93,7 +93,7 @@ final class NewspapersController extends Controller {
             $search_string = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
-                $nb_items = count($news->countLike($search_string, ["id", "player_id", "date", "name"]));
+                $nb_items = count($news->countLike($search_string, ["id", "date", "name"]));
             } else $nb_items = $news->countAll()->nb_items;
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
@@ -101,13 +101,12 @@ final class NewspapersController extends Controller {
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $news = $news->find($search_string, ["id", "player_id", "date", "name"], $first_of_page, NB_PER_PAGE);
+            $news = $news->find($search_string, ["id", "date", "name"], $first_of_page, NB_PER_PAGE);
 
             $i = 0;
 
             foreach ($news as $row) {
                 $data[$i]['id'] = $row->getId();
-                $data[$i]['player_id'] = $row->getPlayerId();
                 $data[$i]['date'] = $row->getDate();
                 $data[$i]['name'] = $row->getName();
                 $i++;
