@@ -52,7 +52,7 @@
                                     <td><?= $row['stable_id'] ?></td>
                                     <td><?= $row['building_id'] ?></td>
                                     <?php if (permissions("UPDATE", $permissions)): ?>
-                                        <td class="cw-100 action"><a href="<?= ROOT ?>stable/buildings/form?id=<?= $row['stable_id'] ?>"><input type="button" value="Editer"></a></td>
+                                        <td class="cw-100 action"><a href="<?= ROOT ?>stable/buildings/form?id=<?= $row['id'] ?>"><input type="button" value="Editer"></a></td>
                                     <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>

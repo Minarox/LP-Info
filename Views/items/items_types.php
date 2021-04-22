@@ -52,7 +52,7 @@
                                     <td class="cw-90"><?= $row['item_type_id'] ?></td>
                                     <td><?= $row['name'] ?></td>
                                     <?php if (permissions("UPDATE", $permissions)): ?>
-                                    <td class="cw-100 action"><a href="<?= ROOT ?>items/types/form?=id<?= $row['item_type_id'] ?>"><input type="button" value="Editer"></a></td>
+                                    <td class="cw-100 action"><a href="<?= ROOT ?>items/types/form?id=<?= $row['item_type_id'] ?>"><input type="button" value="Editer"></a></td>
                                     <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>

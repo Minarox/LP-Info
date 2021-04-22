@@ -4,7 +4,9 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
+use App\Core\Classes\Validator;
 use App\Core\System\Controller;
+use App\Models\HorsesModel;
 use App\Models\Player_HorsesModel;
 use App\Models\PlayersModel;
 
@@ -84,6 +86,151 @@ final class PlayersController extends Controller {
         };
     }
 
+    #[Route('/players/form', 'players_form', ['GET', 'POST'])] public function indexForm(Request $request)
+    {
+        $auth_table = "players";
+        $link_table = "players";
+        $this_table = "players_form";
+        $page_title = "Players";
+        $page_localisation = "players/index_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $players = new PlayersModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $players->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'nickname' => ['required'],
+                                    'mail' => ['required'],
+                                    'password' => ['required'],
+                                    'last_name' => ['required'],
+                                    'first_name' => ['required'],
+                                    'sexe' => ['required'],
+                                    'phone' => ['required'],
+                                    'street' => ['required'],
+                                    'city' => ['required'],
+                                    'zip_code' => ['required'],
+                                    'country' => ['required'],
+                                    'avatar' => ['required'],
+                                    'description' => ['required'],
+                                    'website' => ['required'],
+                                    'ip_address' => ['required'],
+                                ]);
+
+                                $players->setNickname($request->post->get('nickname'))
+                                    ->setMail($request->post->get('mail'))
+                                    ->setPassword($request->post->get('password'))
+                                    ->setLastName($request->post->get('last_name'))
+                                    ->setFirstName($request->post->get('first_name'))
+                                    ->setSexe($request->post->get('sexe'))
+                                    ->setPhone($request->post->get('phone'))
+                                    ->setStreet($request->post->get('street'))
+                                    ->setCity($request->post->get('city'))
+                                    ->setZipCode($request->post->get('zip_code'))
+                                    ->setCountry($request->post->get('country'))
+                                    ->setAvatar($request->post->get('avatar'))
+                                    ->setDescription($request->post->get('description'))
+                                    ->setWebsite($request->post->get('website'))
+                                    ->setIpAddress($request->post->get('ip_address'))
+                                    ->update($request->get->get('id'));
+
+                                $this->addFlash('success', "Les données ont été modifiées.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+
+                            $data[] = $account->getNickname();
+                            $data[] = $account->getMail();
+                            $data[] = $account->getPassword();
+                            $data[] = $account->getLastName();
+                            $data[] = $account->getFirstName();
+                            $data[] = $account->getSexe();
+                            $data[] = $account->getPhone();
+                            $data[] = $account->getStreet();
+                            $data[] = $account->getCity();
+                            $data[] = $account->getZipCode();
+                            $data[] = $account->getCountry();
+                            $data[] = $account->getAvatar();
+                            $data[] = $account->getDescription();
+                            $data[] = $account->getWebsite();
+                            $data[] = $account->getIpAddress();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'nickname' => ['required'],
+                                'mail' => ['required'],
+                                'password' => ['required'],
+                                'last_name' => ['required'],
+                                'first_name' => ['required'],
+                                'sexe' => ['required'],
+                                'phone' => ['required'],
+                                'street' => ['required'],
+                                'city' => ['required'],
+                                'zip_code' => ['required'],
+                                'country' => ['required'],
+                                'avatar' => ['required'],
+                                'description' => ['required'],
+                                'website' => ['required'],
+                                'ip_address' => ['required'],
+                            ]);
+
+                            $players->setNickname($request->post->get('nickname'))
+                                ->setMail($request->post->get('mail'))
+                                ->setPassword($request->post->get('password'))
+                                ->setLastName($request->post->get('last_name'))
+                                ->setFirstName($request->post->get('first_name'))
+                                ->setSexe($request->post->get('sexe'))
+                                ->setPhone($request->post->get('phone'))
+                                ->setStreet($request->post->get('street'))
+                                ->setCity($request->post->get('city'))
+                                ->setZipCode($request->post->get('zip_code'))
+                                ->setCountry($request->post->get('country'))
+                                ->setAvatar($request->post->get('avatar'))
+                                ->setDescription($request->post->get('description'))
+                                ->setWebsite($request->post->get('website'))
+                                ->setIpAddress($request->post->get('ip_address'))
+                                ->create();
+
+                            $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                            $this->redirect(self::reverse($link_table));
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
+    }
+
     #[Route('/player/horses', 'player_horses', ['GET', 'POST'])] public function playerHorses(Request $request) {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
@@ -157,5 +304,100 @@ final class PlayersController extends Controller {
                 'order'=> $order,
             ], title: 'Players horses');
         };
+    }
+
+    // TODO : Player horses
+    #[Route('/player/horses/form', 'player_horses_form', ['GET', 'POST'])] public function playerHorsesForm(Request $request)
+    {
+        $auth_table = "player_horses";
+        $link_table = "player_horses";
+        $this_table = "player_horses_form";
+        $page_title = "Players horses";
+        $page_localisation = "players/player_horses_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $player_horses = new Player_HorsesModel();
+                    $players = new PlayersModel();
+                    $horses = new HorsesModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $player_horses->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'player_id' => ['required'],
+                                    'horse_id' => ['required'],
+                                ]);
+
+                                if (!$players->findById($request->post->get('player_id')) &&
+                                    !$horses->findById($request->post->get('horse_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $player_horses->setPlayerId($request->post->get('player_id'))
+                                        ->setHorseId($request->post->get('horse_id'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getPlayerId();
+                            $data[] = $account->getHorseId();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'player_id' => ['required'],
+                                'horse_id' => ['required'],
+                            ]);
+
+                            if (!$players->findById($request->post->get('player_id')) &&
+                                !$horses->findById($request->post->get('horse_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $player_horses->setPlayerId($request->post->get('player_id'))
+                                    ->setHorseId($request->post->get('horse_id'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
     }
 }

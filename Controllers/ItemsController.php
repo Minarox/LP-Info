@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
+use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\Item_TypesModel;
 use App\Models\ItemsModel;
@@ -39,7 +40,7 @@ final class ItemsController extends Controller {
                         $items->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'items');
+                    $this->redirect(header: 'Items');
                 }
             }
 
@@ -80,8 +81,114 @@ final class ItemsController extends Controller {
                 'permissions'=> $permissions,
                 'filter'=> $filter,
                 'order'=> $order,
-            ], title: 'items');
+            ], title: 'Items');
         };
+    }
+
+    #[Route('/items/form', 'items_form', ['GET', 'POST'])] public function indexForm(Request $request)
+    {
+        $auth_table = "items";
+        $link_table = "items";
+        $this_table = "items_form";
+        $page_title = "Items";
+        $page_localisation = "items/index_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $items = new ItemsModel();
+                    $item_type = new Item_TypesModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $items->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'item_type_id' => ['required'],
+                                    'description' => ['required'],
+                                    'level' => ['required'],
+                                    'price' => ['required'],
+                                    'on_sale' => ['required'],
+                                ]);
+
+                                if (!$item_type->findById($request->post->get('item_type_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $items->setItemTypeId($request->post->get('item_type_id'))
+                                        ->setDescription($request->post->get('description'))
+                                        ->setLevel($request->post->get('level'))
+                                        ->setPrice($request->post->get('price'))
+                                        ->setOnSale($request->post->get('on_sale'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getItemTypeId();
+                            $data[] = $account->getDescription();
+                            $data[] = $account->getLevel();
+                            $data[] = $account->getPrice();
+                            $data[] = $account->getOnSale();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'item_type_id' => ['required'],
+                                'description' => ['required'],
+                                'level' => ['required'],
+                                'price' => ['required'],
+                                'on_sale' => ['required'],
+                            ]);
+
+                            if (!$item_type->findById($request->post->get('item_type_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $items->setItemTypeId($request->post->get('item_type_id'))
+                                    ->setDescription($request->post->get('description'))
+                                    ->setLevel($request->post->get('level'))
+                                    ->setPrice($request->post->get('price'))
+                                    ->setOnSale($request->post->get('on_sale'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
     }
 
     #[Route('/items/types', 'items_types', ['GET', 'POST'])] public function itemsTypes(Request $request) {
@@ -154,5 +261,80 @@ final class ItemsController extends Controller {
                 'order'=> $order,
             ], title: 'Items types');
         };
+    }
+
+    #[Route('/items/types/form', 'items_types_form', ['GET', 'POST'])] public function itemsTypesForm(Request $request)
+    {
+        $auth_table = "statuses";
+        $link_table = "items_types";
+        $this_table = "items_types_form";
+        $page_title = "Items types";
+        $page_localisation = "items/items_types_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $item_type = new Item_TypesModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $item_type->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'name' => ['required'],
+                                ]);
+
+                                $item_type->setName($request->post->get('name'))
+                                    ->update($request->get->get('id'));
+
+                                $this->addFlash('success', "Les données ont été modifiées.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+
+                            $data[] = $account->getName();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'name' => ['required'],
+                            ]);
+
+                            $item_type->setName($request->post->get('name'))
+                                ->create();
+
+                            $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                            $this->redirect(self::reverse($link_table));
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
     }
 }

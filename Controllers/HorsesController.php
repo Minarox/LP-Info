@@ -4,11 +4,13 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
+use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\Horse_BreedsModel;
 use App\Models\Horse_ItemsModel;
 use App\Models\Horse_StatusModel;
 use App\Models\HorsesModel;
+use App\Models\ItemsModel;
 use App\Models\StatusesModel;
 
 final class HorsesController extends Controller {
@@ -89,6 +91,177 @@ final class HorsesController extends Controller {
         };
     }
 
+    #[Route('/horses/form', 'horses_form', ['GET', 'POST'])] public function indexForm(Request $request)
+    {
+        $auth_table = "horses";
+        $link_table = "horses";
+        $this_table = "horses_form";
+        $page_title = "Horses";
+        $page_localisation = "horses/index_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $horses = new HorsesModel();
+                    $horse_breeds = new Horse_BreedsModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $horses->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'name' => ['required'],
+                                    'breed_id' => ['required'],
+                                    'health' => ['required'],
+                                    'fatigue' => ['required'],
+                                    'morale' => ['required'],
+                                    'stress' => ['required'],
+                                    'hunger' => ['required'],
+                                    'cleanliness' => ['required'],
+                                    'global_condition' => ['required'],
+                                    'resistance' => ['required'],
+                                    'stamina' => ['required'],
+                                    'jump' => ['required'],
+                                    'speed' => ['required'],
+                                    'sociability' => ['required'],
+                                    'intelligence' => ['required'],
+                                    'temperament' => ['required'],
+                                    'experience' => ['required'],
+                                    'level' => ['required'],
+                                ]);
+
+                                if (!$horse_breeds->findById($request->post->get('breed_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $horses->setName($request->post->get('name'))
+                                        ->setBreedId($request->post->get('breed_id'))
+                                        ->setHealth($request->post->get('health'))
+                                        ->setFatigue($request->post->get('fatigue'))
+                                        ->setMorale($request->post->get('morale'))
+                                        ->setStress($request->post->get('stress'))
+                                        ->setHunger($request->post->get('hunger'))
+                                        ->setCleanliness($request->post->get('cleanliness'))
+                                        ->setGlobalCondition($request->post->get('global_condition'))
+                                        ->setResistance($request->post->get('resistance'))
+                                        ->setStamina($request->post->get('stamina'))
+                                        ->setJump($request->post->get('jump'))
+                                        ->setSpeed($request->post->get('speed'))
+                                        ->setSociability($request->post->get('sociability'))
+                                        ->setIntelligence($request->post->get('intelligence'))
+                                        ->setTemperament($request->post->get('temperament'))
+                                        ->setExperience($request->post->get('experience'))
+                                        ->setLevel($request->post->get('level'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getName();
+                            $data[] = $account->getBreedId();
+                            $data[] = $account->getHealth();
+                            $data[] = $account->getFatigue();
+                            $data[] = $account->getMorale();
+                            $data[] = $account->getStress();
+                            $data[] = $account->getHunger();
+                            $data[] = $account->getCleanliness();
+                            $data[] = $account->getGlobalCondition();
+                            $data[] = $account->getResistance();
+                            $data[] = $account->getStamina();
+                            $data[] = $account->getJump();
+                            $data[] = $account->getSpeed();
+                            $data[] = $account->getSociability();
+                            $data[] = $account->getIntelligence();
+                            $data[] = $account->getTemperament();
+                            $data[] = $account->getExperience();
+                            $data[] = $account->getLevel();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'name' => ['required'],
+                                'breed_id' => ['required'],
+                                'health' => ['required'],
+                                'fatigue' => ['required'],
+                                'morale' => ['required'],
+                                'stress' => ['required'],
+                                'hunger' => ['required'],
+                                'cleanliness' => ['required'],
+                                'global_condition' => ['required'],
+                                'resistance' => ['required'],
+                                'stamina' => ['required'],
+                                'jump' => ['required'],
+                                'speed' => ['required'],
+                                'sociability' => ['required'],
+                                'intelligence' => ['required'],
+                                'temperament' => ['required'],
+                                'experience' => ['required'],
+                                'level' => ['required'],
+                            ]);
+
+                            if (!$horse_breeds->findById($request->post->get('breed_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $horses->setName($request->post->get('name'))
+                                    ->setBreedId($request->post->get('breed_id'))
+                                    ->setHealth($request->post->get('health'))
+                                    ->setFatigue($request->post->get('fatigue'))
+                                    ->setMorale($request->post->get('morale'))
+                                    ->setStress($request->post->get('stress'))
+                                    ->setHunger($request->post->get('hunger'))
+                                    ->setCleanliness($request->post->get('cleanliness'))
+                                    ->setGlobalCondition($request->post->get('global_condition'))
+                                    ->setResistance($request->post->get('resistance'))
+                                    ->setStamina($request->post->get('stamina'))
+                                    ->setJump($request->post->get('jump'))
+                                    ->setSpeed($request->post->get('speed'))
+                                    ->setSociability($request->post->get('sociability'))
+                                    ->setIntelligence($request->post->get('intelligence'))
+                                    ->setTemperament($request->post->get('temperament'))
+                                    ->setExperience($request->post->get('experience'))
+                                    ->setLevel($request->post->get('level'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
+    }
+
     #[Route('/horse/breeds', 'horse_breeds', ['GET', 'POST'])] public function horseBreeds(Request $request) {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
@@ -159,6 +332,86 @@ final class HorsesController extends Controller {
                 'order'=> $order,
             ], title: 'Horse breeds');
         };
+    }
+
+    #[Route('/horse/breeds/form', 'horse_breeds_form', ['GET', 'POST'])] public function horseBreedsForm(Request $request)
+    {
+        $auth_table = "horse_breeds";
+        $link_table = "horse_breeds";
+        $this_table = "horse_breeds_form";
+        $page_title = "Horse breeds";
+        $page_localisation = "horses/horse_breeds_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $horse_breeds = new Horse_BreedsModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $horse_breeds->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'name' => ['required'],
+                                    'description' => ['required'],
+                                ]);
+
+                                $horse_breeds->setName($request->post->get('name'))
+                                    ->setDescription($request->post->get('description'))
+                                    ->update($request->get->get('id'));
+
+                                $this->addFlash('success', "Les données ont été modifiées.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+
+                            $data[] = $account->getName();
+                            $data[] = $account->getDescription();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'name' => ['required'],
+                                'description' => ['required'],
+                            ]);
+
+                            $horse_breeds->setName($request->post->get('name'))
+                                ->setDescription($request->post->get('description'))
+                                ->create();
+
+                            $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                            $this->redirect(self::reverse($link_table));
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
     }
 
     #[Route('/horse/items', 'horse_items', ['GET', 'POST'])] public function horseItems(Request $request) {
@@ -237,6 +490,106 @@ final class HorsesController extends Controller {
         };
     }
 
+    // TODO : Horse items
+    #[Route('/horse/items/form', 'horse_items_form', ['GET', 'POST'])] public function horseItemsForm(Request $request)
+    {
+        $auth_table = "horse_items";
+        $link_table = "horse_items";
+        $this_table = "horse_items_form";
+        $page_title = "Horse items";
+        $page_localisation = "horses/horse_items_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $horse_items = new Horse_ItemsModel();
+                    $horses = new HorsesModel();
+                    $items = new ItemsModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $horse_items->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'horse_id' => ['required'],
+                                    'item_id' => ['required'],
+                                    'quantity' => ['required'],
+                                ]);
+
+                                if (!$horses->findById($request->post->get('horse_id')) &&
+                                    !$items->findById($request->post->get('item_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $horse_items->setHorseId($request->post->get('horse_id'))
+                                        ->setItemId($request->post->get('item_id'))
+                                        ->setQuantity($request->post->get('quantity'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getHorseId();
+                            $data[] = $account->getItemId();
+                            $data[] = $account->getQuantity();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'horse_id' => ['required'],
+                                'item_id' => ['required'],
+                                'quantity' => ['required'],
+                            ]);
+
+                            if (!$horses->findById($request->post->get('horse_id')) &&
+                                !$items->findById($request->post->get('item_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $horse_items->setHorseId($request->post->get('horse_id'))
+                                    ->setItemId($request->post->get('item_id'))
+                                    ->setQuantity($request->post->get('quantity'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
+    }
+
     #[Route('/horse/status', 'horse_status', ['GET', 'POST'])] public function horseStatus(Request $request) {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
@@ -313,6 +666,106 @@ final class HorsesController extends Controller {
         }
     }
 
+    // TODO : Horse status
+    #[Route('/horse/status/form', 'horse_status_form', ['GET', 'POST'])] public function horseStatusForm(Request $request)
+    {
+        $auth_table = "horse_status";
+        $link_table = "horse_status";
+        $this_table = "horse_status_form";
+        $page_title = "Horse status";
+        $page_localisation = "horses/horse_status_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $horse_status = new Horse_StatusModel();
+                    $horses = new HorsesModel();
+                    $status = new StatusesModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $horse_status->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'horse_id' => ['required'],
+                                    'status_id' => ['required'],
+                                    'onset_date' => ['required'],
+                                ]);
+
+                                if (!$horses->findById($request->post->get('horse_id')) &&
+                                    !$status->findById($request->post->get('status_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $horse_status->setHorseId($request->post->get('horse_id'))
+                                        ->setStatusId($request->post->get('status_id'))
+                                        ->setOnsetDate($request->post->get('onset_date'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getHorseId();
+                            $data[] = $account->getStatusId();
+                            $data[] = $account->getOnsetDate();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'horse_id' => ['required'],
+                                'status_id' => ['required'],
+                                'onset_date' => ['required'],
+                            ]);
+
+                            if (!$horses->findById($request->post->get('horse_id')) &&
+                                !$status->findById($request->post->get('status_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $horse_status->setHorseId($request->post->get('horse_id'))
+                                    ->setStatusId($request->post->get('status_id'))
+                                    ->setOnsetDate($request->post->get('onset_date'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
+    }
+
     #[Route('/statuses', 'statuses', ['GET', 'POST'])] public function statuses(Request $request) {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
@@ -382,6 +835,81 @@ final class HorsesController extends Controller {
                 'filter'=> $filter,
                 'order'=> $order,
             ], title: 'Statuses');
+        }
+    }
+
+    #[Route('/statuses/form', 'statuses_form', ['GET', 'POST'])] public function statusesForm(Request $request)
+    {
+        $auth_table = "statuses";
+        $link_table = "statuses";
+        $this_table = "statuses_form";
+        $page_title = "Statuses";
+        $page_localisation = "horses/statuses_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $statuses = new StatusesModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $statuses->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'name' => ['required'],
+                                ]);
+
+                                $statuses->setName($request->post->get('name'))
+                                    ->update($request->get->get('id'));
+
+                                $this->addFlash('success', "Les données ont été modifiées.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+
+                            $data[] = $account->getName();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'name' => ['required'],
+                            ]);
+
+                            $statuses->setName($request->post->get('name'))
+                                ->create();
+
+                            $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                            $this->redirect(self::reverse($link_table));
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
         }
     }
 }

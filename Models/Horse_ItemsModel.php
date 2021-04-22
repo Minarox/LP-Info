@@ -20,10 +20,12 @@ class Horse_ItemsModel extends Model {
 
     /**
      * @param int $horse_id
+     * @return Horse_ItemsModel
      */
-    public function setHorseId(int $horse_id): void
+    public function setHorseId(int $horse_id): Horse_ItemsModel
     {
         $this->horse_id = $horse_id;
+        return $this;
     }
 
     /**
@@ -36,10 +38,12 @@ class Horse_ItemsModel extends Model {
 
     /**
      * @param int $item_id
+     * @return Horse_ItemsModel
      */
-    public function setItemId(int $item_id): void
+    public function setItemId(int $item_id): Horse_ItemsModel
     {
         $this->item_id = $item_id;
+        return $this;
     }
 
     /**
@@ -52,10 +56,12 @@ class Horse_ItemsModel extends Model {
 
     /**
      * @param int $quantity
+     * @return Horse_ItemsModel
      */
-    public function setQuantity(int $quantity): void
+    public function setQuantity(int $quantity): Horse_ItemsModel
     {
         $this->quantity = $quantity;
+        return $this;
     }
 
 }

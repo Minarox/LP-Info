@@ -13,6 +13,8 @@ use App\Models\Building_FamiliesModel;
 use App\Models\Building_ItemsModel;
 use App\Models\Building_TypesModel;
 use App\Models\BuildingsModel;
+use App\Models\ItemsModel;
+use App\Models\Stable_BuildingsModel;
 
 final class BuildingsController extends Controller {
 
@@ -87,33 +89,37 @@ final class BuildingsController extends Controller {
                 'filter'=> $filter,
                 'order'=> $order,
             ], title: 'Buildings');
-        };
+        }
     }
 
     #[Route('/buildings/form', 'buildings_form', ['GET', 'POST'])] public function indexForm(Request $request)
     {
+        $auth_table = "buildings";
+        $link_table = "buildings";
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
             foreach ($_SESSION["authorizations"] as $authorizations) {
                 $tables[] = $authorizations["table"];
             }
-            if (!$this->permissions("buildings", $tables)) {
+            if (!$this->permissions($auth_table, $tables)) {
                 $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
                 $this->redirect(self::reverse('home'));
             } else {
-                if (in_array("buildings", $tables)) {
-                    $position = array_search("buildings", $tables);
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
                 } elseif (in_array("*", $tables)) {
                     $position = array_search("*", $tables);
                 }
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
                 if (!$this->permissions("INSERT", $permissions)) {
                     $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
-                    $this->redirect(self::reverse('buildings'));
+                    $this->redirect(self::reverse($link_table));
                 } else {
                     $validator = new Validator($_POST);
                     $buildings = new BuildingsModel();
+                    $building_type = new Building_TypesModel();
+                    $building_family = new Building_FamiliesModel();
 
                     if ($request->get->get('id')) {
                         $account = $buildings->findById($request->get->get('id'));
@@ -124,22 +130,24 @@ final class BuildingsController extends Controller {
                         } else {
                             if($validator->isSubmitted('update')) {
                                 $validator->validate([
-                                    'bank_account_id' => ['required'],
-                                    'action' => ['required'],
-                                    'amount' => ['required'],
-                                    'label' => ['required'],
-                                    'date' => ['required'],
+                                    'building_type_id' => ['required'],
+                                    'building_family_id' => ['required'],
+                                    'description' => ['required'],
+                                    'level' => ['required'],
+                                    'price' => ['required'],
+                                    'on_sale' => ['required'],
                                 ]);
 
-                                if (!$bank_accounts->findById($request->post->get('bank_account_id'))) {
-                                    $this->addFlash('error', "Ce Bank Account ID n'existe pas.");
-                                    $this->redirect("/bank/history/form?id=".$request->get->get('id'));
+                                if (!$building_type->findById($request->post->get('building_type_id')) && !$building_family->findById($request->post->get('building_family_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect("/buildings/form?id=".$request->get->get('id'));
                                 } else {
-                                    $bank_accounts_history->setBankAccountId($request->post->get('bank_account_id'))
-                                        ->setAction($request->post->get('action'))
-                                        ->setAmount($request->post->get('amount'))
-                                        ->setLabel($request->post->get('label'))
-                                        ->setDate($request->post->get('date'))
+                                    $buildings->setBuildingTypeId($request->post->get('building_type_id'))
+                                        ->setBuildingFamilyId($request->post->get('building_family_id'))
+                                        ->setDescription($request->post->get('description'))
+                                        ->setLevel($request->post->get('level'))
+                                        ->setPrice($request->post->get('price'))
+                                        ->setOnSale($request->post->get('on_sale'))
                                         ->update($request->get->get('id'));
 
                                     $this->addFlash('success', "Les données ont été modifiées.");
@@ -147,35 +155,38 @@ final class BuildingsController extends Controller {
                                 }
                             }
 
-                            $data[] = $account->getBankAccountId();
-                            $data[] = $account->getAction();
-                            $data[] = $account->getAmount();
-                            $data[] = $account->getLabel();
-                            $data[] = $account->getDate();
+                            $data[] = $account->getBuildingTypeId();
+                            $data[] = $account->getBuildingFamilyId();
+                            $data[] = $account->getDescription();
+                            $data[] = $account->getLevel();
+                            $data[] = $account->getPrice();
+                            $data[] = $account->getOnSale();
 
                             $this->render(name_file: 'buildings/index_form', params: [
                                 "data"=> $data,
-                            ], title: 'Bank accounts');
+                            ], title: 'Buildings');
                         }
                     } else {
                         if($validator->isSubmitted('insert')) {
                             $validator->validate([
-                                'bank_account_id' => ['required'],
-                                'action' => ['required'],
-                                'amount' => ['required'],
-                                'label' => ['required'],
-                                'date' => ['required'],
+                                'building_type_id' => ['required'],
+                                'building_family_id' => ['required'],
+                                'description' => ['required'],
+                                'level' => ['required'],
+                                'price' => ['required'],
+                                'on_sale' => ['required'],
                             ]);
 
-                            if (!$bank_accounts->findById($request->post->get('bank_account_id'))) {
-                                $this->addFlash('error', "Ce Bank Account ID n'existe pas.");
+                            if (!$building_type->findById($request->post->get('building_type_id')) && !$building_family->findById($request->post->get('building_family_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
                                 $this->redirect(self::reverse('buildings_form'));
                             } else {
-                                $bank_accounts_history->setBankAccountId($request->post->get('bank_account_id'))
-                                    ->setAction($request->post->get('action'))
-                                    ->setAmount($request->post->get('amount'))
-                                    ->setLabel($request->post->get('label'))
-                                    ->setDate($request->post->get('date'))
+                                $buildings->setBuildingTypeId($request->post->get('building_type_id'))
+                                    ->setBuildingFamilyId($request->post->get('building_family_id'))
+                                    ->setDescription($request->post->get('description'))
+                                    ->setLevel($request->post->get('level'))
+                                    ->setPrice($request->post->get('price'))
+                                    ->setOnSale($request->post->get('on_sale'))
                                     ->create();
 
                                 $this->addFlash('success', "Les données ont été ajouté dans la table.");
@@ -183,7 +194,7 @@ final class BuildingsController extends Controller {
                             }
                         }
 
-                        $this->render(name_file: 'buildings/index_form', title: 'Bank account history');
+                        $this->render(name_file: 'buildings/index_form', title: 'Buildings');
                     }
                 }
             }
@@ -259,7 +270,79 @@ final class BuildingsController extends Controller {
                 'filter'=> $filter,
                 'order'=> $order,
             ], title: 'Building families');
-        };
+        }
+    }
+
+    #[Route('/building/families/form', 'building_families_form', ['GET', 'POST'])] public function buildingFamiliesForm(Request $request)
+    {
+        $auth_table = "building_families";
+        $link_table = "building_families";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $building_family = new Building_FamiliesModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $building_family->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse('building_families'));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'name' => ['required'],
+                                ]);
+
+                                $building_family->setName($request->post->get('name'))
+                                    ->update($request->get->get('id'));
+
+                                $this->addFlash('success', "Les données ont été modifiées.");
+                                $this->redirect(self::reverse('building_families'));
+                            }
+
+                            $data[] = $account->getName();
+
+                            $this->render(name_file: 'buildings/building_families_form', params: [
+                                "data"=> $data,
+                            ], title: 'Building families');
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'name' => ['required'],
+                            ]);
+
+                            $building_family->setName($request->post->get('name'))
+                                ->create();
+
+                            $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                            $this->redirect(self::reverse('building_families'));
+                        }
+
+                        $this->render(name_file: 'buildings/building_families_form', title: 'Building families');
+                    }
+                }
+            }
+        }
     }
 
     #[Route('/building/items', 'building_items', ['GET', 'POST'])] public function buildingItems(Request $request) {
@@ -335,7 +418,103 @@ final class BuildingsController extends Controller {
                 'filter'=> $filter,
                 'order'=> $order,
             ], title: 'Building items');
-        };
+        }
+    }
+
+    // TODO : Building items
+    #[Route('/building/items/form', 'building_items_form', ['GET', 'POST'])] public function buildingItemsForm(Request $request)
+    {
+        $auth_table = "building_items";
+        $link_table = "building_items";
+        $this_table = "building_items_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $buildings = new BuildingsModel();
+                    $items = new ItemsModel();
+                    $building_item = new Building_ItemsModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $building_item->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'building_id' => ['required'],
+                                    'item_id' => ['required'],
+                                    'quantity' => ['required'],
+                                ]);
+
+                                if (!$buildings->findById($request->post->get('building_id')) && !$items->findById($request->post->get('item_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $building_item->setBuildingId($request->post->get('building_id'))
+                                        ->setItemId($request->post->get('item_id'))
+                                        ->setQuantity($request->post->get('quantity'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getBuildingId();
+                            $data[] = $account->getItemId();
+                            $data[] = $account->getQuantity();
+
+                            $this->render(name_file: 'buildings/building_items_form', params: [
+                                "data"=> $data,
+                            ], title: 'Building items');
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'building_id' => ['required'],
+                                'item_id' => ['required'],
+                                'quantity' => ['required'],
+                            ]);
+
+                            if (!$buildings->findById($request->post->get('building_id')) && !$items->findById($request->post->get('item_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $building_item->setBuildingId($request->post->get('building_id'))
+                                    ->setItemId($request->post->get('item_id'))
+                                    ->setQuantity($request->post->get('quantity'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: 'buildings/building_items_form', title: 'Building items');
+                    }
+                }
+            }
+        }
     }
 
     #[Route('/building/types', 'building_types', ['GET', 'POST'])] public function buildingTypes(Request $request) {
@@ -409,7 +588,90 @@ final class BuildingsController extends Controller {
                 'filter'=> $filter,
                 'order'=> $order,
             ], title: 'Building types');
-        };
+        }
+    }
+
+    #[Route('/building/types/form', 'building_types_form', ['GET', 'POST'])] public function buildingTypesForm(Request $request)
+    {
+        $auth_table = "building_types";
+        $link_table = "building_types";
+        $this_table = "building_types_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $building_type = new Building_TypesModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $building_type->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'name' => ['required'],
+                                    'items_limit' => ['required'],
+                                    'horses_limit' => ['required'],
+                                ]);
+
+                                $building_type->setName($request->post->get('name'))
+                                    ->setItemsLimit($request->post->get('items_limit'))
+                                    ->setHorsesLimit($request->post->get('horses_limit'))
+                                    ->update($request->get->get('id'));
+
+                                $this->addFlash('success', "Les données ont été modifiées.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+
+                            $data[] = $account->getName();
+                            $data[] = $account->getItemsLimit();
+                            $data[] = $account->getHorsesLimit();
+
+                            $this->render(name_file: 'buildings/building_types_form', params: [
+                                "data"=> $data,
+                            ], title: 'Building types');
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'name' => ['required'],
+                                'items_limit' => ['required'],
+                                'horses_limit' => ['required'],
+                            ]);
+
+                            $building_type->setName($request->post->get('name'))
+                                ->setItemsLimit($request->post->get('items_limit'))
+                                ->setHorsesLimit($request->post->get('horses_limit'))
+                                ->create();
+
+                            $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                            $this->redirect(self::reverse($link_table));
+                        }
+
+                        $this->render(name_file: 'buildings/building_types_form', title: 'Building types');
+                    }
+                }
+            }
+        }
     }
 
     #[Route('/automatic', 'automatic_tasks', ['GET', 'POST'])] public function automaticTasks(Request $request) {
@@ -484,7 +746,114 @@ final class BuildingsController extends Controller {
                 'filter'=> $filter,
                 'order'=> $order,
             ], title: 'Building automatic tasks');
-        };
+        }
+    }
+
+    #[Route('/automatic/form', 'automatic_tasks_form', ['GET', 'POST'])] public function automaticTasksForm(Request $request)
+    {
+        $auth_table = "automatic_tasks";
+        $link_table = "automatic_tasks";
+        $this_table = "automatic_tasks_form";
+        $page_title = "Building automatic tasks";
+        $page_localisation = "buildings/automatic_tasks_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $automatic_tasks = new Automatic_TasksModel();
+                    $automatic_tasks_action = new Automatic_Task_ActionsModel();
+                    $stable_building = new Stable_BuildingsModel();
+                    $items = new ItemsModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $automatic_tasks->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'automatic_task_action_id' => ['required'],
+                                    'stable_building_id' => ['required'],
+                                    'item_id' => ['required'],
+                                    'frequency' => ['required'],
+                                ]);
+
+                                if (!$automatic_tasks_action->findById($request->post->get('automatic_task_action_id')) &&
+                                    !$stable_building->findById($request->post->get('stable_building_id')) &&
+                                    !$items->findById($request->post->get('item_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $automatic_tasks->setAutomaticTaskActionId($request->post->get('automatic_task_action_id'))
+                                        ->setStableBuildingId($request->post->get('stable_building_id'))
+                                        ->setItemId($request->post->get('item_id'))
+                                        ->setFrequency($request->post->get('frequency'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getAutomaticTaskActionId();
+                            $data[] = $account->getStableBuildingId();
+                            $data[] = $account->getItemId();
+                            $data[] = $account->getFrequency();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'automatic_task_action_id' => ['required'],
+                                'stable_building_id' => ['required'],
+                                'item_id' => ['required'],
+                                'frequency' => ['required'],
+                            ]);
+
+                            if (!$automatic_tasks_action->findById($request->post->get('automatic_task_action_id')) &&
+                                !$stable_building->findById($request->post->get('stable_building_id')) &&
+                                !$items->findById($request->post->get('item_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $automatic_tasks->setAutomaticTaskActionId($request->post->get('automatic_task_action_id'))
+                                    ->setStableBuildingId($request->post->get('stable_building_id'))
+                                    ->setItemId($request->post->get('item_id'))
+                                    ->setFrequency($request->post->get('frequency'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
     }
 
     #[Route('/automatic/actions', 'automatic_task_actions', ['GET', 'POST'])] public function automaticTaskAction(Request $request) {
@@ -556,6 +925,80 @@ final class BuildingsController extends Controller {
                 'filter'=> $filter,
                 'order'=> $order,
             ], title: 'Building automatic task actions');
-        };
+        }
+    }
+
+    #[Route('/automatic/actions/form', 'automatic_task_actions_form', ['GET', 'POST'])] public function automaticTaskActionForm(Request $request)
+    {
+        $auth_table = "automatic_task_actions";
+        $link_table = "automatic_task_actions";
+        $this_table = "automatic_task_actions_form";
+        $page_title = "Building automatic task actions";
+        $page_localisation = "buildings/automatic_task_actions_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $automatic_tasks_action = new Automatic_Task_ActionsModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $automatic_tasks_action->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'name' => ['required'],
+                                ]);
+
+                                $automatic_tasks_action->setName($request->post->get('name'))
+                                    ->update($request->get->get('id'));
+
+                                $this->addFlash('success', "Les données ont été modifiées.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+
+                            $data[] = $account->getName();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'name' => ['required'],
+                            ]);
+
+                            $automatic_tasks_action->setName($request->post->get('name'))->create();
+
+                            $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                            $this->redirect(self::reverse($link_table));
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
     }
 }

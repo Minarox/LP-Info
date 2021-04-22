@@ -4,7 +4,10 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
+use App\Core\Classes\Validator;
 use App\Core\System\Controller;
+use App\Core\System\Model;
+use App\Models\BuildingsModel;
 use App\Models\Club_BuildingsModel;
 use App\Models\Club_ItemsModel;
 use App\Models\Club_MembersModel;
@@ -12,6 +15,8 @@ use App\Models\Club_Tournament_RegistrantsModel;
 use App\Models\Club_Tournament_RewardsModel;
 use App\Models\Club_TournamentsModel;
 use App\Models\ClubsModel;
+use App\Models\ItemsModel;
+use App\Models\PlayersModel;
 
 final class ClubsController extends Controller {
 
@@ -87,6 +92,112 @@ final class ClubsController extends Controller {
                 'order'=> $order,
             ], title: 'Clubs');
         };
+    }
+
+    #[Route('/clubs/form', 'clubs_form', ['GET', 'POST'])] public function indexForm(Request $request)
+    {
+        $auth_table = "clubs";
+        $link_table = "clubs";
+        $this_table = "clubs_form";
+        $page_title = "Clubs";
+        $page_localisation = "clubs/index_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $clubs = new ClubsModel();
+                    $player = new PlayersModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $clubs->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'player_id' => ['required'],
+                                    'buildings_limit' => ['required'],
+                                    'membership_fee' => ['required'],
+                                    'price' => ['required'],
+                                    'on_sale' => ['required'],
+                                ]);
+
+                                if (!$player->findById($request->post->get('player_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $clubs->setPlayerId($request->post->get('player_id'))
+                                        ->setBuildingsLimit($request->post->get('buildings_limit'))
+                                        ->setMembershipFee($request->post->get('membership_fee'))
+                                        ->setPrice($request->post->get('price'))
+                                        ->setOnSale($request->post->get('on_sale'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getPlayerId();
+                            $data[] = $account->getBuildingsLimit();
+                            $data[] = $account->getMembershipFee();
+                            $data[] = $account->getPrice();
+                            $data[] = $account->getOnSale();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'player_id' => ['required'],
+                                'buildings_limit' => ['required'],
+                                'membership_fee' => ['required'],
+                                'price' => ['required'],
+                                'on_sale' => ['required'],
+                            ]);
+
+                            if (!$player->findById($request->post->get('player_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $clubs->setPlayerId($request->post->get('player_id'))
+                                    ->setBuildingsLimit($request->post->get('buildings_limit'))
+                                    ->setMembershipFee($request->post->get('membership_fee'))
+                                    ->setPrice($request->post->get('price'))
+                                    ->setOnSale($request->post->get('on_sale'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
     }
 
     #[Route('/club/buildings', 'club_buildings', ['GET', 'POST'])] public function clubBuildings(Request $request) {
@@ -165,6 +276,106 @@ final class ClubsController extends Controller {
         };
     }
 
+    // TODO : Club buildings
+    #[Route('/club/buildings/form', 'club_buildings_form', ['GET', 'POST'])] public function clubBuildingsForm(Request $request)
+    {
+        $auth_table = "club_buildings";
+        $link_table = "club_buildings";
+        $this_table = "club_buildings_form";
+        $page_title = "Club buildings";
+        $page_localisation = "clubs/club_buildings_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $club_building = new Club_BuildingsModel();
+                    $clubs = new ClubsModel();
+                    $buildings = new BuildingsModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $club_building->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'club_id' => ['required'],
+                                    'building_id' => ['required'],
+                                    'quantity' => ['required'],
+                                ]);
+
+                                if (!$clubs->findById($request->post->get('club_id')) &&
+                                    !$buildings->findById($request->post->get('building_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $club_building->setClubId($request->post->get('club_id'))
+                                        ->setBuildingId($request->post->get('building_id'))
+                                        ->setQuantity($request->post->get('quantity'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getClubId();
+                            $data[] = $account->getBuildingId();
+                            $data[] = $account->getQuantity();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'club_id' => ['required'],
+                                'building_id' => ['required'],
+                                'quantity' => ['required'],
+                            ]);
+
+                            if (!$clubs->findById($request->post->get('club_id')) &&
+                                !$buildings->findById($request->post->get('building_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $club_building->setClubId($request->post->get('club_id'))
+                                    ->setBuildingId($request->post->get('building_id'))
+                                    ->setQuantity($request->post->get('quantity'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
+    }
+
     #[Route('/club/items', 'club_items', ['GET', 'POST'])] public function clubItems(Request $request) {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
@@ -239,6 +450,106 @@ final class ClubsController extends Controller {
                 'order'=> $order,
             ], title: 'Club items');
         };
+    }
+
+    // TODO : Club items
+    #[Route('/club/items/form', 'club_items_form', ['GET', 'POST'])] public function clubItemsForm(Request $request)
+    {
+        $auth_table = "club_items";
+        $link_table = "club_items";
+        $this_table = "club_items_form";
+        $page_title = "Club items";
+        $page_localisation = "clubs/club_items_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $club_item = new Club_ItemsModel();
+                    $clubs = new ClubsModel();
+                    $items = new ItemsModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $club_item->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'club_id' => ['required'],
+                                    'item_id' => ['required'],
+                                    'quantity' => ['required'],
+                                ]);
+
+                                if (!$clubs->findById($request->post->get('club_id')) &&
+                                    !$items->findById($request->post->get('item_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $club_item->setClubId($request->post->get('club_id'))
+                                        ->setItemId($request->post->get('item_id'))
+                                        ->setQuantity($request->post->get('quantity'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getClubId();
+                            $data[] = $account->getItemId();
+                            $data[] = $account->getQuantity();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'club_id' => ['required'],
+                                'item_id' => ['required'],
+                                'quantity' => ['required'],
+                            ]);
+
+                            if (!$clubs->findById($request->post->get('club_id')) &&
+                                !$items->findById($request->post->get('item_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $club_item->setClubId($request->post->get('club_id'))
+                                    ->setItemId($request->post->get('item_id'))
+                                    ->setQuantity($request->post->get('quantity'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
     }
 
     #[Route('/club/members', 'club_members', ['GET', 'POST'])] public function clubMembers(Request $request) {
@@ -316,6 +627,101 @@ final class ClubsController extends Controller {
         };
     }
 
+    // TODO : Club members
+    #[Route('/club/members/form', 'club_members_form', ['GET', 'POST'])] public function clubMembersForm(Request $request)
+    {
+        $auth_table = "club_members";
+        $link_table = "club_members";
+        $this_table = "club_members_form";
+        $page_title = "Club members";
+        $page_localisation = "clubs/club_members_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $club_member = new Club_MembersModel();
+                    $clubs = new ClubsModel();
+                    $players = new PlayersModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $club_member->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'club_id' => ['required'],
+                                    'player_id' => ['required'],
+                                ]);
+
+                                if (!$clubs->findById($request->post->get('club_id')) &&
+                                    !$players->findById($request->post->get('player_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $club_member->setClubId($request->post->get('club_id'))
+                                        ->setPlayerId($request->post->get('player_id'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getClubId();
+                            $data[] = $account->getPlayerId();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'club_id' => ['required'],
+                                'player_id' => ['required'],
+                            ]);
+
+                            if (!$clubs->findById($request->post->get('club_id')) &&
+                                !$players->findById($request->post->get('player_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $club_member->setClubId($request->post->get('club_id'))
+                                    ->setPlayerId($request->post->get('player_id'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
+    }
+
     #[Route('/club/tournaments', 'club_tournaments', ['GET', 'POST'])] public function clubTournaments(Request $request) {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
@@ -386,6 +792,117 @@ final class ClubsController extends Controller {
                 'filter'=> $filter,
                 'order'=> $order,
             ], title: 'Club tournaments');
+        }
+    }
+
+    #[Route('/club/tournaments/form', 'club_tournaments_form', ['GET', 'POST'])] public function clubTournamentsForm(Request $request)
+    {
+        $auth_table = "club_tournaments";
+        $link_table = "club_tournaments";
+        $this_table = "club_tournaments_form";
+        $page_title = "Club tournaments";
+        $page_localisation = "clubs/club_tournaments_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $club_tournament = new Club_TournamentsModel();
+                    $clubs = new ClubsModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $club_tournament->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'club_id' => ['required'],
+                                    'name' => ['required'],
+                                    'start_date' => ['required'],
+                                    'end_date' => ['required'],
+                                    'base_registration_fee' => ['required'],
+                                    'member_registration_fee' => ['required'],
+                                ]);
+
+                                if (!$clubs->findById($request->post->get('club_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $club_tournament->setClubId($request->post->get('club_id'))
+                                        ->setName($request->post->get('name'))
+                                        ->setStartDate($request->post->get('start_date'))
+                                        ->setEndDate($request->post->get('end_date'))
+                                        ->setBaseRegistrationFee($request->post->get('base_registration_fee'))
+                                        ->setMemberRegistrationFee($request->post->get('member_registration_fee'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getClubId();
+                            $data[] = $account->getName();
+                            $data[] = $account->getStartDate();
+                            $data[] = $account->getEndDate();
+                            $data[] = $account->getBaseRegistrationFee();
+                            $data[] = $account->getMemberRegistrationFee();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'club_id' => ['required'],
+                                'name' => ['required'],
+                                'start_date' => ['required'],
+                                'end_date' => ['required'],
+                                'base_registration_fee' => ['required'],
+                                'member_registration_fee' => ['required'],
+                            ]);
+
+                            if (!$clubs->findById($request->post->get('club_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $club_tournament->setClubId($request->post->get('club_id'))
+                                    ->setName($request->post->get('name'))
+                                    ->setStartDate($request->post->get('start_date'))
+                                    ->setEndDate($request->post->get('end_date'))
+                                    ->setBaseRegistrationFee($request->post->get('base_registration_fee'))
+                                    ->setMemberRegistrationFee($request->post->get('member_registration_fee'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
         }
     }
 
@@ -465,6 +982,106 @@ final class ClubsController extends Controller {
         }
     }
 
+    // TODO : Club tournament registrations
+    #[Route('/club/tournament/registrations/form', 'club_tournament_registrations_form', ['GET', 'POST'])] public function clubTournamentRegistrationsForm(Request $request)
+    {
+        $auth_table = "club_tournament_registrants";
+        $link_table = "club_tournament_registrations";
+        $this_table = "club_tournament_registrations_form";
+        $page_title = "Club tournament registrations";
+        $page_localisation = "clubs/club_tournament_registrations_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $club_tournament_registration = new Club_Tournament_RegistrantsModel();
+                    $club_tournament = new Club_TournamentsModel();
+                    $players = new PlayersModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $club_tournament_registration->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'club_tournament_id' => ['required'],
+                                    'player_id' => ['required'],
+                                    'rank' => ['required'],
+                                ]);
+
+                                if (!$club_tournament->findById($request->post->get('club_tournament_id')) &&
+                                    !$players->findById($request->post->get('player_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $club_tournament_registration->setClubTournamentId($request->post->get('club_tournament_id'))
+                                        ->setPlayerId($request->post->get('player_id'))
+                                        ->setRank($request->post->get('rank'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getClubTournamentId();
+                            $data[] = $account->getPlayerId();
+                            $data[] = $account->getRank();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'club_tournament_id' => ['required'],
+                                'player_id' => ['required'],
+                                'rank' => ['required'],
+                            ]);
+
+                            if (!$club_tournament->findById($request->post->get('club_tournament_id')) &&
+                                !$players->findById($request->post->get('player_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $club_tournament_registration->setClubTournamentId($request->post->get('club_tournament_id'))
+                                    ->setPlayerId($request->post->get('player_id'))
+                                    ->setRank($request->post->get('rank'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
+        }
+    }
+
     #[Route('/club/tournament/rewards', 'club_tournament_rewards', ['GET', 'POST'])] public function clubTournamentRewards(Request $request) {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
@@ -537,6 +1154,110 @@ final class ClubsController extends Controller {
                 'filter'=> $filter,
                 'order'=> $order,
             ], title: 'Club tournament rewards');
+        }
+    }
+
+    #[Route('/club/tournament/rewards/form', 'club_tournament_rewards_form', ['GET', 'POST'])] public function clubTournamentRewardsForm(Request $request)
+    {
+        $auth_table = "club_tournament_registrants";
+        $link_table = "club_tournament_rewards";
+        $this_table = "club_tournament_rewards_form";
+        $page_title = "Club tournament rewards";
+        $page_localisation = "clubs/club_tournament_rewards_form";
+        if (!$this->isAuthenticated()) {
+            $this->redirect(self::reverse('login'));
+        } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions($auth_table, $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array($auth_table, $tables)) {
+                    $position = array_search($auth_table, $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+                if (!$this->permissions("INSERT", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                    $this->redirect(self::reverse($link_table));
+                } else {
+                    $validator = new Validator($_POST);
+                    $club_tournament_rewards = new Club_Tournament_RewardsModel();
+                    $club_tournament = new Club_TournamentsModel();
+                    $items = new ItemsModel();
+
+                    if ($request->get->get('id')) {
+                        $account = $club_tournament_rewards->findById($request->get->get('id'));
+
+                        if (!$account) {
+                            $this->addFlash('error', "Cet ID n'existe pas.");
+                            $this->redirect(self::reverse($link_table));
+                        } else {
+                            if($validator->isSubmitted('update')) {
+                                $validator->validate([
+                                    'club_tournament_id' => ['required'],
+                                    'item_id' => ['required'],
+                                    'quantity' => ['required'],
+                                    'obtention_rank' => ['required'],
+                                ]);
+
+                                if (!$club_tournament->findById($request->post->get('club_tournament_id')) &&
+                                    !$items->findById($request->post->get('item_id'))) {
+                                    $this->addFlash('error', "L'un des ID n'existe pas.");
+                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                } else {
+                                    $club_tournament_rewards->setClubTournamentId($request->post->get('club_tournament_id'))
+                                        ->setItemId($request->post->get('item_id'))
+                                        ->setQuantity($request->post->get('quantity'))
+                                        ->setObtentionRank($request->post->get('obtention_rank'))
+                                        ->update($request->get->get('id'));
+
+                                    $this->addFlash('success', "Les données ont été modifiées.");
+                                    $this->redirect(self::reverse($link_table));
+                                }
+                            }
+
+                            $data[] = $account->getClubTournamentId();
+                            $data[] = $account->getItemId();
+                            $data[] = $account->getQuantity();
+                            $data[] = $account->getObtentionRank();
+
+                            $this->render(name_file: $page_localisation, params: [
+                                "data"=> $data,
+                            ], title: $page_title);
+                        }
+                    } else {
+                        if($validator->isSubmitted('insert')) {
+                            $validator->validate([
+                                'club_tournament_id' => ['required'],
+                                'item_id' => ['required'],
+                                'quantity' => ['required'],
+                                'obtention_rank' => ['required'],
+                            ]);
+
+                            if (!$club_tournament->findById($request->post->get('club_tournament_id')) &&
+                                !$items->findById($request->post->get('item_id'))) {
+                                $this->addFlash('error', "L'un des ID n'existe pas.");
+                                $this->redirect(self::reverse($this_table));
+                            } else {
+                                $club_tournament_rewards->setClubTournamentId($request->post->get('club_tournament_id'))
+                                    ->setItemId($request->post->get('item_id'))
+                                    ->setQuantity($request->post->get('quantity'))
+                                    ->setObtentionRank($request->post->get('obtention_rank'))
+                                    ->create();
+
+                                $this->addFlash('success', "Les données ont été ajouté dans la table.");
+                                $this->redirect(self::reverse($link_table));
+                            }
+                        }
+
+                        $this->render(name_file: $page_localisation, title: $page_title);
+                    }
+                }
+            }
         }
     }
 }
