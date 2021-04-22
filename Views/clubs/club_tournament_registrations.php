@@ -59,7 +59,7 @@
                                     <td><?= $row['player_id'] ?></td>
                                     <td><?= $row['rank'] ?></td>
                                     <?php if (permissions("UPDATE", $permissions)): ?>
-                                        <td class="cw-100 action"><a href="<?= ROOT ?>club/tournament/registrations/form?id=<?= $row['club_tournament_id'] ?>"><input type="button" value="Editer"></a></td>
+                                        <td class="cw-100 action"><a href="<?= ROOT ?>club/tournament/registrations/form?club_tournament_id=<?= $row['club_tournament_id'] ?>&player_id=<?= $row['player_id'] ?>"><input type="button" value="Editer"></a></td>
                                     <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>

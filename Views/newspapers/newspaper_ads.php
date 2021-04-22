@@ -52,7 +52,7 @@
                                     <td><?= $row['newspaper_id'] ?></td>
                                     <td><?= $row['ad_id'] ?></td>
                                     <?php if (permissions("UPDATE", $permissions)): ?>
-                                        <td class="cw-100 action"><a href="<?= ROOT ?>newspapers/ads/form?id=<?= $row['newspaper_id'] ?>"><input type="button" value="Editer"></a></td>
+                                        <td class="cw-100 action"><a href="<?= ROOT ?>newspapers/ads/form?newspaper_id=<?= $row['newspaper_id'] ?>&ad_id=<?= $row['ad_id'] ?>"><input type="button" value="Editer"></a></td>
                                     <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>

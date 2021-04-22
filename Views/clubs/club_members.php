@@ -52,7 +52,7 @@
                                     <td><?= $row['club_id'] ?></td>
                                     <td><?= $row['player_id'] ?></td>
                                     <?php if (permissions("UPDATE", $permissions)): ?>
-                                        <td class="cw-100 action"><a href="<?= ROOT ?>club/members/form?id=<?= $row['club_id'] ?>"><input type="button" value="Editer"></a></td>
+                                        <td class="cw-100 action"><a href="<?= ROOT ?>club/members/form?club_id=<?= $row['club_id'] ?>&player_id=<?= $row['player_id'] ?>"><input type="button" value="Editer"></a></td>
                                     <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>

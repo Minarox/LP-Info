@@ -59,7 +59,7 @@
                                     <td><?= $row['building_id'] ?></td>
                                     <td><?= $row['quantity'] ?></td>
                                     <?php if (permissions("UPDATE", $permissions)): ?>
-                                        <td class="cw-100 action"><a href="<?= ROOT ?>club/buildings/form?id=<?= $row['club_id'] ?>"><input type="button" value="Editer"></a></td>
+                                        <td class="cw-100 action"><a href="<?= ROOT ?>club/buildings/form?club_id=<?= $row['club_id'] ?>&building_id=<?= $row['building_id'] ?>"><input type="button" value="Editer"></a></td>
                                     <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>

@@ -490,7 +490,6 @@ final class HorsesController extends Controller {
         };
     }
 
-    // TODO : Horse items
     #[Route('/horse/items/form', 'horse_items_form', ['GET', 'POST'])] public function horseItemsForm(Request $request)
     {
         $auth_table = "horse_items";
@@ -523,8 +522,11 @@ final class HorsesController extends Controller {
                     $horses = new HorsesModel();
                     $items = new ItemsModel();
 
-                    if ($request->get->get('id')) {
-                        $account = $horse_items->findById($request->get->get('id'));
+                    $horse_id = $request->get->get('horse_id');
+                    $item_id = $request->get->get('item_id');
+
+                    if ($horse_id && $item_id) {
+                        $account = $horse_items->query("SELECT * FROM $auth_table WHERE horse_id = '$horse_id' AND item_id = '$item_id' LIMIT 1")->fetch();
 
                         if (!$account) {
                             $this->addFlash('error', "Cet ID n'existe pas.");
@@ -537,15 +539,15 @@ final class HorsesController extends Controller {
                                     'quantity' => ['required'],
                                 ]);
 
-                                if (!$horses->findById($request->post->get('horse_id')) &&
-                                    !$items->findById($request->post->get('item_id'))) {
+                                if (!$horses->findById($horse_id) &&
+                                    !$items->findById($item_id)) {
                                     $this->addFlash('error', "L'un des ID n'existe pas.");
-                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                    $this->redirect(self::reverse($link_table)."/form?horse_id=".$horse_id."&item_id=".$item_id);
                                 } else {
-                                    $horse_items->setHorseId($request->post->get('horse_id'))
-                                        ->setItemId($request->post->get('item_id'))
-                                        ->setQuantity($request->post->get('quantity'))
-                                        ->update($request->get->get('id'));
+                                    $setHorseId = $request->post->get('horse_id');
+                                    $setItemId = $request->post->get('item_id');
+                                    $setQuantity = $request->post->get('quantity');
+                                    $horse_items->query("UPDATE $auth_table SET horse_id = '$setHorseId', item_id = '$setItemId', quantity = '$setQuantity' WHERE horse_id = '$horse_id' AND item_id = '$item_id'");
 
                                     $this->addFlash('success', "Les données ont été modifiées.");
                                     $this->redirect(self::reverse($link_table));
@@ -568,8 +570,8 @@ final class HorsesController extends Controller {
                                 'quantity' => ['required'],
                             ]);
 
-                            if (!$horses->findById($request->post->get('horse_id')) &&
-                                !$items->findById($request->post->get('item_id'))) {
+                            if (!$horses->findById($horse_id) &&
+                                !$items->findById($item_id)) {
                                 $this->addFlash('error', "L'un des ID n'existe pas.");
                                 $this->redirect(self::reverse($this_table));
                             } else {
@@ -666,7 +668,6 @@ final class HorsesController extends Controller {
         }
     }
 
-    // TODO : Horse status
     #[Route('/horse/status/form', 'horse_status_form', ['GET', 'POST'])] public function horseStatusForm(Request $request)
     {
         $auth_table = "horse_status";
@@ -699,8 +700,11 @@ final class HorsesController extends Controller {
                     $horses = new HorsesModel();
                     $status = new StatusesModel();
 
-                    if ($request->get->get('id')) {
-                        $account = $horse_status->findById($request->get->get('id'));
+                    $horse_id = $request->get->get('horse_id');
+                    $status_id = $request->get->get('status_id');
+
+                    if ($horse_id && $status_id) {
+                        $account = $horse_status->query("SELECT * FROM $auth_table WHERE horse_id = '$horse_id' AND status_id = '$status_id' LIMIT 1")->fetch();
 
                         if (!$account) {
                             $this->addFlash('error', "Cet ID n'existe pas.");
@@ -713,15 +717,15 @@ final class HorsesController extends Controller {
                                     'onset_date' => ['required'],
                                 ]);
 
-                                if (!$horses->findById($request->post->get('horse_id')) &&
-                                    !$status->findById($request->post->get('status_id'))) {
+                                if (!$horses->findById($horse_id) &&
+                                    !$status->findById($status_id)) {
                                     $this->addFlash('error', "L'un des ID n'existe pas.");
-                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                    $this->redirect(self::reverse($link_table)."/form?horse_id=".$horse_id."&status_id=".$status_id);
                                 } else {
-                                    $horse_status->setHorseId($request->post->get('horse_id'))
-                                        ->setStatusId($request->post->get('status_id'))
-                                        ->setOnsetDate($request->post->get('onset_date'))
-                                        ->update($request->get->get('id'));
+                                    $setHorseId = $request->post->get('horse_id');
+                                    $setStatusId = $request->post->get('status_id');
+                                    $setOnsetDate = $request->post->get('onset_date');
+                                    $horse_status->query("UPDATE $auth_table SET horse_id = '$setHorseId', status_id = '$setStatusId', onset_date = '$setOnsetDate' WHERE horse_id = '$horse_id' AND status_id = '$status_id'");
 
                                     $this->addFlash('success', "Les données ont été modifiées.");
                                     $this->redirect(self::reverse($link_table));
@@ -744,8 +748,8 @@ final class HorsesController extends Controller {
                                 'onset_date' => ['required'],
                             ]);
 
-                            if (!$horses->findById($request->post->get('horse_id')) &&
-                                !$status->findById($request->post->get('status_id'))) {
+                            if (!$horses->findById($horse_id) &&
+                                !$status->findById($status_id)) {
                                 $this->addFlash('error', "L'un des ID n'existe pas.");
                                 $this->redirect(self::reverse($this_table));
                             } else {

@@ -306,7 +306,6 @@ final class PlayersController extends Controller {
         };
     }
 
-    // TODO : Player horses
     #[Route('/player/horses/form', 'player_horses_form', ['GET', 'POST'])] public function playerHorsesForm(Request $request)
     {
         $auth_table = "player_horses";
@@ -339,8 +338,11 @@ final class PlayersController extends Controller {
                     $players = new PlayersModel();
                     $horses = new HorsesModel();
 
-                    if ($request->get->get('id')) {
-                        $account = $player_horses->findById($request->get->get('id'));
+                    $player_id = $request->get->get('playerid');
+                    $horse_id = $request->get->get('horseid');
+
+                    if ($player_id && $horse_id) {
+                        $account = $player_horses->query("SELECT * FROM $auth_table WHERE player_id = $player_id AND horse_id = $horse_id LIMIT 1")->fetch();
 
                         if (!$account) {
                             $this->addFlash('error', "Cet ID n'existe pas.");
@@ -352,14 +354,15 @@ final class PlayersController extends Controller {
                                     'horse_id' => ['required'],
                                 ]);
 
-                                if (!$players->findById($request->post->get('player_id')) &&
-                                    !$horses->findById($request->post->get('horse_id'))) {
+                                if (!$players->findById($player_id) &&
+                                    !$horses->findById($horse_id)) {
                                     $this->addFlash('error', "L'un des ID n'existe pas.");
-                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                    $this->redirect(self::reverse($link_table)."/form?playerid=".$player_id."&horseid=".$horse_id);
                                 } else {
-                                    $player_horses->setPlayerId($request->post->get('player_id'))
-                                        ->setHorseId($request->post->get('horse_id'))
-                                        ->update($request->get->get('id'));
+                                    $setPlayerId = $request->post->get('player_id');
+                                    $setHorseId = $request->post->get('horse_id');
+
+                                    $player_horses->query("UPDATE $auth_table SET player_id = $setPlayerId, horse_id = $setHorseId WHERE player_id = $player_id AND horse_id = $horse_id");
 
                                     $this->addFlash('success', "Les données ont été modifiées.");
                                     $this->redirect(self::reverse($link_table));
@@ -380,8 +383,8 @@ final class PlayersController extends Controller {
                                 'horse_id' => ['required'],
                             ]);
 
-                            if (!$players->findById($request->post->get('player_id')) &&
-                                !$horses->findById($request->post->get('horse_id'))) {
+                            if (!$players->findById($player_id) &&
+                                !$horses->findById($horse_id)) {
                                 $this->addFlash('error', "L'un des ID n'existe pas.");
                                 $this->redirect(self::reverse($this_table));
                             } else {

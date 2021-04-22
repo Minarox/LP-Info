@@ -52,7 +52,7 @@
                                     <td><?= $row['playerid'] ?></td>
                                     <td><?= $row['horseid'] ?></td>
                                     <?php if (permissions("UPDATE", $permissions)): ?>
-                                        <td class="cw-100 action"><a href="<?= ROOT ?>player/horses/form?id=<?= $row['playerid'] ?>"><input type="button" value="Editer"></a></td>
+                                        <td class="cw-100 action"><a href="<?= ROOT ?>player/horses/form?playerid=<?= $row['playerid'] ?>&horseid=<?= $row['horseid'] ?>"><input type="button" value="Editer"></a></td>
                                     <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
