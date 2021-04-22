@@ -4,14 +4,11 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
-use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\Horse_BreedsModel;
 use App\Models\Horse_ItemsModel;
 use App\Models\Horse_StatusModel;
 use App\Models\HorsesModel;
-use App\Models\Player_HorsesModel;
-use App\Models\PlayersModel;
 use App\Models\StatusesModel;
 
 final class HorsesController extends Controller {
@@ -20,6 +17,20 @@ final class HorsesController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("horses", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("horses", $tables)) {
+                    $position = array_search("horses", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $horses = new HorsesModel();
 
@@ -31,7 +42,7 @@ final class HorsesController extends Controller {
                         $horses->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'horses', response_code: 301);
+                    $this->redirect(header: 'horses');
                 }
             }
 
@@ -67,6 +78,7 @@ final class HorsesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Horses');
         };
     }
@@ -75,6 +87,20 @@ final class HorsesController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("horse_breeds", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("horse_breeds", $tables)) {
+                    $position = array_search("horse_breeds", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $horse_breeds = new Horse_BreedsModel();
 
@@ -86,7 +112,7 @@ final class HorsesController extends Controller {
                         $horse_breeds->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'horse/breeds', response_code: 301);
+                    $this->redirect(header: 'horse/breeds');
                 }
             }
 
@@ -118,6 +144,7 @@ final class HorsesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Horse breeds');
         };
     }
@@ -126,6 +153,20 @@ final class HorsesController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("horse_items", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("horse_items", $tables)) {
+                    $position = array_search("horse_items", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $horse_items = new Horse_ItemsModel();
 
@@ -140,7 +181,7 @@ final class HorsesController extends Controller {
                         $horse_items->query("DELETE FROM {$horse_items->getTableName()} WHERE horse_id = $horseid AND item_id = $itemid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'horse/items', response_code: 301);
+                    $this->redirect(header: 'horse/items');
                 }
             }
 
@@ -173,6 +214,7 @@ final class HorsesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Horse items');
         };
     }
@@ -181,6 +223,20 @@ final class HorsesController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("horse_status", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("horse_status", $tables)) {
+                    $position = array_search("horse_status", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $horse_status = new Horse_StatusModel();
 
@@ -195,7 +251,7 @@ final class HorsesController extends Controller {
                         $horse_status->query("DELETE FROM {$horse_status->getTableName()} WHERE horse_id = $horseid AND status_id = $statusid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'horse/status', response_code: 301);
+                    $this->redirect(header: 'horse/status');
                 }
             }
 
@@ -228,6 +284,7 @@ final class HorsesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Horse status');
         }
     }
@@ -236,6 +293,20 @@ final class HorsesController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("statuses", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("statuses", $tables)) {
+                    $position = array_search("statuses", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $statuses = new StatusesModel();
 
@@ -247,7 +318,7 @@ final class HorsesController extends Controller {
                         $statuses->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'statuses', response_code: 301);
+                    $this->redirect(header: 'statuses');
                 }
             }
 
@@ -279,6 +350,7 @@ final class HorsesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Statuses');
         }
     }

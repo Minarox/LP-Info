@@ -4,15 +4,11 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
-use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\AdsModel;
-use App\Models\HorsesModel;
 use App\Models\NewsModel;
 use App\Models\Newspaper_AdsModel;
 use App\Models\NewspapersModel;
-use App\Models\Player_HorsesModel;
-use App\Models\PlayersModel;
 use App\Models\Upcoming_EventsModel;
 use App\Models\WeathersModel;
 
@@ -22,6 +18,20 @@ final class NewspapersController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("newspapers", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("newspapers", $tables)) {
+                    $position = array_search("newspapers", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $newspapers = new NewspapersModel();
 
@@ -33,7 +43,7 @@ final class NewspapersController extends Controller {
                         $newspapers->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'newspapers', response_code: 301);
+                    $this->redirect(header: 'newspapers');
                 }
             }
 
@@ -65,6 +75,7 @@ final class NewspapersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Newspapers');
         };
     }
@@ -73,6 +84,20 @@ final class NewspapersController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("news", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("news", $tables)) {
+                    $position = array_search("news", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $news = new NewsModel();
 
@@ -84,7 +109,7 @@ final class NewspapersController extends Controller {
                         $news->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'newspapers/news', response_code: 301);
+                    $this->redirect(header: 'newspapers/news');
                 }
             }
 
@@ -117,14 +142,29 @@ final class NewspapersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'News');
         };
     }
 
-    #[Route('/newspapers/ads', 'newspapers_ads', ['GET', 'POST'])] public function newspapersAds(Request $request) {
+    #[Route('/newspapers/ads', 'ads', ['GET', 'POST'])] public function newspapersAds(Request $request) {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("ads", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("ads", $tables)) {
+                    $position = array_search("ads", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $newspaper_ads = new Newspaper_AdsModel();
 
@@ -139,7 +179,7 @@ final class NewspapersController extends Controller {
                         $newspaper_ads->query("DELETE FROM {$newspaper_ads->get()} WHERE newspaper_id = $newspaperid AND ad_id = $adid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'newspapers/ads', response_code: 301);
+                    $this->redirect(header: 'newspapers/ads');
                 }
             }
 
@@ -171,6 +211,7 @@ final class NewspapersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Newspapers ads');
         };
     }
@@ -179,6 +220,20 @@ final class NewspapersController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("upcoming_events", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("upcoming_events", $tables)) {
+                    $position = array_search("upcoming_events", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $upcoming_events = new Upcoming_EventsModel();
 
@@ -190,7 +245,7 @@ final class NewspapersController extends Controller {
                         $upcoming_events->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'newspapers/upcoming', response_code: 301);
+                    $this->redirect(header: 'newspapers/upcoming');
                 }
             }
 
@@ -223,6 +278,7 @@ final class NewspapersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Upcoming events');
         };
     }
@@ -231,6 +287,20 @@ final class NewspapersController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("ads", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("ads", $tables)) {
+                    $position = array_search("ads", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $ads = new AdsModel();
 
@@ -242,7 +312,7 @@ final class NewspapersController extends Controller {
                         $ads->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'ads', response_code: 301);
+                    $this->redirect(header: 'ads');
                 }
             }
 
@@ -274,6 +344,7 @@ final class NewspapersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Ads');
         };
     }
@@ -282,6 +353,20 @@ final class NewspapersController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("weathers", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("weathers", $tables)) {
+                    $position = array_search("weathers", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $weathers = new WeathersModel();
 
@@ -293,7 +378,7 @@ final class NewspapersController extends Controller {
                         $weathers->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'weathers', response_code: 301);
+                    $this->redirect(header: 'weathers');
                 }
             }
 
@@ -325,6 +410,7 @@ final class NewspapersController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Weathers');
         };
     }

@@ -24,7 +24,7 @@ class AccountController extends Controller {
     }
 
     #[Route('/login', 'login', ['GET', 'POST'])] public function login(Request $request) {
-        if ($this->isAuthenticated()) ErrorController::error404();
+        if ($this->isAuthenticated()) $this->redirect(self::reverse('home'));;
         $mysql_user = new UserModel();
         $validator = new Validator($_POST);
 

@@ -4,9 +4,6 @@ namespace App\Core\System;
 
 use App\Core\Classes\SuperGlobals\Request;
 use App\Core\Routes\Route;
-use Google_Client;
-use Google_Service_Oauth2;
-use GuzzleHttp\Client;
 use JetBrains\PhpStorm\NoReturn;
 use JetBrains\PhpStorm\Pure;
 
@@ -86,6 +83,16 @@ abstract class Controller {
 
     #[Pure] protected function isAuthenticated(): bool {
         return $this->request->cookie->exists('token');
+    }
+
+    #[Pure] function permissions(string $value, array $permissions): bool {
+        if (in_array($value, $permissions)) {
+            return true;
+        } elseif ((in_array("*", $permissions))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     protected function getActualUri(string $path): string {

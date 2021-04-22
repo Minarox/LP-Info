@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
-use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\Item_TypesModel;
 use App\Models\ItemsModel;
@@ -15,6 +14,21 @@ final class ItemsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("items", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("items", $tables)) {
+                    $position = array_search("items", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
+
             $items = new ItemsModel();
 
             if(isset($_POST['row'])) {
@@ -25,7 +39,7 @@ final class ItemsController extends Controller {
                         $items->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'items', response_code: 301);
+                    $this->redirect(header: 'items');
                 }
             }
 
@@ -59,6 +73,7 @@ final class ItemsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'items');
         };
     }
@@ -67,6 +82,20 @@ final class ItemsController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("item_types", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("item_types", $tables)) {
+                    $position = array_search("item_types", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $item_types = new Item_TypesModel();
 
@@ -78,7 +107,7 @@ final class ItemsController extends Controller {
                         $item_types->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'items/types', response_code: 301);
+                    $this->redirect(header: 'items/types');
                 }
             }
 
@@ -110,6 +139,7 @@ final class ItemsController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Items types');
         };
     }

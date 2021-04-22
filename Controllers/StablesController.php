@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Core\Attributes\Route;
 use App\Core\Classes\SuperGlobals\Request;
-use App\Core\Classes\Validator;
 use App\Core\System\Controller;
 use App\Models\Stable_BuildingsModel;
 use App\Models\StablesModel;
@@ -15,6 +14,20 @@ final class StablesController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("stables", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("stables", $tables)) {
+                    $position = array_search("stables", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $stables = new StablesModel();
 
@@ -26,7 +39,7 @@ final class StablesController extends Controller {
                         $stables->delete($row);
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'stables', response_code: 301);
+                    $this->redirect(header: 'stables');
                 }
             }
 
@@ -59,6 +72,7 @@ final class StablesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Stables');
         };
     }
@@ -67,6 +81,20 @@ final class StablesController extends Controller {
         if (!$this->isAuthenticated()) {
             $this->redirect(self::reverse('login'));
         } else {
+            foreach ($_SESSION["authorizations"] as $authorizations) {
+                $tables[] = $authorizations["table"];
+            }
+            if (!$this->permissions("stable_buildings", $tables)) {
+                $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour accéder à cette table.");
+                $this->redirect(self::reverse('home'));
+            } else {
+                if (in_array("stable_buildings", $tables)) {
+                    $position = array_search("stable_buildings", $tables);
+                } elseif (in_array("*", $tables)) {
+                    $position = array_search("*", $tables);
+                }
+                $permissions = $_SESSION["authorizations"][$position]["permissions"];
+            }
 
             $stable_buildings = new Stable_BuildingsModel();
 
@@ -81,7 +109,7 @@ final class StablesController extends Controller {
                         $stable_buildings->query("DELETE FROM {$stable_buildings->getTableName()} WHERE stable_id = $stableid AND building_id = $buildingid");
                     }
                     $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'stable/buildings', response_code: 301);
+                    $this->redirect(header: 'stable/buildings');
                 }
             }
 
@@ -113,6 +141,7 @@ final class StablesController extends Controller {
                 'current_page'=> $current_page,
                 'last_page'=> $last_page,
                 'search'=> $search_string,
+                'permissions'=> $permissions,
             ], title: 'Stable buildings');
         };
     }
