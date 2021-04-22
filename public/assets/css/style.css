@@ -514,6 +514,10 @@ table{
     color: #fff;
     text-transform: uppercase;
 }
+.tbl-header .arrow {
+    margin-left: 10px;
+    width: 10px;
+}
 .tbl-content{
     border-radius: 0 0 10px 10px;
     max-height:500px;

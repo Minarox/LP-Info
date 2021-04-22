@@ -50,17 +50,21 @@ final class BuildingsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($buildings->countLike($search_string, ["id", "building_type_id", "description", "level"]));
             } else $nb_items = $buildings->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $buildings = $buildings->find($search_string, ["id", "building_type_id", "description", "level"], $first_of_page, NB_PER_PAGE);
+            $buildings = $buildings->find($search_string, ["id", "building_type_id", "description", "level"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -78,6 +82,8 @@ final class BuildingsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Buildings');
         };
     }
@@ -118,17 +124,21 @@ final class BuildingsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($building_families->countLike($search_string, ["id", "name"]));
             } else $nb_items = $building_families->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $building_families = $building_families->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE);
+            $building_families = $building_families->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -144,6 +154,8 @@ final class BuildingsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Building families');
         };
     }
@@ -187,17 +199,21 @@ final class BuildingsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($building_items->countLike($search_string, ["building_id", "item_id", "quantity"]));
             } else $nb_items = $building_items->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $building_items = $building_items->find($search_string, ["building_id", "item_id", "quantity"], $first_of_page, NB_PER_PAGE);
+            $building_items = $building_items->find($search_string, ["building_id", "item_id", "quantity"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -214,6 +230,8 @@ final class BuildingsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Building items');
         };
     }
@@ -254,17 +272,21 @@ final class BuildingsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($building_types->countLike($search_string, ["id", "name", "items_limit", "horses_limit"]));
             } else $nb_items = $building_types->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $building_types = $building_types->find($search_string, ["id", "name", "items_limit", "horses_limit"], $first_of_page, NB_PER_PAGE);
+            $building_types = $building_types->find($search_string, ["id", "name", "items_limit", "horses_limit"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -282,6 +304,8 @@ final class BuildingsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Building types');
         };
     }
@@ -322,17 +346,21 @@ final class BuildingsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($automatic_tasks->countLike($search_string, ["id", "automatic_task_action_id", "stable_building_id", "item_id", "frequency"]));
             } else $nb_items = $automatic_tasks->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $automatic_tasks = $automatic_tasks->find($search_string, ["id", "automatic_task_action_id", "stable_building_id", "item_id", "frequency"], $first_of_page, NB_PER_PAGE);
+            $automatic_tasks = $automatic_tasks->find($search_string, ["id", "automatic_task_action_id", "stable_building_id", "item_id", "frequency"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -351,6 +379,8 @@ final class BuildingsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Building automatic tasks');
         };
     }
@@ -391,17 +421,21 @@ final class BuildingsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($automatic_task_actions->countLike($search_string, ["id", "name"]));
             } else $nb_items = $automatic_task_actions->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $automatic_task_actions = $automatic_task_actions->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE);
+            $automatic_task_actions = $automatic_task_actions->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -417,6 +451,8 @@ final class BuildingsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Building automatic task actions');
         };
     }

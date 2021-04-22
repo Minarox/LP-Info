@@ -158,7 +158,7 @@ abstract class Model {
      * @param int $nb_per_page
      * @return bool|array|$this
      */
-    public function find(string $search_string, array $search_columns, int $first_of_page, int $nb_per_page): bool|array|self
+    public function find(string $search_string, array $search_columns, int $first_of_page, int $nb_per_page, string $filter, string $order): bool|array|self
     {
         $where_list = "";
         if(!empty($search_string)) {
@@ -167,7 +167,11 @@ abstract class Model {
                 else $where_list = "WHERE " . $column . " LIKE '%$search_string%'";
             }
         }
-        return $this->query("SELECT * FROM {$this->table} $where_list LIMIT $first_of_page, $nb_per_page")->fetchAll();
+        $order_by = "";
+        if(!empty($filter && $order)) {
+            $order_by = "ORDER BY $filter $order";
+        }
+        return $this->query("SELECT * FROM {$this->table} $where_list $order_by LIMIT $first_of_page, $nb_per_page")->fetchAll();
     }
 
     /**

@@ -49,17 +49,21 @@ final class HorsesController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($horses->countLike($search_string, ["id", "name", "breed_id", "global_condition", "experience", "level"]));
             } else $nb_items = $horses->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $horses = $horses->find($search_string, ["id", "name", "breed_id", "global_condition", "experience", "level"], $first_of_page, NB_PER_PAGE);
+            $horses = $horses->find($search_string, ["id", "name", "breed_id", "global_condition", "experience", "level"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -79,6 +83,8 @@ final class HorsesController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Horses');
         };
     }
@@ -119,17 +125,21 @@ final class HorsesController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($horse_breeds->countLike($search_string, ["id", "name"]));
             } else $nb_items = $horse_breeds->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $horse_breeds = $horse_breeds->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE);
+            $horse_breeds = $horse_breeds->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -145,6 +155,8 @@ final class HorsesController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Horse breeds');
         };
     }
@@ -188,17 +200,21 @@ final class HorsesController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($horse_items->countLike($search_string, ["horse_id", "item_id", "quantity"]));
             } else $nb_items = $horse_items->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $horse_items = $horse_items->find($search_string, ["horse_id", "item_id", "quantity"], $first_of_page, NB_PER_PAGE);
+            $horse_items = $horse_items->find($search_string, ["horse_id", "item_id", "quantity"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -215,6 +231,8 @@ final class HorsesController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Horse items');
         };
     }
@@ -258,17 +276,21 @@ final class HorsesController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($horse_status->countLike($search_string, ["horse_id", "status_id", "onset_date"]));
             } else $nb_items = $horse_status->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $horse_status = $horse_status->find($search_string, ["horse_id", "status_id", "onset_date"], $first_of_page, NB_PER_PAGE);
+            $horse_status = $horse_status->find($search_string, ["horse_id", "status_id", "onset_date"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -285,6 +307,8 @@ final class HorsesController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Horse status');
         }
     }
@@ -325,17 +349,21 @@ final class HorsesController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($statuses->countLike($search_string, ["id", "name"]));
             } else $nb_items = $statuses->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $statuses = $statuses->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE);
+            $statuses = $statuses->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -351,6 +379,8 @@ final class HorsesController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Statuses');
         }
     }

@@ -1,7 +1,7 @@
 <main class="container-md">
     <section class="mb-3">
         <!-- Titre -->
-        <h2 class="box-title hr">Newspaper ads</h2>
+        <h2 class="box-title hr">Newspaper upcoming events</h2>
 
         <?php if (permissions("SELECT", $permissions)): ?>
             <form class="search-container">
@@ -18,9 +18,24 @@
                         <?php if (permissions("SELECT", $permissions)): ?>
                             <tr>
                                 <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
-                                <th class="cw-90">Id</th>
-                                <th>Newspaper</th>
-                                <th>Name</th>
+                                <th class="cw-90"><a href="<?= ROOT ?>newspapers/upcoming?page=1<?= $search ? "&search=$search" : "" ?>&filter=id<?= $filter == "id" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Id</a>
+                                    <?php
+                                    if ($filter == "id" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "id" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
+                                <th><a href="<?= ROOT ?>newspapers/upcoming?page=1<?= $search ? "&search=$search" : "" ?>&filter=newspaper_id<?= $filter == "newspaper_id" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Newspaper</a>
+                                    <?php
+                                    if ($filter == "newspaper_id" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "newspaper_id" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
+                                <th><a href="<?= ROOT ?>newspapers/upcoming?page=1<?= $search ? "&search=$search" : "" ?>&filter=name<?= $filter == "name" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Name</a>
+                                    <?php
+                                    if ($filter == "name" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "name" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
                                 <?php if (permissions("UPDATE", $permissions)): ?>
                                     <th class="cw-100 action">Action</th>
                                 <?php endif; ?>
@@ -63,7 +78,7 @@
                 </div>
                 <?php if (permissions("SELECT", $permissions)): ?>
                     <div class="pages-container">
-                        <a href="<?= ROOT ?>newspapers/upcoming?page=1<?= $search ? "&search=$search" : "" ?>"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
+                        <a href="<?= ROOT ?>newspapers/upcoming?page=1<?= $search ? "&search=$search" : "" ?><?= $filter ? "&filter=$filter" : "" ?><?= $order ? "&order=$order" : "" ?>"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
                         <?php $i = 2 ?>
                         <?php if($current_page - 3 > 1) : ?>
                             <?php $i = $current_page - 2 ?>
@@ -75,12 +90,12 @@
                                     <?php if($current_page + 3 < $last_page) : ?>
                                         <p>...</p>
                                     <?php endif; ?>
-                                    <a href="<?= ROOT ?>newspapers/upcoming?page=<?= $last_page ?><?= $search ? "&search=$search" : "" ?>">
+                                    <a href="<?= ROOT ?>newspapers/upcoming?page=<?= $last_page ?><?= $search ? "&search=$search" : "" ?><?= $filter ? "&filter=$filter" : "" ?><?= $order ? "&order=$order" : "" ?>">
                                         <input <?= $current_page == $last_page ? "class='active'" : "" ?> type="button" value="<?= $last_page ?>">
                                     </a>
                                     <?php break; ?>
                                 <?php endif; ?>
-                                <a href="<?= ROOT ?>newspapers/upcoming?page=<?= $i ?><?= $search ? "&search=$search" : "" ?>">
+                                <a href="<?= ROOT ?>newspapers/upcoming?page=<?= $i ?><?= $search ? "&search=$search" : "" ?><?= $filter ? "&filter=$filter" : "" ?><?= $order ? "&order=$order" : "" ?>">
                                     <input <?= $i == $current_page ? "class='active'" : "" ?> type="button" value="<?= $i ?>">
                                 </a>
                             <?php endfor; ?>

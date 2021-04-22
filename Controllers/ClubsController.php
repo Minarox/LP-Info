@@ -51,17 +51,21 @@ final class ClubsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($clubs->countLike($search_string, ["id", "player_id", "buildings_limit", "membership_fee"]));
             } else $nb_items = $clubs->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $clubs = $clubs->find($search_string, ["id", "player_id", "buildings_limit", "membership_fee"], $first_of_page, NB_PER_PAGE);
+            $clubs = $clubs->find($search_string, ["id", "player_id", "buildings_limit", "membership_fee"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -79,6 +83,8 @@ final class ClubsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Clubs');
         };
     }
@@ -122,17 +128,21 @@ final class ClubsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($club_buildings->countLike($search_string, ["club_id", "building_id", "quantity"]));
             } else $nb_items = $club_buildings->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $club_buildings = $club_buildings->find($search_string, ["club_id", "building_id", "quantity"], $first_of_page, NB_PER_PAGE);
+            $club_buildings = $club_buildings->find($search_string, ["club_id", "building_id", "quantity"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -149,6 +159,8 @@ final class ClubsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Club buildings');
         };
     }
@@ -192,17 +204,21 @@ final class ClubsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($club_items->countLike($search_string, ["club_id", "item_id", "quantity"]));
             } else $nb_items = $club_items->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $club_items = $club_items->find($search_string, ["club_id", "item_id", "quantity"], $first_of_page, NB_PER_PAGE);
+            $club_items = $club_items->find($search_string, ["club_id", "item_id", "quantity"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -219,6 +235,8 @@ final class ClubsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Club items');
         };
     }
@@ -262,17 +280,21 @@ final class ClubsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($club_members->countLike($search_string, ["club_id", "player_id"]));
             } else $nb_items = $club_members->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $club_members = $club_members->find($search_string, ["club_id", "player_id"], $first_of_page, NB_PER_PAGE);
+            $club_members = $club_members->find($search_string, ["club_id", "player_id"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -288,6 +310,8 @@ final class ClubsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Club members');
         };
     }
@@ -328,17 +352,21 @@ final class ClubsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($club_tournaments->countLike($search_string, ["id", "club_id", "name"]));
             } else $nb_items = $club_tournaments->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $club_tournaments = $club_tournaments->find($search_string, ["id", "club_id", "name"], $first_of_page, NB_PER_PAGE);
+            $club_tournaments = $club_tournaments->find($search_string, ["id", "club_id", "name"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -355,6 +383,8 @@ final class ClubsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Club tournaments');
         }
     }
@@ -398,17 +428,21 @@ final class ClubsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($club_tournament_registrations->countLike($search_string, ["club_tournament_id", "player_id", "rank"]));
             } else $nb_items = $club_tournament_registrations->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $club_tournament_registrations = $club_tournament_registrations->find($search_string, ["club_tournament_id", "player_id", "rank"], $first_of_page, NB_PER_PAGE);
+            $club_tournament_registrations = $club_tournament_registrations->find($search_string, ["club_tournament_id", "player_id", "rank"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -425,6 +459,8 @@ final class ClubsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Club tournament registrations');
         }
     }
@@ -465,17 +501,21 @@ final class ClubsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($club_tournament_rewards->countLike($search_string, ["id", "club_tournament_id", "item_id", "quantity", "obtention_rank"]));
             } else $nb_items = $club_tournament_rewards->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $club_tournament_rewards = $club_tournament_rewards->find($search_string, ["id", "club_tournament_id", "item_id", "quantity", "obtention_rank"], $first_of_page, NB_PER_PAGE);
+            $club_tournament_rewards = $club_tournament_rewards->find($search_string, ["id", "club_tournament_id", "item_id", "quantity", "obtention_rank"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -494,6 +534,8 @@ final class ClubsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Club tournament rewards');
         }
     }

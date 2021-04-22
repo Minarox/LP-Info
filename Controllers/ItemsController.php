@@ -46,17 +46,21 @@ final class ItemsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($items->countLike($search_string, ["id", "item_type_id", "description", "level"]));
             } else $nb_items = $items->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $items = $items->find($search_string, ["id", "item_type_id", "description", "level"], $first_of_page, NB_PER_PAGE);
+            $items = $items->find($search_string, ["id", "item_type_id", "description", "level"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -74,6 +78,8 @@ final class ItemsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'items');
         };
     }
@@ -114,17 +120,21 @@ final class ItemsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($item_types->countLike($search_string, ["item_type_id", "name"]));
             } else $nb_items = $item_types->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $item_types = $item_types->find($search_string, ["item_type_id", "name"], $first_of_page, NB_PER_PAGE);
+            $item_types = $item_types->find($search_string, ["item_type_id", "name"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -140,6 +150,8 @@ final class ItemsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Items types');
         };
     }

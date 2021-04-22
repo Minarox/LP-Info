@@ -46,17 +46,21 @@ final class PlayersController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($players->countLike($search_string, ["id", "nickname", "mail"]));
             } else $nb_items = $players->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $players = $players->find($search_string, ["id", "nickname", "mail"], $first_of_page, NB_PER_PAGE);
+            $players = $players->find($search_string, ["id", "nickname", "mail"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -74,6 +78,8 @@ final class PlayersController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Players');
         };
     }
@@ -117,17 +123,21 @@ final class PlayersController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($player_horses->countLike($search_string, ["player_id", "horse_id"]));
             } else $nb_items = $player_horses->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $player_horses = $player_horses->find($search_string, ["player_id", "horse_id"], $first_of_page, NB_PER_PAGE);
+            $player_horses = $player_horses->find($search_string, ["player_id", "horse_id"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -143,6 +153,8 @@ final class PlayersController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Players horses');
         };
     }

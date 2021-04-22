@@ -50,17 +50,21 @@ final class NewspapersController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($newspapers->countLike($search_string, ["id", "date"]));
             } else $nb_items = $newspapers->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $newspapers = $newspapers->find($search_string, ["id", "date"], $first_of_page, NB_PER_PAGE);
+            $newspapers = $newspapers->find($search_string, ["id", "date"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -76,6 +80,8 @@ final class NewspapersController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Newspapers');
         };
     }
@@ -116,17 +122,21 @@ final class NewspapersController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($news->countLike($search_string, ["id", "date", "name"]));
             } else $nb_items = $news->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $news = $news->find($search_string, ["id", "date", "name"], $first_of_page, NB_PER_PAGE);
+            $news = $news->find($search_string, ["id", "date", "name"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -143,6 +153,8 @@ final class NewspapersController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'News');
         };
     }
@@ -186,17 +198,21 @@ final class NewspapersController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($newspaper_ads->countLike($search_string, ["newspaper_id", "ad_id"]));
             } else $nb_items = $newspaper_ads->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $newspaper_ads = $newspaper_ads->find($search_string, ["newspaper_id", "ad_id"], $first_of_page, NB_PER_PAGE);
+            $newspaper_ads = $newspaper_ads->find($search_string, ["newspaper_id", "ad_id"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -212,6 +228,8 @@ final class NewspapersController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Newspapers ads');
         };
     }
@@ -252,17 +270,21 @@ final class NewspapersController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($upcoming_events->countLike($search_string, ["id", "newspaper_id", "name"]));
             } else $nb_items = $upcoming_events->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $upcoming_events = $upcoming_events->find($search_string, ["id", "newspaper_id", "name"], $first_of_page, NB_PER_PAGE);
+            $upcoming_events = $upcoming_events->find($search_string, ["id", "newspaper_id", "name"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -279,6 +301,8 @@ final class NewspapersController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Upcoming events');
         };
     }
@@ -319,17 +343,21 @@ final class NewspapersController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($ads->countLike($search_string, ["id", "name"]));
             } else $nb_items = $ads->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $ads = $ads->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE);
+            $ads = $ads->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -345,6 +373,8 @@ final class NewspapersController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Ads');
         };
     }
@@ -385,17 +415,21 @@ final class NewspapersController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($weathers->countLike($search_string, ["id", "name"]));
             } else $nb_items = $weathers->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $weathers = $weathers->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE);
+            $weathers = $weathers->find($search_string, ["id", "name"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -411,6 +445,8 @@ final class NewspapersController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Weathers');
         };
     }
