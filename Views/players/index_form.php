@@ -10,7 +10,7 @@
             <label for="mail">Mail</label>
             <input class="form-control" type="text" name="mail" id="mail" placeholder="Mail" maxlength="255" value="<?php if (isset($data)): echo $data[1]; endif; ?>" required>
             <label for="password">Password</label>
-            <input class="form-control" type="password" name="password" id="password" placeholder="Password" maxlength="255" value="<?php if (isset($data)): echo $data[2]; endif; ?>" required>
+            <input class="form-control" type="text" name="password" id="password" placeholder="Password" maxlength="255" value="<?php if (isset($data)): echo $data[2]; endif; ?>" required>
             <label for="last_name">Last name</label>
             <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Last name" maxlength="255" value="<?php if (isset($data)): echo $data[3]; endif; ?>" required>
             <label for="first_name">First name</label>
