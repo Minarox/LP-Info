@@ -416,7 +416,6 @@ final class NewspapersController extends Controller {
         };
     }
 
-    // TODO : Newspaper ads
     #[Route('/newspapers/ads/form', 'newspaper_ads_form', ['GET', 'POST'])] public function newspapersAdsForm(Request $request)
     {
         $auth_table = "newspaper_ads";
@@ -449,8 +448,11 @@ final class NewspapersController extends Controller {
                     $newspapers = new NewspapersModel();
                     $ads = new AdsModel();
 
-                    if ($request->get->get('id')) {
-                        $account = $newspaper_ads->findById($request->get->get('id'));
+                    $newspaper_id = $request->get->get('newspaper_id');
+                    $ad_id = $request->get->get('ad_id');
+
+                    if ($newspaper_id && $ad_id) {
+                        $account = $newspaper_ads->query("SELECT * FROM $auth_table WHERE newspaper_id = '$newspaper_id' AND ad_id = '$ad_id' LIMIT 1")->fetch();
 
                         if (!$account) {
                             $this->addFlash('error', "Cet ID n'existe pas.");
@@ -462,14 +464,14 @@ final class NewspapersController extends Controller {
                                     'ad_id' => ['required'],
                                 ]);
 
-                                if (!$newspapers->findById($request->post->get('newspaper_id')) &&
-                                    !$ads->findById($request->post->get('ad_id'))) {
+                                if (!$newspapers->findById($newspaper_id) &&
+                                    !$ads->findById($ad_id)) {
                                     $this->addFlash('error', "L'un des ID n'existe pas.");
-                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                    $this->redirect(self::reverse($link_table)."/form?newspaper_id=".$newspaper_id."&ad_id=".$ad_id);
                                 } else {
-                                    $newspaper_ads->setNewspaperId($request->post->get('newspaper_id'))
-                                        ->setAdId($request->post->get('ad_id'))
-                                        ->update($request->get->get('id'));
+                                    $setNewspaperId = $request->post->get('newspaper_id');
+                                    $setAdId = $request->post->get('ad_id');
+                                    $newspaper_ads->query("UPDATE $auth_table SET newspaper_id = '$setNewspaperId', ad_id = '$setAdId' WHERE newspaper_id = '$newspaper_id' AND ad_id = '$ad_id'");
 
                                     $this->addFlash('success', "Les données ont été modifiées.");
                                     $this->redirect(self::reverse($link_table));
@@ -490,8 +492,8 @@ final class NewspapersController extends Controller {
                                 'ad_id' => ['required'],
                             ]);
 
-                            if (!$newspapers->findById($request->post->get('newspaper_id')) &&
-                                !$ads->findById($request->post->get('ad_id'))) {
+                            if (!$newspapers->findById($newspaper_id) &&
+                                !$ads->findById($ad_id)) {
                                 $this->addFlash('error', "L'un des ID n'existe pas.");
                                 $this->redirect(self::reverse($this_table));
                             } else {

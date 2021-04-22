@@ -276,7 +276,6 @@ final class ClubsController extends Controller {
         };
     }
 
-    // TODO : Club buildings
     #[Route('/club/buildings/form', 'club_buildings_form', ['GET', 'POST'])] public function clubBuildingsForm(Request $request)
     {
         $auth_table = "club_buildings";
@@ -309,8 +308,11 @@ final class ClubsController extends Controller {
                     $clubs = new ClubsModel();
                     $buildings = new BuildingsModel();
 
-                    if ($request->get->get('id')) {
-                        $account = $club_building->findById($request->get->get('id'));
+                    $club_id = $request->get->get('club_id');
+                    $building_id = $request->get->get('building_id');
+
+                    if ($club_id && $building_id) {
+                        $account = $club_building->query("SELECT * FROM $auth_table WHERE club_id = '$club_id' AND building_id = '$building_id' LIMIT 1")->fetch();
 
                         if (!$account) {
                             $this->addFlash('error', "Cet ID n'existe pas.");
@@ -323,15 +325,15 @@ final class ClubsController extends Controller {
                                     'quantity' => ['required'],
                                 ]);
 
-                                if (!$clubs->findById($request->post->get('club_id')) &&
-                                    !$buildings->findById($request->post->get('building_id'))) {
+                                if (!$clubs->findById($club_id) &&
+                                    !$buildings->findById($building_id)) {
                                     $this->addFlash('error', "L'un des ID n'existe pas.");
-                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                    $this->redirect(self::reverse($link_table)."/form?club_id=".$club_id."&building_id=".$building_id);
                                 } else {
-                                    $club_building->setClubId($request->post->get('club_id'))
-                                        ->setBuildingId($request->post->get('building_id'))
-                                        ->setQuantity($request->post->get('quantity'))
-                                        ->update($request->get->get('id'));
+                                    $setClubId = $request->post->get('club_id');
+                                    $setBuildingId = $request->post->get('building_id');
+                                    $setQuantity = $request->post->get('quantity');
+                                    $club_building->query("UPDATE $auth_table SET club_id = '$setClubId', building_id = '$setBuildingId', quantity = '$setQuantity' WHERE club_id = '$club_id' AND building_id = '$building_id'");
 
                                     $this->addFlash('success', "Les données ont été modifiées.");
                                     $this->redirect(self::reverse($link_table));
@@ -354,8 +356,8 @@ final class ClubsController extends Controller {
                                 'quantity' => ['required'],
                             ]);
 
-                            if (!$clubs->findById($request->post->get('club_id')) &&
-                                !$buildings->findById($request->post->get('building_id'))) {
+                            if (!$clubs->findById($club_id) &&
+                                !$buildings->findById($building_id)) {
                                 $this->addFlash('error', "L'un des ID n'existe pas.");
                                 $this->redirect(self::reverse($this_table));
                             } else {
@@ -452,7 +454,6 @@ final class ClubsController extends Controller {
         };
     }
 
-    // TODO : Club items
     #[Route('/club/items/form', 'club_items_form', ['GET', 'POST'])] public function clubItemsForm(Request $request)
     {
         $auth_table = "club_items";
@@ -485,8 +486,11 @@ final class ClubsController extends Controller {
                     $clubs = new ClubsModel();
                     $items = new ItemsModel();
 
-                    if ($request->get->get('id')) {
-                        $account = $club_item->findById($request->get->get('id'));
+                    $club_id = $request->get->get('club_id');
+                    $item_id = $request->get->get('item_id');
+
+                    if ($club_id && $item_id) {
+                        $account = $club_item->query("SELECT * FROM $auth_table WHERE club_id = '$club_id' AND item_id = '$item_id' LIMIT 1")->fetch();
 
                         if (!$account) {
                             $this->addFlash('error', "Cet ID n'existe pas.");
@@ -499,15 +503,16 @@ final class ClubsController extends Controller {
                                     'quantity' => ['required'],
                                 ]);
 
-                                if (!$clubs->findById($request->post->get('club_id')) &&
-                                    !$items->findById($request->post->get('item_id'))) {
+                                if (!$clubs->findById($club_id) &&
+                                    !$items->findById($item_id)) {
                                     $this->addFlash('error', "L'un des ID n'existe pas.");
-                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                    $this->redirect(self::reverse($link_table)."/form?club_id=".$club_id."item_id".$item_id);
                                 } else {
-                                    $club_item->setClubId($request->post->get('club_id'))
-                                        ->setItemId($request->post->get('item_id'))
-                                        ->setQuantity($request->post->get('quantity'))
-                                        ->update($request->get->get('id'));
+                                    $setClubId = $request->post->get('club_id');
+                                    $setItemId = $request->post->get('item_id');
+                                    $setQuantity = $request->post->get('quantity');
+                                    $club_item->query("UPDATE $auth_table SET club_id = '$setClubId', item_id = '$setItemId', quantity = '$setQuantity' WHERE club_id = '$club_id' AND item_id = '$item_id'");
+
 
                                     $this->addFlash('success', "Les données ont été modifiées.");
                                     $this->redirect(self::reverse($link_table));
@@ -530,8 +535,8 @@ final class ClubsController extends Controller {
                                 'quantity' => ['required'],
                             ]);
 
-                            if (!$clubs->findById($request->post->get('club_id')) &&
-                                !$items->findById($request->post->get('item_id'))) {
+                            if (!$clubs->findById($club_id) &&
+                                !$items->findById($item_id)) {
                                 $this->addFlash('error', "L'un des ID n'existe pas.");
                                 $this->redirect(self::reverse($this_table));
                             } else {
@@ -627,7 +632,6 @@ final class ClubsController extends Controller {
         };
     }
 
-    // TODO : Club members
     #[Route('/club/members/form', 'club_members_form', ['GET', 'POST'])] public function clubMembersForm(Request $request)
     {
         $auth_table = "club_members";
@@ -660,8 +664,11 @@ final class ClubsController extends Controller {
                     $clubs = new ClubsModel();
                     $players = new PlayersModel();
 
-                    if ($request->get->get('id')) {
-                        $account = $club_member->findById($request->get->get('id'));
+                    $club_id = $request->get->get('club_id');
+                    $player_id = $request->get->get('player_id');
+
+                    if ($club_id && $player_id) {
+                        $account = $club_member->query("SELECT * FROM $auth_table WHERE club_id = '$club_id' AND player_id = '$player_id' LIMIT 1")->fetch();
 
                         if (!$account) {
                             $this->addFlash('error', "Cet ID n'existe pas.");
@@ -673,14 +680,14 @@ final class ClubsController extends Controller {
                                     'player_id' => ['required'],
                                 ]);
 
-                                if (!$clubs->findById($request->post->get('club_id')) &&
-                                    !$players->findById($request->post->get('player_id'))) {
+                                if (!$clubs->findById($club_id) &&
+                                    !$players->findById($player_id)) {
                                     $this->addFlash('error', "L'un des ID n'existe pas.");
-                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                    $this->redirect(self::reverse($link_table)."/form?club_id=".$club_id."&player_id=".$player_id);
                                 } else {
-                                    $club_member->setClubId($request->post->get('club_id'))
-                                        ->setPlayerId($request->post->get('player_id'))
-                                        ->update($request->get->get('id'));
+                                    $setClubId = $request->post->get('club_id');
+                                    $setPlayerId = $request->post->get('player_id');
+                                    $club_member->query("UPDATE $auth_table SET club_id = '$setClubId', player_id = '$setPlayerId' WHERE club_id = '$club_id' AND player_id = '$player_id'");
 
                                     $this->addFlash('success', "Les données ont été modifiées.");
                                     $this->redirect(self::reverse($link_table));
@@ -701,8 +708,8 @@ final class ClubsController extends Controller {
                                 'player_id' => ['required'],
                             ]);
 
-                            if (!$clubs->findById($request->post->get('club_id')) &&
-                                !$players->findById($request->post->get('player_id'))) {
+                            if (!$clubs->findById($club_id) &&
+                                !$players->findById($player_id)) {
                                 $this->addFlash('error', "L'un des ID n'existe pas.");
                                 $this->redirect(self::reverse($this_table));
                             } else {
@@ -982,7 +989,6 @@ final class ClubsController extends Controller {
         }
     }
 
-    // TODO : Club tournament registrations
     #[Route('/club/tournament/registrations/form', 'club_tournament_registrations_form', ['GET', 'POST'])] public function clubTournamentRegistrationsForm(Request $request)
     {
         $auth_table = "club_tournament_registrants";
@@ -1015,8 +1021,11 @@ final class ClubsController extends Controller {
                     $club_tournament = new Club_TournamentsModel();
                     $players = new PlayersModel();
 
-                    if ($request->get->get('id')) {
-                        $account = $club_tournament_registration->findById($request->get->get('id'));
+                    $club_tournament_id = $request->get->get('club_tournament_id');
+                    $player_id = $request->get->get('player_id');
+
+                    if ($club_tournament_id && $player_id) {
+                        $account = $club_tournament_registration->query("SELECT * FROM $auth_table WHERE club_tournament_id = '$club_tournament_id' AND player_id = '$player_id' LIMIT 1")->fetch();
 
                         if (!$account) {
                             $this->addFlash('error', "Cet ID n'existe pas.");
@@ -1029,15 +1038,15 @@ final class ClubsController extends Controller {
                                     'rank' => ['required'],
                                 ]);
 
-                                if (!$club_tournament->findById($request->post->get('club_tournament_id')) &&
-                                    !$players->findById($request->post->get('player_id'))) {
+                                if (!$club_tournament->findById($club_tournament_id) &&
+                                    !$players->findById($player_id)) {
                                     $this->addFlash('error', "L'un des ID n'existe pas.");
-                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                    $this->redirect(self::reverse($link_table)."/form?club_tournament_id=".$club_tournament_id."&player_id=".$player_id);
                                 } else {
-                                    $club_tournament_registration->setClubTournamentId($request->post->get('club_tournament_id'))
-                                        ->setPlayerId($request->post->get('player_id'))
-                                        ->setRank($request->post->get('rank'))
-                                        ->update($request->get->get('id'));
+                                    $setClubTournamentId = $request->post->get('club_tournament_id');
+                                    $setPlayerId = $request->post->get('player_id');
+                                    $setRank = $request->post->get('rank');
+                                    $club_tournament_registration->query("UPDATE $auth_table SET club_tournament_id = '$setClubTournamentId', player_id = '$setPlayerId', rank = '$setRank' WHERE club_tournament_id = '$club_tournament_id' AND player_id = '$player_id'");
 
                                     $this->addFlash('success', "Les données ont été modifiées.");
                                     $this->redirect(self::reverse($link_table));
@@ -1060,8 +1069,8 @@ final class ClubsController extends Controller {
                                 'rank' => ['required'],
                             ]);
 
-                            if (!$club_tournament->findById($request->post->get('club_tournament_id')) &&
-                                !$players->findById($request->post->get('player_id'))) {
+                            if (!$club_tournament->findById($club_tournament_id) &&
+                                !$players->findById($player_id)) {
                                 $this->addFlash('error', "L'un des ID n'existe pas.");
                                 $this->redirect(self::reverse($this_table));
                             } else {

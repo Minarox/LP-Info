@@ -421,7 +421,6 @@ final class BuildingsController extends Controller {
         }
     }
 
-    // TODO : Building items
     #[Route('/building/items/form', 'building_items_form', ['GET', 'POST'])] public function buildingItemsForm(Request $request)
     {
         $auth_table = "building_items";
@@ -452,8 +451,11 @@ final class BuildingsController extends Controller {
                     $items = new ItemsModel();
                     $building_item = new Building_ItemsModel();
 
-                    if ($request->get->get('id')) {
-                        $account = $building_item->findById($request->get->get('id'));
+                    $building_id = $request->get->get('building_id');
+                    $item_id = $request->get->get('item_id');
+
+                    if ($building_id && $item_id) {
+                        $account = $building_item->query("SELECT * FROM $auth_table WHERE building_id = '$building_id' AND item_id = '$item_id' LIMIT 1")->fetch();
 
                         if (!$account) {
                             $this->addFlash('error', "Cet ID n'existe pas.");
@@ -466,14 +468,15 @@ final class BuildingsController extends Controller {
                                     'quantity' => ['required'],
                                 ]);
 
-                                if (!$buildings->findById($request->post->get('building_id')) && !$items->findById($request->post->get('item_id'))) {
+                                if (!$buildings->findById($building_id) &&
+                                    !$items->findById($item_id)) {
                                     $this->addFlash('error', "L'un des ID n'existe pas.");
-                                    $this->redirect(self::reverse($link_table)."/form?id=".$request->get->get('id'));
+                                    $this->redirect(self::reverse($link_table)."/form?building_id=".$building_id."&item_id=".$item_id);
                                 } else {
-                                    $building_item->setBuildingId($request->post->get('building_id'))
-                                        ->setItemId($request->post->get('item_id'))
-                                        ->setQuantity($request->post->get('quantity'))
-                                        ->update($request->get->get('id'));
+                                    $setBuildingId = $request->post->get('building_id');
+                                    $setItemId = $request->post->get('item_id');
+                                    $setQuantity = $request->post->get('quantity');
+                                    $building_item->query("UPDATE $auth_table SET building_id = '$setBuildingId', item_id = '$setItemId', quantity = '$setQuantity' WHERE building_id = '$building_id' AND item_id = '$item_id'");
 
                                     $this->addFlash('success', "Les données ont été modifiées.");
                                     $this->redirect(self::reverse($link_table));
@@ -496,7 +499,8 @@ final class BuildingsController extends Controller {
                                 'quantity' => ['required'],
                             ]);
 
-                            if (!$buildings->findById($request->post->get('building_id')) && !$items->findById($request->post->get('item_id'))) {
+                            if (!$buildings->findById($building_id) &&
+                                !$items->findById($item_id)) {
                                 $this->addFlash('error', "L'un des ID n'existe pas.");
                                 $this->redirect(self::reverse($this_table));
                             } else {
