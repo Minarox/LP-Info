@@ -42,7 +42,7 @@
                                     <td class="cw-90"><?= $row['id'] ?></td>
                                     <td><?= $row['name'] ?></td>
                                     <?php if (permissions("UPDATE", $permissions)): ?>
-                                        <td class="cw-100 action"><a href="<?= ROOT ?>table/edit/id"><input type="button" value="Editer"></a></td>
+                                        <td class="cw-100 action"><a href="<?= ROOT ?>weathers/form?id=<?= $row['id'] ?>"><input type="button" value="Editer"></a></td>
                                     <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
@@ -53,7 +53,7 @@
             <div class="actions-container">
                 <div>
                     <?php if (permissions("INSERT", $permissions)): ?>
-                        <a href="<?= ROOT ?>table/add"><input type="button" name="add" value="Ajouter"></a>
+                        <a href="<?= ROOT ?>weathers/form"><input type="button" name="add" value="Ajouter"></a>
                     <?php endif; ?>
                     <?php if (permissions("DELETE", $permissions)): ?>
                         <input type="submit" name="delete" value="Supprimer">
@@ -61,7 +61,7 @@
                 </div>
                 <?php if (permissions("SELECT", $permissions)): ?>
                     <div class="pages-container">
-                        <a href="<?= ROOT ?>players?page=1<?= $search ? "&search=$search" : "" ?>"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
+                        <a href="<?= ROOT ?>weathers?page=1<?= $search ? "&search=$search" : "" ?>"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
                         <?php $i = 2 ?>
                         <?php if($current_page - 3 > 1) : ?>
                             <?php $i = $current_page - 2 ?>
@@ -73,12 +73,12 @@
                                     <?php if($current_page + 3 < $last_page) : ?>
                                         <p>...</p>
                                     <?php endif; ?>
-                                    <a href="<?= ROOT ?>players?page=<?= $last_page ?><?= $search ? "&search=$search" : "" ?>">
+                                    <a href="<?= ROOT ?>weathers?page=<?= $last_page ?><?= $search ? "&search=$search" : "" ?>">
                                         <input <?= $current_page == $last_page ? "class='active'" : "" ?> type="button" value="<?= $last_page ?>">
                                     </a>
                                     <?php break; ?>
                                 <?php endif; ?>
-                                <a href="<?= ROOT ?>players?page=<?= $i ?><?= $search ? "&search=$search" : "" ?>">
+                                <a href="<?= ROOT ?>weathers?page=<?= $i ?><?= $search ? "&search=$search" : "" ?>">
                                     <input <?= $i == $current_page ? "class='active'" : "" ?> type="button" value="<?= $i ?>">
                                 </a>
                             <?php endfor; ?>
