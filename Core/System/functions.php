@@ -17,7 +17,7 @@ use JetBrains\PhpStorm\Pure;
 
 #[Pure] function isAuthenticated(): bool {
     $request = new Request();
-    return $request->cookie->exists('token');
+    return $request->session->exists('token');
 }
 
 #[Pure] function permissions(string $value, array $permissions): bool {
