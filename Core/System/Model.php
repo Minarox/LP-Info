@@ -29,7 +29,7 @@ abstract class Model {
         return $db;
     }
 
-    public function query(string $sql, object $db = null, array $params = null): bool|PDOStatement {
+    public function query(string $sql, array $params = null, object $db = null): bool|PDOStatement {
         $db = $db?:$this->connect();
 
         if (is_null($params)) {
@@ -62,6 +62,7 @@ abstract class Model {
 
         $field_list = implode(', ', $fields);
         $param_list = implode(', ', $params);
+
         return $this->query("INSERT INTO {$this->table} ({$field_list}) VALUES ({$param_list})", $values);
     }
 
