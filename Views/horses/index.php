@@ -18,12 +18,42 @@
                         <?php if (permissions("SELECT", $permissions)): ?>
                             <tr>
                                 <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
-                                <th class="cw-90">Id</th>
-                                <th>Name</th>
-                                <th>Breed</th>
-                                <th>Global condition</th>
-                                <th>Experience</th>
-                                <th>Level</th>
+                                <th class="cw-90"><a href="<?= ROOT ?>horses?page=1<?= $search ? "&search=$search" : "" ?>&filter=id<?= $filter == "id" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Id</a>
+                                    <?php
+                                    if ($filter == "id" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "id" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
+                                <th><a href="<?= ROOT ?>horses?page=1<?= $search ? "&search=$search" : "" ?>&filter=name<?= $filter == "name" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Name</a>
+                                    <?php
+                                    if ($filter == "name" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "name" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
+                                <th><a href="<?= ROOT ?>horses?page=1<?= $search ? "&search=$search" : "" ?>&filter=breed_id<?= $filter == "breed_id" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Breed</a>
+                                    <?php
+                                    if ($filter == "breed_id" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "breed_id" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
+                                <th><a href="<?= ROOT ?>horses?page=1<?= $search ? "&search=$search" : "" ?>&filter=global_condition<?= $filter == "global_condition" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Global condition</a>
+                                    <?php
+                                    if ($filter == "global_condition" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "global_condition" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
+                                <th><a href="<?= ROOT ?>horses?page=1<?= $search ? "&search=$search" : "" ?>&filter=experience<?= $filter == "experience" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Experience</a>
+                                    <?php
+                                    if ($filter == "experience" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "experience" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
+                                <th><a href="<?= ROOT ?>horses?page=1<?= $search ? "&search=$search" : "" ?>&filter=level<?= $filter == "level" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Level</a>
+                                    <?php
+                                    if ($filter == "level" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "level" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
                                 <?php if (permissions("UPDATE", $permissions)): ?>
                                     <th class="cw-100 action">Action</th>
                                 <?php endif; ?>
@@ -69,7 +99,7 @@
                 </div>
                 <?php if (permissions("SELECT", $permissions)): ?>
                     <div class="pages-container">
-                        <a href="<?= ROOT ?>horses?page=1<?= $search ? "&search=$search" : "" ?>"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
+                        <a href="<?= ROOT ?>horses?page=1<?= $search ? "&search=$search" : "" ?><?= $filter ? "&filter=$filter" : "" ?><?= $order ? "&order=$order" : "" ?>"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
                         <?php $i = 2 ?>
                         <?php if($current_page - 3 > 1) : ?>
                             <?php $i = $current_page - 2 ?>
@@ -81,12 +111,12 @@
                                     <?php if($current_page + 3 < $last_page) : ?>
                                         <p>...</p>
                                     <?php endif; ?>
-                                    <a href="<?= ROOT ?>horses?page=<?= $last_page ?><?= $search ? "&search=$search" : "" ?>">
+                                    <a href="<?= ROOT ?>horses?page=<?= $last_page ?><?= $search ? "&search=$search" : "" ?><?= $filter ? "&filter=$filter" : "" ?><?= $order ? "&order=$order" : "" ?>">
                                         <input <?= $current_page == $last_page ? "class='active'" : "" ?> type="button" value="<?= $last_page ?>">
                                     </a>
                                     <?php break; ?>
                                 <?php endif; ?>
-                                <a href="<?= ROOT ?>horses?page=<?= $i ?><?= $search ? "&search=$search" : "" ?>">
+                                <a href="<?= ROOT ?>horses?page=<?= $i ?><?= $search ? "&search=$search" : "" ?><?= $filter ? "&filter=$filter" : "" ?><?= $order ? "&order=$order" : "" ?>">
                                     <input <?= $i == $current_page ? "class='active'" : "" ?> type="button" value="<?= $i ?>">
                                 </a>
                             <?php endfor; ?>

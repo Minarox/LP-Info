@@ -46,17 +46,21 @@ final class StablesController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($stables->countLike($search_string, ["id", "player_id", "building_limit"]));
             } else $nb_items = $stables->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $stables = $stables->find($search_string, ["id", "player_id", "building_limit"], $first_of_page, NB_PER_PAGE);
+            $stables = $stables->find($search_string, ["id", "player_id", "building_limit"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -73,6 +77,8 @@ final class StablesController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Stables');
         };
     }
@@ -116,17 +122,21 @@ final class StablesController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($stable_buildings->countLike($search_string, ["stable_id", "building_id"]));
             } else $nb_items = $stable_buildings->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $stable_buildings = $stable_buildings->find($search_string, ["stable_id", "building_id"], $first_of_page, NB_PER_PAGE);
+            $stable_buildings = $stable_buildings->find($search_string, ["stable_id", "building_id"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -142,6 +152,8 @@ final class StablesController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Stable buildings');
         };
     }

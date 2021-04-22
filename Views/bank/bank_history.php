@@ -18,12 +18,42 @@
                         <?php if (permissions("SELECT", $permissions)): ?>
                             <tr>
                                 <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
-                                <th class="cw-90">Id</th>
-                                <th>Bank account</th>
-                                <th>Action</th>
-                                <th>Amount</th>
-                                <th>Label</th>
-                                <th>Date</th>
+                                <th class="cw-90"><a href="<?= ROOT ?>bank/history?page=1<?= $search ? "&search=$search" : "" ?>&filter=id<?= $filter == "id" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Id</a>
+                                    <?php
+                                    if ($filter == "id" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "id" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
+                                <th><a href="<?= ROOT ?>bank/history?page=1<?= $search ? "&search=$search" : "" ?>&filter=bank_account_id<?= $filter == "bank_account_id" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Bank account</a>
+                                    <?php
+                                    if ($filter == "bank_account_id" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "bank_account_id" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
+                                <th><a href="<?= ROOT ?>bank/history?page=1<?= $search ? "&search=$search" : "" ?>&filter=action<?= $filter == "action" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Action</a>
+                                    <?php
+                                    if ($filter == "action" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "action" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
+                                <th><a href="<?= ROOT ?>bank/history?page=1<?= $search ? "&search=$search" : "" ?>&filter=amount<?= $filter == "amount" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Amount</a>
+                                    <?php
+                                    if ($filter == "amount" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "amount" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
+                                <th><a href="<?= ROOT ?>bank/history?page=1<?= $search ? "&search=$search" : "" ?>&filter=label<?= $filter == "label" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Label</a>
+                                    <?php
+                                    if ($filter == "label" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "label" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
+                                <th><a href="<?= ROOT ?>bank/history?page=1<?= $search ? "&search=$search" : "" ?>&filter=date<?= $filter == "date" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Date</a>
+                                    <?php
+                                    if ($filter == "date" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
+                                    else if ($filter == "date" && $order == "ASC") echo "<img class='arrow' src='".SCRIPTS."images/up-arrow.svg'>";
+                                    ?>
+                                </th>
                                 <?php if (permissions("UPDATE", $permissions)): ?>
                                     <th class="cw-100 action">Action</th>
                                 <?php endif; ?>
@@ -69,7 +99,7 @@
                 </div>
                 <?php if (permissions("SELECT", $permissions)): ?>
                 <div class="pages-container">
-                    <a href="<?= ROOT ?>bank/history?page=1<?= $search ? "&search=$search" : "" ?>"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
+                    <a href="<?= ROOT ?>bank/history?page=1<?= $search ? "&search=$search" : "" ?><?= $filter ? "&filter=$filter" : "" ?><?= $order ? "&order=$order" : "" ?>"><input <?= $current_page == 1 ? "class='active'" : "" ?> type="button" value="1"></a>
                     <?php $i = 2 ?>
                     <?php if($current_page - 3 > 1) : ?>
                         <?php $i = $current_page - 2 ?>
@@ -81,12 +111,12 @@
                                 <?php if($current_page + 3 < $last_page) : ?>
                                     <p>...</p>
                                 <?php endif; ?>
-                                <a href="<?= ROOT ?>bank/history?page=<?= $last_page ?><?= $search ? "&search=$search" : "" ?>">
+                                <a href="<?= ROOT ?>bank/history?page=<?= $last_page ?><?= $search ? "&search=$search" : "" ?><?= $filter ? "&filter=$filter" : "" ?><?= $order ? "&order=$order" : "" ?>">
                                     <input <?= $current_page == $last_page ? "class='active'" : "" ?> type="button" value="<?= $last_page ?>">
                                 </a>
                                 <?php break; ?>
                             <?php endif; ?>
-                            <a href="<?= ROOT ?>bank/history?page=<?= $i ?><?= $search ? "&search=$search" : "" ?>">
+                            <a href="<?= ROOT ?>bank/history?page=<?= $i ?><?= $search ? "&search=$search" : "" ?><?= $filter ? "&filter=$filter" : "" ?><?= $order ? "&order=$order" : "" ?>">
                                 <input <?= $i == $current_page ? "class='active'" : "" ?> type="button" value="<?= $i ?>">
                             </a>
                         <?php endfor; ?>

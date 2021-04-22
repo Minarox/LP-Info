@@ -49,17 +49,21 @@ final class BankAccountsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($bank_accounts->countLike($search_string, ["id", "player_id", "balance"]));
             } else $nb_items = $bank_accounts->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $bank_accounts = $bank_accounts->find($search_string, ["id", "player_id", "balance"], $first_of_page, NB_PER_PAGE);
+            $bank_accounts = $bank_accounts->find($search_string, ["id", "player_id", "balance"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -76,6 +80,8 @@ final class BankAccountsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Bank accounts');
         };
     }
@@ -202,17 +208,21 @@ final class BankAccountsController extends Controller {
             $data = [];
 
             $search_string = "";
+            $filter = "";
+            $order = "";
             if(isset($_GET['search'])) {
                 $search_string = $_GET['search'];
                 $nb_items = count($bank_account_history->countLike($search_string, ["id", "bank_account_id", "action", "amount", "label", "date"]));
             } else $nb_items = $bank_account_history->countAll()->nb_items;
+            if(isset($_GET['filter'])) $filter = $_GET['filter'];
+            if(isset($_GET['order'])) $order = $_GET['order'];
 
             $last_page = ceil($nb_items/NB_PER_PAGE);
             $current_page = 1;
             if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
             if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
             $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $bank_account_history = $bank_account_history->find($search_string, ["id", "bank_account_id", "action", "amount", "label", "date"], $first_of_page, NB_PER_PAGE);
+            $bank_account_history = $bank_account_history->find($search_string, ["id", "bank_account_id", "action", "amount", "label", "date"], $first_of_page, NB_PER_PAGE, $filter, $order);
 
             $i = 0;
 
@@ -232,6 +242,8 @@ final class BankAccountsController extends Controller {
                 'last_page'=> $last_page,
                 'search'=> $search_string,
                 'permissions'=> $permissions,
+                'filter'=> $filter,
+                'order'=> $order,
             ], title: 'Bank account history');
         };
     }
