@@ -17,7 +17,9 @@
                     <thead>
                         <?php if (permissions("SELECT", $permissions)): ?>
                             <tr>
-                                <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
+                                <?php if (permissions("DELETE", $permissions)): ?>
+                                    <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
+                                <?php endif; ?>
                                 <th><a href="<?= ROOT ?>horse/items?page=1<?= $search ? "&search=$search" : "" ?>&filter=horse_id<?= $filter == "horse_id" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Horse</a>
                                     <?php
                                     if ($filter == "horse_id" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
@@ -54,7 +56,9 @@
                         <?php if (permissions("SELECT", $permissions)): ?>
                             <?php foreach ($data as $row) : ?>
                                 <tr>
-                                    <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['horse_id']."-".$row['item_id'] ?>"></td>
+                                    <?php if (permissions("DELETE", $permissions)): ?>
+                                        <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['horse_id']."-".$row['item_id'] ?>"></td>
+                                    <?php endif; ?>
                                     <td><?= $row['horse_id'] ?></td>
                                     <td><?= $row['item_id'] ?></td>
                                     <td><?= $row['quantity'] ?></td>
