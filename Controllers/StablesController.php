@@ -32,57 +32,65 @@ final class StablesController extends Controller {
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
-            $stables = new StablesModel();
-
-            if(isset($_POST['row'])) {
-                if(isset($_POST['delete'])) {
-                    $i = 0;
-                    foreach ($_POST['row'] as $row) {
-                        $i++;
-                        $stables->delete($row);
-                    }
-                    $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'stables');
-                }
-            }
-
-            $data = [];
-
-            $search_string = "";
-            $filter = "";
-            $order = "";
-            if(isset($_GET['search'])) {
-                $search_string = $_GET['search'];
-                $nb_items = count($stables->countLike($search_string, ["id", "player_id", "building_limit"]));
-            } else $nb_items = $stables->countAll()->nb_items;
-            if(isset($_GET['filter'])) $filter = $_GET['filter'];
-            if(isset($_GET['order'])) $order = $_GET['order'];
-
-            $last_page = ceil($nb_items/NB_PER_PAGE);
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
-            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
-            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $stables = $stables->find($search_string, ["id", "player_id", "building_limit"], $first_of_page, NB_PER_PAGE, $filter, $order);
-
-            $i = 0;
-
-            foreach ($stables as $stable) {
-                $data[$i]['id'] = $stable->getId();
-                $data[$i]['player_id'] = $stable->getPlayerId();
-                $data[$i]['building_limit'] = $stable->getBuildingsLimit();
-                $i++;
-            }
-
-            $this->render(name_file: 'stables/index', params: [
-                'data'=> $data,
-                'current_page'=> $current_page,
-                'last_page'=> $last_page,
-                'search'=> $search_string,
+            $params = [
                 'permissions'=> $permissions,
-                'filter'=> $filter,
-                'order'=> $order,
-            ], title: 'Stables');
+            ];
+
+            if ($this->permissions("SELECT", $permissions)) {
+                $stables = new StablesModel();
+
+                if(isset($_POST['row'])) {
+                    if(isset($_POST['delete'])) {
+                        $i = 0;
+                        foreach ($_POST['row'] as $row) {
+                            $i++;
+                            $stables->delete($row);
+                        }
+                        $this->addFlash('success', "{$i} entrées supprimées");
+                        $this->redirect(header: 'stables');
+                    }
+                }
+
+                $data = [];
+
+                $search_string = "";
+                $filter = "";
+                $order = "";
+                if(isset($_GET['search'])) {
+                    $search_string = $_GET['search'];
+                    $nb_items = count($stables->countLike($search_string, ["id", "player_id", "building_limit"]));
+                } else $nb_items = $stables->countAll()->nb_items;
+                if(isset($_GET['filter'])) $filter = $_GET['filter'];
+                if(isset($_GET['order'])) $order = $_GET['order'];
+
+                $last_page = ceil($nb_items/NB_PER_PAGE);
+                $current_page = 1;
+                if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+                if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
+                $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+                $stables = $stables->find($search_string, ["id", "player_id", "building_limit"], $first_of_page, NB_PER_PAGE, $filter, $order);
+
+                $i = 0;
+
+                foreach ($stables as $stable) {
+                    $data[$i]['id'] = $stable->getId();
+                    $data[$i]['player_id'] = $stable->getPlayerId();
+                    $data[$i]['building_limit'] = $stable->getBuildingsLimit();
+                    $i++;
+                }
+
+                $params = [
+                    'data'=> $data,
+                    'current_page'=> $current_page,
+                    'last_page'=> $last_page,
+                    'search'=> $search_string,
+                    'permissions'=> $permissions,
+                    'filter'=> $filter,
+                    'order'=> $order,
+                ];
+            }
+
+            $this->render(name_file: 'stables/index', params: $params, title: 'Stables');
         };
     }
 
@@ -109,8 +117,8 @@ final class StablesController extends Controller {
                     $position = array_search("*", $tables);
                 }
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
-                if (!$this->permissions("INSERT", $permissions)) {
-                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                if (!$this->permissions("INSERT", $permissions) && !$this->permissions("UPDATE", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter ou modifier les données de cette table.");
                     $this->redirect(self::reverse($link_table));
                 } else {
                     $validator = new Validator($_POST);
@@ -206,60 +214,68 @@ final class StablesController extends Controller {
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
-            $stable_buildings = new Stable_BuildingsModel();
-
-            if(isset($_POST['row'])) {
-                if(isset($_POST['delete'])) {
-                    $i = 0;
-                    foreach ($_POST['row'] as $row) {
-                        $i++;
-                        $ids = explode("-", $row);
-                        $stableid = $ids[0];
-                        $buildingid = $ids[1];
-                        $stable_buildings->query("DELETE FROM {$stable_buildings->getTableName()} WHERE stable_id = $stableid AND building_id = $buildingid");
-                    }
-                    $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'stable/buildings');
-                }
-            }
-
-            $data = [];
-
-            $search_string = "";
-            $filter = "";
-            $order = "";
-            if(isset($_GET['search'])) {
-                $search_string = $_GET['search'];
-                $nb_items = count($stable_buildings->countLike($search_string, ["stable_id", "building_id"]));
-            } else $nb_items = $stable_buildings->countAll()->nb_items;
-            if(isset($_GET['filter'])) $filter = $_GET['filter'];
-            if(isset($_GET['order'])) $order = $_GET['order'];
-
-            $last_page = ceil($nb_items/NB_PER_PAGE);
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
-            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
-            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $stable_buildings = $stable_buildings->find($search_string, ["stable_id", "building_id"], $first_of_page, NB_PER_PAGE, $filter, $order);
-
-            $i = 0;
-
-            foreach ($stable_buildings as $stable_building) {
-                $data[$i]['id'] = $stable_building->getId();
-                $data[$i]['stable_id'] = $stable_building->getStableId();
-                $data[$i]['building_id'] = $stable_building->getBuildingId();
-                $i++;
-            }
-
-            $this->render(name_file: 'stables/stable_buildings', params: [
-                'data'=> $data,
-                'current_page'=> $current_page,
-                'last_page'=> $last_page,
-                'search'=> $search_string,
+            $params = [
                 'permissions'=> $permissions,
-                'filter'=> $filter,
-                'order'=> $order,
-            ], title: 'Stable buildings');
+            ];
+
+            if ($this->permissions("SELECT", $permissions)) {
+                $stable_buildings = new Stable_BuildingsModel();
+
+                if (isset($_POST['row'])) {
+                    if (isset($_POST['delete'])) {
+                        $i = 0;
+                        foreach ($_POST['row'] as $row) {
+                            $i++;
+                            $ids = explode("-", $row);
+                            $stableid = $ids[0];
+                            $buildingid = $ids[1];
+                            $stable_buildings->query("DELETE FROM {$stable_buildings->getTableName()} WHERE stable_id = $stableid AND building_id = $buildingid");
+                        }
+                        $this->addFlash('success', "{$i} entrées supprimées");
+                        $this->redirect(header: 'stable/buildings');
+                    }
+                }
+
+                $data = [];
+
+                $search_string = "";
+                $filter = "";
+                $order = "";
+                if (isset($_GET['search'])) {
+                    $search_string = $_GET['search'];
+                    $nb_items = count($stable_buildings->countLike($search_string, ["stable_id", "building_id"]));
+                } else $nb_items = $stable_buildings->countAll()->nb_items;
+                if (isset($_GET['filter'])) $filter = $_GET['filter'];
+                if (isset($_GET['order'])) $order = $_GET['order'];
+
+                $last_page = ceil($nb_items / NB_PER_PAGE);
+                $current_page = 1;
+                if (isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+                if (isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
+                $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+                $stable_buildings = $stable_buildings->find($search_string, ["stable_id", "building_id"], $first_of_page, NB_PER_PAGE, $filter, $order);
+
+                $i = 0;
+
+                foreach ($stable_buildings as $stable_building) {
+                    $data[$i]['id'] = $stable_building->getId();
+                    $data[$i]['stable_id'] = $stable_building->getStableId();
+                    $data[$i]['building_id'] = $stable_building->getBuildingId();
+                    $i++;
+                }
+
+                $params = [
+                    'data' => $data,
+                    'current_page' => $current_page,
+                    'last_page' => $last_page,
+                    'search' => $search_string,
+                    'permissions' => $permissions,
+                    'filter' => $filter,
+                    'order' => $order,
+                ];
+            }
+
+            $this->render(name_file: 'stables/stable_buildings', params: $params, title: 'Stable buildings');
         };
     }
 
@@ -286,8 +302,8 @@ final class StablesController extends Controller {
                     $position = array_search("*", $tables);
                 }
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
-                if (!$this->permissions("INSERT", $permissions)) {
-                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                if (!$this->permissions("INSERT", $permissions) && !$this->permissions("UPDATE", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter ou modifier les données de cette table.");
                     $this->redirect(self::reverse($link_table));
                 } else {
                     $validator = new Validator($_POST);
