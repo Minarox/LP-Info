@@ -32,57 +32,65 @@ final class BankAccountsController extends Controller {
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
-            $bank_accounts = new Bank_AccountsModel();
-
-            if(isset($_POST['row'])) {
-                if(isset($_POST['delete'])) {
-                    $i = 0;
-                    foreach ($_POST['row'] as $row) {
-                        $i++;
-                        $bank_accounts->delete($row);
-                    }
-                    $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'bank');
-                }
-            }
-
-            $data = [];
-
-            $search_string = "";
-            $filter = "";
-            $order = "";
-            if(isset($_GET['search'])) {
-                $search_string = $_GET['search'];
-                $nb_items = count($bank_accounts->countLike($search_string, ["id", "player_id", "balance"]));
-            } else $nb_items = $bank_accounts->countAll()->nb_items;
-            if(isset($_GET['filter'])) $filter = $_GET['filter'];
-            if(isset($_GET['order'])) $order = $_GET['order'];
-
-            $last_page = ceil($nb_items/NB_PER_PAGE);
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
-            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
-            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $bank_accounts = $bank_accounts->find($search_string, ["id", "player_id", "balance"], $first_of_page, NB_PER_PAGE, $filter, $order);
-
-            $i = 0;
-
-            foreach ($bank_accounts as $bank_account) {
-                $data[$i]['id'] = $bank_account->getId();
-                $data[$i]['player_id'] = $bank_account->getPlayerId();
-                $data[$i]['balance'] = $bank_account->getBalance();
-                $i++;
-            }
-
-            $this->render(name_file: 'bank/index', params: [
-                'data'=> $data,
-                'current_page'=> $current_page,
-                'last_page'=> $last_page,
-                'search'=> $search_string,
+            $params = [
                 'permissions'=> $permissions,
-                'filter'=> $filter,
-                'order'=> $order,
-            ], title: 'Bank accounts');
+            ];
+
+            if ($this->permissions("SELECT", $permissions)) {
+                $bank_accounts = new Bank_AccountsModel();
+
+                if(isset($_POST['row'])) {
+                    if(isset($_POST['delete'])) {
+                        $i = 0;
+                        foreach ($_POST['row'] as $row) {
+                            $i++;
+                            $bank_accounts->delete($row);
+                        }
+                        $this->addFlash('success', "{$i} entrées supprimées");
+                        $this->redirect(header: 'bank');
+                    }
+                }
+
+                $data = [];
+
+                $search_string = "";
+                $filter = "";
+                $order = "";
+                if(isset($_GET['search'])) {
+                    $search_string = $_GET['search'];
+                    $nb_items = count($bank_accounts->countLike($search_string, ["id", "player_id", "balance"]));
+                } else $nb_items = $bank_accounts->countAll()->nb_items;
+                if(isset($_GET['filter'])) $filter = $_GET['filter'];
+                if(isset($_GET['order'])) $order = $_GET['order'];
+
+                $last_page = ceil($nb_items/NB_PER_PAGE);
+                $current_page = 1;
+                if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+                if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
+                $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+                $bank_accounts = $bank_accounts->find($search_string, ["id", "player_id", "balance"], $first_of_page, NB_PER_PAGE, $filter, $order);
+
+                $i = 0;
+
+                foreach ($bank_accounts as $bank_account) {
+                    $data[$i]['id'] = $bank_account->getId();
+                    $data[$i]['player_id'] = $bank_account->getPlayerId();
+                    $data[$i]['balance'] = $bank_account->getBalance();
+                    $i++;
+                }
+
+                $params = [
+                    'data'=> $data,
+                    'current_page'=> $current_page,
+                    'last_page'=> $last_page,
+                    'search'=> $search_string,
+                    'permissions'=> $permissions,
+                    'filter'=> $filter,
+                    'order'=> $order,
+                ];
+            }
+
+            $this->render(name_file: 'bank/index', params: $params, title: 'Bank accounts');
         };
     }
 
@@ -104,9 +112,9 @@ final class BankAccountsController extends Controller {
                     $position = array_search("*", $tables);
                 }
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
-                if (!$this->permissions("INSERT", $permissions)) {
-                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
-                    $this->redirect(self::reverse('bank_accounts'));
+                if (!$this->permissions("INSERT", $permissions) && !$this->permissions("UPDATE", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter ou modifier les données de cette table.");
+                    $this->redirect(self::reverse("bank_accounts"));
                 } else {
                     $validator = new Validator($_POST);
                     $bank_accounts = new Bank_AccountsModel();
@@ -191,60 +199,68 @@ final class BankAccountsController extends Controller {
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
-            $bank_account_history = new Bank_Account_HistoryModel();
-
-            if(isset($_POST['row'])) {
-                if(isset($_POST['delete'])) {
-                    $i = 0;
-                    foreach ($_POST['row'] as $row) {
-                        $i++;
-                        $bank_account_history->delete($row);
-                    }
-                    $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'bank');
-                }
-            }
-
-            $data = [];
-
-            $search_string = "";
-            $filter = "";
-            $order = "";
-            if(isset($_GET['search'])) {
-                $search_string = $_GET['search'];
-                $nb_items = count($bank_account_history->countLike($search_string, ["id", "bank_account_id", "action", "amount", "label", "date"]));
-            } else $nb_items = $bank_account_history->countAll()->nb_items;
-            if(isset($_GET['filter'])) $filter = $_GET['filter'];
-            if(isset($_GET['order'])) $order = $_GET['order'];
-
-            $last_page = ceil($nb_items/NB_PER_PAGE);
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
-            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
-            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $bank_account_history = $bank_account_history->find($search_string, ["id", "bank_account_id", "action", "amount", "label", "date"], $first_of_page, NB_PER_PAGE, $filter, $order);
-
-            $i = 0;
-
-            foreach ($bank_account_history as $row) {
-                $data[$i]['id'] = $row->getId();
-                $data[$i]['bank_account_id'] = $row->getBankAccountId();
-                $data[$i]['action'] = $row->getAction();
-                $data[$i]['amount'] = $row->getAmount();
-                $data[$i]['label'] = $row->getLabel();
-                $data[$i]['date'] = $row->getDate();
-                $i++;
-            }
-
-            $this->render(name_file: 'bank/bank_history', params: [
-                'data'=> $data,
-                'current_page'=> $current_page,
-                'last_page'=> $last_page,
-                'search'=> $search_string,
+            $params = [
                 'permissions'=> $permissions,
-                'filter'=> $filter,
-                'order'=> $order,
-            ], title: 'Bank account history');
+            ];
+
+            if ($this->permissions("SELECT", $permissions)) {
+                $bank_account_history = new Bank_Account_HistoryModel();
+
+                if(isset($_POST['row'])) {
+                    if(isset($_POST['delete'])) {
+                        $i = 0;
+                        foreach ($_POST['row'] as $row) {
+                            $i++;
+                            $bank_account_history->delete($row);
+                        }
+                        $this->addFlash('success', "{$i} entrées supprimées");
+                        $this->redirect(header: 'bank');
+                    }
+                }
+
+                $data = [];
+
+                $search_string = "";
+                $filter = "";
+                $order = "";
+                if(isset($_GET['search'])) {
+                    $search_string = $_GET['search'];
+                    $nb_items = count($bank_account_history->countLike($search_string, ["id", "bank_account_id", "action", "amount", "label", "date"]));
+                } else $nb_items = $bank_account_history->countAll()->nb_items;
+                if(isset($_GET['filter'])) $filter = $_GET['filter'];
+                if(isset($_GET['order'])) $order = $_GET['order'];
+
+                $last_page = ceil($nb_items/NB_PER_PAGE);
+                $current_page = 1;
+                if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+                if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
+                $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+                $bank_account_history = $bank_account_history->find($search_string, ["id", "bank_account_id", "action", "amount", "label", "date"], $first_of_page, NB_PER_PAGE, $filter, $order);
+
+                $i = 0;
+
+                foreach ($bank_account_history as $row) {
+                    $data[$i]['id'] = $row->getId();
+                    $data[$i]['bank_account_id'] = $row->getBankAccountId();
+                    $data[$i]['action'] = $row->getAction();
+                    $data[$i]['amount'] = $row->getAmount();
+                    $data[$i]['label'] = $row->getLabel();
+                    $data[$i]['date'] = $row->getDate();
+                    $i++;
+                }
+
+                $params = [
+                    'data'=> $data,
+                    'current_page'=> $current_page,
+                    'last_page'=> $last_page,
+                    'search'=> $search_string,
+                    'permissions'=> $permissions,
+                    'filter'=> $filter,
+                    'order'=> $order,
+                ];
+            }
+
+            $this->render(name_file: 'bank/bank_history', params: $params, title: 'Bank account history');
         };
     }
 

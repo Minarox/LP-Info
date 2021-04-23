@@ -31,58 +31,66 @@ final class PlayersController extends Controller {
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
-            $players = new PlayersModel();
-
-            if(isset($_POST['row'])) {
-                if(isset($_POST['delete'])) {
-                    $i = 0;
-                    foreach ($_POST['row'] as $row) {
-                        $i++;
-                        $players->delete($row);
-                    }
-                    $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'players');
-                }
-            }
-
-            $data = [];
-
-            $search_string = "";
-            $filter = "";
-            $order = "";
-            if(isset($_GET['search'])) {
-                $search_string = $_GET['search'];
-                $nb_items = count($players->countLike($search_string, ["id", "nickname", "mail"]));
-            } else $nb_items = $players->countAll()->nb_items;
-            if(isset($_GET['filter'])) $filter = $_GET['filter'];
-            if(isset($_GET['order'])) $order = $_GET['order'];
-
-            $last_page = ceil($nb_items/NB_PER_PAGE);
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
-            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
-            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $players = $players->find($search_string, ["id", "nickname", "mail"], $first_of_page, NB_PER_PAGE, $filter, $order);
-
-            $i = 0;
-
-            foreach ($players as $player) {
-                $data[$i]['id'] = $player->getId();
-                $data[$i]['nickname'] = $player->getNickname();
-                $data[$i]['mail'] = $player->getMail();
-                $data[$i]['logInDateTime'] = $player->getLogInDatetime();
-                $i++;
-            }
-
-            $this->render(name_file: 'players/index', params: [
-                'data'=> $data,
-                'current_page'=> $current_page,
-                'last_page'=> $last_page,
-                'search'=> $search_string,
+            $params = [
                 'permissions'=> $permissions,
-                'filter'=> $filter,
-                'order'=> $order,
-            ], title: 'Players');
+            ];
+
+            if ($this->permissions("SELECT", $permissions)) {
+                $players = new PlayersModel();
+
+                if(isset($_POST['row'])) {
+                    if(isset($_POST['delete'])) {
+                        $i = 0;
+                        foreach ($_POST['row'] as $row) {
+                            $i++;
+                            $players->delete($row);
+                        }
+                        $this->addFlash('success', "{$i} entrées supprimées");
+                        $this->redirect(header: 'players');
+                    }
+                }
+
+                $data = [];
+
+                $search_string = "";
+                $filter = "";
+                $order = "";
+                if(isset($_GET['search'])) {
+                    $search_string = $_GET['search'];
+                    $nb_items = count($players->countLike($search_string, ["id", "nickname", "mail"]));
+                } else $nb_items = $players->countAll()->nb_items;
+                if(isset($_GET['filter'])) $filter = $_GET['filter'];
+                if(isset($_GET['order'])) $order = $_GET['order'];
+
+                $last_page = ceil($nb_items/NB_PER_PAGE);
+                $current_page = 1;
+                if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+                if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
+                $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+                $players = $players->find($search_string, ["id", "nickname", "mail"], $first_of_page, NB_PER_PAGE, $filter, $order);
+
+                $i = 0;
+
+                foreach ($players as $player) {
+                    $data[$i]['id'] = $player->getId();
+                    $data[$i]['nickname'] = $player->getNickname();
+                    $data[$i]['mail'] = $player->getMail();
+                    $data[$i]['logInDateTime'] = $player->getLogInDatetime();
+                    $i++;
+                }
+
+                $params = [
+                    'data'=> $data,
+                    'current_page'=> $current_page,
+                    'last_page'=> $last_page,
+                    'search'=> $search_string,
+                    'permissions'=> $permissions,
+                    'filter'=> $filter,
+                    'order'=> $order,
+                ];
+            }
+
+            $this->render(name_file: 'players/index', params: $params, title: 'Players');
         };
     }
 
@@ -90,7 +98,6 @@ final class PlayersController extends Controller {
     {
         $auth_table = "players";
         $link_table = "players";
-        $this_table = "players_form";
         $page_title = "Players";
         $page_localisation = "players/index_form";
         if (!$this->isAuthenticated()) {
@@ -109,8 +116,8 @@ final class PlayersController extends Controller {
                     $position = array_search("*", $tables);
                 }
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
-                if (!$this->permissions("INSERT", $permissions)) {
-                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                if (!$this->permissions("INSERT", $permissions) && !$this->permissions("UPDATE", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter ou modifier les données de cette table.");
                     $this->redirect(self::reverse($link_table));
                 } else {
                     $validator = new Validator($_POST);
@@ -250,59 +257,67 @@ final class PlayersController extends Controller {
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
-            $player_horses = new Player_HorsesModel();
-
-            if(isset($_POST['row'])) {
-                if(isset($_POST['delete'])) {
-                    $i = 0;
-                    foreach ($_POST['row'] as $row) {
-                        $i++;
-                        $ids = explode("-", $row);
-                        $playerid = $ids[0];
-                        $horseid = $ids[1];
-                        $player_horses->query("DELETE FROM {$player_horses->getTableName()} WHERE player_id = $playerid AND horse_id = $horseid");
-                    }
-                    $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'player/horses');
-                }
-            }
-
-            $data = [];
-
-            $search_string = "";
-            $filter = "";
-            $order = "";
-            if(isset($_GET['search'])) {
-                $search_string = $_GET['search'];
-                $nb_items = count($player_horses->countLike($search_string, ["player_id", "horse_id"]));
-            } else $nb_items = $player_horses->countAll()->nb_items;
-            if(isset($_GET['filter'])) $filter = $_GET['filter'];
-            if(isset($_GET['order'])) $order = $_GET['order'];
-
-            $last_page = ceil($nb_items/NB_PER_PAGE);
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
-            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
-            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $player_horses = $player_horses->find($search_string, ["player_id", "horse_id"], $first_of_page, NB_PER_PAGE, $filter, $order);
-
-            $i = 0;
-
-            foreach ($player_horses as $player_horse) {
-                $data[$i]['playerid'] = $player_horse->getPlayerId();
-                $data[$i]['horseid'] = $player_horse->getHorseId();
-                $i++;
-            }
-
-            $this->render(name_file: 'players/player_horses', params: [
-                'data'=> $data,
-                'current_page'=> $current_page,
-                'last_page'=> $last_page,
-                'search'=> $search_string,
+            $params = [
                 'permissions'=> $permissions,
-                'filter'=> $filter,
-                'order'=> $order,
-            ], title: 'Players horses');
+            ];
+
+            if ($this->permissions("SELECT", $permissions)) {
+                $player_horses = new Player_HorsesModel();
+
+                if(isset($_POST['row'])) {
+                    if(isset($_POST['delete'])) {
+                        $i = 0;
+                        foreach ($_POST['row'] as $row) {
+                            $i++;
+                            $ids = explode("-", $row);
+                            $playerid = $ids[0];
+                            $horseid = $ids[1];
+                            $player_horses->query("DELETE FROM {$player_horses->getTableName()} WHERE player_id = $playerid AND horse_id = $horseid");
+                        }
+                        $this->addFlash('success', "{$i} entrées supprimées");
+                        $this->redirect(header: 'player/horses');
+                    }
+                }
+
+                $data = [];
+
+                $search_string = "";
+                $filter = "";
+                $order = "";
+                if(isset($_GET['search'])) {
+                    $search_string = $_GET['search'];
+                    $nb_items = count($player_horses->countLike($search_string, ["player_id", "horse_id"]));
+                } else $nb_items = $player_horses->countAll()->nb_items;
+                if(isset($_GET['filter'])) $filter = $_GET['filter'];
+                if(isset($_GET['order'])) $order = $_GET['order'];
+
+                $last_page = ceil($nb_items/NB_PER_PAGE);
+                $current_page = 1;
+                if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+                if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
+                $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+                $player_horses = $player_horses->find($search_string, ["player_id", "horse_id"], $first_of_page, NB_PER_PAGE, $filter, $order);
+
+                $i = 0;
+
+                foreach ($player_horses as $player_horse) {
+                    $data[$i]['playerid'] = $player_horse->getPlayerId();
+                    $data[$i]['horseid'] = $player_horse->getHorseId();
+                    $i++;
+                }
+
+                $params = [
+                    'data'=> $data,
+                    'current_page'=> $current_page,
+                    'last_page'=> $last_page,
+                    'search'=> $search_string,
+                    'permissions'=> $permissions,
+                    'filter'=> $filter,
+                    'order'=> $order,
+                ];
+            }
+
+            $this->render(name_file: 'players/player_horses', params: $params, title: 'Players horses');
         };
     }
 
@@ -329,8 +344,8 @@ final class PlayersController extends Controller {
                     $position = array_search("*", $tables);
                 }
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
-                if (!$this->permissions("INSERT", $permissions)) {
-                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                if (!$this->permissions("INSERT", $permissions) && !$this->permissions("UPDATE", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter ou modifier les données de cette table.");
                     $this->redirect(self::reverse($link_table));
                 } else {
                     $validator = new Validator($_POST);

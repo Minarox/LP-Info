@@ -30,58 +30,66 @@ final class ItemsController extends Controller {
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
-            $items = new ItemsModel();
-
-            if(isset($_POST['row'])) {
-                if(isset($_POST['delete'])) {
-                    $i = 0;
-                    foreach ($_POST['row'] as $row) {
-                        $i++;
-                        $items->delete($row);
-                    }
-                    $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'Items');
-                }
-            }
-
-            $data = [];
-
-            $search_string = "";
-            $filter = "";
-            $order = "";
-            if(isset($_GET['search'])) {
-                $search_string = $_GET['search'];
-                $nb_items = count($items->countLike($search_string, ["id", "item_type_id", "description", "level"]));
-            } else $nb_items = $items->countAll()->nb_items;
-            if(isset($_GET['filter'])) $filter = $_GET['filter'];
-            if(isset($_GET['order'])) $order = $_GET['order'];
-
-            $last_page = ceil($nb_items/NB_PER_PAGE);
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
-            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
-            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $items = $items->find($search_string, ["id", "item_type_id", "description", "level"], $first_of_page, NB_PER_PAGE, $filter, $order);
-
-            $i = 0;
-
-            foreach ($items as $item) {
-                $data[$i]['id'] = $item->getId();
-                $data[$i]['item_type_id'] = $item->getItemTypeId();
-                $data[$i]['description'] = $item->getDescription();
-                $data[$i]['level'] = $item->getLevel();
-                $i++;
-            }
-
-            $this->render(name_file: 'items/index', params: [
-                'data'=> $data,
-                'current_page'=> $current_page,
-                'last_page'=> $last_page,
-                'search'=> $search_string,
+            $params = [
                 'permissions'=> $permissions,
-                'filter'=> $filter,
-                'order'=> $order,
-            ], title: 'Items');
+            ];
+
+            if ($this->permissions("SELECT", $permissions)) {
+                $items = new ItemsModel();
+
+                if(isset($_POST['row'])) {
+                    if(isset($_POST['delete'])) {
+                        $i = 0;
+                        foreach ($_POST['row'] as $row) {
+                            $i++;
+                            $items->delete($row);
+                        }
+                        $this->addFlash('success', "{$i} entrées supprimées");
+                        $this->redirect(header: 'Items');
+                    }
+                }
+
+                $data = [];
+
+                $search_string = "";
+                $filter = "";
+                $order = "";
+                if(isset($_GET['search'])) {
+                    $search_string = $_GET['search'];
+                    $nb_items = count($items->countLike($search_string, ["id", "item_type_id", "description", "level"]));
+                } else $nb_items = $items->countAll()->nb_items;
+                if(isset($_GET['filter'])) $filter = $_GET['filter'];
+                if(isset($_GET['order'])) $order = $_GET['order'];
+
+                $last_page = ceil($nb_items/NB_PER_PAGE);
+                $current_page = 1;
+                if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+                if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
+                $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+                $items = $items->find($search_string, ["id", "item_type_id", "description", "level"], $first_of_page, NB_PER_PAGE, $filter, $order);
+
+                $i = 0;
+
+                foreach ($items as $item) {
+                    $data[$i]['id'] = $item->getId();
+                    $data[$i]['item_type_id'] = $item->getItemTypeId();
+                    $data[$i]['description'] = $item->getDescription();
+                    $data[$i]['level'] = $item->getLevel();
+                    $i++;
+                }
+
+                $params = [
+                    'data'=> $data,
+                    'current_page'=> $current_page,
+                    'last_page'=> $last_page,
+                    'search'=> $search_string,
+                    'permissions'=> $permissions,
+                    'filter'=> $filter,
+                    'order'=> $order,
+                ];
+            }
+
+            $this->render(name_file: 'items/index', params: $params, title: 'Items');
         };
     }
 
@@ -108,8 +116,8 @@ final class ItemsController extends Controller {
                     $position = array_search("*", $tables);
                 }
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
-                if (!$this->permissions("INSERT", $permissions)) {
-                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                if (!$this->permissions("INSERT", $permissions) && !$this->permissions("UPDATE", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter ou modifier les données de cette table.");
                     $this->redirect(self::reverse($link_table));
                 } else {
                     $validator = new Validator($_POST);
@@ -210,56 +218,64 @@ final class ItemsController extends Controller {
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
             }
 
-            $item_types = new Item_TypesModel();
-
-            if(isset($_POST['row'])) {
-                if(isset($_POST['delete'])) {
-                    $i = 0;
-                    foreach ($_POST['row'] as $row) {
-                        $i++;
-                        $item_types->delete($row);
-                    }
-                    $this->addFlash('success', "{$i} entrées supprimées");
-                    $this->redirect(header: 'items/types');
-                }
-            }
-
-            $data = [];
-
-            $search_string = "";
-            $filter = "";
-            $order = "";
-            if(isset($_GET['search'])) {
-                $search_string = $_GET['search'];
-                $nb_items = count($item_types->countLike($search_string, ["item_type_id", "name"]));
-            } else $nb_items = $item_types->countAll()->nb_items;
-            if(isset($_GET['filter'])) $filter = $_GET['filter'];
-            if(isset($_GET['order'])) $order = $_GET['order'];
-
-            $last_page = ceil($nb_items/NB_PER_PAGE);
-            $current_page = 1;
-            if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
-            if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
-            $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
-            $item_types = $item_types->find($search_string, ["item_type_id", "name"], $first_of_page, NB_PER_PAGE, $filter, $order);
-
-            $i = 0;
-
-            foreach ($item_types as $item_type) {
-                $data[$i]['item_type_id'] = $item_type->getId();
-                $data[$i]['name'] = $item_type->getName();
-                $i++;
-            }
-
-            $this->render(name_file: 'items/items_types', params: [
-                'data'=> $data,
-                'current_page'=> $current_page,
-                'last_page'=> $last_page,
-                'search'=> $search_string,
+            $params = [
                 'permissions'=> $permissions,
-                'filter'=> $filter,
-                'order'=> $order,
-            ], title: 'Items types');
+            ];
+
+            if ($this->permissions("SELECT", $permissions)) {
+                $item_types = new Item_TypesModel();
+
+                if(isset($_POST['row'])) {
+                    if(isset($_POST['delete'])) {
+                        $i = 0;
+                        foreach ($_POST['row'] as $row) {
+                            $i++;
+                            $item_types->delete($row);
+                        }
+                        $this->addFlash('success', "{$i} entrées supprimées");
+                        $this->redirect(header: 'items/types');
+                    }
+                }
+
+                $data = [];
+
+                $search_string = "";
+                $filter = "";
+                $order = "";
+                if(isset($_GET['search'])) {
+                    $search_string = $_GET['search'];
+                    $nb_items = count($item_types->countLike($search_string, ["item_type_id", "name"]));
+                } else $nb_items = $item_types->countAll()->nb_items;
+                if(isset($_GET['filter'])) $filter = $_GET['filter'];
+                if(isset($_GET['order'])) $order = $_GET['order'];
+
+                $last_page = ceil($nb_items/NB_PER_PAGE);
+                $current_page = 1;
+                if(isset($_GET['page'])) $current_page = $_GET['page'] >= 1 && $_GET['page'] <= $last_page ? $_GET['page'] : 1;
+                if(isset($_POST['page'])) $current_page = $_POST['page'] >= 1 && $_POST['page'] <= $last_page ? $_POST['page'] : 1;
+                $first_of_page = ($current_page * NB_PER_PAGE) - NB_PER_PAGE;
+                $item_types = $item_types->find($search_string, ["item_type_id", "name"], $first_of_page, NB_PER_PAGE, $filter, $order);
+
+                $i = 0;
+
+                foreach ($item_types as $item_type) {
+                    $data[$i]['item_type_id'] = $item_type->getId();
+                    $data[$i]['name'] = $item_type->getName();
+                    $i++;
+                }
+
+                $params = [
+                    'data'=> $data,
+                    'current_page'=> $current_page,
+                    'last_page'=> $last_page,
+                    'search'=> $search_string,
+                    'permissions'=> $permissions,
+                    'filter'=> $filter,
+                    'order'=> $order,
+                ];
+            }
+
+            $this->render(name_file: 'items/items_types', params: $params, title: 'Items types');
         };
     }
 
@@ -267,7 +283,6 @@ final class ItemsController extends Controller {
     {
         $auth_table = "statuses";
         $link_table = "items_types";
-        $this_table = "items_types_form";
         $page_title = "Items types";
         $page_localisation = "items/items_types_form";
         if (!$this->isAuthenticated()) {
@@ -286,8 +301,8 @@ final class ItemsController extends Controller {
                     $position = array_search("*", $tables);
                 }
                 $permissions = $_SESSION["authorizations"][$position]["permissions"];
-                if (!$this->permissions("INSERT", $permissions)) {
-                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter des données à cette table.");
+                if (!$this->permissions("INSERT", $permissions) && !$this->permissions("UPDATE", $permissions)) {
+                    $this->addFlash('error', "Vous n'avez pas les permissions suffisantes pour ajouter ou modifier les données de cette table.");
                     $this->redirect(self::reverse($link_table));
                 } else {
                     $validator = new Validator($_POST);
