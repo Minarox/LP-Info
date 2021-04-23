@@ -17,7 +17,9 @@
                     <thead>
                         <?php if (permissions("SELECT", $permissions)): ?>
                             <tr>
-                                <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
+                                <?php if (permissions("DELETE", $permissions)): ?>
+                                    <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
+                                <?php endif; ?>
                                 <th class="cw-90"><a href="<?= ROOT ?>statuses?page=1<?= $search ? "&search=$search" : "" ?>&filter=id<?= $filter == "id" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Id</a>
                                     <?php
                                     if ($filter == "id" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
@@ -48,7 +50,9 @@
                         <?php if (permissions("SELECT", $permissions)): ?>
                             <?php foreach ($data as $row) : ?>
                                 <tr>
-                                    <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['id'] ?>"></td>
+                                    <?php if (permissions("DELETE", $permissions)): ?>
+                                        <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['id'] ?>"></td>
+                                    <?php endif; ?>
                                     <td class="cw-90"><?= $row['id'] ?></td>
                                     <td><?= $row['name'] ?></td>
                                     <?php if (permissions("UPDATE", $permissions)): ?>

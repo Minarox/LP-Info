@@ -17,7 +17,9 @@
                     <thead>
                         <?php if (permissions("SELECT", $permissions)): ?>
                             <tr>
-                                <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
+                                <?php if (permissions("DELETE", $permissions)): ?>
+                                    <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
+                                <?php endif; ?>
                                 <th><a href="<?= ROOT ?>player/horses?page=1<?= $search ? "&search=$search" : "" ?>&filter=player_id<?= $filter == "player_id" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Player</a>
                                     <?php
                                     if ($filter == "player_id" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
@@ -48,7 +50,9 @@
                         <?php if (permissions("SELECT", $permissions)): ?>
                             <?php foreach ($data as $row) : ?>
                                 <tr>
-                                    <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['playerid']."-".$row['horseid'] ?>"></td>
+                                    <?php if (permissions("DELETE", $permissions)): ?>
+                                        <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['playerid']."-".$row['horseid'] ?>"></td>
+                                    <?php endif; ?>
                                     <td><?= $row['playerid'] ?></td>
                                     <td><?= $row['horseid'] ?></td>
                                     <?php if (permissions("UPDATE", $permissions)): ?>

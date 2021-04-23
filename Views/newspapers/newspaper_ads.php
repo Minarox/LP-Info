@@ -17,7 +17,9 @@
                     <thead>
                         <?php if (permissions("SELECT", $permissions)): ?>
                             <tr>
-                                <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
+                                <?php if (permissions("DELETE", $permissions)): ?>
+                                    <th class="cw-45 checkbox"><input type="checkbox" id="select-all"></th>
+                                <?php endif; ?>
                                 <th><a href="<?= ROOT ?>newspapers/ads?page=1<?= $search ? "&search=$search" : "" ?>&filter=newspaper_id<?= $filter == "newspaper_id" && $order == "DESC" ? "&order=ASC" : "&order=DESC"?>">Newspaper</a>
                                     <?php
                                     if ($filter == "newspaper_id" && $order == "DESC") echo "<img class='arrow' src='".SCRIPTS."images/down-arrow.svg'>";
@@ -48,7 +50,9 @@
                         <?php if (permissions("SELECT", $permissions)): ?>
                             <?php foreach ($data as $row) : ?>
                                 <tr>
-                                    <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['newspaper_id']."-".$row['ad_id'] ?>"></td>
+                                    <?php if (permissions("DELETE", $permissions)): ?>
+                                        <td class="cw-45 checkbox"><input type="checkbox" name="row[]" value="<?= $row['newspaper_id']."-".$row['ad_id'] ?>"></td>
+                                    <?php endif; ?>
                                     <td><?= $row['newspaper_id'] ?></td>
                                     <td><?= $row['ad_id'] ?></td>
                                     <?php if (permissions("UPDATE", $permissions)): ?>
