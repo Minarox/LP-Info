@@ -1,7 +1,8 @@
 # Hothothot
 Création d'une interface d’information et de gestion d’un système domotique.
 
-![assets/images/homepage.png](assets/images/homepage.png)
+![assets/images/homepage.png](assets/images/homepage.png)   
+[Démo du site](https://lp-dev-web.github.io/Dashboard-HotHotHot/)
 
 ## Fonctionnalités
 * Gestion de multiples capteurs
