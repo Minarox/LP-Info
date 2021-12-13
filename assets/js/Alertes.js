@@ -9,14 +9,14 @@ function alertesInterieur() {
     // Appel AJAX du premier capteur
     $.ajax({
         // URL et format du fichier
-        url: "data/DonneesInterieur.json",
+        url: "assets/data/DonneesInterieur.json",
         dataType: "JSON",
         // Lorsque le fichier à bien été lu :
         success: function (capteur) {
             // Appel AJAX des alertes
             $.ajax({
                 // URL et format du fichier
-                url: "data/Alertes.json",
+                url: "assets/data/Alertes.json",
                 dataType: "JSON",
                 // Lorsque le fichier à bien été lu :
                 success: function (alertes) {
@@ -58,14 +58,14 @@ function alertesExterieur() {
     // Appel AJAX du second capteur
     $.ajax({
         // URL et format du fichier
-        url: "data/DonneesExterieur.json",
+        url: "assets/data/DonneesExterieur.json",
         dataType: "JSON",
         // Lorsque le fichier à bien été lu :
         success: function (capteur) {
             // Appel AJAX des alertes
             $.ajax({
                 // URL et format du fichier
-                url: "data/Alertes.json",
+                url: "assets/data/Alertes.json",
                 dataType: "JSON",
                 // Lorsque le fichier à bien été lu :
                 success: function (alertes) {
