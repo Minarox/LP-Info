@@ -1,0 +1,447 @@
+/* -------------- */
+/* --- GLOBAL --- */
+/* -------------- */
+@import url('https://fonts.googleapis.com/css2?family=Roboto');
+
+body {
+    background-color: #1E1E2E;
+    margin: 0 0 50px 0;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
+
+/* -------------- */
+/* --- HEADER --- */
+/* -------------- */
+nav {
+    background: linear-gradient(to right, #593EC2, #7E3EC2);
+    overflow: hidden;
+    padding: 10px 25px 0 25px;
+}
+
+nav ul {
+    display: inline;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    margin-top: 7px;
+    padding: 0 10px 0 10px;
+    float: left;
+}
+
+nav a {
+    margin: 0;
+    padding: 0;
+    color: white;
+    text-decoration: none;
+}
+
+nav img {
+    border-radius: 16px;
+    padding: 0;
+    margin-top: -8px;
+    width: 35px;
+}
+
+nav hr {
+    display: inline-block;
+    margin-top: -5px;
+    border-left: 1px solid white;
+    height: 28px;
+}
+
+.right {
+    float: right;
+}
+
+
+/* --------------- */
+/* --- ACCUEIL --- */
+/* --------------- */
+#accessibilite {
+    display: none;
+}
+
+h1, h2, h3, p, label, a, button, i {
+    color: white;
+}
+
+.flex-container-general {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: space-between;
+    align-items: stretch;
+}
+
+.flex-container-general-boite {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: space-between;
+    align-items: stretch;
+    width: 100vw;
+    background-color: #27293D;
+    margin: 14px 1%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    padding: 5px 1% 5px 1%;
+}
+
+#Interieur section, #Exterieur section {
+    filter: blur(0px);
+    transition: filter 0.5s;
+}
+
+#alerteInterieur, #alerteExterieur {
+    pointer-events: none;
+    user-select: none;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    top: 20%;
+    text-align: center;
+    opacity: 0;
+}
+
+#alerteInterieur p, #alerteExterieur p {
+    padding-bottom: 22px;
+    font-size: 18px;
+}
+
+#alerteInterieur button, #alerteExterieur button {
+    width: 136px;
+    margin: 0 2.5% 0 0;
+    padding: 8px 40px;
+    font-weight: bold;
+    border: 0;
+    border-radius: 16px;
+    background: linear-gradient(to right, #593EC2, #7E3EC2);
+}
+
+#btnRetourInterieur, #btnRetourExterieur {
+    display: none;
+}
+
+.decoration-top {
+    border-top: solid;
+    border-top-color: #593ec2;
+}
+
+#titreInt, #titreExt {
+    position: relative;
+}
+
+#dotInt, #dotExt {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    background-color: lawngreen;
+    border-radius: 50%;
+}
+
+#etatInt, #etatExt {
+    --main-color: forestgreen;
+    visibility: hidden;
+    width: 70px;
+    font-size: 16px;
+    font-style: normal;
+    background-color: var(--main-color);
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    bottom: 34px;
+    left: -6px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#etatInt:after, #etatExt:after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 16px;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--main-color) transparent transparent transparent;
+}
+
+#titreInt:hover #etatInt, #titreExt:hover #etatExt {
+    visibility: visible;
+    opacity: 1;
+}
+
+.diagrammes {
+    position: relative;
+    height: 238px;
+    width: calc(46vw - 380px);
+}
+
+.diagrammeComparaison {
+    padding-bottom: 10px;
+    position: relative;
+    height: 400px;
+    width: 100%;
+}
+
+.flex-container-general-temperature {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.separation {
+    border-left: 2px solid;
+    margin-left: 15px;
+    padding-left: 15px;
+    border-color: #AAA;
+}
+
+.temp-centrer {
+    height: 2em;
+    line-height: 2em;
+    font-size: 24px;
+    padding: 0 5px 0 20px;
+    margin-right: 8px;
+}
+
+.marge {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+#boiteComparaison {
+    background-color: #27293D;
+    margin: 14px 1%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    padding: 5px 1% 5px 1%;
+}
+
+
+/* ------------------------------- */
+/* --- CONNEXION / INSCRIPTION --- */
+/* ------------------------------- */
+.flex-container-identification {
+    display: flex;
+    flex-direction: column;
+    background-color: #27293D;
+    width: 100%;
+    max-width: 600px;
+    margin: 25px auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.flex-container-identification-vertical {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin: 0 10% 25px 10%;
+}
+
+.flex-container-identification-vertical label {
+    padding: 15px 0 4px 0;
+}
+
+.flex-container-identification-vertical input {
+    padding: 6px;
+}
+
+.flex-container-identification-vertical section {
+    text-align: center;
+}
+
+.flex-container-identification-vertical button {
+    width: 65%;
+    margin-top: 25px;
+    padding: 8px 40px;
+    font-weight: bold;
+    border: 0;
+    background: linear-gradient(to right, #593EC2, #7E3EC2);
+}
+
+
+/* ---------------------------- */
+/* --- PROFIL / PARAMÉTRAGE --- */
+/* ---------------------------- */
+.flex-container-boite {
+    display: flex;
+    flex-direction: column;
+    background-color: #27293D;
+    width: 100%;
+    max-width: 860px;
+    margin: 25px auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.flex-container-boite-horizontal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+
+.flex-container-boite-horizontal label {
+    padding: 15px 0 4px 0;
+}
+
+.flex-container-boite-horizontal input {
+    padding: 6px;
+}
+
+.flex-container-boite-vertical {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#flex-container-boite-vertical-left {
+    padding-right: 5%;
+}
+
+.flex-container-boite-horizontal button {
+    width: 23%;
+    margin: 25px 2.5% 0 0;
+    padding: 8px 40px;
+    font-weight: bold;
+    border: 0;
+    background: linear-gradient(to right, #593EC2, #7E3EC2);
+}
+
+.flex-container-boite-horizontal a {
+    width: 23%;
+    margin: 25px 0 0 2.5%;
+    padding: 7px 0;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+    border: 0;
+    background: linear-gradient(to left, #593EC2, #7E3EC2);
+}
+
+.boite {
+    margin: 0 3% 25px 3%;
+}
+
+#separateur {
+    margin-top: 25px;
+    width: 75%;
+    max-width: 360px;
+}
+
+#oublie-mdp {
+    padding-top: 2px;
+    font-size: 14px;
+}
+
+
+/* -------------- */
+/* --- FOOTER --- */
+/* -------------- */
+footer {
+    position: fixed;
+    text-align: center;
+    font-size: 13px;
+    height: 40px;
+    background-color: #1E1E2E;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+
+/* ------------------------- */
+/* --- RESPONSIVE DESIGN --- */
+/* ------------------------- */
+@media only screen and (max-width: 1300px) {
+    .flex-container-general-boite {
+        flex-direction: column;
+        width: auto;
+    }
+
+    .diagrammes {
+        height: 180px;
+        width: 45vw;
+    }
+
+    .diagrammeComparaison {
+        height: 300px;
+    }
+
+    .separation {
+        border: none;
+        padding: 0;
+    }
+
+    .separation-top {
+        border-top: 2px solid;
+        border-color: #AAA;
+        margin: 12px 0 0 0;
+        padding-left: 15px;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .flex-container-general {
+        flex-direction: column;
+        display: contents;
+    }
+
+    #etatInt, #etatExt {
+        left: 8px;
+    }
+
+    .diagrammes {
+        width: 94vw;
+    }
+
+    .flex-container-general-boite h2, #boiteComparaison h2 {
+        padding-left: 15px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    nav {
+        padding: 10px 0 0 0;
+    }
+
+    .flex-container-boite-horizontal {
+        flex-direction: column;
+    }
+
+    .flex-container-boite-horizontal button {
+        width: 70%;
+        margin: 25px auto 0 auto;
+        padding: 8px 40px;
+    }
+
+    .flex-container-boite-horizontal a {
+        width: 70%;
+        margin: 20px auto 0 auto;
+        padding: 7px 0;
+        background: linear-gradient(to right, #593EC2, #7E3EC2);
+    }
+
+    #flex-container-boite-vertical-left {
+        padding-right: 0;
+    }
+
+    #nom-menu {
+        display: none;
+    }
+}
