@@ -1,6 +1,6 @@
 Django==3.1.4
 Flask==1.1.2
-Jinja2==2.11.2
+Jinja2==3.1.4
 MarkupSafe==1.1.1
 Pillow==8.1.0
 Werkzeug==1.0.1
